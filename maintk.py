@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog
-import json
-
-import agent
+import agent as ag
 import proposition
+import value
+import json
 
 
 class MainWindow(tk.Frame):
@@ -38,38 +38,39 @@ class MainWindow(tk.Frame):
         if filename:
             with open(filename, "r") as f:
                 data = json.load(f)
-                new_window = tk.Toplevel(self.master)
-                new_window.geometry("400x400")
-                tk.Label(new_window, text=json.dumps(data, indent=4)).pack()
+                self.master = tk.Toplevel(self.master)
+                self.master.geometry("400x400")
+                tk.Label(self.master, text=json.dumps(data, indent=4)).pack()
 
     def manual_input(self):
-        new_window = tk.Toplevel(self.master)  # nowe okno
-        new_window.geometry("600x600")  # ustawienie rozmiaru okna
+        for widget in self.master.winfo_children():
+            widget.destroy()
+        self.master.geometry("1200x750")  # ustawienie rozmiaru okna
 
         # Dodanie etykiet i pól tekstowych
-        agent_label = tk.Label(new_window, text="Lista Agentów")
+        agent_label = tk.Label(self.master, text="Lista Agentów")
         agent_label.pack()
-        agent_input = tk.Text(new_window, width=40, height=10)
+        agent_input = tk.Text(self.master, width=40, height=10)
         agent_input.pack()
 
-        proposition_label = tk.Label(new_window, text="Lista Propozycji")
+        proposition_label = tk.Label(self.master, text="Lista Propozycji")
         proposition_label.pack()
-        proposition_input = tk.Text(new_window, width=40, height=10)
+        proposition_input = tk.Text(self.master, width=40, height=10)
         proposition_input.pack()
 
-        value_label = tk.Label(new_window, text="Lista Wartości")
+        value_label = tk.Label(self.master, text="Lista Wartości")
         value_label.pack()
-        value_input = tk.Text(new_window, width=40, height=10)
+        value_input = tk.Text(self.master, width=40, height=10)
         value_input.pack()
 
         # Dodanie przycisku zatwierdzającego wprowadzone dane
-        confirm_button = tk.Button(new_window, text="Zatwierdź",
+        confirm_button = tk.Button(self.master, text="Zatwierdź",
                                    command=lambda: self.confirm_input(agent_input, proposition_input, value_input,
-                                                                      self.listAgent, new_window))
+                                                                      self.listAgent, self.master))
         confirm_button.pack()
 
         # Dodanie tablicy z listą agentów
-        agents_frame = tk.Frame(new_window)
+        agents_frame = tk.Frame(self.master)
         agents_frame.pack()
         agents_label = tk.Label(agents_frame, text="Dodani Agenci")
         agents_label.pack()
@@ -79,11 +80,11 @@ class MainWindow(tk.Frame):
             agents_listbox.insert(tk.END, f"{agent.getName()} - {agent.weight}")
 
         # Dodanie przycisku dodającego nowych agentów do tablicy
-        add_agent_button = tk.Button(new_window, text="Dodaj Agenta",
+        add_agent_button = tk.Button(self.master, text="Dodaj Agenta",
                                      command=lambda: self.add_agent(agent_input, agents_listbox, self.listAgent))
         add_agent_button.pack()
 
-    def confirm_input(self, agent_input, proposition_input, value_input, listAgent, new_window):
+    def confirm_input(self, agent_input, proposition_input, value_input, listAgent):
         # pobranie wartości z pól tekstowych i zapisanie ich w odpowiednich listach
         for line in agent_input.get("1.0", "end-1c").split("\n"):
             if line:
@@ -92,7 +93,7 @@ class MainWindow(tk.Frame):
                     weight = int(weight)
                 except ValueError:
                     weight = "?"
-                new_agent = agent.Agent(name.strip(), weight)
+                new_agent = ag.Agent(name.strip(), weight)
                 listAgent.append(new_agent)
 
         for line in proposition_input.get("1.0", "end-1c").split("\n"):
@@ -104,16 +105,46 @@ class MainWindow(tk.Frame):
                     weight = "?"
                 new_proposition = proposition.Proposition(statement.strip(), weight)
 
-    def add_agent(self, agent_input, agents_listbox, listAgent):
+    def add_agent(self, agent_input, agents_listbox):
         name, weight = agent_input.get("1.0", "end-1c").split(",")
         try:
             weight = int(weight)
         except ValueError:
             weight = "?"
-        new_agent = agent.Agent(name.strip(), weight)
-        listAgent.append(new_agent)
+        new_agent = ag.Agent(name.strip(), weight)
+        self.listAgent.append(new_agent)
         agents_listbox.insert(tk.END, f"{new_agent.getName()} - {new_agent.weight}")
         agent_input.delete("1.0", tk.END)
+        new_agent = ag.Agent(name.strip(), weight)
+        self.listAgent.append(new_agent)
+        #chciałbym
+    def add_proposition(self, proposition_input, propositions_listbox):
+        for line in proposition_input.get("1.0", "end-1c").split("\n"):
+            if line:
+                statement, weight = line.split(",")
+                try:
+                    weight = int(weight)
+                except ValueError:
+                    weight = "?"
+                new_proposition = proposition.Proposition(statement.strip(), weight)
+                self.listProposition.append(new_proposition)
+        def add_value(self, value_input, values_listbox):
+            for line in value_input.get("1.0", "end-1c").split("\n"):
+                if line:
+                    name, weight = line.split(",")
+                    try:
+                        weight = int(weight)
+                    except ValueError:
+                        weight = "?"
+                    new_value = value.Value(name.strip(), weight)
+                    self.listValue.append(new_value)
+
+        # wyświetlenie listy agentów w liście
+        self.agents_listbox.delete(0, tk.END)
+        for agent in self.listAgent:
+            self.agents_listbox.insert(tk.END, agent.getName())
+
+
 
     def man_in_AgentValueToWeight(self):
         #3 okienko, wprowadzenie ValueToWeight do wartosci agenta

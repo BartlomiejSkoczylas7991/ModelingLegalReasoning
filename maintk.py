@@ -47,13 +47,13 @@ class MainWindow(tk.Frame):
     def manual_input(self):
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.master.geometry("1200x750")  # ustawienie rozmiaru okna
+        self.master.geometry("1550x800")  # ustawienie rozmiaru okna
 
         # Dodanie etykiet i pól tekstowych
         #tu dodam tablice dodanych juz obiektów klasy Agent z self.listAgent
         # Dodanie tabeli z agentami
 
-        agent_frame = tk.Frame(self.master)
+        agent_frame = tk.Frame(self.master, height=400, width=300)
         agent_frame.pack(side=tk.LEFT, padx=50)
         agents_table = ttk.Treeview(agent_frame, columns=('Name', 'Weight'))
         agents_table.heading('#0', text='ID',)
@@ -78,9 +78,8 @@ class MainWindow(tk.Frame):
                                      command=lambda: self.add_agent(agent_name, agent_weight, agents_table))
         add_agent_button.pack()
 
-        proposition_frame = tk.Frame(self.master)
+        proposition_frame = tk.Frame(self.master, height=400, width=300)
         proposition_frame.pack(side=tk.LEFT, padx=50)
-        proposition_frame.config(height=)
         proposition_table = ttk.Treeview(proposition_frame, columns=('Name', 'Weight'))
         proposition_table.heading('#0', text='ID')
         proposition_table.heading('Name', text='Nazwa')
@@ -103,7 +102,7 @@ class MainWindow(tk.Frame):
         add_proposition_button.pack()
 
 
-        value_frame = tk.Frame(self.master)
+        value_frame = tk.Frame(self.master, height=400, width=300)
         value_frame.pack(side=tk.RIGHT, padx=50)
         value_table = ttk.Treeview(value_frame, columns=('Name', 'Weight'))
         value_table.heading('#0', text='ID')
@@ -127,9 +126,11 @@ class MainWindow(tk.Frame):
         add_value_button.pack()
 
         # Dodanie przycisku zatwierdzającego wprowadzone dane
-        confirm_button = tk.Button(self.master, text="Zatwierdź",
-                                   command=lambda: self.confirm_input())
-        confirm_button.pack()
+        button_frame = tk.Frame(self.master, height=50)
+        button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
+
+        confirm_button = tk.Button(button_frame, text="Zatwierdź", command=lambda: self.confirm_input())
+        confirm_button.pack(side=tk.RIGHT, padx=10)
 
     def confirm_input(self):
         pass

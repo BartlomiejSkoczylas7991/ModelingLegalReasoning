@@ -1,5 +1,6 @@
 import sys
 
+
 class Proposition:
     def __init__(self, statement, weight):
         self.statement = statement

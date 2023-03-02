@@ -34,6 +34,9 @@ class Agent:
     def getValue(self, value):
         return self.values[value]
 
+    def getWeight(self):
+        return self.weight
+
     def __str__(self):
         return self.name
 

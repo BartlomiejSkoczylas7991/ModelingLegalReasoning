@@ -1,9 +1,9 @@
+import json
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 import agent as ag
 import proposition
 import value
-import json
 
 
 class MainWindow(tk.Frame):
@@ -32,6 +32,8 @@ class MainWindow(tk.Frame):
         self.add_values_button.pack()
 
 
+
+
     def load_json(self):
         # kod wczytujący plik JSON i tworzący widok
         filename = tk.filedialog.askopenfilename(title="Wybierz plik JSON")
@@ -45,99 +47,141 @@ class MainWindow(tk.Frame):
     def manual_input(self):
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.master.geometry("1200x750")  # ustawienie rozmiaru okna
+        self.master.geometry("1550x800")  # ustawienie rozmiaru okna
 
         # Dodanie etykiet i pól tekstowych
-        agent_label = tk.Label(self.master, text="Lista Agentów")
+        #tu dodam tablice dodanych juz obiektów klasy Agent z self.listAgent
+        # Dodanie tabeli z agentami
+
+        agent_frame = tk.Frame(self.master, height=400, width=300)
+        agent_frame.pack(side=tk.LEFT, padx=50)
+        agents_table = ttk.Treeview(agent_frame, columns=('Name', 'Weight'))
+        agents_table.heading('#0', text='ID',)
+        agents_table.heading('Name', text='Nazwa')
+        agents_table.heading('Weight', text='Waga')
+        agents_table.column('#0', width=20)
+        agents_table.column('Name', width=100)
+        agents_table.column('Weight', width=30)
+        agents_table.pack(side=tk.LEFT, padx=10)
+
+        agent_label = tk.Label(agent_frame, text="Dodaj nazwę agenta")
         agent_label.pack()
-        agent_input = tk.Text(self.master, width=40, height=10)
-        agent_input.pack()
+        agent_name = tk.Text(agent_frame, width=12, height=1)
+        agent_name.pack()
+        agent_label = tk.Label(agent_frame, text="Dodaj wagę agenta")
+        agent_label.pack()
+        agent_weight = tk.Text(agent_frame, width=12, height=1)
+        agent_weight.pack()
+        #tabela dodanych agentów
 
-        proposition_label = tk.Label(self.master, text="Lista Propozycji")
-        proposition_label.pack()
-        proposition_input = tk.Text(self.master, width=40, height=10)
-        proposition_input.pack()
-
-        value_label = tk.Label(self.master, text="Lista Wartości")
-        value_label.pack()
-        value_input = tk.Text(self.master, width=40, height=10)
-        value_input.pack()
-
-        # Dodanie przycisku zatwierdzającego wprowadzone dane
-        confirm_button = tk.Button(self.master, text="Zatwierdź",
-                                   command=lambda: self.confirm_input(agent_input, proposition_input, value_input,
-                                                                      self.listAgent, self.master))
-        confirm_button.pack()
-
-        # Dodanie tablicy z listą agentów
-        agents_frame = tk.Frame(self.master)
-        agents_frame.pack()
-        agents_label = tk.Label(agents_frame, text="Dodani Agenci")
-        agents_label.pack()
-        agents_listbox = tk.Listbox(agents_frame, width=40, height=10)
-        agents_listbox.pack()
-        for agent in self.listAgent:
-            agents_listbox.insert(tk.END, f"{agent.getName()} - {agent.weight}")
-
-        # Dodanie przycisku dodającego nowych agentów do tablicy
-        add_agent_button = tk.Button(self.master, text="Dodaj Agenta",
-                                     command=lambda: self.add_agent(agent_input, agents_listbox, self.listAgent))
+        add_agent_button = tk.Button(agent_frame, text="Dodaj Agenta",
+                                     command=lambda: self.add_agent(agent_name, agent_weight, agents_table))
         add_agent_button.pack()
 
-    def confirm_input(self, agent_input, proposition_input, value_input, listAgent):
+        proposition_frame = tk.Frame(self.master, height=400, width=300)
+        proposition_frame.pack(side=tk.LEFT, padx=50)
+        proposition_table = ttk.Treeview(proposition_frame, columns=('Name', 'Weight'))
+        proposition_table.heading('#0', text='ID')
+        proposition_table.heading('Name', text='Nazwa')
+        proposition_table.heading('Weight', text='Waga')
+        proposition_table.column('#0', width=20)
+        proposition_table.column('Name', width=100)
+        proposition_table.column('Weight', width=30)
+        proposition_table.pack(side=tk.LEFT, padx=10)
+
+        proposition_label = tk.Label(proposition_frame, text="Dodaj nazwe Propozycji")
+        proposition_label.pack()
+        proposition_name = tk.Text(proposition_frame, width=12, height=1)
+        proposition_name.pack()
+        proposition_label = tk.Label(proposition_frame, text="Dodaj wagę agenta")
+        proposition_label.pack()
+        proposition_weight = tk.Text(proposition_frame, width=12, height=1)
+        proposition_weight.pack()
+        add_proposition_button = tk.Button(proposition_frame, text="Dodaj Propozycję",
+                                     command=lambda: self.add_proposition(proposition_name, proposition_weight, proposition_table))
+        add_proposition_button.pack()
+
+
+        value_frame = tk.Frame(self.master, height=400, width=300)
+        value_frame.pack(side=tk.RIGHT, padx=50)
+        value_table = ttk.Treeview(value_frame, columns=('Name', 'Weight'))
+        value_table.heading('#0', text='ID')
+        value_table.heading('Name', text='Nazwa')
+        value_table.heading('Weight', text='Waga')
+        value_table.column('#0', width=20)
+        value_table.column('Name', width=100)
+        value_table.column('Weight', width=30)
+        value_table.pack(side=tk.LEFT, padx=10)
+
+        value_label = tk.Label(value_frame, text="Dodaj nazwe Wartosci")
+        value_label.pack()
+        value_name = tk.Text(value_frame, width=12, height=1)
+        value_name.pack()
+        value_label = tk.Label(value_frame, text="Dodaj wagę wartosci")
+        value_label.pack()
+        value_weight = tk.Text(value_frame, width=12, height=1)
+        value_weight.pack()
+        add_value_button = tk.Button(value_frame, text="Dodaj Wartosc",
+                                           command=lambda: self.add_value(value_name, value_weight, value_table))
+        add_value_button.pack()
+
+        # Dodanie przycisku zatwierdzającego wprowadzone dane
+        button_frame = tk.Frame(self.master, height=50)
+        button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
+
+        confirm_button = tk.Button(button_frame, text="Zatwierdź", command=lambda: self.confirm_input())
+        confirm_button.pack(side=tk.RIGHT, padx=10)
+
+    def confirm_input(self):
+        pass
         # pobranie wartości z pól tekstowych i zapisanie ich w odpowiednich listach
-        for line in agent_input.get("1.0", "end-1c").split("\n"):
-            if line:
-                name, weight = line.split(",")
-                try:
-                    weight = int(weight)
-                except ValueError:
-                    weight = "?"
-                new_agent = ag.Agent(name.strip(), weight)
-                listAgent.append(new_agent)
+        #name, weight = line.split(",")
+        #try:
+        #    weight = int(weight)
+        #except ValueError:
+        #    weight = "?"
+        #new_agent = ag.Agent(name.strip(), weight)
+        #listAgent.append(new_agent)
 
-        for line in proposition_input.get("1.0", "end-1c").split("\n"):
-            if line:
-                statement, weight = line.split(",")
-                try:
-                    weight = int(weight)
-                except ValueError:
-                    weight = "?"
-                new_proposition = proposition.Proposition(statement.strip(), weight)
+        #statement, weight = line.split(",")
+        #try:
+        #    weight = int(weight)
+        #except ValueError:
+        #    weight = "?"
+        #new_proposition = proposition.Proposition(statement.strip(), weight)
 
-    def add_agent(self, agent_input, agents_listbox):
-        name, weight = agent_input.get("1.0", "end-1c").split(",")
-        try:
-            weight = int(weight)
-        except ValueError:
-            weight = "?"
-        new_agent = ag.Agent(name.strip(), weight)
+    def add_agent(self, agent_name, agent_weight, agents_table):
+        if not agent_weight.get('1.0', 'end-1c').isdigit():
+            agent_weight = "?"
+        else:
+            agent_weight = agent_weight.get('1.0', 'end-1c').strip()
+        agent_name = agent_name.get('1.0', 'end-1c').strip()
+        new_agent = ag.Agent(agent_name, agent_weight)
         self.listAgent.append(new_agent)
-        agents_listbox.insert(tk.END, f"{new_agent.getName()} - {new_agent.weight}")
-        agent_input.delete("1.0", tk.END)
-        new_agent = ag.Agent(name.strip(), weight)
-        self.listAgent.append(new_agent)
-        #chciałbym
-    def add_proposition(self, proposition_input, propositions_listbox):
-        for line in proposition_input.get("1.0", "end-1c").split("\n"):
-            if line:
-                statement, weight = line.split(",")
-                try:
-                    weight = int(weight)
-                except ValueError:
-                    weight = "?"
-                new_proposition = proposition.Proposition(statement.strip(), weight)
-                self.listProposition.append(new_proposition)
-        def add_value(self, value_input, values_listbox):
-            for line in value_input.get("1.0", "end-1c").split("\n"):
-                if line:
-                    name, weight = line.split(",")
-                    try:
-                        weight = int(weight)
-                    except ValueError:
-                        weight = "?"
-                    new_value = value.Value(name.strip(), weight)
-                    self.listValue.append(new_value)
+        agents_table.insert('', tk.END, text=str(len(self.listAgent)),
+                            values=( new_agent.getName(), new_agent.getWeight()))
+
+    def add_proposition(self, proposition_name, proposition_weight, propositions_table):
+        if not proposition_weight.get('1.0', 'end-1c').isdigit():
+            proposition_weight = "?"
+        else:
+            proposition_weight = proposition_weight.get('1.0', 'end-1c').strip()
+        proposition_name = proposition_name.get('1.0', 'end-1c').strip()
+        new_proposition = proposition.Proposition(proposition_name, proposition_weight)
+        self.listProposition.append(new_proposition)
+        propositions_table.insert('', tk.END, text=str(len(self.listProposition)),
+                            values=(new_proposition.getStatement(), new_proposition.getWeight()))
+
+    def add_value(self, value_name, value_weight, values_table):
+        if not value_weight.get('1.0', 'end-1c').isdigit():
+            value_weight = "?"
+        else:
+            value_weight = value_weight.get('1.0', 'end-1c').strip()
+        value_name = value_name.get('1.0', 'end-1c').strip()
+        new_value = value.Value(value_name, value_weight)
+        self.listAgent.append(new_value)
+        values_table.insert('', tk.END, text=str(len(self.listValues)),
+                            values=(new_value.getName(), new_value.getWeight()))
 
         # wyświetlenie listy agentów w liście
         self.agents_listbox.delete(0, tk.END)

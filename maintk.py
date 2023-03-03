@@ -19,17 +19,18 @@ class MainWindow(tk.Frame):
         self.listAgent = []
         self.listProposition = []
         self.listValues = []
+        self.incompProp = []
+        self.agents_tableAVW = ttk.Treeview(columns=('Name', 'Value', 'Weight'))
         self.load_json_label = tk.Label(left_frame, text="Dodaj plik, który został wcześniej \nwygenerowany\n\n", font=("Arial", 13))
         self.load_json_label.pack()
-
         self.load_json_button = tk.Button(left_frame, text="json", command=self.load_json)
         self.load_json_button.pack()
-
         self.add_values_label = tk.Label(right_frame, text="Dodaj wartości dla sprawy sądowej\n\n", font=("Arial", 13))
         self.add_values_label.pack()
-
         self.add_values_button = tk.Button(right_frame, text="Dodaj wartości", command=self.manual_input)
         self.add_values_button.pack()
+
+        self.master.title("Modelowanie wnioskowania prawniczego")
 
 
 
@@ -47,7 +48,7 @@ class MainWindow(tk.Frame):
     def manual_input(self):
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.master.geometry("1550x800")  # ustawienie rozmiaru okna
+        self.master.geometry("1150x600")  # ustawienie rozmiaru okna
 
         # Dodanie etykiet i pól tekstowych
         #tu dodam tablice dodanych juz obiektów klasy Agent z self.listAgent
@@ -72,14 +73,14 @@ class MainWindow(tk.Frame):
         agent_label.pack()
         agent_weight = tk.Text(agent_frame, width=12, height=1)
         agent_weight.pack()
-        #tabela dodanych agentów
 
+        #tabela dodanych agentów
         add_agent_button = tk.Button(agent_frame, text="Dodaj Agenta",
                                      command=lambda: self.add_agent(agent_name, agent_weight, agents_table))
         add_agent_button.pack()
 
         proposition_frame = tk.Frame(self.master, height=400, width=300)
-        proposition_frame.pack(side=tk.LEFT, padx=50)
+        proposition_frame.pack(side=tk.LEFT, padx=20)
         proposition_table = ttk.Treeview(proposition_frame, columns=('Name', 'Weight'))
         proposition_table.heading('#0', text='ID')
         proposition_table.heading('Name', text='Nazwa')
@@ -103,7 +104,7 @@ class MainWindow(tk.Frame):
 
 
         value_frame = tk.Frame(self.master, height=400, width=300)
-        value_frame.pack(side=tk.RIGHT, padx=50)
+        value_frame.pack(side=tk.LEFT, padx=20)
         value_table = ttk.Treeview(value_frame, columns=('Name', 'Weight'))
         value_table.heading('#0', text='ID')
         value_table.heading('Name', text='Nazwa')
@@ -126,16 +127,44 @@ class MainWindow(tk.Frame):
         add_value_button.pack()
 
         # Dodanie przycisku zatwierdzającego wprowadzone dane
-        button_frame = tk.Frame(self.master, height=50)
+        button_frame = tk.Frame(self.master, height=300)
         button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
 
         confirm_button = tk.Button(button_frame, text="Zatwierdź", command=lambda: self.confirm_input())
         confirm_button.pack(side=tk.RIGHT, padx=10)
 
     def confirm_input(self):
-        pass
-        # pobranie wartości z pól tekstowych i zapisanie ich w odpowiednich listach
-        #name, weight = line.split(",")
+        for widget in self.master.winfo_children():
+            widget.destroy()
+        self.master.geometry("1150x600")  # ustawienie rozmiaru okna
+
+        if not self.listAgent or not self.listProposition or not self.listValues:
+            agent_label = tk.Label(self.master, text="\n\n\nNie możesz przejść dalej. Twoja tablica jest pusta. Uzupełnij tablice.", font=("Arial", 13))
+            agent_label.pack()
+
+            button_frame = tk.Frame(self.master, height=300)
+            button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
+
+            confirm_button = tk.Button(button_frame, text="Zatwierdź", command=lambda: self.manual_input())
+            confirm_button.pack(side=tk.RIGHT, padx=10)
+        else:
+            agent_label = tk.Label(self.master,
+                                   text="\n\n\nUzupełniłeś wartości. Przechodzimy do uzupełniania wag dla wartosci agentów, a "
+                                        "następnie do uzupełniania wag dla propozycji dla wartosci agentów. \n\n\n Czy są jakieś sprzeczne propozycje?", font=("Arial", 13))
+            agent_label.pack()
+
+            button_frame = tk.Frame(self.master, height=300)
+            button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
+
+            confirm_button = tk.Button(button_frame, text="Tak", command=lambda: self.incompPropositions())
+            confirm_button.pack(side=tk.RIGHT, padx=10)
+
+            confirm_button = tk.Button(button_frame, text="Nie", command=lambda: self.man_in_AgentValueToWeight())
+            confirm_button.pack(side=tk.RIGHT, padx=10)
+
+        # Dodanie przycisku zatwierdzającego wprowadzone dane
+
+
         #try:
         #    weight = int(weight)
         #except ValueError:
@@ -179,23 +208,88 @@ class MainWindow(tk.Frame):
             value_weight = value_weight.get('1.0', 'end-1c').strip()
         value_name = value_name.get('1.0', 'end-1c').strip()
         new_value = value.Value(value_name, value_weight)
-        self.listAgent.append(new_value)
+        self.listValues.append(new_value)
         values_table.insert('', tk.END, text=str(len(self.listValues)),
                             values=(new_value.getName(), new_value.getWeight()))
 
-        # wyświetlenie listy agentów w liście
-        self.agents_listbox.delete(0, tk.END)
-        for agent in self.listAgent:
-            self.agents_listbox.insert(tk.END, agent.getName())
+    def incompPropositions(self):
+        for widget in self.master.winfo_children():
+            widget.destroy()
+        self.master.geometry("400x300")
+        label = tk.Label(self.master,
+                         text="\n Podaj dwa sprzeczne propozycje.",
+                         font=("Arial", 13))
+        label.pack()
+        # Dodaj listę rozwijaną dla wyboru pierwszej propozycji
+        prop1_var = tk.StringVar(self.master)
+        prop1_var.set(self.listProposition[0].getStatement())  # ustaw wartość domyślną
+        labelp1 = tk.Label(self.master,
+                         text="\n Propozycja 1: ")
+        labelp1.pack()
+        prop1_dropdown = tk.OptionMenu(self.master, prop1_var, *[prop.getStatement() for prop in self.listProposition])
+        prop1_dropdown.pack()
+        prop2_var = tk.StringVar(self.master)
+        prop2_var.set(self.listProposition[0].getStatement())  # ustaw wartość domyślną
+        labelp2 = tk.Label(self.master,
+                         text="\n Propozycja 2: ")
+        labelp2.pack()
+        prop2_dropdown = tk.OptionMenu(self.master, prop2_var, *[prop.getStatement() for prop in self.listProposition])
+        prop2_dropdown.pack()
+        submit_button_incomp = tk.Button(self.master, text="Dodaj",
+                                         command=lambda: self.submitIncomp(prop1_var.get(), prop2_var.get()))
+        submit_button_incomp.pack(side=tk.BOTTOM, padx=10)
+        submit_button_incomp_compl = tk.Button(self.master, text="Kontynuuj", command=lambda: self.man_in_AgentValueToWeight())
+        submit_button_incomp_compl.pack(side=tk.BOTTOM, padx=10)
 
+    def submitIncomp(self, prop1, prop2):
+        p1 = next((prop for prop in self.listProposition if prop.getStatement() == prop1), None)
+        p2 = next((prop for prop in self.listProposition if prop.getStatement() == prop2), None)
 
+        # Dodaj do listy nieadekwatnych propozycji
+        incomp_props = self.getIncompPropositions()
+        if any(([p1, p2] == pair or [p2, p1] == pair) for pair in incomp_props):
+            tk.messagebox.showerror("Błąd", "Te propozycje są już oznaczone jako nieadekwatne!")
+            #self.incompPropositions();
+        else:
+            self.incompProp.append([p1, p2])
+            #self.incompPropositions();
+
+    def getIncompPropositions(self):
+        return self.incompProp
 
     def man_in_AgentValueToWeight(self):
-        #3 okienko, wprowadzenie ValueToWeight do wartosci agenta
-        pass
+        for widget in self.master.winfo_children():
+            widget.destroy()
+        self.master.geometry("1150x600")  # ustawienie rozmiaru okna
+
+        agent_frameAV = tk.Frame(self.master, height=800, width=600)
+        agent_frameAV.pack(side=tk.LEFT, padx=50)
+        agent_frameAV_scroll = tk.Scrollbar(agent_frameAV)
+        agent_frameAV_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.agents_tableAVW = ttk.Treeview(agent_frameAV, columns=('Name', 'Value', 'Weight'))
+        agent_frameAV_scroll.config(command=self.agents_tableAVW.yview)
+        self.agents_tableAVW.heading('#0', text='ID', )
+        self.agents_tableAVW.heading('Name', text='Nazwa')
+        self.agents_tableAVW.heading('Value', text='Wartosc')
+        self.agents_tableAVW.heading('Weight', text='Waga', anchor='center')
+        self.agents_tableAVW.column('#0', width=20)
+        self.agents_tableAVW.column('Name', width=100)
+        self.agents_tableAVW.column('Value', width=100)
+        self.agents_tableAVW.column('Weight', width=30)
+        self.agents_tableAVW.pack(side=tk.LEFT, padx=10)
+
+        # Wprowadzenie wartosci domyslnych by potem je zamienic
+
+        for agent in self.listAgent:
+            for value in self.listValues:
+                agent.addValues(value.getName(), "?")
+                self.agents_tableAVW.insert('', tk.END, text=str(len(self.listAgent)),
+                                    values=(agent.getName(), value.getName(),"?"))
+
 
     def man_in_AgentPropValueToWeight(self):
         #4 Wprowadzenie danych  do AgentPropValueToWeight każdego agenta
+        #tabela, gdzie jest iterowany
         pass
 
     def man_in_PropBaseClean(self):

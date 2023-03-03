@@ -31,8 +31,11 @@ class Agent:
     def getPropBaseClean(self):
         return self.propBaseClean
 
-    def getValue(self, value):
+    def getWeightFromValue(self, value):
         return self.values[value]
+
+    def getWeightFromValue(self, value, weight):
+        self.values[value] = weight
 
     def getWeight(self):
         return self.weight

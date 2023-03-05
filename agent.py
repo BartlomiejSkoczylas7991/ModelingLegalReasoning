@@ -7,7 +7,7 @@ class Agent:
         self.weight = weight
         self.values = {}
         self.propBaseClean = []
-        self.agentPropValuetoWeight = []
+        self.agentPropValuetoWeight = {}
         #self.AgentValueToWeight = Dict[Tuple[Agent, Value], Weight]
 
     def getName(self):
@@ -31,11 +31,19 @@ class Agent:
     def getPropBaseClean(self):
         return self.propBaseClean
 
-    def getValue(self, value):
-        return self.values[value]
+    def getValuesDict(self):
+        return self.values.values()
+
+    def getWeightFromValue(self, value, weight):
+        self.values[value] = weight
 
     def getWeight(self):
         return self.weight
+
+    def addagentPropValuetoWeight(self, proposition, value, weight):
+        propDict = {}
+        propDict[(proposition, value)] = weight
+        self.agentPropValuetoWeight.update(propDict)
 
     def __str__(self):
         return self.name

@@ -362,10 +362,10 @@ class MainWindow(tk.Frame):
             iid = self.agents_tableAPVW.focus()
             new_weight = edit.get()
             self.agents_tableAPVW.set(iid, 'Weight', new_weight)
-            for iid in self.agents_tableAVW.get_children():
-                agent_name = self.agents_tableAVW.item(iid, 'values')[0]
+            for iid in self.agents_tableAPVW.get_children():
+                agent_name = self.agents_tableAPVW.item(iid, 'values')[0]
                 agent = self.getAgentByName(agent_name)
-                weight = self.agents_tableAVW.item(iid, 'values')[2]
+                weight = self.agents_tableAPVW.item(iid, 'values')[2]
                 agent.Values = {value_name: float(weight) for value_name in agent.Values}
         #do ogarnięcia dalej
         edit_frame = tk.Frame(mainAPV, height=200)

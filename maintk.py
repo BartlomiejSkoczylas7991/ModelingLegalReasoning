@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import json
 import tkinter as tk
 from tkinter import filedialog, ttk
@@ -33,9 +35,6 @@ class MainWindow(tk.Frame):
 
         self.master.title("Modelowanie wnioskowania prawniczego")
 
-
-
-
     def load_json(self):
         # kod wczytujący plik JSON i tworzący widok
         filename = tk.filedialog.askopenfilename(title="Wybierz plik JSON")
@@ -49,7 +48,7 @@ class MainWindow(tk.Frame):
     def manual_input(self):
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.master.geometry("1150x600")  # ustawienie rozmiaru okna
+        self.master.geometry("1250x600")  # ustawienie rozmiaru okna
 
         # Dodanie etykiet i pól tekstowych
         #tu dodam tablice dodanych juz obiektów klasy Agent z self.listAgent
@@ -134,7 +133,7 @@ class MainWindow(tk.Frame):
         button_frame.pack(side=tk.BOTTOM, pady=10, fill=tk.X)
 
         confirm_button = tk.Button(button_frame, text="Zatwierdź", command=lambda: self.confirm_input())
-        confirm_button.pack(side=tk.RIGHT, padx=10)
+        confirm_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     def confirm_input(self):
         for widget in self.master.winfo_children():

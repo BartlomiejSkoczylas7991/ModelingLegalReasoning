@@ -20,6 +20,8 @@ class MainWindow(tk.Frame):
         self.listProposition = []
         self.listValues = []
         self.incompProp = []
+        self.agents_tableAVW = ttk.Treeview(self.master, columns=('Name', 'Value', 'Weight'), height=20)
+        self.agents_tableAPVW = ttk.Treeview(self.master, columns=('Name', 'Value', 'Weight'), height=20)
         self.load_json_label = tk.Label(left_frame, text="Dodaj plik, który został wcześniej \nwygenerowany\n\n", font=("Arial", 13))
         self.load_json_label.pack()
         self.load_json_button = tk.Button(left_frame, text="json", command=self.load_json)
@@ -163,23 +165,6 @@ class MainWindow(tk.Frame):
             confirm_button = tk.Button(button_frame, text="Nie", command=lambda: self.man_in_AgentValueToWeight())
             confirm_button.pack(side=tk.RIGHT, padx=10)
 
-        # Dodanie przycisku zatwierdzającego wprowadzone dane
-
-
-        #try:
-        #    weight = int(weight)
-        #except ValueError:
-        #    weight = "?"
-        #new_agent = ag.Agent(name.strip(), weight)
-        #listAgent.append(new_agent)
-
-        #statement, weight = line.split(",")
-        #try:
-        #    weight = int(weight)
-        #except ValueError:
-        #    weight = "?"
-        #new_proposition = proposition.Proposition(statement.strip(), weight)
-
     def add_agent(self, agent_name, agent_weight, agents_table):
         if not agent_weight.get('1.0', 'end-1c').isdigit():
             agent_weight = "?"
@@ -258,10 +243,25 @@ class MainWindow(tk.Frame):
     def getIncompPropositions(self):
         return self.incompProp
 
+    def getAgentByName(self, agentName):
+        for i in self.listAgent:
+            if str(i.getName) == str(agentName):
+                return i
+
+    def getValueByName(self, valueName):
+        for i in self.listValues:
+            if i.getName == valueName:
+                return i
+
+    def getPropositionByName(self, propositionName):
+        for i in self.listProposition:
+            if i.getStatement == propositionName:
+                return i
+
     def man_in_AgentValueToWeight(self):
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.master.geometry("850x900")  # ustawienie rozmiaru okna
+        self.master.geometry("850x950")  # ustawienie rozmiaru okna
 
         mainAV = tk.Frame(self.master, height=700, width=400)
         mainAV.pack(side=tk.BOTTOM, padx=50, pady=10)
@@ -272,33 +272,38 @@ class MainWindow(tk.Frame):
         main_label.pack(side=tk.TOP, padx=50, pady=20)
         agents_table_label = tk.Frame(mainAV)
         agents_table_label.pack(side=tk.TOP)
-        agents_tableAVW = ttk.Treeview(agents_table_label, columns=('Name', 'Value', 'Weight'), height=20)
-        agents_tableAVW.heading('#0', text='ID')
-        agents_tableAVW.heading('Name', text='Nazwa')
-        agents_tableAVW.heading('Value', text='Wartosc')
-        agents_tableAVW.heading('Weight', text='Waga', anchor='center')
-        agents_tableAVW.column('#0', width=30)
-        agents_tableAVW.column('Name', width=200)
-        agents_tableAVW.column('Value', width=200)
-        agents_tableAVW.column('Weight', width=40)
+        self.agents_tableAVW = ttk.Treeview(agents_table_label, columns=('Name', 'Value', 'Weight'), height=20)
+        self.agents_tableAVW.heading('#0', text='ID')
+        self.agents_tableAVW.heading('Name', text='Nazwa')
+        self.agents_tableAVW.heading('Value', text='Wartosc')
+        self.agents_tableAVW.heading('Weight', text='Waga', anchor='center')
+        self.agents_tableAVW.column('#0', width=30)
+        self.agents_tableAVW.column('Name', width=130)
+        self.agents_tableAVW.column('Value', width=100)
+        self.agents_tableAVW.column('Weight', width=40)
 
-
-
-        agents_tableAVW.grid(row=0, column=0, sticky='nsew')
-        table_scroll = ttk.Scrollbar(agents_table_label, orient="vertical", command=agents_tableAVW.yview)
+        self.agents_tableAVW.grid(row=0, column=0, sticky='nsew')
+        table_scroll = ttk.Scrollbar(agents_table_label, orient="vertical", command=self.agents_tableAVW.yview)
         table_scroll.grid(row=0, column=1, sticky='ns')
-        agents_tableAVW.configure(yscrollcommand=table_scroll.set)
+        self.agents_tableAVW.configure(yscrollcommand=table_scroll.set)
 
         for agent in self.listAgent:
             for value in self.listValues:
                 agent.addValues(value.getName(), "?")
-                agents_tableAVW.insert('', tk.END, text=str(len(self.listAgent)),
+                self.agents_tableAVW.insert('', tk.END, text=str(len(self.listAgent)),
                                     values=(agent.getName(), value.getName(),"?"))
 
         def update_weight():
-            iid = agents_tableAVW.focus()
+            iid = self.agents_tableAVW.focus()
             new_weight = edit.get()
-            agents_tableAVW.set(iid, 'Weight', new_weight)
+            self.agents_tableAVW.set(iid, 'Weight', new_weight)
+            agent_name = self.agents_tableAVW.item(iid, 'values')[0]
+            value_name = self.agents_tableAVW.item(iid, 'values')[1]
+            weight = int(new_weight)
+            agent = self.getAgentByName(agent_name)
+            if agent:
+                agent.addValues(value_name, weight)
+                #ogarnąć metodę getAgentByName
 
         edit_frame = tk.Frame(mainAV, height=200)
         edit_frame.pack(side=tk.TOP, padx=50, pady=10)
@@ -309,7 +314,6 @@ class MainWindow(tk.Frame):
         apply_button = tk.Button(edit_frame, text="Edytuj", command=update_weight, font=("Arial", 13))
         apply_button.pack(side=tk.BOTTOM, padx=50, pady=10)
 
-
         submit_button_ = tk.Button(mainAV, text="Kontynuuj",
                                                command=lambda: self.man_in_AgentPropValueToWeight())
         submit_button_.pack(side=tk.BOTTOM, padx=10, pady=10)
@@ -319,45 +323,55 @@ class MainWindow(tk.Frame):
             widget.destroy()
         self.master.geometry("850x900")  # ustawienie rozmiaru okna
 
-        mainAV = tk.Frame(self.master, height=700, width=400)
-        mainAV.pack(side=tk.BOTTOM, padx=50, pady=10)
-        main_label = tk.Label(mainAV,
-                              text="Dodaj wagi dla wartości agentów. \nJest to waga do jakiej dany agent przywiązuje się\n z daną wartością. ",
+        mainAPV = tk.Frame(self.master, height=700, width=450)
+        mainAPV.pack(side=tk.BOTTOM, padx=50, pady=10)
+        main_label = tk.Label(mainAPV,
+                              text="Dodaj wagi dla relacji propozycji i wartości agentów. \nJest to waga do tego jak odnosi się dana propozycja \ndo danej wartości agenta.",
                               font=("Arial", 19),
                               justify='center')
         main_label.pack(side=tk.TOP, padx=50, pady=20)
-        agents_table_label = tk.Frame(mainAV)
+        agents_table_label = tk.Frame(mainAPV)
         agents_table_label.pack(side=tk.TOP)
-        agents_tableAVW = ttk.Treeview(agents_table_label, columns=('Name', 'Value', 'Weight'), height=20)
-        agents_tableAVW.heading('#0', text='ID')
-        agents_tableAVW.heading('Name', text='Nazwa')
-        agents_tableAVW.heading('Value', text='Wartosc')
-        agents_tableAVW.heading('Weight', text='Waga', anchor='center')
-        agents_tableAVW.column('#0', width=30)
-        agents_tableAVW.column('Name', width=200)
-        agents_tableAVW.column('Value', width=200)
-        agents_tableAVW.column('Weight', width=40)
+        self.agents_tableAPVW = ttk.Treeview(agents_table_label, columns=('Name', 'Value', 'Proposition', 'Weight'), height=20)
+        self.agents_tableAPVW.heading('#0', text='ID')
+        self.agents_tableAPVW.heading('Name', text='Nazwa')
+        self.agents_tableAPVW.heading('Value', text='Wartosc')
+        self.agents_tableAPVW.heading('Proposition', text='Propozycja')
+        self.agents_tableAPVW.heading('Weight', text='Waga', anchor='center')
+        self.agents_tableAPVW.column('#0', width=30)
+        self.agents_tableAPVW.column('Name', width=200)
+        self.agents_tableAPVW.column('Value', width=200)
+        self.agents_tableAPVW.column('Proposition', width=170)
+        self.agents_tableAPVW.column('Weight', width=40)
 
-        agents_tableAVW.grid(row=0, column=0, sticky='nsew')
-        table_scroll = ttk.Scrollbar(agents_table_label, orient="vertical", command=agents_tableAVW.yview)
+        self.agents_tableAPVW.grid(row=0, column=0, sticky='nsew')
+        table_scroll = ttk.Scrollbar(agents_table_label, orient="vertical", command=self.agents_tableAVW.yview)
         table_scroll.grid(row=0, column=1, sticky='ns')
-        agents_tableAVW.configure(yscrollcommand=table_scroll.set)
-
+        self.agents_tableAPVW.configure(yscrollcommand=table_scroll.set)
+        iter = 1
         for agent in self.listAgent:
-            for value in self.listValues:
-                agent.addValues(value.getName(), "?")
-                agents_tableAVW.insert('', tk.END, text=str(len(self.listAgent)),
-                                       values=(agent.getName(), value.getName(), "?"))
+            for prop in self.listProposition:
+                waga_prop = 0
+                warun = False
+                for value in self.listValues:
+                        agent.addagentPropValuetoWeight(prop.getStatement(), value.getName(), "?")
+                        self.agents_tableAPVW.insert('', tk.END, text=str(len(self.listAgent)),
+                                           values=(agent.getName(), value.getName(), prop.getStatement(), "?"))
 
         def update_weight():
-            iid = agents_tableAVW.focus()
+            iid = self.agents_tableAPVW.focus()
             new_weight = edit.get()
-            agents_tableAVW.set(iid, 'Weight', new_weight)
-
-        edit_frame = tk.Frame(mainAV, height=200)
+            self.agents_tableAPVW.set(iid, 'Weight', new_weight)
+            for iid in self.agents_tableAVW.get_children():
+                agent_name = self.agents_tableAVW.item(iid, 'values')[0]
+                agent = self.getAgentByName(agent_name)
+                weight = self.agents_tableAVW.item(iid, 'values')[2]
+                agent.Values = {value_name: float(weight) for value_name in agent.Values}
+        #do ogarnięcia dalej
+        edit_frame = tk.Frame(mainAPV, height=200)
         edit_frame.pack(side=tk.TOP, padx=50, pady=10)
         label = tk.Label(edit_frame,
-                         text="Wciśnij wartość w kolumnie\n 'Waga' i edytuj wagę dla wartości\n wśród agentów:\n",
+                         text="Wciśnij wartość w kolumnie\n 'Waga' i edytuj wagę dla ważności wartości\n w propozycjach wśród agentów:\n",
                          font=("Arial", 13))
         label.pack(side=tk.BOTTOM, padx=50, pady=10)
         edit = tk.Entry(edit_frame)
@@ -365,8 +379,8 @@ class MainWindow(tk.Frame):
         apply_button = tk.Button(edit_frame, text="Edytuj", command=update_weight, font=("Arial", 13))
         apply_button.pack(side=tk.BOTTOM, padx=50, pady=10)
 
-        submit_button_ = tk.Button(mainAV, text="Kontynuuj",
-                                   command=lambda: self.man_in_AgentPropValueToWeight())
+        submit_button_ = tk.Button(mainAPV, text="Kontynuuj",
+                                   command=lambda: self.man_in_PropBaseClean())
         submit_button_.pack(side=tk.BOTTOM, padx=10, pady=10)
         pass
 

@@ -1,14 +1,14 @@
 from typing import List, Dict, Tuple
-import value, weight
+import value, Weight
+
 
 class Agent:
-    def __init__(self, name, weight):
+    def __init__(self, name):
         self.name = name
-        self.weight = weight
         self.values = {}
-        self.propBaseClean = []
-        self.agentPropValuetoWeight = {}
-        #self.AgentValueToWeight = Dict[Tuple[Agent, Value], Weight]
+        self.propBaseClean = {}
+        self.agentPropValueToWeight = {}
+        self.AgentValueToWeight = Dict[Tuple[Agent, value.Value], Weight]
 
     def getName(self):
         return self.name
@@ -16,11 +16,14 @@ class Agent:
     def setName(self, name):
         self.name = name
 
+    def getValues(self):
+        return self.values
+
     def addValues(self, value, weight):
         self.values[value] = weight
 
-    def addAgentPropValuetoWeight(self, value, prop, weight):
-        self.agentPropValuetoWeight.append([self.name, value, prop, weight])
+    def addAgentPropValueToWeight(self, value_name, prop_name, weight):
+        self.agentPropValueToWeight[(self, value_name, prop_name)] = weight
 
     def addPropBaseClean(self, proposition):
         self.propBaseClean.append(proposition)
@@ -37,9 +40,6 @@ class Agent:
     def getWeightFromValue(self, value, weight):
         self.values[value] = weight
 
-    def getWeight(self):
-        return self.weight
-
     def addagentPropValuetoWeight(self, proposition, value, weight):
         propDict = {}
         propDict[(proposition, value)] = weight
@@ -50,7 +50,3 @@ class Agent:
 
     def addPropBaseClean(self, propositions):
         pass
-
-
-
-

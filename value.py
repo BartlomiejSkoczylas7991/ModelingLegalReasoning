@@ -1,9 +1,8 @@
 
 
 class Value:
-    def __init__(self, name, weight):
+    def __init__(self, name):
         self.name = name
-        self.weight = weight
         self.propositionsWeight = {}
 
     def getName(self):
@@ -11,9 +10,6 @@ class Value:
 
     def setName(self, name):
         self.name = name
-
-    def getWeight(self):
-        return self.weight
 
     def setWeight(self, weight):
         self.weight = weight
@@ -27,6 +23,4 @@ class Value:
 
     def __str__(self):
         return "Value{" + \
-            "name='" + self.name + '\'' + \
-            ", weight=" + str(self.weight) + \
-            '}'
+            "name='" + self.name + '\''

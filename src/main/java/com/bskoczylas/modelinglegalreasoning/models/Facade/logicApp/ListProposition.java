@@ -1,15 +1,15 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observables.AgentObservable;
-import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.models.observables.PropositionObservable;
+import com.bskoczylas.modelinglegalreasoning.models.observers.PropositionObserver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ListProposition implements AgentObservable {
+public class ListProposition implements PropositionObservable {
     private List<Proposition> listProposition = new LinkedList<>();
-    private List<AgentObserver> observers;
+    private List<PropositionObserver> observers;
 
 
     public ListProposition(List<Proposition> listProposition) {
@@ -17,18 +17,20 @@ public class ListProposition implements AgentObservable {
         this.observers = new ArrayList<>();
     }
 
+    public ListProposition(){}
+
     public List<Proposition> getPropositions() {
         return listProposition;
     }
 
-    public void addProposition(Proposition Proposition) {
-        listProposition.add(Proposition);
-        notifyObservers();
+    public void addProposition(Proposition proposition) {
+        listProposition.add(proposition);
+        notifyObservers(proposition);
     }
 
-    public void removeProposition(Proposition Proposition) {
-        listProposition.remove(Proposition);
-        notifyObservers();
+    public void removeProposition(Proposition proposition) {
+        listProposition.remove(proposition);
+        notifyObservers(proposition);
     }
 
     public void setListProposition(List<Proposition> listProposition) {
@@ -36,19 +38,19 @@ public class ListProposition implements AgentObservable {
     }
 
     @Override
-    public void addObserver(AgentObserver observer) {
+    public void addObserver(PropositionObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(AgentObserver observer) {
+    public void removeObserver(PropositionObserver observer) {
         this.observers.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
-        for (AgentObserver observer : this.observers) {
-            observer.update();
+    public void notifyObservers(Proposition proposition) {
+        for (PropositionObserver observer : this.observers) {
+            observer.updateProposition(proposition);
         }
     }
 }

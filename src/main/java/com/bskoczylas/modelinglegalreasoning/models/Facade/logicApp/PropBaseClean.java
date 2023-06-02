@@ -1,7 +1,5 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects.Agent;
-
 import java.util.*;
 
 public class PropBaseClean {

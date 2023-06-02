@@ -1,13 +1,11 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.models.observers.ValueObserver;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class AgentValueToWeight implements AgentObserver {
+public class AgentValueToWeight implements AgentObserver, ValueObserver {
     private HashMap<AgentValue, Weight> agent_value_weights;
     private List<Agent> agents;
     private List<Value> values;
@@ -16,6 +14,15 @@ public class AgentValueToWeight implements AgentObserver {
 
     public AgentValueToWeight() {
         this.agent_value_weights = new HashMap<>();
+        this.agents = new LinkedList<Agent>();
+        this.values = new LinkedList<Value>();
+    }
+
+    public AgentValueToWeight(HashMap<AgentValue, Weight> agent_value_weights, List<Agent> agents, List<Value> values, Scale scale) {
+        this.agent_value_weights = agent_value_weights;
+        this.agents = agents;
+        this.values = values;
+        this.scale = scale;
     }
 
     public AgentValueToWeight(List<Agent> agents, List<Value> values) {
@@ -52,35 +59,50 @@ public class AgentValueToWeight implements AgentObserver {
         weightsStr.append("}");
         return weightsStr.toString();
     }
+    @Override
+    public void updateAgent(Agent updatedAgent) {
+        // Jeśli agent jest nowy i nie jest jeszcze na liście, dodajemy go
+        if (!this.agents.contains(updatedAgent)) {
+            this.agents.add(updatedAgent);
+
+            // Dodajemy nowe pary agent-wartość do mapy wag
+            if (!this.values.isEmpty()){
+                for (Value value : this.values) {
+                    AgentValue agentValue = new AgentValue(updatedAgent, value);
+                    if (!this.agent_value_weights.containsKey(agentValue)) {
+                        this.agent_value_weights.put(agentValue, new Weight(scale, "?"));
+                    }
+                }
+            }
+
+        } else { // Jeśli agent jest już na liście, zakładamy, że jest usuwany
+            this.agents.remove(updatedAgent);
+
+            // Usuwamy wszystkie pary agent-wartość związane z tym agentem
+            this.agent_value_weights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(updatedAgent));
+        }
+    }
 
 
     @Override
-    public void update() {
-        // Tworzymy kopię mapy, aby uniknąć błędów związanych z modyfikacją mapy podczas iteracji.
-        HashMap<AgentValue, Weight> copyMap = new HashMap<>(this.agent_value_weights);
+    public void updateValue(Value updatedValue) {
+        if (!this.values.contains(updatedValue)) {
+            this.values.add(updatedValue);
 
-        for (Map.Entry<AgentValue, Weight> entry : copyMap.entrySet()) {
-            AgentValue agentValue = entry.getKey();
-            Agent agent = agentValue.getAgent();
-            Value value = agentValue.getValue();
-
-            // Jeśli agenta nie ma na liście agentów, usuwamy odpowiedni wpis.
-            if (!this.agents.contains(agent)) {
-                this.agent_value_weights.remove(agentValue);
-            }
-            if (!this.values.contains(value)) {
-                this.agent_value_weights.remove(agentValue);
-            }
-        }
-
-        // Dodajemy nowe pary agent-wartość do mapy, jeżeli jeszcze ich nie ma.
-        for (Agent agent : this.agents) {
-            for (Value value : this.values) {
-                AgentValue agentValue = new AgentValue(agent, value);
-                if (!this.agent_value_weights.containsKey(agentValue)) {
-                    this.agent_value_weights.put(agentValue, new Weight(scale, "?")); // Domyślna wartość "?" dla nowych wag
+            if (!this.agents.isEmpty()){
+                for (Agent agent : this.agents) {
+                    AgentValue agentValue = new AgentValue(agent, updatedValue);
+                    if (!this.agent_value_weights.containsKey(agentValue)) {
+                        this.agent_value_weights.put(agentValue, new Weight(scale, "?"));
+                    }
                 }
             }
+
+        } else { // Jeśli agent jest już na liście, zakładamy, że jest usuwany
+            this.values.remove(updatedValue);
+
+            // Usuwamy wszystkie pary agent-wartość związane z tym agentem
+            this.agent_value_weights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(updatedValue));
         }
     }
 }

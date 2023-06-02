@@ -1,6 +1,5 @@
-package com.bskoczylas.modelinglegalreasoning.models.logicApp;
+package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.observables.AgentObservable;
 import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
 
@@ -24,12 +23,12 @@ public class ListAgent implements AgentObservable {
 
     public void addAgent(Agent agent) {
         listAgent.add(agent);
-        notifyObservers();
+        notifyAgentObservers(agent);
     }
 
     public void removeAgent(Agent agent) {
         listAgent.remove(agent);
-        notifyObservers();
+        notifyAgentObservers(agent);
     }
 
     public void setListAgent(List<Agent> listAgent) {
@@ -37,19 +36,19 @@ public class ListAgent implements AgentObservable {
     }
 
     @Override
-    public void addObserver(AgentObserver observer) {
+    public void addAgentObserver(AgentObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(AgentObserver observer) {
-        this.observers.remove(observer);
+    public void removeAgentObserver(AgentObserver observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyAgentObservers(Agent agent) {
         for (AgentObserver observer : this.observers) {
-            observer.update();
+            observer.updateAgent(agent);
         }
     }
 }

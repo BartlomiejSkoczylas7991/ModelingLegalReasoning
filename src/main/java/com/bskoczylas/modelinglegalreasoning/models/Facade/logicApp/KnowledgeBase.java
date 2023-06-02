@@ -1,7 +1,5 @@
-package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects;
+package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects.Rule;
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Proposition;
 import javafx.util.Pair;
 import java.util.*;
 

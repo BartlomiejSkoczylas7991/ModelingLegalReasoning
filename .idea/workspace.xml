@@ -4,60 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValuePropWeight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueProposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueToWeight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListProposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListRules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Agent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/IncompProp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/KnowledgeBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/ReasoningChain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Rule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/PropBaseClean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Proposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Scale.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Value.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Weight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/FacadeClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/ProjectState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AVP_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AV_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AgentObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/IncompProp_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PBC_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PropositionObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/ValueObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AVP_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AV_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AgentObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/IncompProp_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/KB_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PBC_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PropositionObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/RuleObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/ValueObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/home.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning/hello-view.fxml" afterDir="false" />
+    <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValuePropWeight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValuePropWeight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueProposition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueProposition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueToWeight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueToWeight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListProposition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListProposition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Agent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/IncompProp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/IncompProp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/KnowledgeBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/KnowledgeBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/ReasoningChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ReasoningChain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Rule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/PropBaseClean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/PropBaseClean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Scale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Scale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Value.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AgentObservable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AgentObservable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PropositionObservable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PropositionObservable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/ValueObservable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/ValueObservable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AVP_Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AVP_Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AV_Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AV_Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AgentObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AgentObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/IncompProp_Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/IncompProp_Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/KB_Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/KB_Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PBC_Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PBC_Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PropositionObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PropositionObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/RuleObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/RuleObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/ValueObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/ValueObserver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,27 +66,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/media/bartlomiejskoczylas/ksztalcenie/magisterka/przykladowecwiczeniowe/1/EmployeeManagementSystem-main/employeeManagementSystem",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/bartlomiejskoczylas/ksztalcenie/magisterka/przykladowecwiczeniowe/1/EmployeeManagementSystem-main/employeeManagementSystem&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp" />
       <recent name="com.bskoczylas.modelinglegalreasoning" />
     </key>
   </component>
@@ -142,23 +119,25 @@
       <workItem from="1685471280473" duration="5808000" />
       <workItem from="1685540977408" duration="3333000" />
       <workItem from="1685552925992" duration="9891000" />
-      <workItem from="1685620557426" duration="8648000" />
+      <workItem from="1685620557426" duration="11048000" />
+      <workItem from="1685712862875" duration="6805000" />
     </task>
+    <task id="LOCAL-00001" summary="Moving the project to JavaFX">
+      <created>1685648652870</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685648652870</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Moving the project to JavaFX" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moving the project to JavaFX" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

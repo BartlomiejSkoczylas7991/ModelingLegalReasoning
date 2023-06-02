@@ -1,7 +1,5 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Objects.Rule;
-import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.models.observers.RuleObserver;
 
 import java.util.LinkedList;

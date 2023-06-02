@@ -9,6 +9,7 @@ class Scale {
         setScale(min_value, max_value);
     }
 
+    public Scale(){setScale(0, 10);}
     public boolean contains(int value) {
         return elements.contains(value);
     }

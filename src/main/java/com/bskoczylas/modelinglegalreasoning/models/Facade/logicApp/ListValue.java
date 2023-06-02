@@ -1,15 +1,17 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
 import com.bskoczylas.modelinglegalreasoning.models.observables.AgentObservable;
+import com.bskoczylas.modelinglegalreasoning.models.observables.ValueObservable;
 import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.models.observers.ValueObserver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ListValue implements AgentObservable {
+public class ListValue implements ValueObservable {
     private List<Value> listValue = new LinkedList<>();
-    private List<AgentObserver> observers;
+    private List<ValueObserver> observers;
 
 
     public ListValue(List<Value> listValue) {
@@ -24,32 +26,33 @@ public class ListValue implements AgentObservable {
 
     public void addValue(Value value) {
         listValue.add(value);
-        notifyObservers();
+        notifyObservers(value);
     }
 
     public void removeValue(Value value) {
         listValue.remove(value);
-        notifyObservers();
+        notifyObservers(value);
     }
 
     public void setListValue(List<Value> listValue) {
         this.listValue = listValue;
     }
 
+
     @Override
-    public void addObserver(AgentObserver observer) {
+    public void addObserver(ValueObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(AgentObserver observer) {
-        this.observers.remove(observer);
+    public void removeObserver(ValueObserver observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
-        for (AgentObserver observer : this.observers) {
-            observer.update();
+    public void notifyObservers(Value value) {
+        for (ValueObserver observer : this.observers){
+            observer.updateValue(value);
         }
     }
 }

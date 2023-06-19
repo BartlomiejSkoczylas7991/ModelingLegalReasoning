@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
+import java.util.Objects;
+
 public class Proposition {
     private static int next_id = 1;
     private int id;
@@ -46,5 +48,18 @@ public class Proposition {
 
     public void setDecision(boolean decision) {
         isDecision = decision;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Proposition that = (Proposition) o;
+        return id == that.id && isDecision == that.isDecision && Objects.equals(statement, that.statement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isDecision, statement);
     }
 }

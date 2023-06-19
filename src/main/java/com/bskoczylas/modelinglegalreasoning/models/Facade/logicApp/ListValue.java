@@ -19,7 +19,7 @@ public class ListValue implements ValueObservable {
         this.observers = new ArrayList<>();
     }
 
-    public ListValue(){}
+    public ListValue(){this.observers = new ArrayList<>();}
     public List<Value> getValues() {
         return listValue;
     }

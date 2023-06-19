@@ -17,7 +17,7 @@ public class ListProposition implements PropositionObservable {
         this.observers = new ArrayList<>();
     }
 
-    public ListProposition(){}
+    public ListProposition(){this.observers = new ArrayList<>();}
 
     public List<Proposition> getPropositions() {
         return listProposition;

@@ -2,6 +2,7 @@ package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Agent {
     private static int nextId = 1;
@@ -32,5 +33,18 @@ public class Agent {
 
     public void setJudge(boolean judge) {
         isJudge = judge;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Agent agent = (Agent) o;
+        return id == agent.id && isJudge == agent.isJudge && Objects.equals(name, agent.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, isJudge);
     }
 }

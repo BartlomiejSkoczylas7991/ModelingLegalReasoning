@@ -10,6 +10,10 @@ public class Rule {
     private String label;
 
     public Rule(Set<Proposition> premises, Proposition conclusion, String label) {
+        if (!conclusion.isDecision()) {
+            throw new IllegalArgumentException("The conclusion must be a decision proposition");
+        }
+
         this.premises = premises;
         this.conclusion = conclusion;
         this.label = label;
@@ -28,5 +32,9 @@ public class Rule {
 
     public Proposition getConclusion() {
         return conclusion;
+    }
+
+    public boolean isApplicableTo(Set<Proposition> propositions) {
+        return propositions.containsAll(this.premises);
     }
 }

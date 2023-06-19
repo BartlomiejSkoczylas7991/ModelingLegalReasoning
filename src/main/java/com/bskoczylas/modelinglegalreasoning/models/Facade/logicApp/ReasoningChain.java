@@ -1,58 +1,39 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import javafx.util.Pair;
-
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
 
 public class ReasoningChain {
+    private KnowledgeBase knowledgeBase;
+    private Proposition decision;
 
-    public Pair<Set<Rule>, Proposition> subjectiveReasoningChain(Agent agent, KnowledgeBase subjectiveKB,
-                                                                 Proposition prop, Set<Rule> rules,
-                                                                 Map<Agent, PropBaseClean> propBaseCleanResult,
-                                                                 IncompProp incompProp) {
-        Set<Proposition> pi = subjectiveKB.getPropositions();
-        Set<Rule> rj = (Set<Rule>) subjectiveKB.getRules();
+    public ReasoningChain(KnowledgeBase knowledgeBase, Proposition decision) {
+        this.knowledgeBase = knowledgeBase;
+        this.decision = decision;
+    }
+    public ReasoningChain(Proposition decision) {
+        this.knowledgeBase = new KnowledgeBase();
+        this.decision = decision;
+    }
 
-        Set<Proposition> visited = new HashSet<>();
-        Deque<Pair<Set<Proposition>, Iterator<Rule>>> stack = new ArrayDeque<>();
-        stack.push(new Pair<>(pi, rj.iterator()));
+    public KnowledgeBase getKnowledgeBase() {
+        return knowledgeBase;
+    }
 
-//        while (!stack.isEmpty()) {
-//            Pair<Proposition, Iterator<Rule>> nodeChildren = stack.peek();
-//            Proposition node = nodeChildren.getKey();
-//            Iterator<Rule> children = nodeChildren.getValue();
-//
-//            if (!propBaseCleanResult.get(agent).getPropositions(agent).contains(node)) {
-//                return new Pair<>(Collections.emptySet(), null);
-//            }
-//
-//            Rule child = children.hasNext() ? children.next() : null;
-//
-//            if (child == null) {
-//                stack.pop();
-//                visited.remove(node);
-//            } else if (child.getConclusion().equals(node) && !visited.contains(child.getPremises())) {
-//                if (child.getPremises().stream().anyMatch(p -> incompProp.containsPair(p, node))) {
-//                    return new Pair<>(Collections.emptySet(), null);
-//                }
-//
-//                stack.push(new Pair<>(child.getPremises(), rj.iterator()));
-//                visited.add(child.getPremises());
-//                //Rozpoznać problem
-//            }
-//        }
+    public Proposition getDecision() {
+        return decision;
+    }
 
-        Set<Rule> minimalKB = new HashSet<>();
-        for (Rule rule : rj) {
-            if (visited.contains(rule.getConclusion())) {
-                minimalKB.add(rule);
-            }
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReasoningChain that = (ReasoningChain) o;
+        return Objects.equals(knowledgeBase, that.knowledgeBase) && Objects.equals(decision, that.decision);
+    }
 
-        if (stack.size() != new HashSet<>(stack).size()) {
-            return new Pair<>(Collections.emptySet(), null);
-        }
-
-        return new Pair<>(minimalKB, prop);
+    @Override
+    public int hashCode() {
+        return Objects.hash(knowledgeBase, decision);
     }
 }

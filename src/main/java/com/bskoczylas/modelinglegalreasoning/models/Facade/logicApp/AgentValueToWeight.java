@@ -1,16 +1,20 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
+import com.bskoczylas.modelinglegalreasoning.models.observables.AV_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.observers.AV_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.models.observers.Scale_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.observers.ValueObserver;
 
 import java.util.*;
 
-public class AgentValueToWeight implements AgentObserver, ValueObserver {
+public class AgentValueToWeight implements AgentObserver, ValueObserver, AV_Observable, Scale_Observer {
     private HashMap<AgentValue, Weight> agent_value_weights;
     private List<Agent> agents;
     private List<Value> values;
-
+    private List<AV_Observer> weightObservers = new ArrayList<>();
     private Scale scale;
+    private boolean isEditing = false;
 
     public AgentValueToWeight() {
         this.agent_value_weights = new HashMap<>();
@@ -31,15 +35,20 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver {
         this.values = values;
     }
 
+    public Set<AgentValue> keySet() {
+        return agent_value_weights.keySet();
+    }
+
     public void addValue(Agent agent, Value value, Weight weight) {
         AgentValue agentValue = new AgentValue(agent, value);
         this.agent_value_weights.put(agentValue, weight);
     }
 
-    public Weight getWeight(Agent agent, Value value) {
-        AgentValue agentValue = new AgentValue(agent, value);
+    public Weight getWeight(AgentValue agentValue) {
         return this.agent_value_weights.get(agentValue);
     }
+
+
 
     @Override
     public String toString() {
@@ -61,11 +70,11 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver {
     }
     @Override
     public void updateAgent(Agent updatedAgent) {
-        // Jeśli agent jest nowy i nie jest jeszcze na liście, dodajemy go
+        // If the agent is new and not yet listed, we add it
         if (!this.agents.contains(updatedAgent)) {
             this.agents.add(updatedAgent);
 
-            // Dodajemy nowe pary agent-wartość do mapy wag
+            // If an agent is already listed, we assume it is being removed
             if (!this.values.isEmpty()){
                 for (Value value : this.values) {
                     AgentValue agentValue = new AgentValue(updatedAgent, value);
@@ -75,12 +84,14 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver {
                 }
             }
 
-        } else { // Jeśli agent jest już na liście, zakładamy, że jest usuwany
+        } else { // If an agent is already listed, we assume it is being removed
             this.agents.remove(updatedAgent);
 
-            // Usuwamy wszystkie pary agent-wartość związane z tym agentem
+            // We remove all agent-value pairs associated with this agent
             this.agent_value_weights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(updatedAgent));
         }
+        setEditing(false);
+        notifyAVObservers();
     }
 
 
@@ -88,7 +99,6 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver {
     public void updateValue(Value updatedValue) {
         if (!this.values.contains(updatedValue)) {
             this.values.add(updatedValue);
-
             if (!this.agents.isEmpty()){
                 for (Agent agent : this.agents) {
                     AgentValue agentValue = new AgentValue(agent, updatedValue);
@@ -98,11 +108,68 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver {
                 }
             }
 
-        } else { // Jeśli agent jest już na liście, zakładamy, że jest usuwany
+        } else {
             this.values.remove(updatedValue);
-
-            // Usuwamy wszystkie pary agent-wartość związane z tym agentem
             this.agent_value_weights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(updatedValue));
         }
+        setEditing(false);
+        notifyAVObservers();
+    }
+
+    public void editWeight(AgentValue agentValue, double newWeight) {
+        Weight weight = agent_value_weights.get(agentValue);
+        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
+            weight.setWeight(newWeight);
+            setEditing(true);
+            notifyAVObservers();
+        }
+    }
+
+    @Override
+    public void addAVObserver(AV_Observer observer) {
+        weightObservers.add(observer);
+    }
+
+    @Override
+    public void removeAVObserver(AV_Observer observer) {
+        weightObservers.remove(observer);
+    }
+
+    @Override
+    public void notifyAVObservers() {
+        for (AV_Observer observer : weightObservers) {
+            observer.updateAV(this);
+        }
+    }
+
+    @Override
+    public void updateScale(Scale updatedScale) {
+        this.scale = updatedScale;
+
+        for (Map.Entry<AgentValue, Weight> entry : this.agent_value_weights.entrySet()) {
+            Weight weight = entry.getValue();
+            Integer weightValue = (Integer) weight.getWeight();
+
+            if (weightValue.equals("?")) {
+                // If the weight is undefined, we set it to the maximum value of the scale
+                weight.setWeight(this.scale.getMax());
+            } else if (!this.scale.contains(weightValue)) {
+                if (weightValue < this.scale.getMin()) {
+                    // If the weight is less than the minimum scale value, we set it to the minimum scale value
+                    weight.setWeight(this.scale.getMin());
+                } else {
+                    // Otherwise, if the weight is greater than the maximum scale value, we set it to the maximum scale value
+                    weight.setWeight(this.scale.getMax());
+                }
+            }
+        }
+    }
+
+    public boolean isEditing() {
+        return isEditing;
+    }
+
+    public void setEditing(boolean editing) {
+        isEditing = editing;
     }
 }

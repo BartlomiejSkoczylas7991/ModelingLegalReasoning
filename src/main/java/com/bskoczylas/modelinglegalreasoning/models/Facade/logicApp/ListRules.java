@@ -1,19 +1,77 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
+import com.bskoczylas.modelinglegalreasoning.models.observables.RuleObservable;
+import com.bskoczylas.modelinglegalreasoning.models.observers.PropositionObserver;
 import com.bskoczylas.modelinglegalreasoning.models.observers.RuleObserver;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-public class ListRules {
-    private List<Rule> listValue = new LinkedList<>();
+public class ListRules implements PropositionObserver, RuleObservable {
+    private List<Proposition> propositions;
+    private List<Rule> listRules = new LinkedList<>();
     private List<RuleObserver> observers;
 
-    public ListRules(List<Rule> listValue) {
-        this.listValue = listValue;
+    public ListRules(List<Rule> listRules) {
+        this.listRules = listRules;
     }
 
     public ListRules(){}
 
+    public List<Rule> getListRules() {
+        return listRules;
+    }
 
+    public void setListRules(List<Rule> listRules) {
+        this.listRules = listRules;
+    }
+
+
+
+    public void addRule(Set<Proposition> premises, Proposition conclusion, String label) {
+        // Sprawdzamy, czy wszystkie propozycje w regule są już na liście propozycji
+        try {
+            Rule newRule = new Rule(premises, conclusion, label);
+            // Dodajemy nową regułę tylko jeśli nie wystąpił wyjątek
+            listRules.add(newRule);
+            notifyObservers();
+        } catch (IllegalArgumentException e) {
+            // Obsługa sytuacji, gdy konkluzja nie jest decyzją
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void updateRules(Proposition removedProposition) {
+        // Usuwamy zasady, które zawierają usuniętą propozycję
+        listRules.removeIf(rule -> rule.getPremises().contains(removedProposition) || rule.getConclusion().equals(removedProposition));
+        notifyObservers();
+    }
+
+    @Override
+    public void updateProposition(Proposition updatedProposition) {
+        if (!this.propositions.contains(updatedProposition)) {
+            this.propositions.add(updatedProposition);
+        } else {
+            this.propositions.remove(updatedProposition);
+            updateRules(updatedProposition);
+        }
+    }
+
+    @Override
+    public void addObserver(RuleObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(RuleObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (RuleObserver observer : observers) {
+            observer.updateRule(this);
+        }
+    }
 }

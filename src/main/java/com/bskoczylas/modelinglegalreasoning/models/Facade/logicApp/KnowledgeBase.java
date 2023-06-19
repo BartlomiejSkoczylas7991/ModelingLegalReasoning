@@ -1,37 +1,35 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import javafx.util.Pair;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class KnowledgeBase {
+    private Set<Proposition> pi;
+    private Set<Rule> rj;
 
-    private Set<Proposition> propBaseClean;
-    private Set<Rule> rules;
-
-    public KnowledgeBase(Set<Proposition> propBaseClean, Set<Rule> rules) {
-        this.propBaseClean = propBaseClean;
-        this.rules = rules;
+    public KnowledgeBase(Set<Proposition> pi, Set<Rule> rj) {
+        this.pi = pi;
+        this.rj = rj;
     }
 
-    public Set<Proposition> getPropositions() {
-        return this.propBaseClean;
+    public KnowledgeBase(){
+        this.pi = new HashSet<Proposition>();
+        this.rj = new HashSet<Rule>();
     }
 
-    public Set<Rule> getRules() {
-        return this.rules;
+    public Set<Proposition> getPi() {
+        return pi;
     }
 
-    public Pair<Set<Proposition>, Set<Rule>> calculate() {
-        Set<Proposition> pi = propBaseClean;
-        Set<Rule> rj = new HashSet<>();
-        for (Rule rule : rules) {
-            for (Proposition prop : rule.getPremises()) {
-                if (propBaseClean.contains(prop)) {
-                    rj.add(rule);
-                    break;
-                }
-            }
-        }
-        return new Pair<>(pi, rj);
+    public Set<Rule> getRj() {
+        return rj;
+    }
+
+    public void addPropToPBC(Proposition proposition){
+        this.pi.add(proposition);
+    }
+
+    public void addRuleToPBC(Rule rule){
+        this.rj.add(rule);
     }
 }

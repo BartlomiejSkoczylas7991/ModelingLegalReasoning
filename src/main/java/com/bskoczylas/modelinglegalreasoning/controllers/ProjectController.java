@@ -3,7 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class MainController {
+public class ProjectController {
     @FXML
     private Label welcomeText;
 

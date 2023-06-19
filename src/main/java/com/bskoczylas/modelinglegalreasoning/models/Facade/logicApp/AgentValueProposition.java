@@ -40,14 +40,20 @@ public class AgentValueProposition {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AgentValueProposition)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         AgentValueProposition that = (AgentValueProposition) o;
-        return agent.equals(that.agent) && value.equals(that.value) && proposition.equals(that.proposition);
+        return Objects.equals(agent, that.agent) &&
+                Objects.equals(value, that.value) &&
+                Objects.equals(proposition, that.proposition);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(agent, value, proposition);
+    }
+
+    public boolean matchesAgentValue(AgentValue agentValue) {
+        return agent.equals(agentValue.getAgent()) && value.equals(agentValue.getValue());
     }
 
     @Override

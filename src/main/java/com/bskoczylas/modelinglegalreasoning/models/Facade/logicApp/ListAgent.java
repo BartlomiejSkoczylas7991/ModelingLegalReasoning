@@ -11,7 +11,7 @@ public class ListAgent implements AgentObservable {
     private List<Agent> listAgent = new LinkedList<>();
     private List<AgentObserver> observers;
 
-
+    public ListAgent(){this.observers = new ArrayList<>();}
     public ListAgent(List<Agent> listAgent) {
         this.listAgent = listAgent;
         this.observers = new ArrayList<>();

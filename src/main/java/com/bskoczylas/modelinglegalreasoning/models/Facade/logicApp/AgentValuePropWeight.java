@@ -19,6 +19,7 @@ public class AgentValuePropWeight implements AgentObserver, ValueObserver, Propo
         this.values = new LinkedList<Value>();
         this.propositions = new LinkedList<Proposition>();
         this.scale = new Scale();
+        this.weightObservers = new ArrayList<>();
     }
 
     public AgentValuePropWeight(HashMap<AgentValueProposition, Weight> agent_value_prop_weights, List<Agent> agents, List<Value> values, List<Proposition> propositions, Scale scale) {

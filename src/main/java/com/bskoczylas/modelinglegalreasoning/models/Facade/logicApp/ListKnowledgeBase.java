@@ -18,6 +18,8 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
         this.rules = rules;
     }
 
+    public ListKnowledgeBase(){this.observers = new ArrayList<>();}
+
     public List<Rule> getRules() {
         return this.rules;
     }
@@ -96,8 +98,6 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
             observer.updateKB(this);
         }
     }
-
-
 
     public HashMap<Agent, KnowledgeBase> getListKnowledgeBase() {
         return listKnowledgeBase;

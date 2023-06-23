@@ -5,6 +5,7 @@ import com.bskoczylas.modelinglegalreasoning.models.observers.IncompProp_Observe
 import com.bskoczylas.modelinglegalreasoning.models.observers.PropositionObserver;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,24 +14,27 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
     private List<Proposition> propositions;
     private List<IncompProp_Observer> observers;
     private Set<Pair<Proposition, Proposition>> incompProp;
+    private Pair<Proposition, Proposition> decisions;
 
     public ListIncompProp() {
         this.incompProp = new HashSet<>();
+        this.observers = new ArrayList<>();
     }
 
     public void addIncompatiblePropositions(Proposition prop1, Proposition prop2) {
         // Ensure that the pair is not already present in the set
         // and that prop1 and prop2 are not the same proposition
-        if (!prop1.equals(prop2) && !containsPair(prop1, prop2)) {
-            incompProp.add(new Pair<>(prop1, prop2));
-        } else {
-            System.out.println("Cannot add pair: propositions are the same or pair already exists");
-        }
+        incompProp.add(new Pair<>(prop1, prop2));
     }
 
-    public void setDecision(Pair<Proposition, Proposition> incompProp) {
+    public void setDecisions(Pair<Proposition, Proposition> incompProp) {
         incompProp.getKey().setDecision(true);
         incompProp.getValue().setDecision(true);
+        this.decisions = incompProp;
+    }
+
+    public Pair<Proposition, Proposition> getDecisions() {
+        return decisions;
     }
 
     boolean containsPair(Proposition prop1, Proposition prop2) {
@@ -79,6 +83,8 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
     public Set<Pair<Proposition, Proposition>> getIncompProp() {
         return incompProp;
     }
+
+
 
     public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
         this.incompProp = incompProp;

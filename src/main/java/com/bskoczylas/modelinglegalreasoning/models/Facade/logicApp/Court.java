@@ -1,10 +1,11 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
+import com.bskoczylas.modelinglegalreasoning.models.observers.Consortium_Observer;
 import javafx.util.Pair;
 
 import java.util.Set;
 
-class Court implements Consortium_Observer{
+public class Court implements Consortium_Observer {
     private Decision decision;
     private Set<Agent> majorityJudges;
     private Set<Agent> dissentingJudges;
@@ -23,5 +24,10 @@ class Court implements Consortium_Observer{
                 this.dissentingOpinion = key;
             }
         }
+    }
+
+    @Override
+    public void updateCon(Consortium consortium) {
+
     }
 }

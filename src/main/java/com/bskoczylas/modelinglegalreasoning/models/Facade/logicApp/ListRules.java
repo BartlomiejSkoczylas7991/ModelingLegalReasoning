@@ -1,23 +1,26 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
 import com.bskoczylas.modelinglegalreasoning.models.observables.RuleObservable;
+import com.bskoczylas.modelinglegalreasoning.models.observers.IncompProp_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.observers.PropositionObserver;
 import com.bskoczylas.modelinglegalreasoning.models.observers.RuleObserver;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class ListRules implements PropositionObserver, RuleObservable {
+public class ListRules implements PropositionObserver, RuleObservable, IncompProp_Observer {
     private List<Proposition> propositions;
     private List<Rule> listRules = new LinkedList<>();
     private List<RuleObserver> observers;
+    private ListIncompProp listIncompProp;
 
     public ListRules(List<Rule> listRules) {
         this.listRules = listRules;
     }
 
-    public ListRules(){}
+    public ListRules(){this.observers = new ArrayList<>();}
 
     public List<Rule> getListRules() {
         return listRules;
@@ -58,6 +61,8 @@ public class ListRules implements PropositionObserver, RuleObservable {
         }
     }
 
+
+
     @Override
     public void addObserver(RuleObserver observer) {
         observers.add(observer);
@@ -73,5 +78,10 @@ public class ListRules implements PropositionObserver, RuleObservable {
         for (RuleObserver observer : observers) {
             observer.updateRule(this);
         }
+    }
+
+    @Override
+    public void updateIncomp(ListIncompProp listIncompProp) {
+        this.listIncompProp = listIncompProp;
     }
 }

@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models.observers;
 
-public interface Decision_Observer {
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Decision;
 
+public interface Decision_Observer {
+    public void update(Decision decision);
 }

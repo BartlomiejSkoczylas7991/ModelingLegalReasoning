@@ -15,7 +15,7 @@ public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observa
     private HashMap<Agent, Set<Proposition>> listPropBaseClean;
     private List<PBC_Observer> observers;
 
-    public ListPropBaseClean(){};
+    public ListPropBaseClean(){this.observers = new ArrayList<>();};
 
     private HashMap<Agent, Set<Proposition>> calculatePropBaseClean(Set<Agent> agents,
                                                                     Set<Proposition> props,

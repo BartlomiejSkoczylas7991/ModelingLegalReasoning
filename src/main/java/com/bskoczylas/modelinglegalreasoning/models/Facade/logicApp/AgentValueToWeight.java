@@ -20,6 +20,7 @@ public class AgentValueToWeight implements AgentObserver, ValueObserver, AV_Obse
         this.agent_value_weights = new HashMap<>();
         this.agents = new LinkedList<Agent>();
         this.values = new LinkedList<Value>();
+        this.weightObservers = new ArrayList<>();
     }
 
     public AgentValueToWeight(HashMap<AgentValue, Weight> agent_value_weights, List<Agent> agents, List<Value> values, Scale scale) {

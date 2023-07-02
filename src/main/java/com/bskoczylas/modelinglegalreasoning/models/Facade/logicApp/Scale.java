@@ -1,7 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
-import com.bskoczylas.modelinglegalreasoning.models.observables.Scale_Observable;
-import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
-import com.bskoczylas.modelinglegalreasoning.models.observers.Scale_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observables.Scale_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Scale_Observer;
 
 import java.util.ArrayList;
 import java.util.List;

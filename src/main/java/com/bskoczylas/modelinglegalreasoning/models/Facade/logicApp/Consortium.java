@@ -1,6 +1,10 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observers.RC_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.lists.ListReasoningChain;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observables.Consortium_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Consortium_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Decision_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.RC_Observer;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -64,5 +68,25 @@ public class Consortium implements RC_Observer, Consortium_Observable, Decision_
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
         this.agents = listReasoningChain.getAgents();
+    }
+
+    @Override
+    public void addObserver(Consortium_Observer observer) {
+
+    }
+
+    @Override
+    public void removeObserver(Consortium_Observer observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void update(Decision decision) {
+
     }
 }

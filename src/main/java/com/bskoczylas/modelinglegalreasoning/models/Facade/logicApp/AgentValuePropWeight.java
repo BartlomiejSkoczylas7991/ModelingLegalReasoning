@@ -1,7 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observables.AVP_Observable;
-import com.bskoczylas.modelinglegalreasoning.models.observers.*;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observables.AVP_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.*;
 
 import java.util.*;
 

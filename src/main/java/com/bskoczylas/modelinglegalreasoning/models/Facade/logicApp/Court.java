@@ -1,6 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observers.Consortium_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Consortium_Observer;
 import javafx.util.Pair;
 
 import java.util.Set;

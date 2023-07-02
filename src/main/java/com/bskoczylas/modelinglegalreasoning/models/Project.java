@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models;
 
 import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.*;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.lists.*;
 
 import java.io.Serializable;
 

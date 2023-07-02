@@ -13,4 +13,6 @@ module com.example.modelinglegalreasoning {
     exports com.bskoczylas.modelinglegalreasoning;
     exports com.bskoczylas.modelinglegalreasoning.controllers;
     opens com.bskoczylas.modelinglegalreasoning.controllers to javafx.fxml;
+    exports com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
+    opens com.bskoczylas.modelinglegalreasoning.controllers.projectControllers to javafx.fxml;
 }

@@ -1,7 +1,5 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Agent {

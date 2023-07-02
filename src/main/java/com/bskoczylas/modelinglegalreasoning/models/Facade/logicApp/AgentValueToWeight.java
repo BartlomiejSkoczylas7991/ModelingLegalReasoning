@@ -1,10 +1,10 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observables.AV_Observable;
-import com.bskoczylas.modelinglegalreasoning.models.observers.AV_Observer;
-import com.bskoczylas.modelinglegalreasoning.models.observers.AgentObserver;
-import com.bskoczylas.modelinglegalreasoning.models.observers.Scale_Observer;
-import com.bskoczylas.modelinglegalreasoning.models.observers.ValueObserver;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observables.AV_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.AV_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Scale_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.ValueObserver;
 
 import java.util.*;
 

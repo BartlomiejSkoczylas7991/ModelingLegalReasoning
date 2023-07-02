@@ -1,5 +1,4 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Proposition;
 
 import java.util.Set;
 import java.util.stream.Collectors;

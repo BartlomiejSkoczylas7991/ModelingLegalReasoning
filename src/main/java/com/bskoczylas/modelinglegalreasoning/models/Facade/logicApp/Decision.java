@@ -1,9 +1,9 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
-import com.bskoczylas.modelinglegalreasoning.models.observables.Decision_Observable;
-import com.bskoczylas.modelinglegalreasoning.models.observers.Decision_Observer;
-import com.bskoczylas.modelinglegalreasoning.models.observers.IncompProp_Observer;
-import com.bskoczylas.modelinglegalreasoning.models.observers.RC_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.lists.ListReasoningChain;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observables.Decision_Observable;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.Decision_Observer;
+import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.observers.RC_Observer;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -46,7 +46,6 @@ public class Decision implements Decision_Observable, RC_Observer {
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
-
     }
 
     @Override

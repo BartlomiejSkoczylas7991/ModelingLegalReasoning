@@ -1,7 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp;
 
 import java.util.Objects;
-import java.util.Set;
 
 public class ReasoningChain {
     private KnowledgeBase knowledgeBase;

@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
+import com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController;
 import com.bskoczylas.modelinglegalreasoning.models.Project;
 import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
 import javafx.application.Application;
@@ -9,30 +10,34 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 
 public class App extends Application {
     private ProjectManager projectManager = new ProjectManager();
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        showStartWindow();
+    }
+
+    public void showStartWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/startWindow.fxml"));
             Parent root = loader.load();
 
             StartWindowController controller = loader.getController();
+            controller.setMainApp(this);
             controller.setProjectManager(projectManager);
 
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
+            primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void openProjectWindow(Project project) {
+    public void showProjectWindow(Project project) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/projectWindow.fxml"));
             Parent root = loader.load();
@@ -41,9 +46,8 @@ public class App extends Application {
             controller.setProject(project);
             controller.setProjectManager(projectManager);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }

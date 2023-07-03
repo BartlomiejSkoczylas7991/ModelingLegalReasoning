@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController">
+    <!-- Ten przycisk będzie dostępny w kontrolerze jako "startButton" -->
+    <Button fx:id="startButton" text="Start New Project"/>
+</VBox>

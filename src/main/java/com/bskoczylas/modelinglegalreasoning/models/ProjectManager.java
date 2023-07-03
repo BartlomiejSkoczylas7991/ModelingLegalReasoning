@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,22 @@ public class ProjectManager {
 
     public Project getCurrentProject() {
         return currentProject;
+    }
+
+    // Metoda do zapisywania projektu do pliku
+    public void saveProjectToFile(Project project, File file) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(file, project);
+    }
+
+    public Project loadProjectFromFile(File file) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(file, Project.class);
+    }
+
+    public Project createProject(){
+        Project project = new Project();
+        return Project;
     }
 
     // Pozostałe metody...

@@ -1,11 +1,20 @@
 package com.bskoczylas.modelinglegalreasoning.models;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.*;
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.lists.*;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AVP.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Consortium.Consortium;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Court.Court;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Decision.Decision;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.IncompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.ListProposition;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningChain.ListReasoningChain;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Rule.ListRules;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Scale;
 
-import java.io.Serializable;
-
-public class Project implements Serializable {
+public class Project {
     private static int nextId = 1;
     private final int id;
     private String name;
@@ -58,9 +67,8 @@ public class Project implements Serializable {
         this.listIncompProp.addObserver(this.listReasoningChain);
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
-
-        this.listValue.addObserver();
-
+        this.listIncompProp.addObserver(this.listRules);
+        this.listIncompProp.addObserver(this.listReasoningChain);
 
     }
 

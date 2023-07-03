@@ -1,0 +1,9 @@
+@startuml
+class Car {
+  +String brand
+  +String model
+  +int year
+  +start() : void
+  +stop() : void
+}
+@enduml

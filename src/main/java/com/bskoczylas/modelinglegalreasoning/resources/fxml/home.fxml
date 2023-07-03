@@ -5,17 +5,27 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <ToolBar prefHeight="51.0" prefWidth="599.0" BorderPane.alignment="CENTER">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+          <Button mnemonicParsing="false" text="Menu" />
+            <Button mnemonicParsing="false" text="Save" />
+            <Button mnemonicParsing="false" text="Save as" />
+            <Button mnemonicParsing="false" text="Load" />
+            <Button mnemonicParsing="false" text="New" />
+            <Button mnemonicParsing="false" text="Generate PDF" />
+            <Button mnemonicParsing="false" text="Exit" />
         </items>
       </ToolBar>
    </top>
@@ -27,32 +37,90 @@
               <tabs>
                 <Tab text="Agent List">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <TableView fx:id="agentTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                              <columns>
+                                  <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                  <TableColumn fx:id="agentNameColumn" text="Name" prefWidth="200" />
+                                  <!-- Dodaj więcej kolumn według potrzeb -->
+                              </columns>
+                          </TableView>
+
+                      </AnchorPane>
                   </content>
                 </Tab>
                 <Tab text="Proposition List">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <TableView fx:id="propositionTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                              <columns>
+                                  <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                  <TableColumn fx:id="propositionNameColumn" text="Name" prefWidth="200" />
+                                  <!-- Dodaj więcej kolumn według potrzeb -->
+                              </columns>
+                          </TableView>
+                      </AnchorPane>
                   </content>
                 </Tab>
                   <Tab text="Value List">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                     <TableColumn fx:id="valueNameColumn" text="Name" prefWidth="200" />
+                                     <!-- Dodaj więcej kolumn według potrzeb -->
+                                 </columns>
+                             </TableView>
+                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="IncompProp decisions">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                     <TableColumn fx:id="valueNameColumn" text="Name" prefWidth="200" />
+                                     <!-- Dodaj więcej kolumn według potrzeb -->
+                                 </columns>
+                             </TableView>
+                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="A-V Weights List">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="AVTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                     <TableColumn fx:id="agentColumn" text="Agent" prefWidth="70" />
+                                     <TableColumn fx:id="valueColumn" text="Value" prefWidth="70" />
+                                     <TableColumn fx:id="weightColumn" text="Weight" prefWidth="60" />
+                                     <!-- Dodaj więcej kolumn według potrzeb -->
+                                 </columns>
+                             </TableView>
+                             <ComboBox fx:id="agentComboBox" />
+                             <ComboBox fx:id="valueComboBox" />
+                             <Slider fx:id="weightSlider" min="0" max="10" value="5" />
+                             <Button fx:id="addWeightButton" text="Add Weight" onAction="#addWeight" />
+                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="A-V-P Weights List">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="AVPTable" layoutX="61.0" layoutY="47.0" prefHeight="400.0" prefWidth="385.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="47.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" text="id" prefWidth="50" />
+                                     <TableColumn fx:id="agentColumn" text="Agent" prefWidth="70" />
+                                     <TableColumn fx:id="valueColumn" text="Value" prefWidth="70" />
+                                     <TableColumn fx:id="propositionColumn" text="Proposition" prefWidth="70" />
+                                     <TableColumn fx:id="weightColumn" text="Weight" prefWidth="60" />
+                                     <!-- Dodaj więcej kolumn według potrzeb -->
+                                 </columns>
+                             </TableView>
+                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Rules List">
@@ -67,6 +135,6 @@
       </SplitPane>
    </center>
    <bottom>
-      <TextArea prefHeight="82.0" prefWidth="906.0" BorderPane.alignment="CENTER" />
+      <TextArea prefHeight="76.0" prefWidth="890.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

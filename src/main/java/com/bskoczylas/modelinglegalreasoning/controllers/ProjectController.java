@@ -1,9 +1,8 @@
 package com.bskoczylas.modelinglegalreasoning.controllers;
 
-import com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp.Agent;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.Project;
 import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,9 +27,9 @@ public class ProjectController {
                 Project currentProject = projectManager.getCurrentProject();
                 if (currentProject != null) {
                         // Dodaj agenta do aktualnego projektu
-                        currentProject.getListAgent().add(new Agent(/* parametry agenta */));
+                        //currentProject.getListAgent().add(new Agent(/* parametry agenta */));
                         // Aktualizuj tabelę agentów
-                        updateAgentTable();
+                        //updateAgentTable();
                 }
         }
 
@@ -38,7 +37,7 @@ public class ProjectController {
                 Project currentProject = projectManager.getCurrentProject();
                 if (currentProject != null) {
                         // Aktualizuj tabelę agentów na podstawie aktualnego projektu
-                        agentTable.setItems(FXCollections.observableArrayList(currentProject.getListAgent()));
+                        //agentTable.setItems(FXCollections.observableArrayList(currentProject.getListAgent()));
                 }
         }
 

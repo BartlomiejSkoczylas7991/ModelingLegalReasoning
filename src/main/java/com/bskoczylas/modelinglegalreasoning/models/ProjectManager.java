@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProjectManager {
     private List<Project> projects = new ArrayList<>();
@@ -40,6 +41,4 @@ public class ProjectManager {
         Project project = new Project();
         return Project;
     }
-
-    // Pozostałe metody...
 }

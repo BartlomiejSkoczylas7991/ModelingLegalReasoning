@@ -55,13 +55,13 @@ public class ListReasoningChain implements KB_Observer, IncompProp_Observer, RC_
 
     private void resolveIncompProp(Set<Rule> minimalKB, Set<Proposition> visited) {
         for (Pair<Proposition, Proposition> incompPair : incompProp) {
-            if (visited.contains(incompPair.getKey()) && visited.contains(incompPair.getValue())) {
+            if (visited.contains(incompPair.getFirst()) && visited.contains(incompPair.getSecond())) {
                 // If both conflicting suggestions are in the visited list, delete one of them
                 if (minimalKB.size() > 1) {
                     // Remove the rule that leads to fewer proposals
                     Rule toRemove = null;
                     for (Rule rule : minimalKB) {
-                        if (rule.getConclusion().equals(incompPair.getKey()) || rule.getConclusion().equals(incompPair.getValue())) {
+                        if (rule.getConclusion().equals(incompPair.getFirst()) || rule.getConclusion().equals(incompPair.getSecond())) {
                             toRemove = rule;
                             break;
                         }
@@ -190,7 +190,7 @@ public class ListReasoningChain implements KB_Observer, IncompProp_Observer, RC_
         }
     }
 
-    public ReasoningChain getRC_ByAgent(Agent agent) {
+    public ReasoningChain getReasoningChainByAgent(Agent agent) {
         return listReasoningChain.get(agent);
     }
 }

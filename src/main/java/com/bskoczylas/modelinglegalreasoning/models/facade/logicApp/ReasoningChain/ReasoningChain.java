@@ -13,10 +13,6 @@ public class ReasoningChain {
         this.knowledgeBase = knowledgeBase;
         this.decision = decision;
     }
-    public ReasoningChain(Proposition decision) {
-        this.knowledgeBase = new KnowledgeBase();
-        this.decision = decision;
-    }
 
     public KnowledgeBase getKnowledgeBase() {
         return knowledgeBase;

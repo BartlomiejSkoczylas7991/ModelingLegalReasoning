@@ -22,6 +22,7 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
     public ListKnowledgeBase(ListPropBaseClean propBaseClean, List<Rule> rules) {
         this.propBaseClean = propBaseClean;
         this.rules = rules;
+        this.observers = new ArrayList<>();
     }
 
     public ListKnowledgeBase(){this.observers = new ArrayList<>();}

@@ -5,6 +5,7 @@ import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningChain.ListReasoningChain;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningChain.ReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.Decision_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.Decision_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.IncompProp_Observer;
@@ -29,7 +30,25 @@ public class Decision implements Decision_Observable, RC_Observer, IncompProp_Ob
         int pdCount = 0;
 
         for (Agent agent : agents) {
+            ReasoningChain agentRC = listReasoningChain.getReasoningChainByAgent(agent);
+            if (agentRC != null) {
+                Proposition agentDecision = agentRC.getDecision();
+                if (agentDecision != null) {
+                    if (agentDecision.equals(decisions.getFirst())) {
+                        ppCount++;
+                    } else if (agentDecision.equals(decisions.getSecond())) {
+                        pdCount++;
+                    }
+                }
+            }
+        }
 
+        if (ppCount > pdCount) {
+            decision = decisions.getFirst();
+        } else if (pdCount > ppCount) {
+            decision = decisions.getSecond();
+        } else {
+            decision = null;  // Remis, żadna z propozycji nie zdobyła większości głosów.
         }
     }
 
@@ -40,18 +59,17 @@ public class Decision implements Decision_Observable, RC_Observer, IncompProp_Ob
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
-        if (!(this.decisions == null)) {
-            updateDecision();
+        if (this.decisions != null) {
+            updateDecision(this.listReasoningChain.getAgents());
         }
     }
 
     @Override
     public void updateIncomp(ListIncompProp listIncompProp) {
-        if(!(listReasoningChain == null){
-
+        this.decisions = listIncompProp.getDecisions();
+        if(this.listReasoningChain != null){
+            updateDecision(this.listReasoningChain.getAgents());
         }
-        decisions = listIncompProp.getDecisions();
-        updateDecision();
     }
 
     @Override

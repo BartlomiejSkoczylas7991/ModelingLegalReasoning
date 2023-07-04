@@ -13,10 +13,12 @@ import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Rule.ListRules;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.ListValue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Project {
     private static int nextId = 1;
-    private final int id;
+    private int id;
     private String name;
     private ListAgent listAgent; //lista agentów
     private ListProposition listProposition; // lista propozycji
@@ -48,6 +50,8 @@ public class Project {
         this.agentValuePropWeight = new AgentValuePropWeight();
         this.agentValueToWeight = new AgentValueToWeight();
         this.listIncompProp = new ListIncompProp();
+
+        @JsonIgnore
         this.listKnowledgeBase = new ListKnowledgeBase();
         this.listPropBaseClean = new ListPropBaseClean();
         this.scale = new Scale();

@@ -2,22 +2,21 @@ package com.bskoczylas.modelinglegalreasoning.models.dataStructures;
 
 import java.util.Objects;
 
-public class Pair<K, V> {
+public class Pair<F, S> {
+    private final F first;
+    private final S second;
 
-    private final K key;
-    private final V value;
-
-    public Pair(K key, V value) {
-        this.key = key;
-        this.value = value;
+    public Pair(F key, S second) {
+        this.first = key;
+        this.second = second;
     }
 
-    public K getKey() {
-        return key;
+    public F getFirst() {
+        return first;
     }
 
-    public V getValue() {
-        return value;
+    public S getSecond() {
+        return second;
     }
 
     @Override
@@ -25,17 +24,17 @@ public class Pair<K, V> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pair<?, ?> pair = (Pair<?, ?>) o;
-        return Objects.equals(key, pair.key) &&
-                Objects.equals(value, pair.value);
+        return Objects.equals(first, pair.first) &&
+                Objects.equals(second, pair.second);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, value);
+        return Objects.hash(first, second);
     }
 
     @Override
     public String toString() {
-        return key + ", " + value;
+        return first + ", " + second;
     }
 }

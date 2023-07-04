@@ -15,7 +15,6 @@ public class ListConsortium implements RC_Observer, Consortium_Observable, Decis
     Map<Consortium, ConsortiumType> consortiumMap;
     private Set<Agent> agents;
     private List<Consortium_Observer> observers;
-
     private ListConsortium() {}
 
     private void updateConsortium(ListReasoningChain listReasoningChain, de){

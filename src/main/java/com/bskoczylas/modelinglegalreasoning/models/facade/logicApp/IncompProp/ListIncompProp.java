@@ -29,8 +29,8 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
     }
 
     public void setDecisions(Pair<Proposition, Proposition> incompProp) {
-        incompProp.getKey().setDecision(true);
-        incompProp.getValue().setDecision(true);
+        incompProp.getFirst().setDecision(true);
+        incompProp.getSecond().setDecision(true);
         this.decisions = incompProp;
     }
 
@@ -84,8 +84,6 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
     public Set<Pair<Proposition, Proposition>> getIncompProp() {
         return incompProp;
     }
-
-
 
     public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
         this.incompProp = incompProp;

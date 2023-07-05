@@ -1,7 +1,7 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AVP;
+package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.AVP;
 
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV.AgentValue;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.AV.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.Value;
 

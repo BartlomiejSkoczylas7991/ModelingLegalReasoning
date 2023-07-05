@@ -1,9 +1,9 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV;
+package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.AV;
 
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.Value;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.AV_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.AV_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.AgentObserver;

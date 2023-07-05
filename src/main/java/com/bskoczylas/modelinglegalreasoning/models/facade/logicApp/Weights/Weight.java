@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight;
+package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight;
 
 public class Weight implements Comparable<Weight> {
     private Scale scale;

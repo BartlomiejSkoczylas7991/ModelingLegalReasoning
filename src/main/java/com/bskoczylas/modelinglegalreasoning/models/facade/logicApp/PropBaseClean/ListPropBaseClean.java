@@ -1,11 +1,11 @@
 package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.PropBaseClean;
 
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV.AgentValue;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AVP.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AV.AgentValue;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AV.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.Proposition;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Weight;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.PBC_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.AVP_Observer;

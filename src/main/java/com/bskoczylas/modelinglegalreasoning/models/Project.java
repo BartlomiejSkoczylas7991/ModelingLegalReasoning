@@ -1,7 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.models;
 
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.AVP.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AV.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Consortium.Consortium;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Court.Court;
@@ -12,7 +12,7 @@ import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.PropBaseClea
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Rule.ListRules;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.ListValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -51,7 +51,7 @@ public class Project {
         this.agentValueToWeight = new AgentValueToWeight();
         this.listIncompProp = new ListIncompProp();
 
-        @JsonIgnore
+
         this.listKnowledgeBase = new ListKnowledgeBase();
         this.listPropBaseClean = new ListPropBaseClean();
         this.scale = new Scale();

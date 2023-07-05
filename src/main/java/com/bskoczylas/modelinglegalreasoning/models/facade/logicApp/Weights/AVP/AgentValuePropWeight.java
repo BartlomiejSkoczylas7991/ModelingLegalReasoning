@@ -1,16 +1,18 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.AVP;
+package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AVP;
 
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition.Proposition;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AV.AgentValue;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.AgentValueWeight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Value.Value;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Weight;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.AVP_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.*;
 
 import java.util.*;
 
-public class AgentValuePropWeight implements AgentObserver, ValueObserver, PropositionObserver, Scale_Observer, AVP_Observable {
+public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, Scale_Observer, AVP_Observable {
     private HashMap<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -83,6 +85,16 @@ public class AgentValuePropWeight implements AgentObserver, ValueObserver, Propo
 
     public void setScale(Scale scale) {
         this.scale = scale;
+    }
+
+    @Override
+    public void addValue(Agent agent, Value value, Weight weight) {
+
+    }
+
+    @Override
+    public Weight getWeight(AgentValue agentValue) {
+        return null;
     }
 
     public void editWeight(AgentValueProposition agentValueProposition, double newWeight) {
@@ -200,6 +212,11 @@ public class AgentValuePropWeight implements AgentObserver, ValueObserver, Propo
         agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
     }
 
+    @Override
+    protected void updateAllWeightsAccordingToScale() {
+        agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
+    }
+
     private void updateWeightAccordingToScale(Weight weight) {
         Integer weightValue = (Integer) weight.getWeight();
         if (weightValue.equals("?")) {
@@ -216,7 +233,6 @@ public class AgentValuePropWeight implements AgentObserver, ValueObserver, Propo
             weight.setWeight(scale.getMax());
         }
     }
-
 
     @Override
     public void addObserver(AVP_Observer observer) {

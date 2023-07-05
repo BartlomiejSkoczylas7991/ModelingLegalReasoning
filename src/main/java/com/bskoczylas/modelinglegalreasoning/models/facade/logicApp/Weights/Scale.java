@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights.Scale_Weight;
+package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Weights;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.Scale_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.Scale_Observer;
 

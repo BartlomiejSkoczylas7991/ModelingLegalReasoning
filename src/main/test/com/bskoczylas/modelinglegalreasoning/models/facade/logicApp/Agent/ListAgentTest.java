@@ -1,6 +1,8 @@
 package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent;
 
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.AgentObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

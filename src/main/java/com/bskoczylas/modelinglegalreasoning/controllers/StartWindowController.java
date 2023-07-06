@@ -1,8 +1,8 @@
 package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.App;
-import com.bskoczylas.modelinglegalreasoning.models.Project;
-import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
+import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

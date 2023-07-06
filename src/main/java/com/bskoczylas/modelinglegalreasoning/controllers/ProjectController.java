@@ -1,8 +1,8 @@
 package com.bskoczylas.modelinglegalreasoning.controllers;
 
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.models.Project;
-import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
+import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -56,6 +56,10 @@ public class Decision implements Decision_Observable, RC_Observer, IncompProp_Ob
         return this.decision;
     }
 
+    public ListReasoningChain getListReasoningChain() {
+        return listReasoningChain;
+    }
+
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;

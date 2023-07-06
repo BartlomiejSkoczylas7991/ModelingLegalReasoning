@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Decision/Report.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/projectFactoryAndBuilder/ProjectBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/StartWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/StartWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/ProjectManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/ProjectManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/dataStructures/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/dataStructures/Pair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Consortium/ListConsortium.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Consortium/ListConsortium.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Court/Court.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Court/Court.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Decision/Decision.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/facade/logicApp/Decision/Decision.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/start.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/start.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +135,8 @@
       <workItem from="1688450917778" duration="3880000" />
       <workItem from="1688480917398" duration="11438000" />
       <workItem from="1688541717489" duration="10495000" />
-      <workItem from="1688564130152" duration="5699000" />
+      <workItem from="1688564130152" duration="5722000" />
+      <workItem from="1688620984024" duration="14525000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>

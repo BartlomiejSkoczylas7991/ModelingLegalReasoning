@@ -8,16 +8,15 @@ import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.ReasoningCha
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observables.Consortium_Observable;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.Consortium_Observer;
 import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.Decision_Observer;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.RC_Observer;
-
 import java.util.*;
 
-public class ListConsortium implements RC_Observer, Consortium_Observable, Decision_Observer {
+public class ListConsortium implements Consortium_Observable, Decision_Observer {
     private ListReasoningChain listReasoningChain;
     Map<Consortium, ConsortiumType> consortiumMap;
+    private Decision decision;
     private Set<Agent> agents;
     private List<Consortium_Observer> observers;
-    private ListConsortium() {}
+    private ListConsortium() { this.observers = new ArrayList<Consortium_Observer>(); }
 
     private void updateConsortium(ListReasoningChain listReasoningChain){
         this.agents = listReasoningChain.getAgents();
@@ -25,23 +24,26 @@ public class ListConsortium implements RC_Observer, Consortium_Observable, Decis
 
         for (Map.Entry<Agent, ReasoningChain> entry : listReasoningChain.getListReasoningChain().entrySet()) {
             ReasoningChain rc = entry.getValue();
-            if (this.consortiumMap.containsKey(rc)) {
-                // If we have a consortium for this reasoning chain, we just add the agent
-                this.consortiumMap.get(rc).add(entry.getKey());
-            } else {
-                // If not, we create a new consortium
-                Consortium consortium = new Consortium(rc);
-                Set<Agent> agreeingAgents = new HashSet<>();
-                agreeingAgents.add(entry.getKey());
-                consortium.setAgents(agreeingAgents);
-                consortiumMap.put(consortium, null);
-            }
-        }
+            Agent agent = entry.getKey();
 
-        // Now that we have created all the consortiums, we can assign their types
-        for (Consortium consortium : consortiumMap.keySet()) {
-            ConsortiumType consortiumType = determineConsortiumType(consortium); // This would be a method that determines the type of the consortium based on the definitions you provided
-            consortiumMap.put(consortium, consortiumType);
+            // Przejdz przez wszystkie konsorcja i spróbuj znaleźć odpowiednie dla agenta
+            boolean consortiumFound = false;
+            for (Consortium consortium : consortiumMap.keySet()) {
+                if (consortium.getReasoningChain().equals(rc)) {
+                    consortium.getAgents().add(agent);
+                    consortiumFound = true;
+                    break;
+                }
+            }
+
+            // Jeżeli nie znaleziono pasującego konsorcjum, utwórz nowe
+            if (!consortiumFound) {
+                Consortium newConsortium = new Consortium(rc);
+                Set<Agent> newConsortiumAgents = new HashSet<>();
+                newConsortiumAgents.add(agent);
+                newConsortium.setAgents(newConsortiumAgents);
+                consortiumMap.put(newConsortium, null);
+            }
         }
     }
 
@@ -77,9 +79,14 @@ public class ListConsortium implements RC_Observer, Consortium_Observable, Decis
         return ConsortiumType.DISSENTING;
     }
 
+    public Map<Consortium, ConsortiumType> getConsortiumMap() {
+        return consortiumMap;
+    }
+
     @Override
-    public void updateRC(ListReasoningChain listReasoningChain) {
-        this.listReasoningChain = listReasoningChain;
+    public void update(Decision decision) {
+        this.decision = decision;
+        this.listReasoningChain = decision.getListReasoningChain();
         updateConsortium(this.listReasoningChain);
     }
 
@@ -98,10 +105,5 @@ public class ListConsortium implements RC_Observer, Consortium_Observable, Decis
         for (Consortium_Observer observer : this.observers){
             observer.updateCon(this);
         }
-    }
-
-    @Override
-    public void update(Decision decision) {
-
     }
 }

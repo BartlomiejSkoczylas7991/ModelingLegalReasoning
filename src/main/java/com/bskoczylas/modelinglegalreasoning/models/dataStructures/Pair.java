@@ -37,4 +37,12 @@ public class Pair<F, S> {
     public String toString() {
         return first + ", " + second;
     }
+
+    public F getKey() {
+        return this.getFirst();
+    }
+
+    public S getValue() {
+        return this.second;
+    }
 }

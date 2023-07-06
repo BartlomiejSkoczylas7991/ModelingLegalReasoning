@@ -3,8 +3,13 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 import com.bskoczylas.modelinglegalreasoning.App;
 import com.bskoczylas.modelinglegalreasoning.models.Project;
 import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class StartWindowController {
 
@@ -15,8 +20,28 @@ public class StartWindowController {
     @FXML
     private Button startButton;
 
+    @FXML
+    private TableView<Project> projectsTable;
+
+    private ObservableList<Project> projectsData = FXCollections.observableArrayList();
+
     public void setMainApp(App mainApp) {
         this.mainApp = mainApp;
+        initProjectsTable();
+    }
+
+    private void initProjectsTable() {
+        // Tutaj przypisujemy dane z ObservableList do TableView
+        projectsTable.setItems(projectsData);
+
+        // Teraz definiujemy, jak dane z obiektów Project mają być wyświetlane w kolumnach tabeli
+        TableColumn<Project, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Project, String> nameColumn = new TableColumn<>("Nazwa");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        projectsTable.getColumns().setAll(idColumn, nameColumn);
     }
 
     public void setProjectManager(ProjectManager projectManager) {

@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController">
-    <!-- Ten przycisk będzie dostępny w kontrolerze jako "startButton" -->
-    <Button fx:id="startButton" text="Start New Project"/>
-</VBox>
+
+<?import javafx.scene.layout.HBox?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <ButtonBar>
+                <buttons>
+                    <Button mnemonicParsing="false" text="New" />
+                    <Button mnemonicParsing="false" text="Load" />
+                    <Button minWidth="72.0" mnemonicParsing="false" prefHeight="17.0" text="Exit" />
+                </buttons>
+            </ButtonBar>
+        </HBox>
+    </top>
+   <center>
+      <TableView style="-fx-padding: 10;" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="75.0" text="ID" />
+          <TableColumn prefWidth="232.0" text="Name" />
+            <TableColumn prefWidth="180.0" text="Created" />
+            <TableColumn prefWidth="197.0" text="Last Modified" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

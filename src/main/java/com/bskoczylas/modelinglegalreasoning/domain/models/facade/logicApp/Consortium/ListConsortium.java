@@ -17,7 +17,7 @@ public class ListConsortium implements Consortium_Observable, Decision_Observer 
     private Decision decision;
     private Set<Agent> agents;
     private List<Consortium_Observer> observers;
-    private ListConsortium() { this.observers = new ArrayList<Consortium_Observer>(); }
+    public ListConsortium() { this.observers = new ArrayList<Consortium_Observer>(); }
 
     private void updateConsortium(ListReasoningChain listReasoningChain){
         this.agents = listReasoningChain.getAgents();

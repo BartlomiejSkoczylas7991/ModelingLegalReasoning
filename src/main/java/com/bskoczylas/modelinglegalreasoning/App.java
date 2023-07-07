@@ -3,7 +3,7 @@ package com.bskoczylas.modelinglegalreasoning;
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

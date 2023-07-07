@@ -13,7 +13,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import java.util.*;
 
 public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observables {
-    private Set<Agent> agents= new HashSet<>();
+    private Set<Agent> agents = new HashSet<>();
     private ListPropBaseClean propBaseClean;
     private List<Rule> rules;
     private HashMap<Agent, KnowledgeBase> listKnowledgeBase;
@@ -27,7 +27,7 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
 
     public ListKnowledgeBase(){this.observers = new ArrayList<>();}
 
-    public List<Rule> getRules() {
+    private List<Rule> getRules() {
         return this.rules;
     }
 
@@ -71,14 +71,6 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
 
     public ListPropBaseClean getPropBaseClean() {
         return this.propBaseClean;
-    }
-
-    public void setPropBaseClean(ListPropBaseClean propBaseClean) {
-        this.propBaseClean = propBaseClean;
-    }
-
-    public void setRules(List<Rule> rules) {
-        this.rules = rules;
     }
 
     public void setListKnowledgeBase(HashMap<Agent, KnowledgeBase> listKnowledgeBase) {

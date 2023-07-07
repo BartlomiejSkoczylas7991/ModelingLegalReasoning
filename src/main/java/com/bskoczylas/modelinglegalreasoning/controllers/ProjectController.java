@@ -2,7 +2,7 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 
 public class ProjectController {
         private ProjectManager projectManager;
+        private Project currentProject;
 
         @FXML
         private TableView<Agent> agentTable;
@@ -20,6 +21,10 @@ public class ProjectController {
 
         public void setProjectManager(ProjectManager projectManager) {
                 this.projectManager = projectManager;
+        }
+
+        public void setProject(Project project) {
+                this.currentProject = project;
         }
 
         @FXML

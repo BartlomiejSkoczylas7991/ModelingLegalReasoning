@@ -7,7 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,18 +26,23 @@ class ListAgentTest {
     }
 
     @Test
-    void addAgent() {
-        Agent agent = new Agent("Agent 1");
-        listAgent.addAgent(agent);
-        assertTrue(listAgent.getAgents().contains(agent), "Agent should be added");
+    void addAgents() {
+        Agent agent1 = new Agent("Agent 1");
+        Agent agent2 = new Agent("Agent 2");
+        List<Agent> agents = Arrays.asList(agent1, agent2);
+        listAgent.addAgents(agents);
+        assertTrue(listAgent.getAgents().containsAll(agents), "Agents should be added");
     }
 
     @Test
-    void removeAgent() {
-        Agent agent = new Agent("Agent 2");
-        listAgent.addAgent(agent);
-        listAgent.removeAgent(agent);
-        assertFalse(listAgent.getAgents().contains(agent), "Agent should be removed");
+    void removeAgents() {
+        Agent agent1 = new Agent("Agent 1");
+        Agent agent2 = new Agent("Agent 2");
+        List<Agent> agents = Arrays.asList(agent1, agent2);
+        listAgent.addAgents(agents);
+        listAgent.removeAgents(agents);
+        assertFalse(listAgent.getAgents().contains(agent1), "Agent 1 should be removed");
+        assertFalse(listAgent.getAgents().contains(agent2), "Agent 2 should be removed");
     }
 
     @Test
@@ -51,15 +58,13 @@ class ListAgentTest {
 
     @Test
     public void testObserverNotification() {
-        AgentObserver observer = new AgentObserver() {
-            @Override
-            public void updateAgent(Agent agent) {
-                // This could be a more complex test, depending on what exactly your observers are supposed to do
-                assertTrue(true, "Observer should be notified");
-            }
-        };
+        AtomicReference<Agent> agentFromObserver = new AtomicReference<>();
+        AgentObserver observer = agentFromObserver::set;
         listAgent.addAgentObserver(observer);
-        Agent agent = new Agent("Agent 5");
-        listAgent.addAgent(agent);  // This should trigger observer notification
+
+        Agent expectedAgent = new Agent("Agent 5");
+        listAgent.addAgent(expectedAgent);  // This should trigger observer notification
+
+        assertEquals(expectedAgent, agentFromObserver.get(), "Observer should receive correct agent");
     }
 }

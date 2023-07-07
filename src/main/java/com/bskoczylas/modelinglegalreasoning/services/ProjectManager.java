@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder.ProjectBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProjectManager {
+    private static int nextProjectNumber = 1;
     private List<Project> projects = new ArrayList<>();
     private Project currentProject;
 
@@ -40,8 +42,13 @@ public class ProjectManager {
         return objectMapper.readValue(file, Project.class);
     }
 
-    public Project createProject(){
-        Project project = new Project();
+
+    public Project createProject(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            name = "Project" + nextProjectNumber++;
+        }
+        Project project = new ProjectBuilder(name).build();
+        projects.add(project);
         return project;
     }
 }

@@ -19,8 +19,8 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Propo
 import java.time.LocalDateTime;
 
 public class Project {
-    private static int nextId = 1;
-    private int id;
+    private static int nextId = 0;
+    private String id;
     private String name;
     private ListAgent listAgent; //lista agentów
     private ListProposition listProposition; // lista propozycji
@@ -47,7 +47,7 @@ public class Project {
         this.createdDate = LocalDateTime.now();
         this.lastModifiedDate = LocalDateTime.now();
         this.name = name;
-        this.id = nextId;  // set id
+        this.id = Integer.toString(nextId++);  // set id
         nextId++;  // We increment nextId by 1, so the next Project will have a larger id
 
         // define
@@ -63,6 +63,7 @@ public class Project {
         this.scale = new Scale();
         this.listReasoningChain = new ListReasoningChain();
         this.listConsortium = new ListConsortium();
+        this.court = new Court();
         configureObservers();
 
     }
@@ -84,10 +85,11 @@ public class Project {
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listRules);
         this.listReasoningChain.addObserver(this.decision);
-        this.decision.addObserver(this.listCon);
+        this.decision.addObserver(this.listConsortium);
+        this.listConsortium.addObserver(this.court);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -111,7 +113,7 @@ public class Project {
         Project.nextId = nextId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -227,12 +229,12 @@ public class Project {
         this.decision = decision;
     }
 
-    public Consortium getConsortium() {
-        return consortium;
+    public ListConsortium getConsortium() {
+        return this.listConsortium;
     }
 
-    public void setConsortium(Consortium consortium) {
-        this.consortium = consortium;
+    public void setConsortium(ListConsortium listConsortium) {
+        this.listConsortium = listConsortium;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {

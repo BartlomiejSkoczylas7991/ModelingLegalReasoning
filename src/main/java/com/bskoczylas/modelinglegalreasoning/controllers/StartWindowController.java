@@ -2,7 +2,7 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.App;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,9 +12,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class StartWindowController {
+    private ProjectManager projectManager;
 
     private App mainApp;
-    private ProjectManager projectManager;
+    //private ProjectManager projectManager;
 
     // To mogą być kontrole, które są dostępne w Twoim pliku startWindow.fxml.
     @FXML
@@ -44,9 +45,9 @@ public class StartWindowController {
         projectsTable.getColumns().setAll(idColumn, nameColumn);
     }
 
-    public void setProjectManager(ProjectManager projectManager) {
-        this.projectManager = projectManager;
-    }
+    //public void setProjectManager(ProjectManager projectManager) {
+     //   this.projectManager = projectManager;
+    //}
 
     @FXML
     private void initialize() {
@@ -61,7 +62,11 @@ public class StartWindowController {
     private void handleStartButton() {
         // Tutaj możesz umieścić kod, który zostanie wykonany, gdy użytkownik kliknie przycisk start.
         // Na przykład, możesz chcieć przejść do innego widoku:
-        Project project = projectManager.createProject(); // lub cokolwiek innego, co tworzy nowy projekt
-        mainApp.showProjectWindow(project);
+        //Project project = projectManager.createProject(); // lub cokolwiek innego, co tworzy nowy projekt
+        //mainApp.showProjectWindow(project);
+    }
+
+    public void setProjectManager(ProjectManager projectManager){
+        this.projectManager = projectManager;
     }
 }

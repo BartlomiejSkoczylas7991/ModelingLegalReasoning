@@ -9,7 +9,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVP_Observable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.observers.*;
 
 import java.util.*;
 

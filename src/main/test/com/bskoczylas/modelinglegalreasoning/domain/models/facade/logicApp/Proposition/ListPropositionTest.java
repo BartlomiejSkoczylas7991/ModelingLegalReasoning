@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition;
+package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition;
 
 import org.junit.jupiter.api.Test;
 

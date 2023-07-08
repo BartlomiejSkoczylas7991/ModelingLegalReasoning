@@ -24,10 +24,10 @@ public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observa
 
     public ListPropBaseClean(){this.observers = new ArrayList<>();}
 
-    private HashMap<Agent, Set<Proposition>> calculatePropBaseClean(Set<Agent> agents,
-                                                                    Set<Proposition> props,
-                                                                    AgentValueToWeight agentValueToWeight,
-                                                                    AgentValuePropWeight agentValuePropWeight) {
+    protected HashMap<Agent, Set<Proposition>> calculatePropBaseClean(Set<Agent> agents,
+                                                                      Set<Proposition> props,
+                                                                      AgentValueToWeight agentValueToWeight,
+                                                                      AgentValuePropWeight agentValuePropWeight) {
         HashMap<Agent, Set<Proposition>> propBaseClean = new HashMap<>();
         for (Agent agent : agents) {
             Set<Proposition> agentProps = calculateAgentPropositions(agent, props, agentValueToWeight, agentValuePropWeight);
@@ -37,7 +37,7 @@ public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observa
         return propBaseClean;
     }
 
-    private Set<Proposition> calculateAgentPropositions(Agent agent, Set<Proposition> propositions,
+    protected Set<Proposition> calculateAgentPropositions(Agent agent, Set<Proposition> propositions,
                                                         AgentValueToWeight agentValueToWeight,
                                                         AgentValuePropWeight agentValuePropWeight) {
         Set<Proposition> agentProps = new HashSet<>();
@@ -49,7 +49,7 @@ public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observa
         return agentProps;
     }
 
-    private boolean filterPropositions(Agent agent, Proposition prop,
+    protected boolean filterPropositions(Agent agent, Proposition prop,
                                        AgentValueToWeight agentValueToWeight,
                                        AgentValuePropWeight agentValuePropWeight) {
         for (AgentValue agentValue : agentValueToWeight.keySet()) {

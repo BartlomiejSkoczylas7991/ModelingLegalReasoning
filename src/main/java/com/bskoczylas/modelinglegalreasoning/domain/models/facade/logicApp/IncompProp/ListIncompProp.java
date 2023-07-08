@@ -47,6 +47,22 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
         return incompProp;
     }
 
+    public List<Proposition> getPropositions() {
+        return propositions;
+    }
+
+    public void setPropositions(List<Proposition> propositions) {
+        this.propositions = propositions;
+    }
+
+    public Set<Pair<Proposition, Proposition>> getIncompProp() {
+        return incompProp;
+    }
+
+    public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
+        this.incompProp = incompProp;
+    }
+
     @Override
     public void updateProposition(Proposition updatedProposition) {
         if (!this.propositions.contains(updatedProposition)) {
@@ -71,21 +87,5 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
         for (IncompProp_Observer observer : this.observers) {
             observer.updateIncomp(this);
         }
-    }
-
-    public List<Proposition> getPropositions() {
-        return propositions;
-    }
-
-    public void setPropositions(List<Proposition> propositions) {
-        this.propositions = propositions;
-    }
-
-    public Set<Pair<Proposition, Proposition>> getIncompProp() {
-        return incompProp;
-    }
-
-    public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
-        this.incompProp = incompProp;
     }
 }

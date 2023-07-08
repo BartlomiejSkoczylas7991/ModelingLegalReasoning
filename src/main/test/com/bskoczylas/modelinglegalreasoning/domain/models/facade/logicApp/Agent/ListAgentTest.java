@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent;
+package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <ToolBar prefHeight="57.0" prefWidth="1135.0" BorderPane.alignment="CENTER">
+        <items>
+            <ButtonBar prefHeight="47.0" prefWidth="1093.0">
+              <buttons>
+                <Button minWidth="69.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="164.0" text="Button" />
+                  <Button mnemonicParsing="false" text="Generate PDF" />
+                  <Button mnemonicParsing="false" text="New" />
+                  <Button mnemonicParsing="false" text="Save as" />
+                  <Button mnemonicParsing="false" text="Save" />
+                <Button mnemonicParsing="false" text="Menu" />
+                  <Button mnemonicParsing="false" text="Exit" />
+              </buttons>
+            </ButtonBar>
+        </items>
+      </ToolBar>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <TabPane prefHeight="627.0" prefWidth="498.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Agent List">
+                  <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <TableView fx:id="agentTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                              <columns>
+                                  <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                  <TableColumn fx:id="agentNameColumn" prefWidth="234.0" text="Name" />
+                                 <TableColumn fx:id="agentNameColumn1" minWidth="0.0" prefWidth="222.0" text="Created" />
+                              </columns>
+                          </TableView>
+                           <Label layoutX="162.0" layoutY="389.0" prefHeight="41.0" prefWidth="238.0" text="Add or remove possible agent">
+                              <font>
+                                 <Font name="Khmer OS System" size="17.0" />
+                              </font></Label>
+                           <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Nazwa Agenta">
+                              <font>
+                                 <Font size="17.0" />
+                              </font></TextField>
+                           <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                           <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                           <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                      </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Proposition List">
+                  <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <TableView fx:id="propositionTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                              <columns>
+                                  <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                  <TableColumn fx:id="valueNameColumn" prefWidth="234.0" text="Created" />
+                                  <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="222.0" text="Name" />
+                              </columns>
+                          </TableView>
+                          <Label layoutX="146.0" layoutY="389.0" prefHeight="41.0" prefWidth="270.0" text="Add or remove possible Proposition">
+                              <font>
+                                  <Font name="Khmer OS System" size="17.0" />
+                              </font></Label>
+                          <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Proposition Name">
+                              <font>
+                                  <Font size="17.0" />
+                              </font></TextField>
+                          <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                          <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                          <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                      </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Value List">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <TableView fx:id="valueTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                              <columns>
+                                  <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                  <TableColumn fx:id="valueNameColumn" prefWidth="234.0" text="Created" />
+                                  <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="222.0" text="Name" />
+                              </columns>
+                          </TableView>
+                          <Label contentDisplay="CENTER" layoutX="157.0" layoutY="389.0" prefHeight="41.0" prefWidth="245.0" text="Add or remove possible values" textOverrun="CENTER_ELLIPSIS">
+                              <font>
+                                  <Font name="Khmer OS System" size="17.0" />
+                              </font></Label>
+                          <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Value Name">
+                              <font>
+                                  <Font size="17.0" />
+                              </font></TextField>
+                          <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                          <Button layoutX="229.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                          <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                      </AnchorPane>
+                  </Tab>
+                  <Tab text="IncompProp decisions">
+                     <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="38.0" layoutY="36.0" prefHeight="342.0" prefWidth="473.0" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="36.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                 <TableColumn fx:id="IncompNameColumn11" prefWidth="122.0" text="Created" />
+                                     <TableColumn fx:id="IncompNameColumn" prefWidth="82.0" text="isDecision" />
+                                 <TableColumn fx:id="IncompNameColumn1" prefWidth="105.0" text="Name" />
+                                     <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="113.0" text="Name" />
+                                 </columns>
+                             </TableView>
+                             <Label layoutX="206.0" layoutY="389.0" prefHeight="41.0" prefWidth="117.0" text="Add or remove">
+                                 <font>
+                                     <Font name="Khmer OS System" size="17.0" />
+                                 </font></Label>
+                             <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="IncompProp Name">
+                                 <font>
+                                     <Font size="17.0" />
+                                 </font></TextField>
+                             <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="231.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                             <Button layoutX="352.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                         </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="A-V Weights List">
+                     <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                     <TableColumn fx:id="IncompNameColumn" prefWidth="234.0" text="Name" />
+                                     <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="222.0" text="Created" />
+                                 </columns>
+                             </TableView>
+                             <Label layoutX="54.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
+                                 <font>
+                                     <Font name="Khmer OS System" size="17.0" />
+                                 </font></Label>
+                             <TextField layoutX="54.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Nazwa Agenta">
+                                 <font>
+                                     <Font size="17.0" />
+                                 </font></TextField>
+                             <Button layoutX="67.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="188.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                             <Button layoutX="309.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+                           <Button layoutX="434.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Random" />
+                           <Slider layoutX="365.0" layoutY="410.0" />
+                           <Button layoutX="392.0" layoutY="438.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Change" />
+
+                         </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="A-V-P Weights List">
+                     <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                     <TableColumn fx:id="IncompNameColumn" prefWidth="234.0" text="Name" />
+                                     <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="222.0" text="Created" />
+                                 </columns>
+                             </TableView>
+                             <Label layoutX="152.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Value Name:">
+                                 <font>
+                                     <Font name="Khmer OS System" size="17.0" />
+                                 </font></Label>
+                             <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Nazwa Agenta">
+                                 <font>
+                                     <Font size="17.0" />
+                                 </font></TextField>
+                             <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="231.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                             <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                         </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Rules List">
+                     <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <TableView fx:id="valueTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="35.0">
+                                 <columns>
+                                     <TableColumn fx:id="IdColumn" prefWidth="50" text="id" />
+                                     <TableColumn fx:id="IncompNameColumn" prefWidth="234.0" text="Name" />
+                                     <TableColumn fx:id="valueNameColumn1" minWidth="0.0" prefWidth="222.0" text="Created" />
+                                 </columns>
+                             </TableView>
+                             <Label layoutX="152.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Value Name:">
+                                 <font>
+                                     <Font name="Khmer OS System" size="17.0" />
+                                 </font></Label>
+                             <TextField layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Nazwa Agenta">
+                                 <font>
+                                     <Font size="17.0" />
+                                 </font></TextField>
+                             <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="231.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                             <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+
+                         </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <AnchorPane prefHeight="608.0" prefWidth="530.0">
+               <children>
+                  <TextArea layoutX="38.0" layoutY="25.0" prefHeight="556.0" prefWidth="489.0" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="95.0" prefWidth="1134.0" spacing="10">
+            <Button fx:id="generateButton" onAction="#handleGenerateButton" prefHeight="47.0" prefWidth="101.0" text="Generate" />
+        </HBox>
+    </bottom>
+</BorderPane>

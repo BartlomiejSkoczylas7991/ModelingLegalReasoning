@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bskoczylas.modelinglegalreasoning.resources.fxml.createRule"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <Label layoutX="20.0" layoutY="20.0" text="Premises:"/>
+    <ListView fx:id="premisesListView" layoutX="20.0" layoutY="50.0" prefWidth="200.0" prefHeight="200.0"/>
+
+    <Label layoutX="250.0" layoutY="20.0" text="Decision:"/>
+    <RadioButton fx:id="decisionRadioButton1" layoutX="250.0" layoutY="50.0" text="Decision 1"/>
+    <RadioButton fx:id="decisionRadioButton2" layoutX="250.0" layoutY="80.0" text="Decision 2"/>
+
+    <Button layoutX="20.0" layoutY="300.0" text="Add Rule" onAction="#handleAddRuleButtonAction"/>
+
+</AnchorPane>

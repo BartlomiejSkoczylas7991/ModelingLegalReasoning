@@ -14,48 +14,75 @@ public class JsonFileProjectRepository implements ProjectRepository {
     private final ObjectMapper objectMapper;
     private List<Project> projects;
 
-    public JsonFileProjectRepository(String filePath) {
-        this.file = new File(filePath);
+    public JsonFileProjectRepository() {
+        String filePath = "com/bskoczylas/modelinglegalreasoning/projectData.json";
+        this.file = new File(getClass().getClassLoader().getResource(filePath).getFile());
         this.objectMapper = new ObjectMapper();
-        this.projects = new ArrayList<>();
         loadProjects();
     }
 
     @Override
     public void save(Project project) {
+        List<Project> projects = new ArrayList<>();
+        if (file.exists()) {
+            try {
+                projects = objectMapper.readValue(file, new TypeReference<List<Project>>(){});
+            } catch (IOException e) {
+                throw new RuntimeException("Problem with reading project to JSON file", e);
+            }
+        }
         projects.add(project);
         try {
             objectMapper.writeValue(file, projects);
         } catch (IOException e) {
-            throw new RuntimeException("Problem z zapisem projektu do pliku JSON", e);
+            throw new RuntimeException("Problem with saving project to JSON file", e);
         }
     }
 
     @Override
     public Project find(String projectId) {
+        List<Project> projects = loadProjectsFromFile();
         return projects.stream()
                 .filter(project -> project.getId().equals(projectId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Projekt nie został znaleziony"));
+                .orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
     @Override
     public void delete(String projectId) {
-
+        List<Project> projects = loadProjectsFromFile();
+        projects.removeIf(project -> project.getId().equals(projectId));
+        try {
+            objectMapper.writeValue(file, projects);
+        } catch (IOException e) {
+            throw new RuntimeException("Problem with saving project to JSON file", e);
+        }
     }
 
     @Override
     public List<Project> findAll() {
-        return null;
+        return loadProjects();
     }
 
-    private void loadProjects() {
+    private List<Project> loadProjectsFromFile() {
         if (file.exists()) {
             try {
-                this.projects = objectMapper.readValue(file, new TypeReference<List<Project>>(){});
+                return objectMapper.readValue(file, new TypeReference<List<Project>>(){});
             } catch (IOException e) {
                 throw new RuntimeException("Problem z odczytem projektów z pliku JSON", e);
             }
         }
+        return new ArrayList<>();
+    }
+
+    private List<Project> loadProjects() {
+        if (file.exists()) {
+            try {
+                return objectMapper.readValue(file, new TypeReference<List<Project>>(){});
+            } catch (IOException e) {
+                throw new RuntimeException("Problem z odczytem projektów z pliku JSON", e);
+            }
+        }
+        return new ArrayList<>();
     }
 }

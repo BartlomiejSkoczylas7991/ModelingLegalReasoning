@@ -3,6 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 import com.bskoczylas.modelinglegalreasoning.App;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,15 +12,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.List;
+
 public class StartWindowController {
     private ProjectManager projectManager;
-
     private App mainApp;
-    //private ProjectManager projectManager;
 
-    // To mogą być kontrole, które są dostępne w Twoim pliku startWindow.fxml.
     @FXML
-    private Button startButton;
+    private Button openButton;
 
     @FXML
     private TableView<Project> projectsTable;
@@ -43,6 +43,17 @@ public class StartWindowController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         projectsTable.getColumns().setAll(idColumn, nameColumn);
+
+        // Wczytaj projekty z użyciem Jackson
+        loadProjects();
+    }
+
+    private void loadProjects() {
+        // Pobierz projekty z ProjectManager lub innego źródła danych
+        List<Project> loadedProjects = projectManager.getProjects();
+
+        // Dodaj wczytane projekty do ObservableList
+        projectsData.addAll(loadedProjects);
     }
 
     //public void setProjectManager(ProjectManager projectManager) {
@@ -55,7 +66,7 @@ public class StartWindowController {
         // takie jak przyciski, pola tekstowe itp., które są zdefiniowane w pliku FXML.
 
         // Na przykład, możesz chcieć dodać słuchacza do przycisku:
-        startButton.setOnAction(event -> handleStartButton());
+        openButton.setOnAction(event -> handleStartButton());
     }
 
     // Metoda obsługująca kliknięcie przycisku start.

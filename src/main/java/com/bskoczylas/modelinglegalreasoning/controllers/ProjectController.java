@@ -22,7 +22,6 @@ public class ProjectController {
         public void setProjectManager(ProjectManager projectManager) {
                 this.projectManager = projectManager;
         }
-t
         public void setProject(Project project) {
                 this.currentProject = project;
         }

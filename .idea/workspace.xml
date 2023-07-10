@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning/projectData.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/adapters/JsonFileProjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/adapters/JsonFileProjectRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/StartWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/StartWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/start.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/start.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/services/ProjectManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/services/ProjectManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +136,7 @@
       <workItem from="1688810357796" duration="6316000" />
       <workItem from="1688889152156" duration="5616000" />
       <workItem from="1688932262747" duration="1204000" />
-      <workItem from="1688964834817" duration="4794000" />
+      <workItem from="1688964834817" duration="6895000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>

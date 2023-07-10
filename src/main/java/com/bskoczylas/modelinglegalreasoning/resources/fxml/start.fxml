@@ -6,43 +6,59 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.HBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView prefHeight="482.0" prefWidth="1073.0">
+            <TableView fx:id="projectsTable" prefHeight="482.0" prefWidth="1073.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Id" />
-                <TableColumn prefWidth="367.0" text="Created" />
-                  <TableColumn prefWidth="374.0" text="Modified" />
-                  <TableColumn prefWidth="256.0" text="Name" />
+                <TableColumn fx:id="idstartColumn" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="createdstartColumn" prefWidth="367.0" text="Created" />
+                  <TableColumn fx:id="modifiedstartColumn" prefWidth="374.0" text="Modified" />
+                  <TableColumn fx:id="namestartColumn" prefWidth="256.0" text="Name" />
               </columns>
             </TableView>
          </children>
       </VBox>
    </center>
-   <top>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-            <Button mnemonicParsing="false" text="Edit Project Name" />
-            <Button mnemonicParsing="false" text="Exit" />
-          <Button mnemonicParsing="false" text="Delete Project" />
-            <Button mnemonicParsing="false" text="Load Project" />
-        </buttons>
-      </ButtonBar>
-   </top>
    <bottom>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="108.0" layoutY="31.0" prefHeight="32.0" prefWidth="97.0" text="Add project" />
-            <TextField layoutX="163.0" layoutY="72.0" />
-            <Label layoutX="108.0" layoutY="68.0" prefHeight="32.0" prefWidth="55.0" text="Name:" />
+            <Label layoutX="440.0" layoutY="40.0" prefHeight="32.0" prefWidth="193.0" text="Add project">
+               <font>
+                  <Font size="23.0" />
+               </font></Label>
+            <TextField layoutX="507.0" layoutY="88.0" />
+            <Label layoutX="440.0" layoutY="84.0" prefHeight="32.0" prefWidth="55.0" text="Name:">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Button layoutX="614.0" layoutY="135.0" mnemonicParsing="false" text="Add">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </bottom>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <ButtonBar prefHeight="40.0" prefWidth="1040.0">
+              <buttons>
+                  <Button fx:id="editProjectNameButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="434.0" text="Edit Project Name" />
+                  <Button fx:id="exitStartButton" mnemonicParsing="false" text="Exit" />
+                <Button fx:id="deleteStartProjectButton" mnemonicParsing="false" text="Delete Project" />
+                  <Button fx:id="loadStartProjectButton" mnemonicParsing="false" prefHeight="24.0" text="Load Project" />
+              </buttons>
+            </ButtonBar>
+        </items>
+      </ToolBar>
+   </top>
 </BorderPane>

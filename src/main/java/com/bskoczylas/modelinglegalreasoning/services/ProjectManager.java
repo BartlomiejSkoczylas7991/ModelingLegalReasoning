@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder.ProjectBuilder;
@@ -42,6 +43,9 @@ public class ProjectManager {
         return objectMapper.readValue(file, Project.class);
     }
 
+    public Stream<Project> getProjects() {
+        return projects.stream();
+    }
 
     public Project createProject(String name) {
         if (name == null || name.trim().isEmpty()) {

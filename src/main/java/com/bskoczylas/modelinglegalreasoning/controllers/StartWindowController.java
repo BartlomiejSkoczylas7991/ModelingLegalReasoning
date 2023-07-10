@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StartWindowController {
     private ProjectManager projectManager;
@@ -23,6 +24,30 @@ public class StartWindowController {
 
     @FXML
     private TableView<Project> projectsTable;
+
+    @FXML
+    private TableColumn<Project, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Project, String> createdColumn;
+
+    @FXML
+    private TableColumn<Project, String> modifiedColumn;
+
+    @FXML
+    private TableColumn<Project, String> nameColumn;
+
+    @FXML
+    private Button loadStartProjectButton;
+
+    @FXML
+    private Button deleteStartProjectButton;
+
+    @FXML
+    private Button exitStartButton;
+
+    @FXML
+    private Button editProjectNameButton;
 
     private ObservableList<Project> projectsData = FXCollections.observableArrayList();
 
@@ -50,7 +75,7 @@ public class StartWindowController {
 
     private void loadProjects() {
         // Pobierz projekty z ProjectManager lub innego źródła danych
-        List<Project> loadedProjects = projectManager.getProjects();
+        List<Project> loadedProjects = projectManager.getProjects().collect(Collectors.toList());
 
         // Dodaj wczytane projekty do ObservableList
         projectsData.addAll(loadedProjects);
@@ -80,4 +105,10 @@ public class StartWindowController {
     public void setProjectManager(ProjectManager projectManager){
         this.projectManager = projectManager;
     }
+
+    private void handleOpenButton() {
+
+    }
+
+    private void handle
 }

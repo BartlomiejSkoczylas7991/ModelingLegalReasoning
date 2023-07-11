@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 
-public interface AV_Observer {
+public interface AVObserver {
     void updateAV(AgentValueToWeight agentValueToWeight);
 }

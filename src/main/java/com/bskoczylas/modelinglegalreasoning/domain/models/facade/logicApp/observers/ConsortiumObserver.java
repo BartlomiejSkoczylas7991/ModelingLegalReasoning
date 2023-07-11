@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.ListConsortium;
 
-public interface Consortium_Observer {
+public interface ConsortiumObserver {
     public void updateCon(ListConsortium listConsortium);
 }

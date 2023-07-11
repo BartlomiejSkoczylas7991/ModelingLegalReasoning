@@ -1,13 +1,13 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.Scale_Observable;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.Scale_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.ScaleObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scale implements Scale_Observable {
+public class Scale implements ScaleObservable {
     private List<Integer> elements = new ArrayList<>();
-    private List<Scale_Observer> observers;
+    private List<ScaleObserver> observers;
 
     public Scale(int min_value, int max_value) {
         this.observers = new ArrayList<>();
@@ -47,18 +47,18 @@ public class Scale implements Scale_Observable {
     }
 
     @Override
-    public void addObserver(Scale_Observer observer) {
+    public void addObserver(ScaleObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Scale_Observer observer) {
+    public void removeObserver(ScaleObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Scale_Observer observer : this.observers) {
+        for (ScaleObserver observer : this.observers) {
             observer.updateScale(this);
         }
     }

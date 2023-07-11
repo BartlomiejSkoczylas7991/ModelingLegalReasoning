@@ -2,7 +2,7 @@ package com.bskoczylas.modelinglegalreasoning.domain.models;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.ListConsortium;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.Court;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.CourtOpinion;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
@@ -12,7 +12,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.Consortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision.Decision;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
 
@@ -33,9 +32,10 @@ public class Project {
     private ListPropBaseClean listPropBaseClean;
     private ListKnowledgeBase listKnowledgeBase;
     private ListReasoningChain listReasoningChain;
-    private Court court;
+    private CourtOpinion court;
     private Decision decision;
     private ListConsortium listConsortium;
+
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
@@ -63,7 +63,7 @@ public class Project {
         this.scale = new Scale();
         this.listReasoningChain = new ListReasoningChain();
         this.listConsortium = new ListConsortium();
-        this.court = new Court();
+        this.court = new CourtOpinion();
         configureObservers();
 
     }
@@ -213,11 +213,11 @@ public class Project {
         this.listReasoningChain = listReasoningChain;
     }
 
-    public Court getCourt() {
+    public CourtOpinion getCourt() {
         return court;
     }
 
-    public void setCourt(Court court) {
+    public void setCourt(CourtOpinion court) {
         this.court = court;
     }
 

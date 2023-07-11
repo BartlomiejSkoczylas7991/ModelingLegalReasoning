@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Proposition {
     private static int next_id = 1;
     private int id;
-    private boolean isDecision = false;
     private String statement;
 
     public Proposition(String statement) {
@@ -42,24 +41,16 @@ public class Proposition {
         this.id = id;
     }
 
-    public boolean isDecision() {
-        return isDecision;
-    }
-
-    public void setDecision(boolean decision) {
-        isDecision = decision;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proposition that = (Proposition) o;
-        return id == that.id && isDecision == that.isDecision && Objects.equals(statement, that.statement);
+        return id == that.id && Objects.equals(statement, that.statement);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isDecision, statement);
+        return Objects.hash(id, statement);
     }
 }

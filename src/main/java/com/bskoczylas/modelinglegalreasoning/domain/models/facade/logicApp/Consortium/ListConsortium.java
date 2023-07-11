@@ -3,23 +3,26 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Cons
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ReasoningChain;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.Consortium_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.Decision_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ConsortiumObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.DecisionObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision.Decision;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.Consortium_Observable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.ConsortiumObservable;
 
 import java.util.*;
 
-public class ListConsortium implements Consortium_Observable, Decision_Observer {
+public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     private ListReasoningChain listReasoningChain;
     Map<Consortium, ConsortiumType> consortiumMap;
     private Decision decision;
     private Set<Agent> agents;
-    private List<Consortium_Observer> observers;
-    public ListConsortium() { this.observers = new ArrayList<Consortium_Observer>(); }
+    private List<ConsortiumObserver> observers;
 
-    private void updateConsortium(ListReasoningChain listReasoningChain){
+    public ListConsortium() {
+        this.observers = new ArrayList<ConsortiumObserver>();
+    }
+
+    private void updateConsortium(ListReasoningChain listReasoningChain) {
         this.agents = listReasoningChain.getAgents();
         this.consortiumMap = new HashMap<>();
 
@@ -92,18 +95,18 @@ public class ListConsortium implements Consortium_Observable, Decision_Observer 
     }
 
     @Override
-    public void addObserver(Consortium_Observer observer) {
+    public void addObserver(ConsortiumObserver observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Consortium_Observer observer) {
+    public void removeObserver(ConsortiumObserver observer) {
         this.observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Consortium_Observer observer : this.observers){
+        for (ConsortiumObserver observer : this.observers) {
             observer.updateCon(this);
         }
     }

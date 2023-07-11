@@ -3,10 +3,10 @@ package com.bskoczylas.modelinglegalreasoning.domain.models;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
 
 // FacadeClass.java
-public class FacadeClass {
+public class FacadeProject {
     private ProjectRepository projectRepository;
 
-    public FacadeClass(ProjectRepository projectRepository) {
+    public FacadeProject(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 

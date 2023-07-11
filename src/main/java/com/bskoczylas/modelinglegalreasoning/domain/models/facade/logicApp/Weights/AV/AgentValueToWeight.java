@@ -3,21 +3,21 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weig
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AV_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.Scale_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ValueObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AgentValueWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AV_Observable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVObservable;
 
 import java.util.*;
 
-public class AgentValueToWeight extends AgentValueWeight implements AgentObserver, ValueObserver, AV_Observable, Scale_Observer {
+public class AgentValueToWeight extends AgentValueWeight implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
     private Map<AgentValue, Weight> agentValueWeights;
     private List<Agent> agents;
     private List<Value> values;
-    private final List<AV_Observer> weightObservers = new ArrayList<>();
+    private final List<AVObserver> weightObservers = new ArrayList<>();
     private Scale scale;
     private boolean isEditing = false;
 
@@ -145,18 +145,18 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
     }
 
     @Override
-    public void addAVObserver(AV_Observer observer) {
+    public void addAVObserver(AVObserver observer) {
         weightObservers.add(observer);
     }
 
     @Override
-    public void removeAVObserver(AV_Observer observer) {
+    public void removeAVObserver(AVObserver observer) {
         weightObservers.remove(observer);
     }
 
     @Override
     public void notifyAVObservers() {
-        for (AV_Observer observer : weightObservers) {
+        for (AVObserver observer : weightObservers) {
             observer.updateAV(this);
         }
     }

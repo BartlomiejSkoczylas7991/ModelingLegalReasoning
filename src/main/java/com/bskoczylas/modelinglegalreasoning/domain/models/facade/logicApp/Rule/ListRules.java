@@ -3,7 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RuleObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompProp_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PropositionObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RuleObserver;
 
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class ListRules implements PropositionObserver, RuleObservable, IncompProp_Observer {
+public class ListRules implements PropositionObserver, RuleObservable, IncompPropObserver {
     private List<Proposition> propositions;
     private List<Rule> listRules = new LinkedList<>();
     private List<RuleObserver> observers;

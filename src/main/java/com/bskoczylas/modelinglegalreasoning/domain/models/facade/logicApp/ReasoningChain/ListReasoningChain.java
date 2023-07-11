@@ -2,10 +2,10 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Reas
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RC_Observable;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompProp_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KB_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RC_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RCObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KBObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RCObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.KnowledgeBase;
@@ -14,13 +14,13 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Knowl
 
 import java.util.*;
 
-public class ListReasoningChain implements KB_Observer, IncompProp_Observer, RC_Observable {
+public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObservable {
     private Set<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
     private Set<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
     private Pair<Proposition, Proposition> decisions;
-    private List<RC_Observer> observers;
+    private List<RCObserver> observers;
 
     private Map<Proposition, Integer> calculateVotes(Agent agent, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
         Map<Proposition, Integer> votes = new HashMap<>();
@@ -174,18 +174,18 @@ public class ListReasoningChain implements KB_Observer, IncompProp_Observer, RC_
     }
 
     @Override
-    public void addObserver(RC_Observer observer) {
+    public void addObserver(RCObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(RC_Observer observer) {
+    public void removeObserver(RCObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for(RC_Observer observer : observers){
+        for(RCObserver observer : observers){
             observer.updateRC(this);
         }
     }

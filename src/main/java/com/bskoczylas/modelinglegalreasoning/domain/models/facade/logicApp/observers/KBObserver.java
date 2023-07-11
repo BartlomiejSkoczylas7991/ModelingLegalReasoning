@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
 
-public interface KB_Observer {
+public interface KBObserver {
     void updateKB(ListKnowledgeBase listknowledgeBase);
 }

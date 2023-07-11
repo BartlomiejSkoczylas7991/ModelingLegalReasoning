@@ -26,9 +26,6 @@ public class StartWindowController {
     private App mainApp;
 
     @FXML
-    private Button openButton;
-
-    @FXML
     private TableView<Project> projectsTable;
 
     @FXML
@@ -42,6 +39,9 @@ public class StartWindowController {
 
     @FXML
     private TableColumn<Project, String> nameColumn;
+
+    @FXML
+    private Button AddProject;
 
     @FXML
     private Button loadStartProjectButton;
@@ -71,13 +71,10 @@ public class StartWindowController {
         projectsTable.setItems(projectsData);
 
         // Teraz definiujemy, jak dane z obiektów Project mają być wyświetlane w kolumnach tabeli
-        TableColumn<Project, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-        TableColumn<Project, String> nameColumn = new TableColumn<>("Nazwa");
+        createdColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
+        modifiedColumn.setCellValueFactory(new PropertyValueFactory<>("modified"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        projectsTable.getColumns().setAll(idColumn, nameColumn);
 
         // Wczytaj projekty z użyciem Jackson
         loadProjects();
@@ -101,7 +98,9 @@ public class StartWindowController {
         // takie jak przyciski, pola tekstowe itp., które są zdefiniowane w pliku FXML.
 
         // Na przykład, możesz chcieć dodać słuchacza do przycisku:
-        openButton.setOnAction(event -> handleOpenButton());
+        AddProject.setOnAction(event -> handleAddProjectButton());
+
+
     }
 
 

@@ -6,24 +6,24 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Incom
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ReasoningChain;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.Decision_Observable;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.Decision_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompProp_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RC_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.DecisionObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.DecisionObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RCObserver;
 
 import java.util.*;
 
-public class Decision implements Decision_Observable, RC_Observer, IncompProp_Observer {
+public class Decision implements DecisionObservable, RCObserver, IncompPropObserver {
     private ListReasoningChain listReasoningChain;
     private HashMap<Proposition, Iterator> pp;
     private HashMap<Proposition, Iterator> pd;
     private int sum_votes;
     private Proposition decision;
     private Pair<Proposition, Proposition> decisions;
-    private List<Decision_Observer> observers;
+    private List<DecisionObserver> observers;
     private Pair<Proposition, Proposition> possibleDecisions;
 
-    public Decision(){this.observers = new ArrayList<Decision_Observer>();}
+    public Decision(){this.observers = new ArrayList<DecisionObserver>();}
 
     private void updateDecision(Set<Agent> agents) {
         int ppCount = 0;
@@ -77,18 +77,18 @@ public class Decision implements Decision_Observable, RC_Observer, IncompProp_Ob
     }
 
     @Override
-    public void addObserver(Decision_Observer observer) {
+    public void addObserver(DecisionObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Decision_Observer observer) {
+    public void removeObserver(DecisionObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Decision_Observer observer : observers){
+        for (DecisionObserver observer : observers){
             observer.update(this);
         }
     }

@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision.Decision;
 
-public interface Decision_Observer {
+public interface DecisionObserver {
     public void update(Decision decision);
 }

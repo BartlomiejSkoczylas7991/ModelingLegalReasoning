@@ -1,5 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.PropositionObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PropositionObserver;
 
@@ -9,18 +10,12 @@ import java.util.List;
 
 public class ListProposition implements PropositionObservable {
     private List<Proposition> listProposition = new LinkedList<>();
-    private List<PropositionObserver> observers;
+    private final List<PropositionObserver> observers = new ArrayList<>();;
 
+    public ListProposition() {}
 
     public ListProposition(List<Proposition> listProposition) {
         this.listProposition = listProposition;
-        this.observers = new ArrayList<>();
-    }
-
-    public ListProposition(){this.observers = new ArrayList<>();}
-
-    public List<Proposition> getPropositions() {
-        return listProposition;
     }
 
     public void addProposition(Proposition proposition) {
@@ -28,9 +23,11 @@ public class ListProposition implements PropositionObservable {
         notifyObservers(proposition);
     }
 
-    public void removeProposition(Proposition proposition) {
-        listProposition.remove(proposition);
-        notifyObservers(proposition);
+    public void removeProposition(List<Proposition> propositions) {
+        listProposition.removeAll(propositions);
+        for (Proposition proposition : propositions) {
+            notifyObservers(proposition);
+        }
     }
 
     public void setListProposition(List<Proposition> listProposition) {

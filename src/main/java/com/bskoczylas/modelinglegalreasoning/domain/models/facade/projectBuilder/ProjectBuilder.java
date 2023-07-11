@@ -53,7 +53,12 @@ public class ProjectBuilder {
         project.setListAgent(listAgent);
         project.setListProposition(listProposition);
         project.setListValue(listValue);
-        // ...
+        project.setAgentValuePropWeight(agentValuePropWeight);
+        project.setAgentValueToWeight(agentValueToWeight);
+        project.setListIncompProp(listIncompProp);
+        project.setListRules(listRules);
+        project.setCreatedDate(createdDate);
+        project.setLastModifiedDate(lastModifiedDate);
 
         return project;
     }

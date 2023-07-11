@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 
-public interface RC_Observer {
+public interface RCObserver {
     void updateRC(ListReasoningChain listReasoningChain);
 }

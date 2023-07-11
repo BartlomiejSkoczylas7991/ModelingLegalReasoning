@@ -17,7 +17,6 @@ public abstract class AgentValueWeight {
     public abstract void addValue(Value value);
     public abstract void setScale(Scale scale);
 
-    public abstract void addValue(Agent agent, Value value, Weight weight);
 
     public abstract Weight getWeight(AgentValue agentValue);
 

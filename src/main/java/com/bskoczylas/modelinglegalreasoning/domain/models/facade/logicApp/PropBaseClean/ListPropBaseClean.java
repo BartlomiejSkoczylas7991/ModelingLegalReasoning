@@ -7,20 +7,20 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.PBC_Observable;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVP_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AV_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PBC_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.PBCObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVPObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PBCObserver;
 
 import java.util.*;
 
-public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observable {
+public class ListPropBaseClean implements AVObserver, AVPObserver, PBCObservable {
     private Set<Agent> agents;
     private Set<Proposition> propositions;
     private AgentValueToWeight AVWeight;
     private AgentValuePropWeight AVPWeight;
     private HashMap<Agent, Set<Proposition>> listPropBaseClean;
-    private List<PBC_Observer> observers;
+    private List<PBCObserver> observers;
 
     public ListPropBaseClean(){this.observers = new ArrayList<>();}
 
@@ -121,18 +121,18 @@ public class ListPropBaseClean implements AV_Observer, AVP_Observer, PBC_Observa
     }
 
     @Override
-    public void addObserver(PBC_Observer observer) {
+    public void addObserver(PBCObserver observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(PBC_Observer observer) {
+    public void removeObserver(PBCObserver observer) {
         this.observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (PBC_Observer observer : this.observers){
+        for (PBCObserver observer : this.observers){
             observer.updatePBC(this);
         }
     }

@@ -6,18 +6,18 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AgentValueWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVP_Observable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVPObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 
 import java.util.*;
 
-public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, Scale_Observer, AVP_Observable {
+public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, AVPObservable {
     private HashMap<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
     private List<Proposition> propositions;
-    private List<AVP_Observer> weightObservers = new ArrayList<>();
+    private List<AVPObserver> weightObservers = new ArrayList<>();
     private Scale scale;
 
     public AgentValuePropWeight() {
@@ -85,11 +85,6 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
 
     public void setScale(Scale scale) {
         this.scale = scale;
-    }
-
-    @Override
-    public void addValue(Agent agent, Value value, Weight weight) {
-
     }
 
     @Override
@@ -182,12 +177,11 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
         addValue(value);
         addProposition(prop);
 
-        // dodaj wagę
+        // add weight
         AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
         agentValuePropWeights.put(agentValueProp, weight);
     }
 
-    // dodaj te metody, jeśli ich jeszcze nie ma
     public void addAgent(Agent agent) {
         if (!agents.contains(agent)) {
             agents.add(agent);
@@ -235,18 +229,18 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
     }
 
     @Override
-    public void addObserver(AVP_Observer observer) {
+    public void addObserver(AVPObserver observer) {
         weightObservers.add(observer);
     }
 
     @Override
-    public void removeObserver(AVP_Observer observer) {
+    public void removeObserver(AVPObserver observer) {
         weightObservers.remove(observer);
     }
 
     @Override
     public void notifyAVPObservers() {
-        for (AVP_Observer observer : weightObservers) {
+        for (AVPObserver observer : weightObservers) {
             observer.updateAVP(this);
         }
     }

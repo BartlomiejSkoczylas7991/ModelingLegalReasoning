@@ -7,11 +7,9 @@ import java.util.*;
 
 
 // Set Agentów, w całkowiciej zgodzie co do następującej konkluzji (to samo RC agentów)
- public class Consortium {
-        private ReasoningChain reasoningChain;
-        private Set<Agent> agents;// typ enum ConsortiumType
-
-        // konstruktor, gettery, settery
+public class Consortium {
+    private ReasoningChain reasoningChain;
+    private Set<Agent> agents;// typ enum ConsortiumType
 
     public Consortium() {
     }

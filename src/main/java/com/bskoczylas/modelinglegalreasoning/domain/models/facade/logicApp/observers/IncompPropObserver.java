@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 
-public interface IncompProp_Observer {
+public interface IncompPropObserver {
     void updateIncomp(ListIncompProp listIncompProp);
 }

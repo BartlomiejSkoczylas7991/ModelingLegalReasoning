@@ -2,8 +2,8 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Inco
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.IncompProp_Observable;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompProp_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.IncompPropObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PropositionObserver;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ListIncompProp implements PropositionObserver, IncompProp_Observable {
+public class ListIncompProp implements PropositionObserver, IncompPropObservable {
     private List<Proposition> propositions;
-    private List<IncompProp_Observer> observers;
+    private List<IncompPropObserver> observers;
     private Set<Pair<Proposition, Proposition>> incompProp;
     private Pair<Proposition, Proposition> decisions;
 
@@ -73,18 +73,18 @@ public class ListIncompProp implements PropositionObserver, IncompProp_Observabl
     }
 
     @Override
-    public void addObserver(IncompProp_Observer observer) {
+    public void addObserver(IncompPropObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(IncompProp_Observer observer) {
+    public void removeObserver(IncompPropObserver observer) {
         this.observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (IncompProp_Observer observer : this.observers) {
+        for (IncompPropObserver observer : this.observers) {
             observer.updateIncomp(this);
         }
     }

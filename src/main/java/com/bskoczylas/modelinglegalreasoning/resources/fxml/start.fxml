@@ -39,7 +39,7 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Button layoutX="614.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAddProjectButton" text="Add">
+            <Button fx:id="AddProject" layoutX="614.0" layoutY="135.0" mnemonicParsing="false" text="Add">
                <font>
                   <Font size="19.0" />
                </font>
@@ -52,10 +52,10 @@
         <items>
             <ButtonBar prefHeight="40.0" prefWidth="1040.0">
               <buttons>
-                  <Button fx:id="editProjectNameButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="434.0" text="Edit Project Name" />
-                  <Button fx:id="exitStartButton" mnemonicParsing="false" text="Exit" />
-                <Button fx:id="deleteStartProjectButton" mnemonicParsing="false" text="Delete Project" onAction="#handleDeleteProject"/>
-                  <Button fx:id="loadStartProjectButton" mnemonicParsing="false" prefHeight="24.0" text="Load Project" />
+                  <Button fx:id="editNameButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="434.0" text="Edit Project Name" />
+                  <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
+                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" text="Delete Project"/>
+                  <Button fx:id="loadProjectButton" mnemonicParsing="false" prefHeight="24.0" text="Load Project" />
               </buttons>
             </ButtonBar>
         </items>

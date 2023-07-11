@@ -1,6 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision;
 
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.Court;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.CourtOpinion;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.Consortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.ConsortiumType;
@@ -8,7 +8,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Conso
 import java.util.Map;
 
 public class Report {
-    public String generateReport(Court court) {
+    public String generateReport(CourtOpinion court) {
         StringBuilder report = new StringBuilder();
 
         // Lista konsorcjów i ich typów

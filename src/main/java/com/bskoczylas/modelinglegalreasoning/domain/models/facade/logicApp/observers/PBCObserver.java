@@ -2,6 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obse
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
 
-public interface PBC_Observer {
+public interface PBCObserver {
     void updatePBC(ListPropBaseClean propBaseClean);
 }

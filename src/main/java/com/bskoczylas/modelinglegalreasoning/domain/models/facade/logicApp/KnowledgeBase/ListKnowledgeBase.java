@@ -3,21 +3,21 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Know
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KB_Observer;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PBC_Observer;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KBObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PBCObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.RuleObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.KB_Observables;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.KBObservables;
 
 import java.util.*;
 
-public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observables {
+public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables {
     private Set<Agent> agents = new HashSet<>();
     private ListPropBaseClean propBaseClean;
     private List<Rule> rules;
     private HashMap<Agent, KnowledgeBase> listKnowledgeBase;
-    private List<KB_Observer> observers;
+    private List<KBObserver> observers;
 
     public ListKnowledgeBase(ListPropBaseClean propBaseClean, List<Rule> rules) {
         this.propBaseClean = propBaseClean;
@@ -82,18 +82,18 @@ public class ListKnowledgeBase implements PBC_Observer, RuleObserver, KB_Observa
     }
 
     @Override
-    public void addObserver(KB_Observer observer) {
+    public void addObserver(KBObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(KB_Observer observer) {
+    public void removeObserver(KBObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (KB_Observer observer : observers){
+        for (KBObserver observer : observers){
             observer.updateKB(this);
         }
     }

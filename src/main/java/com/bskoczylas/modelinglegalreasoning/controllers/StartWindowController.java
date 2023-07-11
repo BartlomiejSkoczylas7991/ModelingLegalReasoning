@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Można dodać projekt od nowa (1), można wczytać projekt (2), można usunąć projekt z
+// listy (3), można edytować nazwę, trzeba wyświetlić spis projektów (4), zamknąć program
+// przy wciśnięciu "Exit" (5)
 public class StartWindowController {
     private ProjectManager projectManager;
     private App mainApp;
@@ -62,6 +65,7 @@ public class StartWindowController {
         initProjectsTable();
     }
 
+    // Creating table of projects
     private void initProjectsTable() {
         // Tutaj przypisujemy dane z ObservableList do TableView
         projectsTable.setItems(projectsData);
@@ -109,6 +113,7 @@ public class StartWindowController {
 
     }
 
+    // Adding a project
     @FXML
     private void handleAddProjectButton() {
         String projectName = nameTextField.getText();

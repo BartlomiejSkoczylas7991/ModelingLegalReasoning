@@ -33,9 +33,9 @@ public class ProjectManager {
     }
 
     // Metoda do zapisywania projektu do pliku
-    public void saveProjectToFile(Project project, File file) throws IOException {
+    public void saveProjectToFile(List<Project> projects, File file) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(file, project);
+        objectMapper.writeValue(file, projects);
     }
 
     public Project loadProjectFromFile(File file) throws IOException {
@@ -54,5 +54,9 @@ public class ProjectManager {
         Project project = new ProjectBuilder(name).build();
         projects.add(project);
         return project;
+    }
+
+    public void deleteProject(Project project) {
+        projects.remove(project);
     }
 }

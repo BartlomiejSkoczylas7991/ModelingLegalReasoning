@@ -10,8 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +51,9 @@ public class StartWindowController {
 
     @FXML
     private Button editProjectNameButton;
+
+    @FXML
+    private TextField nameTextField;
 
     private ObservableList<Project> projectsData = FXCollections.observableArrayList();
 
@@ -91,16 +97,9 @@ public class StartWindowController {
         // takie jak przyciski, pola tekstowe itp., które są zdefiniowane w pliku FXML.
 
         // Na przykład, możesz chcieć dodać słuchacza do przycisku:
-        openButton.setOnAction(event -> handleStartButton());
+        openButton.setOnAction(event -> handleOpenButton());
     }
 
-    // Metoda obsługująca kliknięcie przycisku start.
-    private void handleStartButton() {
-        // Tutaj możesz umieścić kod, który zostanie wykonany, gdy użytkownik kliknie przycisk start.
-        // Na przykład, możesz chcieć przejść do innego widoku:
-        //Project project = projectManager.createProject(); // lub cokolwiek innego, co tworzy nowy projekt
-        //mainApp.showProjectWindow(project);
-    }
 
     public void setProjectManager(ProjectManager projectManager){
         this.projectManager = projectManager;
@@ -110,5 +109,32 @@ public class StartWindowController {
 
     }
 
-    private void handle
+    @FXML
+    private void handleAddProjectButton() {
+        String projectName = nameTextField.getText();
+        if (!projectName.isEmpty()) {
+            // Tworzenie nowego projektu na podstawie wprowadzonej nazwy
+            Project newProject = projectManager.createProject(projectName);
+
+            // Dodanie nowego projektu do tabeli lub innego źródła danych
+            projectsData.add(newProject);
+
+            // Wyczyszczenie pola tekstowego
+            nameTextField.clear();
+        }
+    }
+
+    @FXML
+    private void handleDeleteProject() throws IOException {
+        // Pobierz zaznaczony projekt z tabelki
+        Project selectedProject = projectsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedProject != null) {
+            // Usuń projekt z tabelki
+            this.projectsData.remove(selectedProject);
+
+            // Zapisz zmodyfikowane projekty do pliku
+            projectManager.saveProjectToFile(projectsData, new File("com/bskoczylas/modelinglegalreasoning/projectData.json"));
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RuleObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
@@ -13,16 +14,16 @@ import java.util.List;
 import java.util.Set;
 
 public class ListRules implements PropositionObserver, RuleObservable, IncompPropObserver {
-    private List<Proposition> propositions;
+    private List<Proposition> propositions = new ArrayList<>();
     private List<Rule> listRules = new LinkedList<>();
-    private List<RuleObserver> observers;
-    private ListIncompProp listIncompProp;
+    private List<RuleObserver> observers = new ArrayList<>();
+    private ListIncompProp listIncompProp = new ListIncompProp();
 
     public ListRules(List<Rule> listRules) {
         this.listRules = listRules;
     }
 
-    public ListRules(){this.observers = new ArrayList<>();}
+    public ListRules(){}
 
     public List<Rule> getListRules() {
         return listRules;
@@ -32,17 +33,34 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         this.listRules = listRules;
     }
 
-
-
     public void addRule(Set<Proposition> premises, Proposition conclusion, String label) {
-        // Sprawdzamy, czy wszystkie propozycje w regule są już na liście propozycji
+        // We check if all the suggestions in the rule are already in the list of suggestions
         try {
+            // Check that none of the proposition pairs from premises are in incompProp
+            Set<Pair<Proposition, Proposition>> incompProp = listIncompProp.getIncompatiblePropositions();
+            for (Proposition premise1 : premises) {
+                for (Proposition premise2 : premises) {
+                    Pair<Proposition, Proposition> pair1 = new Pair<>(premise1, premise2);
+                    Pair<Proposition, Proposition> pair2 = new Pair<>(premise2, premise1);
+                    if (incompProp.contains(pair1) || incompProp.contains(pair2)) {
+                        throw new IllegalArgumentException("You cannot add a rule that contains inappropriate proposals in premises.");
+                    }
+                }
+            }
+
             Rule newRule = new Rule(premises, conclusion, label);
-            // Dodajemy nową regułę tylko jeśli nie wystąpił wyjątek
+
+            // Check if the conclusion is one of the decisions
+            Pair<Proposition, Proposition> decisions = listIncompProp.getDecisions();
+            if (!conclusion.equals(decisions.getFirst()) && !conclusion.equals(decisions.getSecond())) {
+                throw new IllegalArgumentException("The conclusion must be one of the decisions.");
+            }
+
+            // We add a new rule only if no exception occurred
             listRules.add(newRule);
             notifyObservers();
         } catch (IllegalArgumentException e) {
-            // Obsługa sytuacji, gdy konkluzja nie jest decyzją
+            // Handling situations where the conclusion is not a decision or the premises contains inadequate proposals
             System.err.println(e.getMessage());
         }
     }
@@ -62,8 +80,6 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
             updateRules(updatedProposition);
         }
     }
-
-
 
     @Override
     public void addObserver(RuleObserver observer) {

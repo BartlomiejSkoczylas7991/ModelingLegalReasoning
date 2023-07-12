@@ -77,15 +77,26 @@ public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObs
 
     private Set<Rule> findMinimalKB(Proposition finalProposition, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean, Set<Proposition> visited) {
         Set<Rule> minimalKB = new HashSet<>();
-        Queue<Proposition> queue = new LinkedList<>();
-        queue.add(finalProposition);
-        while (!queue.isEmpty()) {
-            // ... (rest of code for finding minimalKB)
+        Stack<Proposition> stack = new Stack<>();
+        stack.push(finalProposition);
+        while (!stack.isEmpty()) {
+            Proposition currentProp = stack.pop();
+            for (Rule rule : subjectiveKB.getRj()) {
+                // If this rule concludes the currentProp and all premises are in the clean prop base, add to minimalKB
+                if (rule.getConclusion().equals(currentProp) && propBaseClean.containsAll(rule.getPremises())) {
+                    minimalKB.add(rule);
+                    visited.addAll(rule.getPremises());
+                    // Add all the premises to the stack for further investigation
+                    for (Proposition premise : rule.getPremises()) {
+                        if (!visited.contains(premise)) {
+                            stack.push(premise);
+                        }
+                    }
+                }
+            }
         }
         return minimalKB;
     }
-
-
 
     private ReasoningChain calculateWithVoting(Agent agent) {
         // Get the subjective knowledge base for a given agent
@@ -122,9 +133,15 @@ public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObs
         // Twórz łańcuch rozumowania, dodając do niego reguły z minimalnej bazy wiedzy
         ReasoningChain reasoningChain = new ReasoningChain(new KnowledgeBase(visited, minimalKB), finalProposition);
 
-        // Zwróć łańcuch rozumowania
+        // check if finalProposition is in Pair of decisions
+        if(!decisions.getFirst().equals(finalProposition) && !decisions.getSecond().equals(finalProposition)) {
+            throw new RuntimeException("Final proposition is not a valid decision");
+        }
+
+        // Return the chain of reasoning
         return reasoningChain;
     }
+
     public HashMap<Agent, ReasoningChain> getListReasoningChain() {
         return listReasoningChain;
     }
@@ -142,12 +159,12 @@ public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObs
         for (Rule rule : rules) {
             if (visited.contains(rule.getConclusion()) && propBaseClean.contains(rule.getConclusion())) {
                 minimalKB.add(rule);
-                // Dodaj propozycje z antecedentu reguły do zbioru odwiedzonych propozycji
+                // Add suggestions from the antecedent of the rule to the set of visited proposals
                 visited.addAll(rule.getPremises());
             }
         }
 
-        // Usuń reguły, których premises nie są obecne w propBaseClean
+        // Remove rules whose premises are not present in propBaseClean
         minimalKB.removeIf(rule -> !propBaseClean.containsAll(rule.getPremises()));
         return minimalKB;
     }
@@ -167,10 +184,7 @@ public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObs
     public void updateKB(ListKnowledgeBase knowledgeBase) {
         this.listKnowledgeBase = knowledgeBase;
         this.agents = knowledgeBase.getAgents();
-
         calculateReasoningChain();
-        //dodawanie agentów
-
     }
 
     @Override

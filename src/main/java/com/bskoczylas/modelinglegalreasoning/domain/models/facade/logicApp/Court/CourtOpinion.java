@@ -7,27 +7,22 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Conso
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.ListConsortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ReasoningChain;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.CourtOpinionObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ConsortiumObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.CourtOpinionObserver;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable {
     private Proposition decision;
-    private Map<ReasoningChain, Set<Agent>> majorityOpinions;
-    private Map<ReasoningChain, Set<Agent>> pluralityOpinions;
-    private Map<ReasoningChain, Set<Agent>> concurringOpinions;
-    private Map<ReasoningChain, Set<Agent>> dissentingOpinions;
+    private Map<ReasoningChain, Set<Agent>> majorityOpinions = new HashMap<>();
+    private Map<ReasoningChain, Set<Agent>> pluralityOpinions = new HashMap<>();
+    private Map<ReasoningChain, Set<Agent>> concurringOpinions = new HashMap<>();
+    private Map<ReasoningChain, Set<Agent>> dissentingOpinions = new HashMap<>();
     private ListConsortium listConsortium;
+    private final List<CourtOpinionObserver> observers = new ArrayList<>();
 
-    public CourtOpinion() {
-        majorityOpinions = new HashMap<>();
-        pluralityOpinions = new HashMap<>();
-        concurringOpinions = new HashMap<>();
-        dissentingOpinions = new HashMap<>();
-    }
+    public CourtOpinion() {}
 
     // gettery i settery
 
@@ -71,5 +66,22 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
         return opinions.entrySet().stream()
                 .max(Comparator.comparingInt(e -> e.getValue().size()))
                 .orElse(null);
+    }
+
+    @Override
+    public void addObserver(CourtOpinionObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(CourtOpinionObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(CourtOpinionObserver observer : observers) {
+            observer.updateCourtOpinion(this);
+        }
     }
 }

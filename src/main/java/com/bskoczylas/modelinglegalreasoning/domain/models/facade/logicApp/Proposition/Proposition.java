@@ -6,6 +6,7 @@ public class Proposition {
     private static int next_id = 1;
     private int id;
     private String statement;
+    private boolean isDecision;
 
     public Proposition(String statement) {
         this.id = Proposition.next_id++;
@@ -27,6 +28,14 @@ public class Proposition {
 
     public static int getNext_id() {
         return next_id;
+    }
+
+    public boolean isDecision() {
+        return isDecision;
+    }
+
+    public void setDecision(boolean decision) {
+        isDecision = decision;
     }
 
     public static void setNext_id(int next_id) {

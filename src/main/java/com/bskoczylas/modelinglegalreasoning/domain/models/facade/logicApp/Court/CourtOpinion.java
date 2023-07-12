@@ -24,8 +24,6 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
 
     public CourtOpinion() {}
 
-    // gettery i settery
-
     @Override
     public void updateCon(ListConsortium listConsortium) {
         this.listConsortium = listConsortium;

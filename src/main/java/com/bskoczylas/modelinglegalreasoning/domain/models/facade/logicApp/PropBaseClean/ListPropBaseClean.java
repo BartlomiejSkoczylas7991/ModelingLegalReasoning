@@ -136,4 +136,23 @@ public class ListPropBaseClean implements AVObserver, AVPObserver, PBCObservable
             observer.updatePBC(this);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry<Agent, Set<Proposition>> entry : listPropBaseClean.entrySet()) {
+            sb.append(entry.getKey().getName()).append(" = {");
+
+            Iterator<Proposition> iterator = entry.getValue().iterator();
+            while (iterator.hasNext()) {
+                sb.append(iterator.next().getStatement());
+                if (iterator.hasNext()) {
+                    sb.append(", ");
+                }
+            }
+            sb.append("}\n");
+        }
+        return sb.toString();
+    }
 }

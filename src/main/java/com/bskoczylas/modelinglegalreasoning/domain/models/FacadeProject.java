@@ -2,7 +2,6 @@ package com.bskoczylas.modelinglegalreasoning.domain.models;
 
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
 
-// FacadeClass.java
 public class FacadeProject {
     private ProjectRepository projectRepository;
 
@@ -11,12 +10,12 @@ public class FacadeProject {
     }
 
     public void createProject(Project project) {
-        // tutaj mogą być różne operacje związane z tworzeniem projektu
+        // here can be various operations related to the creation of the project
         projectRepository.save(project);
     }
 
     public Project getProject(String id) {
-        // tutaj mogą być różne operacje związane z pobieraniem projektu
+        // here can be various operations related to downloading the project
         return projectRepository.find(id);
     }
 }

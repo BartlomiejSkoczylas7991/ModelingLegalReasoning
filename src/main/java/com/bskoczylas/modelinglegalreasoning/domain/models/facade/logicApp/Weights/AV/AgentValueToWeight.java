@@ -34,12 +34,6 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
         this.scale = scale;
     }
 
-    public AgentValueToWeight(List<Agent> agents, List<Value> values) {
-        this.agentValueWeights = new HashMap<>();
-        this.agents = agents;
-        this.values = values;
-    }
-
     public Set<AgentValue> keySet() {
         return agentValueWeights.keySet();
     }

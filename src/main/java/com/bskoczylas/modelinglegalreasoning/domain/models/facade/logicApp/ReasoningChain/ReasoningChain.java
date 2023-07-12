@@ -34,4 +34,9 @@ public class ReasoningChain {
     public int hashCode() {
         return Objects.hash(knowledgeBase, decision);
     }
+
+    @Override
+    public String toString() {
+        return "<<" + knowledgeBase.toString() + ", " + decision.getStatement() + ">>";
+    }
 }

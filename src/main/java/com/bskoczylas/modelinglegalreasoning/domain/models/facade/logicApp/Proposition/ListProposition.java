@@ -1,7 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.PropositionObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;

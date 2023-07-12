@@ -30,7 +30,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
             ReasoningChain rc = entry.getValue();
             Agent agent = entry.getKey();
 
-            // Przejdz przez wszystkie konsorcja i spróbuj znaleźć odpowiednie dla agenta
+            // Go through all the syndications and try to find the right one for the agent
             boolean consortiumFound = false;
             for (Consortium consortium : consortiumMap.keySet()) {
                 if (consortium.getReasoningChain().equals(rc)) {
@@ -40,7 +40,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
                 }
             }
 
-            // Jeżeli nie znaleziono pasującego konsorcjum, utwórz nowe
+            // If no matching consortium is found, create a new one
             if (!consortiumFound) {
                 Consortium newConsortium = new Consortium(rc);
                 Set<Agent> newConsortiumAgents = new HashSet<>();
@@ -54,8 +54,8 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     private ConsortiumType determineConsortiumType(Consortium consortium, List<Consortium> allConsortiums, Decision decisionClass) {
         ReasoningChain rc = consortium.getReasoningChain();
         int numberOfAgentsInConsortium = consortium.getAgents().size();
-        int numberOfAllAgents = this.agents.size(); // Zakładam, że "this.agents" zawiera wszystkich agentów.
-        Proposition decision = decisionClass.getDecision(); // Pobieram aktualną decyzję z klasy Decision
+        int numberOfAllAgents = this.agents.size(); // "this.agents" is assumed to contain all agents.
+        Proposition decision = decisionClass.getDecision(); // I fetch the current decision from the Decision class
 
         // Majority
         if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium > (numberOfAllAgents / 2)) {

@@ -44,12 +44,12 @@ public class ProjectBuilder {
         return this;
     }
 
-    // Metody ustawiające pozostałe opcjonalne parametry
+    // Methods that set other optional parameters
 
     public Project build() {
         Project project = new Project(name);
 
-        // Inicjalizacja obiektu projektu na podstawie ustawionych parametrów
+        // Initialization of the project object based on the set parameters
         project.setListAgent(listAgent);
         project.setListProposition(listProposition);
         project.setListValue(listValue);

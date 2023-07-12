@@ -91,4 +91,23 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
             observer.updateIncomp(this);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Objectively incompatible propositions: <");
+
+        int i = 0;
+        for (Pair<Proposition, Proposition> pair : incompProp) {
+            sb.append("< ").append(pair.getFirst().getStatement()).append(", ").append(pair.getSecond().getStatement()).append(" >");
+            if(i < incompProp.size() - 1) { // do not add comma after last pair
+                sb.append(", ");
+            }
+            i++;
+        }
+
+        sb.append("> ∈ IncompProp.");
+
+        return sb.toString();
+    }
 }

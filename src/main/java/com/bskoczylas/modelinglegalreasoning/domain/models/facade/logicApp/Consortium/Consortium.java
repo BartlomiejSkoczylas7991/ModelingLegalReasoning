@@ -6,10 +6,10 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent
 import java.util.*;
 
 
-// Set Agentów, w całkowiciej zgodzie co do następującej konkluzji (to samo RC agentów)
+// Set Agents, in full agreement on the following conclusion (same RC agents)
 public class Consortium {
     private ReasoningChain reasoningChain;
-    private Set<Agent> agents;// typ enum ConsortiumType
+    private Set<Agent> agents;// enum ConsortiumType
 
     public Consortium() {
     }

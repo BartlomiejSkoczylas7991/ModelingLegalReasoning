@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ListRules implements PropositionObserver, RuleObservable, IncompPropObserver {
     private List<Proposition> propositions = new ArrayList<>();
@@ -70,7 +71,7 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
     }
 
     private void updateRules(Proposition removedProposition) {
-        // Usuwamy zasady, które zawierają usuniętą propozycję
+        // Removing the policy that contains the removed proposal
         listRules.removeIf(rule -> rule.getPremises().contains(removedProposition) || rule.getConclusion().equals(removedProposition));
         notifyObservers();
     }
@@ -105,5 +106,12 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
     @Override
     public void updateIncomp(ListIncompProp listIncompProp) {
         this.listIncompProp = listIncompProp;
+    }
+
+    @Override
+    public String toString() {
+        return "Rules: " + listRules.stream()
+                .map(Rule::toString)
+                .collect(Collectors.joining("; "));
     }
 }

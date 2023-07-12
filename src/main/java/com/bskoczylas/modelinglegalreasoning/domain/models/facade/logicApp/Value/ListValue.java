@@ -11,8 +11,6 @@ public class ListValue implements ValueObservable {
     private List<Value> listValue = new ArrayList<>();
     private List<ValueObserver> observers;
 
-
-
     public ListValue(List<Value> listValue) {
         this.listValue = listValue;
         this.observers = new ArrayList<>();

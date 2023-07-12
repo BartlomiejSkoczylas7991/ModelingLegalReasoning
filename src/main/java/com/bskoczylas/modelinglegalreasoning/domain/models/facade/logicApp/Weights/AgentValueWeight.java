@@ -7,16 +7,15 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent
 import java.util.List;
 
 public abstract class AgentValueWeight {
-    // Wspólne pola
+    // Common fields
     protected List<Agent> agents;
     protected List<Value> values;
     protected Scale scale;
 
-    // Wspólne metody
+    // Common methods
     public abstract void addAgent(Agent agent);
     public abstract void addValue(Value value);
     public abstract void setScale(Scale scale);
-
 
     public abstract Weight getWeight(AgentValue agentValue);
 

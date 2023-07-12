@@ -67,42 +67,38 @@ public class StartWindowController {
 
     // Creating table of projects
     private void initProjectsTable() {
-        // Tutaj przypisujemy dane z ObservableList do TableView
+        // Here we assign data from ObservableList to TableView
         projectsTable.setItems(projectsData);
 
-        // Teraz definiujemy, jak dane z obiektów Project mają być wyświetlane w kolumnach tabeli
+        // Defining how data from Project objects should be displayed in table columns
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         createdColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
         modifiedColumn.setCellValueFactory(new PropertyValueFactory<>("modified"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        // Wczytaj projekty z użyciem Jackson
+        // Load projects using Jackson
         loadProjects();
     }
 
     private void loadProjects() {
-        // Pobierz projekty z ProjectManager lub innego źródła danych
+        // Download projects from ProjectManager or another data source
         List<Project> loadedProjects = projectManager.getProjects().collect(Collectors.toList());
 
-        // Dodaj wczytane projekty do ObservableList
+        // Add loaded projects to ObservableList
         projectsData.addAll(loadedProjects);
     }
 
-    //public void setProjectManager(ProjectManager projectManager) {
-     //   this.projectManager = projectManager;
-    //}
+    public void setProjectManager(ProjectManager projectManager) {
+        this.projectManager = projectManager;
+    }
 
     @FXML
     private void initialize() {
-        // Kod inicjalizacji, jeśli jest potrzebny. Jest to miejsce, gdzie można zainicjować elementy interfejsu użytkownika,
-        // takie jak przyciski, pola tekstowe itp., które są zdefiniowane w pliku FXML.
 
-        // Na przykład, możesz chcieć dodać słuchacza do przycisku:
         AddProject.setOnAction(event -> handleAddProjectButton());
 
 
     }
-
 
     public void setProjectManager(ProjectManager projectManager){
         this.projectManager = projectManager;

@@ -48,7 +48,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
         } else if (pdCount > ppCount) {
             decision = decisions.getSecond();
         } else {
-            decision = null;  // Remis, żadna z propozycji nie zdobyła większości głosów.
+            decision = null;  // A tie, no proposal won a majority of votes.
         }
     }
 

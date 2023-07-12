@@ -13,6 +13,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListReasoningChain implements KBObserver, RCObservable {
     private Set<Agent> agents;
@@ -166,6 +167,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
 
         // Remove rules whose premises are not present in propBaseClean
         minimalKB.removeIf(rule -> !propBaseClean.containsAll(rule.getPremises()));
+
         return minimalKB;
     }
 
@@ -201,5 +203,12 @@ public class ListReasoningChain implements KBObserver, RCObservable {
 
     public ReasoningChain getReasoningChainByAgent(Agent agent) {
         return listReasoningChain.get(agent);
+    }
+
+    @Override
+    public String toString() {
+        return listReasoningChain.entrySet().stream()
+                .map(entry -> entry.getKey().getName() + " = " + entry.getValue().toString())
+                .collect(Collectors.joining("\n"));
     }
 }

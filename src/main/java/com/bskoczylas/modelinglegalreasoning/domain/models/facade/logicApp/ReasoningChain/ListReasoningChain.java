@@ -14,7 +14,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Knowl
 
 import java.util.*;
 
-public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObservable {
+public class ListReasoningChain implements KBObserver, RCObservable {
     private Set<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
@@ -174,16 +174,11 @@ public class ListReasoningChain implements KBObserver, IncompPropObserver, RCObs
     }
 
     @Override
-    public void updateIncomp(ListIncompProp listIncompProp) {
-        incompProp = listIncompProp.getIncompProp();
-        decisions = listIncompProp.getDecisions();
-        calculateReasoningChain();
-    }
-
-    @Override
     public void updateKB(ListKnowledgeBase knowledgeBase) {
         this.listKnowledgeBase = knowledgeBase;
         this.agents = knowledgeBase.getAgents();
+        this.incompProp = knowledgeBase.getRules().getListIncompProp().getIncompProp();
+
         calculateReasoningChain();
     }
 

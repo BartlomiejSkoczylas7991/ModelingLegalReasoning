@@ -60,4 +60,21 @@ public class ListAgent implements AgentObservable {
             observer.updateAgent(agent);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Agents = {");
+
+        for(int i=0; i<listAgent.size(); i++){
+            sb.append(listAgent.get(i).getName());
+
+            if(i < listAgent.size() - 1) { // do not add comma after last element
+                sb.append(", ");
+            }
+        }
+
+        sb.append("}");
+        return sb.toString();
+    }
 }

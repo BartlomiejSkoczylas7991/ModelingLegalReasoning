@@ -80,7 +80,7 @@ public class Project {
         this.agentValuePropWeight.addObserver(this.listPropBaseClean);
         this.agentValueToWeight.addAVObserver(this.listPropBaseClean);
         this.listPropBaseClean.addObserver(this.listKnowledgeBase);
-        this.listIncompProp.addObserver(this.listReasoningChain);
+        this.listIncompProp.addObserver(this.listProposition);
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listRules);

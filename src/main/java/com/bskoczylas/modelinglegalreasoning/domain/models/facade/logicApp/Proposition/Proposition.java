@@ -21,11 +21,6 @@ public class Proposition {
         this.statement = statement;
     }
 
-    @Override
-    public String toString() {
-        return this.statement;
-    }
-
     public static int getNext_id() {
         return next_id;
     }
@@ -61,5 +56,10 @@ public class Proposition {
     @Override
     public int hashCode() {
         return Objects.hash(id, statement);
+    }
+
+    @Override
+    public String toString() {
+        return this.statement;
     }
 }

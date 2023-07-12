@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
@@ -12,7 +14,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent
 
 import java.util.*;
 
-public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, AVPObservable {
+public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
     private HashMap<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -242,6 +244,20 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
     public void notifyAVPObservers() {
         for (AVPObserver observer : weightObservers) {
             observer.updateAVP(this);
+        }
+    }
+
+    @Override
+    public void updateIncomp(ListIncompProp listIncompProp) {
+        Pair<Proposition, Proposition> decisions = listIncompProp.getDecisions();
+
+        // if a pair of decisions has been added, then we change the given pair of proposals to "true" in the proposal pool
+        if (decisions != null) {
+            for (Proposition prop : propositions) {
+                if (prop.equals(decisions.getFirst()) || prop.equals(decisions.getSecond())) {
+                    prop.setDecision(true);
+                }
+            }
         }
     }
 }

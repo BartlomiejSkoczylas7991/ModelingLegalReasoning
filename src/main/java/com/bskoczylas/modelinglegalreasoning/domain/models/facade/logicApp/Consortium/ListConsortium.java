@@ -87,6 +87,10 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         return consortiumMap;
     }
 
+    public ListReasoningChain getListReasoningChain() {
+        return listReasoningChain;
+    }
+
     @Override
     public void update(Decision decision) {
         this.decision = decision;

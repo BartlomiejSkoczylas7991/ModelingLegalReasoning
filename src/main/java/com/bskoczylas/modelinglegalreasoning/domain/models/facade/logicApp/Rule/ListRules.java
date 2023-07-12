@@ -65,6 +65,10 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         }
     }
 
+    public ListIncompProp getListIncompProp() {
+        return listIncompProp;
+    }
+
     private void updateRules(Proposition removedProposition) {
         // Usuwamy zasady, które zawierają usuniętą propozycję
         listRules.removeIf(rule -> rule.getPremises().contains(removedProposition) || rule.getConclusion().equals(removedProposition));

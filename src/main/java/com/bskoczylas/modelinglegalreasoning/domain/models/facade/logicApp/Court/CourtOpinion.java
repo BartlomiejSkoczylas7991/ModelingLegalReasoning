@@ -68,6 +68,10 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
                 .orElse(null);
     }
 
+    public ListConsortium getListConsortium() {
+        return listConsortium;
+    }
+
     @Override
     public void addObserver(CourtOpinionObserver observer) {
         observers.add(observer);

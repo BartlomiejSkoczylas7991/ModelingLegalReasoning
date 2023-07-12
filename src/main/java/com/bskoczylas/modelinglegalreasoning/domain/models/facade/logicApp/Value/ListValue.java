@@ -8,8 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ListValue implements ValueObservable {
-    private List<Value> listValue = new LinkedList<>();
+    private List<Value> listValue = new ArrayList<>();
     private List<ValueObserver> observers;
+
 
 
     public ListValue(List<Value> listValue) {
@@ -18,6 +19,7 @@ public class ListValue implements ValueObservable {
     }
 
     public ListValue(){this.observers = new ArrayList<>();}
+
     public List<Value> getValues() {
         return listValue;
     }
@@ -52,5 +54,22 @@ public class ListValue implements ValueObservable {
         for (ValueObserver observer : this.observers){
             observer.updateValue(value);
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Values = {");
+
+        for(int i=0; i<listValue.size(); i++){
+            sb.append(listValue.get(i).getName());
+
+            if(i < listValue.size() - 1) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append("}");
+        return sb.toString();
     }
 }

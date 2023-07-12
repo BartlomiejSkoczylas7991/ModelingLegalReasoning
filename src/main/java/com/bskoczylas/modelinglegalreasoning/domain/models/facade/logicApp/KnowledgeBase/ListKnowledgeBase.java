@@ -15,11 +15,11 @@ import java.util.*;
 public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables {
     private Set<Agent> agents = new HashSet<>();
     private ListPropBaseClean propBaseClean;
-    private List<Rule> rules;
+    private ListRules rules;
     private HashMap<Agent, KnowledgeBase> listKnowledgeBase;
     private List<KBObserver> observers;
 
-    public ListKnowledgeBase(ListPropBaseClean propBaseClean, List<Rule> rules) {
+    public ListKnowledgeBase(ListPropBaseClean propBaseClean, ListRules rules) {
         this.propBaseClean = propBaseClean;
         this.rules = rules;
         this.observers = new ArrayList<>();
@@ -27,14 +27,14 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
 
     public ListKnowledgeBase(){this.observers = new ArrayList<>();}
 
-    private List<Rule> getRules() {
+    public ListRules getRules() {
         return this.rules;
     }
 
     private KnowledgeBase calculate(Agent agent) {
         Set<Proposition> pi = propBaseClean.getAgentPropBaseClean(agent);
         Set<Rule> rj = new HashSet<>();
-        for (Rule rule : getRules()) {
+        for (Rule rule : rules.getListRules()) {
             if (pi != null && pi.containsAll(rule.getPremises())) {
                 rj.add(rule);
             }
@@ -57,7 +57,7 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
 
     @Override
     public void updateRule(ListRules listRules) {
-        this.rules = listRules.getListRules();
+        this.rules = listRules;
         calculateKnowledgeBase();
     }
 

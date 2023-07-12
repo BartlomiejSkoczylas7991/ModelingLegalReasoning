@@ -26,12 +26,14 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         // Ensure that the pair is not already present in the set
         // and that prop1 and prop2 are not the same proposition
         incompProp.add(new Pair<>(prop1, prop2));
+        notifyObservers();
     }
 
     public void setDecisions(Pair<Proposition, Proposition> incompProp) {
         incompProp.getFirst().setDecision(true);
         incompProp.getSecond().setDecision(true);
         this.decisions = incompProp;
+        notifyObservers();
     }
 
     public Pair<Proposition, Proposition> getDecisions() {
@@ -61,6 +63,7 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
 
     public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
         this.incompProp = incompProp;
+        notifyObservers();
     }
 
     @Override

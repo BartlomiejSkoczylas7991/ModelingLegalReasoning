@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,6 +26,15 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+
+        // Loading projects from the json file
+        try {
+            File file = new File("src/main/resources/com/bskoczylas/modelinglegalreasoning/projectData.json");
+            this.projectManager.loadProjectFromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         showStartWindow();
     }
 
@@ -34,7 +45,7 @@ public class App extends Application {
 
             StartWindowController controller = loader.getController();
             controller.setMainApp(this);
-            controller.setProjectManager(projectManager);
+            controller.setProjectManager(this.projectManager); // mam tu błąd
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -45,7 +56,7 @@ public class App extends Application {
 
     public void showProjectWindow(Project project) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/projectWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));
             Parent root = loader.load();
 
             ProjectController controller = loader.getController();
@@ -57,6 +68,11 @@ public class App extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setProjectManager(ProjectManager projectManager) {
+        this.projectManager = projectManager;
+        loadProjects(); // Load projects after setting the project manager
     }
 
     public static void main(String[] args) {

@@ -4,6 +4,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Reaso
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 // Set Agents, in full agreement on the following conclusion (same RC agents)
@@ -32,6 +33,16 @@ public class Consortium {
 
     public void setAgents(Set<Agent> agents) {
         this.agents = agents;
+    }
+
+    @Override
+    public String toString() {
+        return "Consortium{" +
+                "ReasoningChain=" + reasoningChain.toString() +
+                ", Agents=" + agents.stream()
+                .map(Agent::getName)
+                .collect(Collectors.joining(", ")) +
+                '}';
     }
 }
 

@@ -37,6 +37,6 @@ public class ReasoningChain {
 
     @Override
     public String toString() {
-        return "<<" + knowledgeBase.toString() + ", " + decision.getStatement() + ">>";
+        return "<<" + knowledgeBase.toString() + ", " + decision.toString() + ">>";
     }
 }

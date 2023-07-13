@@ -4,6 +4,7 @@ package com.bskoczylas.modelinglegalreasoning.services;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -38,9 +39,14 @@ public class ProjectManager {
         objectMapper.writeValue(file, projects);
     }
 
-    public Project loadProjectFromFile(File file) throws IOException {
+    public void loadProjectFromFile(File file) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(file, Project.class);
+
+        // By assuming that the json file contains an array of Project objects
+        Project[] projectsArray = objectMapper.readValue(file, Project[].class);
+
+        // Converting array to list and adding all projects to the projects list
+        this.projects.addAll(Arrays.asList(projectsArray));
     }
 
     public Stream<Project> getProjects() {

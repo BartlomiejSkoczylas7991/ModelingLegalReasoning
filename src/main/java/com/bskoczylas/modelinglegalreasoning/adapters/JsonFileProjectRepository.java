@@ -41,7 +41,7 @@ public class JsonFileProjectRepository implements ProjectRepository {
 
     @Override
     public Project find(String projectId) {
-        List<Project> projects = loadProjectsFromFile();
+        List<Project> projects = loadProjects();
         return projects.stream()
                 .filter(project -> project.getId().equals(projectId))
                 .findFirst()
@@ -50,7 +50,7 @@ public class JsonFileProjectRepository implements ProjectRepository {
 
     @Override
     public void delete(String projectId) {
-        List<Project> projects = loadProjectsFromFile();
+        List<Project> projects = loadProjects();
         projects.removeIf(project -> project.getId().equals(projectId));
         try {
             objectMapper.writeValue(file, projects);
@@ -64,16 +64,6 @@ public class JsonFileProjectRepository implements ProjectRepository {
         return loadProjects();
     }
 
-    private List<Project> loadProjectsFromFile() {
-        if (file.exists()) {
-            try {
-                return objectMapper.readValue(file, new TypeReference<List<Project>>(){});
-            } catch (IOException e) {
-                throw new RuntimeException("Problem z odczytem projektów z pliku JSON", e);
-            }
-        }
-        return new ArrayList<>();
-    }
 
     private List<Project> loadProjects() {
         if (file.exists()) {

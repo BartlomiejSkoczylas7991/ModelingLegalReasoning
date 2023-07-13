@@ -12,7 +12,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
@@ -31,9 +30,9 @@ import java.util.stream.Collectors;
 // Observations
 // The Court's ruling
 public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver, ValueObserver, PropositionObserver, PBCObserver, IncompPropObserver {
-    private ListAgent listAgent = new ListAgent();
-    private ListValue listValue = new ListValue();
-    private ListProposition listProposition = new ListProposition();
+    private final ListAgent listAgent = new ListAgent();
+    private final ListValue listValue = new ListValue();
+    private final ListProposition listProposition = new ListProposition();
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
     private ListRules listRules = new ListRules();
     private ListReasoningChain listReasoningChains = new ListReasoningChain();
@@ -55,8 +54,8 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         report.add(new ReportSection("PropBaseClean for Each Agent", listPropBaseClean.toString()));
         report.add(new ReportSection("Rules", listRules.toString()));
         report.add(new ReportSection("Reasoning Chains of All Agents", listReasoningChains.toString()));
-        report.add(new ReportSection("Observations", observations.toString()));
-        report.add(new ReportSection("The Court's Ruling", courtOpinion.toString()));
+        report.add(new ReportSection("Observations", generateObservations()));
+        report.add(new ReportSection("The Court's Ruling", generateCourtRuling()));
 
         return report;
     }
@@ -108,32 +107,12 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         return observations.toString();
     }
 
-    private String generateCourtRuling() {
-        StringBuilder courtRuling = new StringBuilder();
-        courtRuling.append("The Court's ruling:\n");
-        courtRuling.append("Decision = ");
-        courtRuling.append(courtOpinion.getDecision().toString());
-        courtRuling.append("\n");
-
-        courtRuling.append(generateJudgesInformation("MajorityJudges", courtOpinion.getMajorityOpinions()));
-        courtRuling.append(generateJudgesInformation("DissentingJudges", courtOpinion.getDissentingOpinions()));
-
-        if (courtOpinion.getPluralityOpinions().isEmpty() && courtOpinion.getConcurringOpinions().isEmpty()) {
-            courtRuling.append("There are neither plurality nor concurring judges.\n");
-        } else {
-            courtRuling.append(generateJudgesInformation("PluralityJudges", courtOpinion.getPluralityOpinions()));
-            courtRuling.append(generateJudgesInformation("ConcurringJudges", courtOpinion.getConcurringOpinions()));
-        }
-
-        return courtRuling.toString();
-    }
-
     private String generateJudgesInformation(String judgeType, Map<ReasoningChain, Set<Agent>> opinions) {
         StringBuilder judgesInformation = new StringBuilder();
         for (Map.Entry<ReasoningChain, Set<Agent>> entry : opinions.entrySet()) {
             judgesInformation.append(judgeType);
             judgesInformation.append("<");
-            judgesInformation.append("Consortium" + findConsortiumId(entry.getKey()));
+            judgesInformation.append(entry.getKey().toString());
             judgesInformation.append(",");
             judgesInformation.append(entry.getKey().getDecision().toString());
             judgesInformation.append("> = ");
@@ -169,22 +148,6 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         return courtRuling.toString();
     }
 
-    private String generateJudgesInformation(String judgeType, Map<ReasoningChain, Set<Agent>> opinions) {
-        StringBuilder judgesInformation = new StringBuilder();
-        for (Map.Entry<ReasoningChain, Set<Agent>> entry : opinions.entrySet()) {
-            judgesInformation.append(judgeType);
-            judgesInformation.append("<");
-            judgesInformation.append("Consortium" + findConsortiumId(entry.getKey()));
-            judgesInformation.append(",");
-            judgesInformation.append(entry.getKey().getDecision().toString());
-            judgesInformation.append("> = ");
-            judgesInformation.append("{");
-            judgesInformation.append(entry.getValue().stream().map(Agent::getName).collect(Collectors.joining(", ")));
-            judgesInformation.append("}\n");
-        }
-        return judgesInformation.toString();
-    }
-
     @Override
     public void updateAgent(Agent agent) {
         this.listAgent.addAgent(agent);
@@ -208,6 +171,8 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
     @Override
     public void updateCourtOpinion(CourtOpinion courtOpinion) {
         this.courtOpinion = courtOpinion;
+        this.listConsortium = courtOpinion.getListConsortium();
+        this.listReasoningChains = courtOpinion.getListConsortium().getListReasoningChain();
     }
 
     @Override

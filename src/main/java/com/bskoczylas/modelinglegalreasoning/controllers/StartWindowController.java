@@ -100,10 +100,6 @@ public class StartWindowController {
 
     }
 
-    public void setProjectManager(ProjectManager projectManager){
-        this.projectManager = projectManager;
-    }
-
     private void handleOpenButton() {
 
     }

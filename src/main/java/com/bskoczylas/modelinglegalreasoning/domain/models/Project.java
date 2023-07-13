@@ -3,6 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.domain.models;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium.ListConsortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.CourtOpinion;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.Report;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
@@ -32,9 +33,10 @@ public class Project {
     private ListPropBaseClean listPropBaseClean;
     private ListKnowledgeBase listKnowledgeBase;
     private ListReasoningChain listReasoningChain;
-    private CourtOpinion court;
     private Decision decision;
     private ListConsortium listConsortium;
+    private CourtOpinion courtOpinion;
+    private Report report;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
@@ -63,7 +65,9 @@ public class Project {
         this.scale = new Scale();
         this.listReasoningChain = new ListReasoningChain();
         this.listConsortium = new ListConsortium();
-        this.court = new CourtOpinion();
+        this.courtOpinion = new CourtOpinion();
+        this.report = new Report();
+
         configureObservers();
 
     }
@@ -86,7 +90,8 @@ public class Project {
         this.listIncompProp.addObserver(this.listRules);
         this.listReasoningChain.addObserver(this.decision);
         this.decision.addObserver(this.listConsortium);
-        this.listConsortium.addObserver(this.court);
+        this.listConsortium.addObserver(this.courtOpinion);
+        this.courtOpinion.addObserver(this.report);
     }
 
     public String getId() {
@@ -214,11 +219,11 @@ public class Project {
     }
 
     public CourtOpinion getCourt() {
-        return court;
+        return courtOpinion;
     }
 
     public void setCourt(CourtOpinion court) {
-        this.court = court;
+        this.courtOpinion = court;
     }
 
     public Decision getDecision() {

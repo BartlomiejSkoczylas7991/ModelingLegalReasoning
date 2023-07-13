@@ -21,7 +21,9 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     private ListKnowledgeBase listKnowledgeBase;
     private Set<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
     private Pair<Proposition, Proposition> decisions;
-    private List<RCObserver> observers;
+    private List<RCObserver> observers = new ArrayList<>();
+
+    public ListReasoningChain() {}
 
     private Map<Proposition, Integer> calculateVotes(Agent agent, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
         Map<Proposition, Integer> votes = new HashMap<>();
@@ -180,6 +182,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
         this.listKnowledgeBase = knowledgeBase;
         this.agents = knowledgeBase.getAgents();
         this.incompProp = knowledgeBase.getRules().getListIncompProp().getIncompProp();
+        this.decisions = knowledgeBase.getRules().getListIncompProp().getDecisions();
 
         calculateReasoningChain();
     }
@@ -211,4 +214,5 @@ public class ListReasoningChain implements KBObserver, RCObservable {
                 .map(entry -> entry.getKey().getName() + " = " + entry.getValue().toString())
                 .collect(Collectors.joining("\n"));
     }
+
 }

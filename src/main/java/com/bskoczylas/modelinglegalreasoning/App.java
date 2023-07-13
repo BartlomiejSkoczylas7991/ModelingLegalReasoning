@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -18,23 +19,13 @@ import java.util.List;
 
 
 public class App extends Application {
-    private ProjectManager projectManager = new ProjectManager();
-    private Stage primaryStage;
     ProjectRepository projectRepository = new JsonFileProjectRepository();
-    List<Project> projects = projectRepository.findAll();
+    ProjectManager projectManager = new ProjectManager(projectRepository);
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-        // Loading projects from the json file
-        try {
-            File file = new File("src/main/resources/com/bskoczylas/modelinglegalreasoning/projectData.json");
-            this.projectManager.loadProjectFromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         showStartWindow();
     }
 
@@ -45,12 +36,20 @@ public class App extends Application {
 
             StartWindowController controller = loader.getController();
             controller.setMainApp(this);
-            controller.setProjectManager(this.projectManager); // mam tu błąd
+            controller.setProjectManager(this.projectManager);
+
+            // Initialize the controller data
+            controller.initData();
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("An error occurred:");
+            alert.setContentText(e.getMessage());
+
+            alert.showAndWait();
         }
     }
 
@@ -63,6 +62,11 @@ public class App extends Application {
             controller.setProject(project);
             controller.setProjectManager(projectManager);
 
+            // Close the current stage
+            primaryStage.close();
+
+            // Create and show the new stage
+            primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -72,7 +76,6 @@ public class App extends Application {
 
     public void setProjectManager(ProjectManager projectManager) {
         this.projectManager = projectManager;
-        loadProjects(); // Load projects after setting the project manager
     }
 
     public static void main(String[] args) {

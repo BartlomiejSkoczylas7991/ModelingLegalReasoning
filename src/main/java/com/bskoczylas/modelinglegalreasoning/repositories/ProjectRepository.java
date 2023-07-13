@@ -9,4 +9,5 @@ public interface ProjectRepository {
     Project find(String projectId);
     void delete(String projectId);
     List<Project> findAll();
+    void saveToFile();
 }

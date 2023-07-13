@@ -92,6 +92,10 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         }
     }
 
+    public boolean decisionsExist() {
+        return decisions != null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -10,15 +10,30 @@ import java.util.stream.Stream;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder.ProjectBuilder;
+import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProjectManager {
     private static int nextProjectNumber = 1;
     private List<Project> projects = new ArrayList<>();
     private Project currentProject;
+    private ProjectRepository projectRepository;
+
+    public ProjectManager(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+        loadProjects();
+    }
+
+    private void loadProjects() {
+        this.projects.addAll(projectRepository.findAll());
+    }
+
+    // Metoda do zapisywania projektu do pliku
+    public void saveProject(Project project) throws IOException {
+        projectRepository.save(project);
+    }
 
     public void openProject(Project project) {
-        projects.add(project);
         currentProject = project;
     }
 
@@ -33,22 +48,6 @@ public class ProjectManager {
         return currentProject;
     }
 
-    // Metoda do zapisywania projektu do pliku
-    public void saveProjectToFile(List<Project> projects, File file) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(file, projects);
-    }
-
-    public void loadProjectFromFile(File file) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // By assuming that the json file contains an array of Project objects
-        Project[] projectsArray = objectMapper.readValue(file, Project[].class);
-
-        // Converting array to list and adding all projects to the projects list
-        this.projects.addAll(Arrays.asList(projectsArray));
-    }
-
     public Stream<Project> getProjects() {
         return projects.stream();
     }
@@ -59,10 +58,21 @@ public class ProjectManager {
         }
         Project project = new ProjectBuilder(name).build();
         projects.add(project);
+
+        // save project to repository
+        projectRepository.save(project);
+
         return project;
     }
 
     public void deleteProject(Project project) {
-        projects.remove(project);
+        if (this.currentProject != project) {
+            projects.remove(project);
+            projectRepository.delete(project.getId());
+        }
+    }
+
+    public void saveProjectsToFile() {
+        projectRepository.saveToFile();
     }
 }

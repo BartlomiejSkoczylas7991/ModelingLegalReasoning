@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ListProposition implements PropositionObservable, IncompPropObserver {
     private List<Proposition> listProposition = new LinkedList<>();
-    private final List<PropositionObserver> observers = new ArrayList<>();;
+    private final List<PropositionObserver> observers = new ArrayList<>();
 
     public ListProposition() {}
 
@@ -30,6 +30,10 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
         for (Proposition proposition : propositions) {
             notifyObservers(proposition);
         }
+    }
+
+    public List<Proposition> getListProposition() {
+        return listProposition;
     }
 
     public void setListProposition(List<Proposition> listProposition) {

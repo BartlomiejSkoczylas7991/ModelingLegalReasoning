@@ -15,31 +15,57 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision.Decision;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Project {
+public class Project implements ProjectObservable {
     private static int nextId = 0;
-    private String id;
-    private String name;
-    private ListAgent listAgent; //lista agentów
-    private ListProposition listProposition; // lista propozycji
-    private ListValue listValue; // lista wartości
-    private ListIncompProp listIncompProp;
-    private AgentValueToWeight agentValueToWeight; // lista wag AV
-    private AgentValuePropWeight agentValuePropWeight; // lista wag AVP
-    private Scale scale; // skala wag
-    private ListRules listRules;
+    @JsonProperty
+    private String id; // zapisujemy/wczytujemy
+    @JsonProperty
+    private String name; // z/w
+    @JsonProperty
+    private ListAgent listAgent; // z/w
+    @JsonProperty
+    private ListProposition listProposition; // z/w
+    @JsonProperty
+    private ListValue listValue; // z/w
+    @JsonProperty
+    private ListIncompProp listIncompProp; // z/w
+    @JsonProperty
+    private AgentValueToWeight agentValueToWeight; // z/w
+    @JsonProperty
+    private AgentValuePropWeight agentValuePropWeight; // z/w
+    @JsonProperty
+    private Scale scale; // z/w
+    @JsonProperty
+    private ListRules listRules; // z/w
+    @JsonIgnore
     private ListPropBaseClean listPropBaseClean;
+    @JsonIgnore
     private ListKnowledgeBase listKnowledgeBase;
     private ListReasoningChain listReasoningChain;
+    @JsonIgnore
     private Decision decision;
     private ListConsortium listConsortium;
+    @JsonIgnore
     private CourtOpinion courtOpinion;
+    @JsonIgnore
     private Report report;
+    @JsonIgnore
+    private List<ProjectObserver> observers = new ArrayList<>();
+    @JsonProperty
+    private LocalDateTime createdDate; // z/w
+    @JsonProperty
+    private LocalDateTime lastModifiedDate; // z/w
 
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
+    public Project() {}
 
     public Project(String name){
         if (name == null || name.trim().isEmpty()) {
@@ -67,11 +93,10 @@ public class Project {
         this.listConsortium = new ListConsortium();
         this.courtOpinion = new CourtOpinion();
         this.report = new Report();
-
         configureObservers();
-
     }
 
+    // Injecting observers - dependencies
     public void configureObservers() {
         this.listAgent.addAgentObserver(this.agentValuePropWeight);
         this.listAgent.addAgentObserver(this.agentValueToWeight);
@@ -94,6 +119,41 @@ public class Project {
         this.courtOpinion.addObserver(this.report);
     }
 
+    @Override
+    public void addProjectObserver(ProjectObserver observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void removeProjectObserver(ProjectObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyProjectObservers(Project project) {
+        for (ProjectObserver projectObserver : observers) {
+            projectObserver.updateProject(project);
+        }
+    }
+    // For ProjectController
+    public boolean hasEnoughData() {
+        boolean hasEnoughAgents = this.getListAgent().getAgents().size() >= 2;
+        boolean hasEnoughValues = this.getListValue().getValues().size() >= 2;
+        boolean hasEnoughPropositions = this.getListProposition().getListProposition().size() >= 4;
+        boolean hasEnoughDecisions = this.getListIncompProp().decisionsExist(); // Zmienić zgodnie z rzeczywistą implementacją
+        boolean hasEnoughRules = this.getListRules().getListRules().size() >= 2; // Zmienić zgodnie z rzeczywistą implementacją
+
+        return hasEnoughAgents && hasEnoughValues && hasEnoughPropositions && hasEnoughDecisions && hasEnoughRules;
+    }
+
+    public List<Report.ReportSection> generateReport() {
+        if (!hasEnoughData()) {
+            throw new IllegalStateException("Not enough data to generate report");
+        }
+        return this.report.generateReport();
+    }
+
+    //GETTERS AND SETTERS FOR JACKSON
     public String getId() {
         return id;
     }
@@ -108,18 +168,6 @@ public class Project {
 
     public void updateLastModifiedDate() {
         this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public static int getNextId() {
-        return nextId;
-    }
-
-    public static void setNextId(int nextId) {
-        Project.nextId = nextId;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -202,30 +250,6 @@ public class Project {
         this.listPropBaseClean = listPropBaseClean;
     }
 
-    public ListKnowledgeBase getListKnowledgeBase() {
-        return listKnowledgeBase;
-    }
-
-    public void setListKnowledgeBase(ListKnowledgeBase listKnowledgeBase) {
-        this.listKnowledgeBase = listKnowledgeBase;
-    }
-
-    public ListReasoningChain getListReasoningChain() {
-        return listReasoningChain;
-    }
-
-    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
-        this.listReasoningChain = listReasoningChain;
-    }
-
-    public CourtOpinion getCourt() {
-        return courtOpinion;
-    }
-
-    public void setCourt(CourtOpinion court) {
-        this.courtOpinion = court;
-    }
-
     public Decision getDecision() {
         return decision;
     }
@@ -234,12 +258,12 @@ public class Project {
         this.decision = decision;
     }
 
-    public ListConsortium getConsortium() {
-        return this.listConsortium;
+    public Report getReport() {
+        return report;
     }
 
-    public void setConsortium(ListConsortium listConsortium) {
-        this.listConsortium = listConsortium;
+    public void setReport(Report report) {
+        this.report = report;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {

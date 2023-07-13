@@ -11,37 +11,22 @@ import java.util.List;
 
 public class JsonFileProjectRepository implements ProjectRepository {
     private final File file;
-    private final ObjectMapper objectMapper;
-    private List<Project> projects;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private List<Project> projects = new ArrayList<>();
 
     public JsonFileProjectRepository() {
         String filePath = "com/bskoczylas/modelinglegalreasoning/projectData.json";
         this.file = new File(getClass().getClassLoader().getResource(filePath).getFile());
-        this.objectMapper = new ObjectMapper();
         loadProjects();
     }
 
     @Override
     public void save(Project project) {
-        List<Project> projects = new ArrayList<>();
-        if (file.exists()) {
-            try {
-                projects = objectMapper.readValue(file, new TypeReference<List<Project>>(){});
-            } catch (IOException e) {
-                throw new RuntimeException("Problem with reading project to JSON file", e);
-            }
-        }
         projects.add(project);
-        try {
-            objectMapper.writeValue(file, projects);
-        } catch (IOException e) {
-            throw new RuntimeException("Problem with saving project to JSON file", e);
-        }
     }
 
     @Override
     public Project find(String projectId) {
-        List<Project> projects = loadProjects();
         return projects.stream()
                 .filter(project -> project.getId().equals(projectId))
                 .findFirst()
@@ -50,13 +35,7 @@ public class JsonFileProjectRepository implements ProjectRepository {
 
     @Override
     public void delete(String projectId) {
-        List<Project> projects = loadProjects();
         projects.removeIf(project -> project.getId().equals(projectId));
-        try {
-            objectMapper.writeValue(file, projects);
-        } catch (IOException e) {
-            throw new RuntimeException("Problem with saving project to JSON file", e);
-        }
     }
 
     @Override
@@ -64,15 +43,22 @@ public class JsonFileProjectRepository implements ProjectRepository {
         return loadProjects();
     }
 
-
     private List<Project> loadProjects() {
         if (file.exists()) {
             try {
-                return objectMapper.readValue(file, new TypeReference<List<Project>>(){});
+                projects = objectMapper.readValue(file, new TypeReference<List<Project>>(){});
             } catch (IOException e) {
-                throw new RuntimeException("Problem z odczytem projektów z pliku JSON", e);
+                throw new RuntimeException("Problem with reading projects from JSON file", e);
             }
         }
-        return new ArrayList<>();
+        return projects;
+    }
+
+    public void saveToFile() {
+        try {
+            objectMapper.writeValue(file, projects);
+        } catch (IOException e) {
+            throw new RuntimeException("Problem with saving project to JSON file", e);
+        }
     }
 }

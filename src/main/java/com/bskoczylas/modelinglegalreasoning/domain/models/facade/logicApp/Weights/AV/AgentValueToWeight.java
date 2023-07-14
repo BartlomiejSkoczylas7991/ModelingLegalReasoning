@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
@@ -81,27 +83,53 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
     }
 
     @Override
-    public void updateAgent(Agent updatedAgent) {
-        if (!this.agents.contains(updatedAgent)) {
-            this.agents.add(updatedAgent);
-            addAgentValuesForAgent(updatedAgent);
-        } else {
-            this.agents.remove(updatedAgent);
-            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(updatedAgent));
+    public void updateAgent(ListAgent listAgent) {
+        List<Agent> updatedAgents = listAgent.getAgents();
+
+        // Znajdź agenty, które zostały usunięte
+        List<Agent> removedAgents = new ArrayList<>(this.agents);
+        removedAgents.removeAll(updatedAgents);
+        // Usuń związane z nimi AgentValues
+        for (Agent agent : removedAgents) {
+            this.agents.remove(agent);
+            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
         }
+
+        // Znajdź nowo dodane agenty
+        List<Agent> addedAgents = new ArrayList<>(updatedAgents);
+        addedAgents.removeAll(this.agents);
+        // Dodaj związane z nimi AgentValues
+        for (Agent agent : addedAgents) {
+            this.agents.add(agent);
+            addAgentValuesForAgent(agent);
+        }
+
         setEditing(false);
         notifyAVObservers();
     }
 
     @Override
-    public void updateValue(Value updatedValue) {
-        if (!this.values.contains(updatedValue)) {
-            this.values.add(updatedValue);
-            addAgentValuesForValue(updatedValue);
-        } else {
-            this.values.remove(updatedValue);
-            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(updatedValue));
+    public void updateValue(ListValue listValue) {
+        List<Value> updatedValues = listValue.getValues();
+
+        // Znajdź agenty, które zostały usunięte
+        List<Value> removedValues = new ArrayList<>(this.values);
+        removedValues.removeAll(removedValues);
+        // Usuń związane z nimi AgentValues
+        for (Value value : removedValues) {
+            this.agents.remove(value);
+            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
         }
+
+        // Znajdź nowo dodane agenty
+        List<Value> addedValues = new ArrayList<>(updatedValues);
+        addedValues.removeAll(this.values);
+        // Dodaj związane z nimi AgentValues
+        for (Value value : addedValues) {
+            this.values.add(value);
+            addAgentValuesForValue(value);
+        }
+
         setEditing(false);
         notifyAVObservers();
     }
@@ -190,4 +218,5 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
     public void setEditing(boolean editing) {
         isEditing = editing;
     }
+
 }

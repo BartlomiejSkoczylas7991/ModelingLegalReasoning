@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.FacadeProject;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder.ProjectBuilder;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
@@ -17,24 +19,23 @@ public class ProjectManager {
     private static int nextProjectNumber = 1;
     private List<Project> projects = new ArrayList<>();
     private Project currentProject;
-    private ProjectRepository projectRepository;
+    private FacadeProject facadeProject;;
 
-    public ProjectManager(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
+    public ProjectManager(FacadeProject facadeProject) {
+        this.facadeProject = facadeProject;
         loadProjects();
     }
 
     private void loadProjects() {
-        this.projects.addAll(projectRepository.findAll());
+        this.projects.addAll(facadeProject.getAllProjects().collect(Collectors.toList()));
     }
 
-    // Metoda do zapisywania projektu do pliku
     public void saveProject(Project project) throws IOException {
-        projectRepository.save(project);
+        facadeProject.createProject(project);
     }
 
-    public void openProject(Project project) {
-        currentProject = project;
+    public void openProject(String projectId) {
+        currentProject = facadeProject.getProject(projectId);
     }
 
     public void closeProject(Project project) {
@@ -60,7 +61,7 @@ public class ProjectManager {
         projects.add(project);
 
         // save project to repository
-        projectRepository.save(project);
+        facadeProject.createProject(project);
 
         return project;
     }
@@ -68,11 +69,7 @@ public class ProjectManager {
     public void deleteProject(Project project) {
         if (this.currentProject != project) {
             projects.remove(project);
-            projectRepository.delete(project.getId());
+            facadeProject.deleteProject(project.getId());
         }
-    }
-
-    public void saveProjectsToFile() {
-        projectRepository.saveToFile();
     }
 }

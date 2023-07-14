@@ -22,13 +22,13 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
 
     public void addProposition(Proposition proposition) {
         listProposition.add(proposition);
-        notifyObservers(proposition);
+        notifyObservers(this);
     }
 
     public void removeProposition(List<Proposition> propositions) {
         listProposition.removeAll(propositions);
         for (Proposition proposition : propositions) {
-            notifyObservers(proposition);
+            notifyObservers(this);
         }
     }
 
@@ -51,9 +51,9 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
     }
 
     @Override
-    public void notifyObservers(Proposition proposition) {
+    public void notifyObservers(ListProposition listProposition) {
         for (PropositionObserver observer : this.observers) {
-            observer.updateProposition(proposition);
+            observer.updateProposition(listProposition);
         }
     }
 
@@ -66,6 +66,12 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
             for (Proposition prop : listProposition) {
                 if (prop.equals(decisions.getFirst()) || prop.equals(decisions.getSecond())) {
                     prop.setDecision(true);
+                }
+            }
+        } else {  // if the decisions are removed, we unset the decisions in the proposal pool
+            for (Proposition prop : listProposition) {
+                if (prop.isDecision()) {
+                    prop.setDecision(false);
                 }
             }
         }

@@ -1,7 +1,8 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 
 public interface PropositionObserver {
-    void updateProposition(Proposition proposition);
+    void updateProposition(ListProposition listProposition);
 }

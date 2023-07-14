@@ -18,13 +18,33 @@ public class AgentController {
     }
 
     public void addAgent(Agent agent) {
-        project.getListAgent().addAgent(agent);
-        updateAgentTable();
+        if (!project.getListAgent().getAgents().stream().anyMatch(existingAgent -> existingAgent.getName().equals(agent.getName()))) {
+            project.getListAgent().addAgent(agent);
+            updateAgentTable();
+        } else {
+            // TODO: Show error to user, agent with this name already exists
+        }
+    }
+
+    public void editAgent(Agent oldAgent, Agent newAgent) {
+        int index = project.getListAgent().getAgents().indexOf(oldAgent);
+        if (index != -1) {
+            project.getListAgent().getAgents().set(index, newAgent);
+            updateAgentTable();
+        } else {
+            // TODO: Show error to user, agent does not exist
+        }
+    }
+
+    public void removeAgent(Agent agent) {
+        if (project.getListAgent().getAgents().remove(agent)) {
+            updateAgentTable();
+        } else {
+            // TODO: Show error to user, agent does not exist
+        }
     }
 
     public void updateAgentTable() {
-        // Aktualizuj tabelę agentów na podstawie aktualnego projektu
         agentTable.setItems(FXCollections.observableArrayList(project.getListAgent().getAgents()));
     }
-
 }

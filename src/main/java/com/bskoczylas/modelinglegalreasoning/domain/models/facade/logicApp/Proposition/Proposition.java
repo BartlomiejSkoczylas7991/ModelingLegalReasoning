@@ -1,5 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Proposition {
@@ -7,6 +8,7 @@ public class Proposition {
     private int id;
     private String statement;
     private boolean isDecision;
+    private LocalDateTime created;
 
     public Proposition(String statement) {
         this.id = Proposition.next_id++;
@@ -31,6 +33,14 @@ public class Proposition {
 
     public void setDecision(boolean decision) {
         isDecision = decision;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public static void setNext_id(int next_id) {

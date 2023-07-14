@@ -11,6 +11,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.KnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase.ListKnowledgeBase;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.IncompProp;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -181,7 +182,11 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     public void updateKB(ListKnowledgeBase knowledgeBase) {
         this.listKnowledgeBase = knowledgeBase;
         this.agents = knowledgeBase.getAgents();
-        this.incompProp = knowledgeBase.getRules().getListIncompProp().getIncompProp();
+        this.incompProp = knowledgeBase.getRules().getListIncompProp()
+                .getIncompatiblePropositions()
+                .stream()
+                .map(IncompProp::getPropositionsPair)
+                .collect(Collectors.toSet());
         this.decisions = knowledgeBase.getRules().getListIncompProp().getDecisions();
 
         calculateReasoningChain();

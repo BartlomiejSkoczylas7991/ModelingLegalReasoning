@@ -155,7 +155,7 @@ public class StartWindowController {
 
             try {
                 // Załaduj wybrany projekt
-                projectManager.openProject(newProject);
+                projectManager.openProject(newProject.getId());
 
                 // Tworzenie nowego okna
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));
@@ -187,7 +187,7 @@ public class StartWindowController {
         if (currentProject != null) {
             try {
                 // Załaduj wybrany projekt
-                projectManager.openProject(currentProject);
+                projectManager.openProject(currentProject.getId());
 
                 // Tworzenie nowego okna
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));

@@ -24,18 +24,17 @@ public class ListValue implements ValueObservable {
 
     public void addValue(Value value) {
         listValue.add(value);
-        notifyObservers(value);
+        notifyObservers(this);
     }
 
     public void removeValue(Value value) {
         listValue.remove(value);
-        notifyObservers(value);
+        notifyObservers(this);
     }
 
     public void setListValue(List<Value> listValue) {
         this.listValue = listValue;
     }
-
 
     @Override
     public void addObserver(ValueObserver observer) {
@@ -48,9 +47,9 @@ public class ListValue implements ValueObservable {
     }
 
     @Override
-    public void notifyObservers(Value value) {
+    public void notifyObservers(ListValue listValue) {
         for (ValueObserver observer : this.observers){
-            observer.updateValue(value);
+            observer.updateValue(this);
         }
     }
 

@@ -5,6 +5,7 @@ import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
+import com.bskoczylas.modelinglegalreasoning.domain.models.FacadeProject;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +20,8 @@ import java.util.List;
 
 
 public class App extends Application {
-    ProjectRepository projectRepository = new JsonFileProjectRepository();
-    ProjectManager projectManager = new ProjectManager(projectRepository);
+    FacadeProject facadeProject = new FacadeProject(new JsonFileProjectRepository());
+    ProjectManager projectManager = new ProjectManager(facadeProject);
     private Stage primaryStage;
 
     @Override

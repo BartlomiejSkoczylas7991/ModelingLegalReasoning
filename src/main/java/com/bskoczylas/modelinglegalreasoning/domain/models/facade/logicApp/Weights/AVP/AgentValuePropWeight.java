@@ -1,8 +1,11 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AgentValueWeight;
@@ -19,6 +22,7 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
     private List<Agent> agents;
     private List<Value> values;
     private List<Proposition> propositions;
+    private boolean isEditing = false;
     private List<AVPObserver> weightObservers = new ArrayList<>();
     private Scale scale;
 
@@ -102,12 +106,18 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
         }
     }
 
+    //Adding default weights "?" - waiting for user edits
     private void addWeightsForNewElement(Agent agent, Value value, Proposition proposition) {
         AgentValueProposition agentValueProposition = new AgentValueProposition(agent, value, proposition);
         if (!agentValuePropWeights.containsKey(agentValueProposition)) {
-            agentValuePropWeights.put(agentValueProposition, new Weight(scale, "?"));  // Domyślna wartość "?" dla nowych wag
+            agentValuePropWeights.put(agentValueProposition, new Weight(scale, "?"));  // Default "?" for new scales
         }
     }
+
+    public void setEditing(boolean isEditing) {
+        this.isEditing = isEditing;
+    }
+
 
     @Override
     public String toString() {
@@ -127,50 +137,93 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
     }
 
     @Override
-    public void updateAgent(Agent updatedAgent) {
-        // If the agent is new and not yet listed, add him
-        if (!this.agents.contains(updatedAgent)) {
-            this.agents.add(updatedAgent);
+    public void updateAgent(ListAgent listAgent) {
+        List<Agent> updatedAgents = listAgent.getAgents();
+
+        // Find agents that have been removed
+        List<Agent> removedAgents = new ArrayList<>(this.agents);
+        removedAgents.removeAll(updatedAgents);
+        // Remove the associated AgentValuePropWeights
+        for (Agent agent : removedAgents) {
+            this.values.remove(agent);
+            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
+        }
+
+        // Find new added agents
+        List<Agent> addedAgents = new ArrayList<>(updatedAgents);
+        addedAgents.removeAll(this.agents);
+        // Add the associated AgentValuePropWeights
+        for (Agent agent : addedAgents) {
+            this.agents.add(agent);
             for (Value value : values) {
                 for (Proposition proposition : propositions) {
-                    addWeightsForNewElement(updatedAgent, value, proposition);
+                    addWeightsForNewElement(agent, value, proposition);
                 }
             }
-        } else { // If an agent is already listed, we remove him
-            this.agents.remove(updatedAgent);
-            // Remove all pairs agent-value associated with this agent
-            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(updatedAgent));
         }
+
+        setEditing(false);
+        notifyAVPObservers();
     }
 
     @Override
-    public void updateProposition(Proposition updatedProposition) {
-        if (!this.propositions.contains(updatedProposition)) {
-            this.propositions.add(updatedProposition);
-            for (Agent agent : agents) {
-                for (Value value : values) {
-                    addWeightsForNewElement(agent, value, updatedProposition);
+    public void updateProposition(ListProposition listProposition) {
+        List<Proposition> updatedPropositions = listProposition.getListProposition();
+
+        // Find propositions that have been removed
+        List<Proposition> removedPropositions = new ArrayList<>(this.propositions);
+        removedPropositions.removeAll(updatedPropositions);
+        // Remove the associated AgentValuePropWeights
+        for (Proposition proposition : removedPropositions) {
+            this.propositions.remove(proposition);
+            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getProposition().equals(proposition));
+        }
+
+        // Find newly added propositions
+        List<Proposition> addedPropositions = new ArrayList<>(updatedPropositions);
+        addedPropositions.removeAll(this.propositions);
+        // Add the associated AgentValuePropWeights
+        for (Proposition proposition : addedPropositions) {
+            this.propositions.add(proposition);
+            for (Value value : values) {
+                for (Agent agent : agents) {
+                    addWeightsForNewElement(agent, value, proposition);
                 }
             }
-        } else {
-            this.propositions.remove(updatedProposition);
-            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getProposition().equals(updatedProposition));
         }
+
+        setEditing(false);
+        notifyAVPObservers();
     }
 
     @Override
-    public void updateValue(Value updatedValue) {
-        if (!this.values.contains(updatedValue)) {
-            this.values.add(updatedValue);
+    public void updateValue(ListValue ListValue) {
+        List<Value> updatedValues = ListValue.getValues();
+
+        // Find the values that have been removed
+        List<Value> removedValues = new ArrayList<>(this.values);
+        removedValues.removeAll(updatedValues);
+        // Remove the associated AgentValuePropWeights
+        for (Value value : removedValues) {
+            this.values.remove(value);
+            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
+        }
+
+        // Find newly added values
+        List<Value> addedValues = new ArrayList<>(updatedValues);
+        addedValues.removeAll(this.values);
+        // Add the associated AgentValuePropWeights
+        for (Value value : addedValues) {
+            this.values.add(value);
             for (Agent agent : agents) {
                 for (Proposition proposition : propositions) {
-                    addWeightsForNewElement(agent, updatedValue, proposition);
+                    addWeightsForNewElement(agent, value, proposition);
                 }
             }
-        } else {
-            this.values.remove(updatedValue);
-            this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(updatedValue));
         }
+
+        setEditing(false);
+        notifyAVPObservers();
     }
 
     public void addWeight(Agent agent, Value value, Proposition prop, Weight weight) {

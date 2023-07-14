@@ -46,28 +46,57 @@ public class Project implements ProjectObservable {
     private Scale scale; // z/w
     @JsonProperty
     private ListRules listRules; // z/w
-    @JsonIgnore
+    @JsonProperty
     private ListPropBaseClean listPropBaseClean;
-    @JsonIgnore
+    @JsonProperty
     private ListKnowledgeBase listKnowledgeBase;
+    @JsonProperty
     private ListReasoningChain listReasoningChain;
-    @JsonIgnore
+    @JsonProperty
     private Decision decision;
+    @JsonProperty
     private ListConsortium listConsortium;
-    @JsonIgnore
+    @JsonProperty
     private CourtOpinion courtOpinion;
-    @JsonIgnore
+    @JsonProperty
     private Report report;
-    @JsonIgnore
+    @JsonProperty
     private List<ProjectObserver> observers = new ArrayList<>();
     @JsonProperty
     private LocalDateTime createdDate; // z/w
     @JsonProperty
     private LocalDateTime lastModifiedDate; // z/w
 
-    public Project() {}
+    public Project() {
+        if (name == null || name.trim().isEmpty()) {
+            name = "Project" + nextId;
+        }
+        // for new project
+        this.createdDate = LocalDateTime.now();
+        this.lastModifiedDate = LocalDateTime.now();
+        this.name = name;
+        this.id = Integer.toString(nextId++);  // set id
+        nextId++;  // We increment nextId by 1, so the next Project will have a larger id
 
-    public Project(String name){
+        // define
+        this.listAgent = new ListAgent();
+        this.listProposition = new ListProposition();
+        this.listValue = new ListValue();
+        this.listRules = new ListRules();
+        this.agentValuePropWeight = new AgentValuePropWeight();
+        this.agentValueToWeight = new AgentValueToWeight();
+        this.listIncompProp = new ListIncompProp();
+        this.listKnowledgeBase = new ListKnowledgeBase();
+        this.listPropBaseClean = new ListPropBaseClean();
+        this.scale = new Scale();
+        this.listReasoningChain = new ListReasoningChain();
+        this.listConsortium = new ListConsortium();
+        this.courtOpinion = new CourtOpinion();
+        this.report = new Report();
+        configureObservers();
+    }
+
+    public Project(@JsonProperty("name") String name){
         if (name == null || name.trim().isEmpty()) {
             name = "Project" + nextId;
         }
@@ -158,6 +187,10 @@ public class Project implements ProjectObservable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -174,6 +207,7 @@ public class Project implements ProjectObservable {
         return name;
     }
 
+    @JsonProperty
     public void setName(String name) {
         this.name = name;
     }
@@ -200,6 +234,46 @@ public class Project implements ProjectObservable {
 
     public void setListValue(ListValue listValue) {
         this.listValue = listValue;
+    }
+
+    public ListKnowledgeBase getListKnowledgeBase() {
+        return listKnowledgeBase;
+    }
+
+    public void setListKnowledgeBase(ListKnowledgeBase listKnowledgeBase) {
+        this.listKnowledgeBase = listKnowledgeBase;
+    }
+
+    public ListReasoningChain getListReasoningChain() {
+        return listReasoningChain;
+    }
+
+    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
+        this.listReasoningChain = listReasoningChain;
+    }
+
+    public ListConsortium getListConsortium() {
+        return listConsortium;
+    }
+
+    public void setListConsortium(ListConsortium listConsortium) {
+        this.listConsortium = listConsortium;
+    }
+
+    public CourtOpinion getCourtOpinion() {
+        return courtOpinion;
+    }
+
+    public void setCourtOpinion(CourtOpinion courtOpinion) {
+        this.courtOpinion = courtOpinion;
+    }
+
+    public List<ProjectObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<ProjectObserver> observers) {
+        this.observers = observers;
     }
 
     public ListIncompProp getListIncompProp() {

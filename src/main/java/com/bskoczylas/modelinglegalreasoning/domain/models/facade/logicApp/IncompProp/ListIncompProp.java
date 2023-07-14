@@ -1,5 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.IncompPropObservable;
@@ -7,46 +8,68 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PropositionObserver;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ListIncompProp implements PropositionObserver, IncompPropObservable {
     private List<Proposition> propositions;
     private List<IncompPropObserver> observers;
-    private Set<Pair<Proposition, Proposition>> incompProp;
-    private Pair<Proposition, Proposition> decisions;
+    private List<IncompProp> incompPropList;
 
     public ListIncompProp() {
-        this.incompProp = new HashSet<>();
+        this.incompPropList = new ArrayList<>();
         this.observers = new ArrayList<>();
+        this.propositions = new ArrayList<>();
     }
 
-    public void addIncompatiblePropositions(Proposition prop1, Proposition prop2) {
-        // Ensure that the pair is not already present in the set
-        // and that prop1 and prop2 are not the same proposition
-        incompProp.add(new Pair<>(prop1, prop2));
+    public void addIncompatiblePropositions(IncompProp incompProp) {
+        // Ensure that the pair is not already present in the list
+        incompPropList.add(incompProp);
         notifyObservers();
     }
 
-    public void setDecisions(Pair<Proposition, Proposition> incompProp) {
-        incompProp.getFirst().setDecision(true);
-        incompProp.getSecond().setDecision(true);
-        this.decisions = incompProp;
+    public void setDecision(IncompProp incompProp) {
+        // Unset any existing decision
+        for (IncompProp prop : incompPropList) {
+            if (prop.isDecision()) {
+                prop.setDecision(false);
+            }
+        }
+
+        // Set the new decision
+        incompProp.setDecision(true);
         notifyObservers();
+    }
+
+    public IncompProp getDecision() {
+        for (IncompProp prop : incompPropList) {
+            if (prop.isDecision()) {
+                return prop;
+            }
+        }
+        return null;
     }
 
     public Pair<Proposition, Proposition> getDecisions() {
-        return decisions;
+        for (IncompProp entry : this.incompPropList) {
+            if(entry.isDecision()) {
+                return entry.getPropositionsPair();
+            }
+        }
+        return null;
     }
-
     boolean containsPair(Proposition prop1, Proposition prop2) {
-        // Check if the pair is in the set in either order
-        return incompProp.contains(new Pair<>(prop1, prop2)) || incompProp.contains(new Pair<>(prop2, prop1));
+        for (IncompProp pair : this.incompPropList) {
+            Pair<Proposition, Proposition> propPair = pair.getPropositionsPair();
+            if (propPair.getFirst().equals(prop1) && propPair.getSecond().equals(prop2)
+                    || propPair.getFirst().equals(prop2) && propPair.getSecond().equals(prop1)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Set<Pair<Proposition, Proposition>> getIncompatiblePropositions() {
-        return incompProp;
+    public List<IncompProp> getIncompatiblePropositions() {
+        return incompPropList;
     }
 
     public List<Proposition> getPropositions() {
@@ -57,22 +80,48 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         this.propositions = propositions;
     }
 
-    public Set<Pair<Proposition, Proposition>> getIncompProp() {
-        return incompProp;
+    public List<IncompProp> getIncompPropList() {
+        return incompPropList;
     }
 
-    public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
-        this.incompProp = incompProp;
+    public void setIncompPropList(List<IncompProp> incompPropList) {
+        this.incompPropList = incompPropList;
         notifyObservers();
     }
 
     @Override
-    public void updateProposition(Proposition updatedProposition) {
-        if (!this.propositions.contains(updatedProposition)) {
-            this.propositions.add(updatedProposition);
-        } else {
-            this.propositions.remove(updatedProposition);
+    public void updateProposition(ListProposition listProposition) {
+        // Create a copy of the local propositions list to avoid ConcurrentModificationException
+        List<Proposition> localPropositionsCopy = new ArrayList<>(this.propositions);
+
+        for (Proposition prop : listProposition.getListProposition()) {
+            if (!this.propositions.contains(prop)) {
+                this.propositions.add(prop);
+            }
         }
+
+        for (Proposition prop : localPropositionsCopy) {
+            if (!listProposition.getListProposition().contains(prop)) {
+                this.propositions.remove(prop);
+                removeDecision(prop);
+                removeIncompPropByProposition(prop);
+            }
+        }
+    }
+
+    public void removeIncompPropByProposition(Proposition prop) {
+        // If prop is part of any incompatible pair, remove it
+        incompPropList.removeIf(incompProp -> incompProp.getPropositionsPair().getFirst().equals(prop)
+                || incompProp.getPropositionsPair().getSecond().equals(prop));
+        notifyObservers();
+    }
+
+    public void removeIncompProp(IncompProp incompProp) {
+        incompPropList.remove(incompProp);
+        if (incompProp.isDecision()) {
+            incompProp.setDecision(false);
+        }
+        notifyObservers();
     }
 
     @Override
@@ -93,7 +142,33 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
     }
 
     public boolean decisionsExist() {
-        return decisions != null;
+        for (IncompProp pair : this.incompPropList){
+            if (pair.isDecision()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeDecision(Proposition prop) {
+        for (IncompProp incompProp : incompPropList) {
+            if (incompProp.isDecision() &&
+                    (incompProp.getPropositionsPair().getFirst().equals(prop)
+                            || incompProp.getPropositionsPair().getSecond().equals(prop))) {
+                incompProp.setDecision(false);
+                notifyObservers();
+            }
+        }
+    }
+
+    public void removeDecision(IncompProp incompProp) {
+        for (IncompProp entry : incompPropList) {
+            if (entry.isDecision()) {
+                incompPropList.remove(entry);
+            }
+            notifyObservers();
+        }
+
     }
 
     @Override
@@ -102,9 +177,13 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         sb.append("Objectively incompatible propositions: <");
 
         int i = 0;
-        for (Pair<Proposition, Proposition> pair : incompProp) {
-            sb.append("< ").append(pair.getFirst().getStatement()).append(", ").append(pair.getSecond().getStatement()).append(" >");
-            if(i < incompProp.size() - 1) { // do not add comma after last pair
+        for (IncompProp pair : this.incompPropList) {
+            sb.append("< ").append(pair.getPropositionsPair()
+                            .getFirst().getStatement())
+                            .append(", ").append(pair
+                            .getPropositionsPair().getSecond()
+                            .getStatement()).append(" >");
+            if(i < this.incompPropList.size() - 1) { // do not add comma after last pair
                 sb.append(", ");
             }
             i++;

@@ -2,12 +2,14 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Valu
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Value {
     private static int nextId = 1;
     private int id;
     private String name;
+    private LocalDateTime created;
 
     public Value(String name) {
         this.id = nextId++;
@@ -24,6 +26,14 @@ public class Value {
 
     public int getId() {
         return id;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     @Override

@@ -23,20 +23,20 @@ public class ListAgent implements AgentObservable {
 
     public void addAgent(Agent agent) {
         listAgent.add(agent);
-        notifyAgentObservers(agent);
+        notifyAgentObservers(this);
     }
 
     public void addAgents(List<Agent> agents) {
         listAgent.addAll(agents);
         for (Agent agent : agents) {
-            notifyAgentObservers(agent);
+            notifyAgentObservers(this);
         }
     }
 
     public void removeAgents(List<Agent> agents) {
         listAgent.removeAll(agents);
         for (Agent agent : agents) {
-            notifyAgentObservers(agent);
+            notifyAgentObservers(this);
         }
     }
 
@@ -55,9 +55,15 @@ public class ListAgent implements AgentObservable {
     }
 
     @Override
-    public void notifyAgentObservers(Agent agent) {
+    public void notifyAgentObservers(ListAgent listAgent) {
         for (AgentObserver observer : this.observers) {
-            observer.updateAgent(agent);
+            observer.updateAgent(listAgent);
+        }
+    }
+
+    public void removeAgent(Agent agent) {
+        if(listAgent.remove(agent)) {
+            notifyAgentObservers(this);
         }
     }
 

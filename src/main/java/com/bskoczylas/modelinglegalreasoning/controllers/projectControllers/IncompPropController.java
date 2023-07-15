@@ -18,13 +18,13 @@ public class IncompPropController {
     private TableView<IncompProp> incompPropTable;
 
     @FXML
-    private ComboBox<Proposition> comboBox1;
+    private ComboBox<Proposition> prop1comboBoxIncompProp;
 
     @FXML
-    private ComboBox<Proposition> comboBox2;
+    private ComboBox<Proposition> prop2comboBoxIncompProp;
 
     @FXML
-    private RadioButton isDecisionButton;
+    private RadioButton isDecisionRadioButton;
 
     private ProjectController projectController;
     private Project project;
@@ -39,12 +39,12 @@ public class IncompPropController {
 
     @FXML
     public void handleAddButtonAction(ActionEvent event) {
-        Proposition prop1 = comboBox1.getValue();
-        Proposition prop2 = comboBox2.getValue();
+        Proposition prop1 = prop1comboBoxIncompProp.getValue();
+        Proposition prop2 = prop2comboBoxIncompProp.getValue();
 
         if(prop1 != null && prop2 != null && !prop1.equals(prop2)) {
             ListIncompProp listIncompProp = project.getListIncompProp();
-            IncompProp incompProp = new IncompProp(new Pair<>(prop1, prop2), isDecisionButton.isSelected());
+            IncompProp incompProp = new IncompProp(new Pair<>(prop1, prop2), isDecisionRadioButton.isSelected());
             listIncompProp.addIncompatiblePropositions(incompProp);
             updateIncompPropTable();
 
@@ -52,12 +52,6 @@ public class IncompPropController {
         } else {
             // Show error to user, invalid propositions selected
         }
-    }
-
-    @FXML
-    public void handleEditButtonAction(ActionEvent event) {
-        IncompProp selectedIncompProp = incompPropTable.getSelectionModel().getSelectedItem();
-        // Update the selectedIncompProp as necessary
     }
 
     @FXML
@@ -73,16 +67,16 @@ public class IncompPropController {
         incompPropTable.setItems(FXCollections.observableArrayList(project.getListIncompProp().getIncompatiblePropositions()));
     }
 
-    private void checkDecision() {
+    public void checkDecision() {
         // If there is already a decision, disable the RadioButton.
         // Otherwise, enable it.
         if(project.getListIncompProp()
                 .getIncompatiblePropositions()
                 .stream()
                 .anyMatch(IncompProp::isDecision)) {
-            isDecisionButton.setDisable(true);
+            isDecisionRadioButton.setDisable(true);
         } else {
-            isDecisionButton.setDisable(false);
+            isDecisionRadioButton.setDisable(false);
         }
     }
 }

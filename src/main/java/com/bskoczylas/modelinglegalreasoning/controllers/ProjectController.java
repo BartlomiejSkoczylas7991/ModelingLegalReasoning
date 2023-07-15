@@ -10,11 +10,17 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Incom
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,38 +53,30 @@ public class ProjectController implements ProjectObserver {
         // for agent
         @FXML
         private TableView<Agent> agentTable;
-
-        private AgentController agentController;
-
         @FXML
         private Button addAgentButton;
-
         @FXML
         private Button editAgentButton;
-
         @FXML
         private Button removeAgentButton;
-
         @FXML
         private TextField agentNameTextField;
+
+        private AgentController agentController;
 
         // for values
         @FXML
         private TableView<Value> valueTable;
-
-        private ValueController valueController;
-
         @FXML
         private Button addValueButton;
-
         @FXML
         private Button editValueButton;
-
         @FXML
         private Button removeValueButton;
-
         @FXML
         private TextField valueNameTextField;
+
+        private ValueController valueController;
 
         // for propositions
         @FXML
@@ -99,10 +97,33 @@ public class ProjectController implements ProjectObserver {
         private TextField propositionNameTextField;
 
         // for AV
-        @FXML
-        private TableView<AgentValueToWeight> AVTable;
-
         private AVController avController;
+        AgentValueToWeight avWeights = currentProject.getAgentValueToWeight();
+        Scale scale = currentProject.getScale();
+        @FXML
+        private TableView<AgentValue> AVTable;
+        @FXML
+        private TableColumn<AgentValue, Integer> AVIdColumn;
+        @FXML
+        private TableColumn<AgentValue, String> AVAgentsColumn;
+        @FXML
+        private TableColumn<AgentValue, String> AVValuesColumn;
+        @FXML
+        private TableColumn<AgentValue, Double> AVWeightsColumn;
+        @FXML
+        private Button aVAddButton;
+        @FXML
+        private Button aVEditButton;
+        @FXML
+        private Button aVRandomButton;
+        @FXML
+        private Button aVAddScaleButton;
+        @FXML
+        private Slider aVMinScale;
+        @FXML
+        private Slider aVMaxScale;
+        @FXML
+        private ComboBox<Weight> aVWeightsComboBox;
 
         // for AVP
         @FXML
@@ -147,28 +168,53 @@ public class ProjectController implements ProjectObserver {
         public void initialize() {
                 // Inicjalizacja kontrolerów
                 // Agent section
-                this.agentController = new AgentController(agentTable, this);
+                this.agentController = new AgentController(this.agentTable, this.agentNameTextField,
+                        this.addAgentButton, this.editAgentButton, this.removeAgentButton, this);
                 agentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Dodanie funkcji obsługującej dla przycisków
-                addAgentButton.setOnAction(event -> agentController.handleAddAgent(agentNameTextField));
-                editAgentButton.setOnAction(event -> agentController.handleEditAgent(agentNameTextField));
-                removeAgentButton.setOnAction(event -> agentController.handleRemoveAgent());
-
-
                 // Value section
-                this.valueController = new ValueController(valueTable, this);
+                this.valueController = new ValueController(valueTable, this.valueNameTextField,
+                        this.addValueButton, this.editValueButton, this.removeValueButton,this);
                 valueTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // Proposition section
-                this.propositionController = new PropositionController(propositionTable, prop1comboBoxIncompProp, prop2comboBoxIncompProp, this);
+                this.propositionController = new PropositionController(propositionTable,
+                        prop1comboBoxIncompProp, prop2comboBoxIncompProp, this.propositionNameTextField,
+                        this.addPropositionButton, this.editPropositionButton, this.removePropositionButton,this);
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // IncompProp section
                 this.incompPropController = new IncompPropController(incompPropTable, this);
 
                 // AgentValue Weights section
-                this.avController = new AVController(AVTable, this);
+
+                // Bind the table view to the data
+                AVTable.setItems(FXCollections.observableArrayList(avWeights.keySet())); // nie ma aVWeights - jest to z project.getAgentValueToWeight() praktycznie. Robimy w obrębie ProjectController i tylko jest w AVController, ale to jest jakby to pomocnicza by nadto nie zaśmiecać ProjectController. Jeszcze doślę Project jak wygląda.
+
+                // Initialize the table columns
+                AVIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+                AVAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgent().getName()));
+                AVValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getValue().getName()));
+                AVWeightsColumn.setCellValueFactory(data -> new SimpleDoubleProperty(avWeights.getWeight(data.getValue())).asObject());
+
+                // Initialize the sliders
+                minSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal.doubleValue() > maxSlider.getValue() - 1) {
+                                minSlider.setValue(oldVal.doubleValue());
+                        }
+                });
+
+                maxSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal.doubleValue() < minSlider.getValue() + 1) {
+                                maxSlider.setValue(oldVal.doubleValue());
+                        }
+                });
+
+                // Initialize the buttons
+                addButton.setOnAction(event -> addWeight());
+                editButton.setOnAction(event -> editWeight());
+                randomButton.setOnAction(event -> randomizeWeights());
+                changeScaleButton.setOnAction(event -> changeScale());
 
                 // Na początku przycisk "Generate" jest nieaktywny
                 generateButton.setDisable(true);
@@ -184,124 +230,36 @@ public class ProjectController implements ProjectObserver {
         }
         //DODAWANIE PRZYCISKÓW GÓRNYCH ("GENERATE PDF", "NEW", "HELP", "SAVE", "MENU", "EXIT")
 
-
-        // DODAWANIE AGENTÓW POPRZEZ AGENTCONTROLLER
+        //DODAWANIE AGENTÓW POPRZEZ PropositionController
         @FXML
         public void handleAddAgent(ActionEvent event) {
-                String agentName = agentNameTextField.getText(); // pobierz nazwę agenta z pola tekstowego
-
-                if (!agentName.isEmpty()) {
-                        Agent newAgent = new Agent(agentName); // utwórz nową instancję agenta
-                        agentController.addAgent(newAgent); // dodaj nowego agenta do projektu
-                        agentNameTextField.clear(); // wyczyść pole tekstowe
-                        agentController.updateAgentTable(); // zaktualizuj tabelę po dodaniu agenta
-                }
+                this.agentController.handleAddAgent();
         }
 
         @FXML
-        private void handleEditAgent(ActionEvent event) {
-                Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
-                if (selectedAgent != null) {
-                        String agentName = agentNameTextField.getText();
-                        if (!agentName.isEmpty()) {
-                                Agent newAgent = new Agent(agentName);
-                                agentController.editAgent(selectedAgent, newAgent);
-                                agentNameTextField.clear();
-                                agentController.updateAgentTable(); // zaktualizuj tabelę po edycji agenta
-                        }
-                } else {
-                        // TODO: Show error to user, no agent selected
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No agent selected!");
-
-                        alert.showAndWait();
-                }
+        public void handleEditAgent(ActionEvent event) {
+                this.agentController.handleEditAgent();
         }
 
         @FXML
-        private void handleRemoveAgent(ActionEvent event) {
-                Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
-                if (selectedAgent != null) {
-                        agentController.removeAgent(selectedAgent);
-                        agentController.updateAgentTable(); // zaktualizuj tabelę po usunięciu agenta
-                } else {
-                        // TODO: Show error to user, no agent selected
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No agent selected!");
-
-                        alert.showAndWait();
-                }
-        }
-
-        public void updateAgentTable() {
-                Project currentProject = projectManager.getCurrentProject();
-                if (currentProject != null) {
-                        // Aktualizuj tabelę agentów na podstawie aktualnego projektu
-                        agentTable.setItems(FXCollections.observableArrayList(currentProject.getListAgent().getAgents()));
-                }
+        public void handleRemoveAgent(ActionEvent event) {
+                this.agentController.handleRemoveAgent();
         }
 
         //DODAWANIE PROPOZYCJI POPRZEZ PropositionController
         @FXML
         public void handleAddProposition(ActionEvent event) {
-                String propositionName = propositionNameTextField.getText(); // pobierz nazwę proposition z pola tekstowego
-
-                if (!propositionName.isEmpty()) {
-                        Proposition newProposition = new Proposition(propositionName); // utwórz nową instancję proposition
-                        propositionController.addProposition(newProposition); // dodaj nowego proposition do projektu
-                        propositionNameTextField.clear(); // wyczyść pole tekstowe
-                        propositionController.updatePropositionTable(); // zaktualizuj tabelę po dodaniu proposition
-                }
+                this.propositionController.handleAddProposition();
         }
 
         @FXML
         private void handleEditProposition(ActionEvent event) {
-                Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
-                if (selectedProposition != null) {
-                        String propositionName = propositionNameTextField.getText();
-                        if (!propositionName.isEmpty()) {
-                                Proposition newProposition = new Proposition(propositionName);
-                                propositionController.editProposition(selectedProposition, newProposition);
-                                propositionNameTextField.clear();
-                                propositionController.updatePropositionTable(); // zaktualizuj tabelę po edycji proposition
-                        }
-                } else {
-                        // TODO: Show error to user, no proposition selected
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No proposition selected!");
-
-                        alert.showAndWait();
-                }
+                this.propositionController.handleEditProposition();
         }
 
         @FXML
         private void handleRemoveProposition(ActionEvent event) {
-                Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
-                if (selectedProposition != null) {
-                        propositionController.removeProposition(selectedProposition);
-                        propositionController.updatePropositionTable(); // zaktualizuj tabelę po usunięciu proposition
-                } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No proposition selected!");
-
-                        alert.showAndWait();
-                }
-        }
-
-        public void updatePropositionTable() {
-                Project currentProject = projectManager.getCurrentProject();
-                if (currentProject != null) {
-                        // Aktualizuj tabelę propositionów na podstawie aktualnego projektu
-                        propositionTable.setItems(FXCollections.observableArrayList(currentProject.getListProposition().getListProposition()));
-                }
+                this.propositionController.handleRemoveProposition();
         }
 
         //DODAWANIE WARTOŚCI POPRZEZ ValueController
@@ -353,14 +311,6 @@ public class ProjectController implements ProjectObserver {
                         alert.setContentText("No value selected!");
 
                         alert.showAndWait();
-                }
-        }
-
-        public void updateValueTable() {
-                Project currentProject = projectManager.getCurrentProject();
-                if (currentProject != null) {
-                        // Aktualizuj tabelę propositionów na podstawie aktualnego projektu
-                        valueTable.setItems(FXCollections.observableArrayList(currentProject.getListValue().getValues()));
                 }
         }
 

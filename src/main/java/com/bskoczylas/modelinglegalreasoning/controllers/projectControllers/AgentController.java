@@ -4,7 +4,9 @@ import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -12,11 +14,30 @@ public class AgentController {
     private TableView<Agent> agentTable;
     private ProjectController projectController;
     private Project project;
+    private TextField agentNameTextField;
+    private Button addAgentButton;
+    private Button editAgentButton;
+    private Button removeAgentButton;
 
-    public AgentController(TableView<Agent> agentTable, ProjectController projectController) {
+
+    public AgentController(TableView<Agent> agentTable, TextField agentNameTextField,
+                           Button addAgentButton, Button editAgentButton, Button removeAgentButton,
+                           ProjectController projectController) {
         this.agentTable = agentTable;
+        this.agentNameTextField = agentNameTextField;
+        this.addAgentButton = addAgentButton;
+        this.editAgentButton = editAgentButton;
+        this.removeAgentButton = removeAgentButton;
         this.projectController = projectController;
         this.project = projectController.getProject();
+
+        setupAgentButtons();
+    }
+
+    private void setupAgentButtons() {
+        addAgentButton.setOnAction(e -> handleAddAgent());
+        editAgentButton.setOnAction(e -> handleEditAgent());
+        removeAgentButton.setOnAction(e -> handleRemoveAgent());
     }
 
     public void addAgent(Agent agent) {
@@ -64,7 +85,7 @@ public class AgentController {
         }
     }
 
-    public void handleAddAgent(TextField agentNameTextField) {
+    public void handleAddAgent() {
         String agentName = agentNameTextField.getText(); // pobierz nazwę agenta z pola tekstowego
 
         if (!agentName.isEmpty()) {
@@ -75,7 +96,7 @@ public class AgentController {
         }
     }
 
-    public void handleEditAgent(TextField agentNameTextField) {
+    public void handleEditAgent() {
         Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
         if (selectedAgent != null) {
             String agentName = agentNameTextField.getText();
@@ -95,7 +116,7 @@ public class AgentController {
             alert.showAndWait();
         }
     }
-
+    @FXML
     public void handleRemoveAgent() {
         Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
         if (selectedAgent != null) {

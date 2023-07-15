@@ -166,24 +166,24 @@
                   <Tab text="A-V Weights List">
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                             <TableView fx:id="AVTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
+                             <TableView fx:id="aVTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
                                  <columns>
-                                     <TableColumn fx:id="AVIdColumn" prefWidth="50" text="id" />
-                                     <TableColumn fx:id="AVAgentsColumn" prefWidth="188.0" text="Agents" />
-                                 <TableColumn fx:id="AVValuesColumn" prefWidth="190.0" text="Values" />
-                                 <TableColumn fx:id="AVWeightsColumn" prefWidth="74.0" text="Weights" />
+                                     <TableColumn fx:id="aVIdColumn" prefWidth="50" text="id" />
+                                     <TableColumn fx:id="aVAgentsColumn" prefWidth="188.0" text="Agents" />
+                                 <TableColumn fx:id="aVValuesColumn" prefWidth="190.0" text="Values" />
+                                 <TableColumn fx:id="aVWeightsColumn" prefWidth="74.0" text="Weights" />
                                  </columns>
                              </TableView>
                              <Label layoutX="54.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
                                  <font>
                                      <Font name="Khmer OS System" size="17.0" />
                                  </font></Label>
-                             <Button layoutX="40.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                             <Button layoutX="159.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                           <Button layoutX="280.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Random" />
-                           <Slider layoutX="399.0" layoutY="470.0" />
-                           <Slider layoutX="399.0" layoutY="422.0" />
-                           <Button layoutX="399.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                             <Button fx:id="aVAddButton" layoutX="40.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button fx:id="aVEditButton" layoutX="159.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                           <Button fx:id="aVRandomButton" layoutX="280.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Random" />
+                           <Slider fx:id="aVMinScale" layoutX="399.0" layoutY="470.0" />
+                           <Slider fx:id="aVMaxScale" layoutX="399.0" layoutY="422.0" />
+                           <Button fx:id="aVAddScaleButton" layoutX="399.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
                            <Label layoutX="409.0" layoutY="381.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
                               <font>
                                  <Font name="Khmer OS System" size="17.0" />
@@ -204,7 +204,7 @@
                                  <Font name="Khmer OS System" size="17.0" />
                               </font>
                            </Label>
-                           <ComboBox layoutX="72.0" layoutY="438.0" prefHeight="36.0" prefWidth="173.0" />
+                           <ComboBox fx:id="aVWeightsComboBox" layoutX="72.0" layoutY="438.0" prefHeight="36.0" prefWidth="173.0" />
 
                          </AnchorPane>
                      </content>

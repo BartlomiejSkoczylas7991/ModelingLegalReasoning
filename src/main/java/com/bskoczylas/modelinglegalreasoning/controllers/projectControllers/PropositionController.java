@@ -2,12 +2,12 @@ package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
+
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 
 public class PropositionController {
     private TableView<Proposition> propositionTable;
@@ -15,16 +15,30 @@ public class PropositionController {
     private ComboBox<Proposition> prop2comboBoxIncompProp;
     private ProjectController projectController;
     private Project project;
+    private TextField propositionNameTextField;
+    private Button addPropositionButton;
+    private Button editPropositionButton;
+    private Button removePropositionButton;
 
-    public PropositionController(TableView<Proposition> propositionTable,
-                                 ComboBox<Proposition> prop1comboBoxIncompProp,
-                                 ComboBox<Proposition> prop2comboBoxIncompProp,
-                                 ProjectController projectController) {
+    public PropositionController(TableView<Proposition> propositionTable, ComboBox<Proposition> prop1comboBoxIncompProp,
+                                 ComboBox<Proposition> prop2comboBoxIncompProp, TextField propositionNameTextField,
+                                 Button addPropositionButton, Button editPropositionButton, Button removePropositionButton,
+                                ProjectController projectController) {
         this.propositionTable = propositionTable;
         this.prop1comboBoxIncompProp = prop1comboBoxIncompProp;
         this.prop2comboBoxIncompProp = prop2comboBoxIncompProp;
+        this.propositionNameTextField = propositionNameTextField;
+        this.addPropositionButton = addPropositionButton;
+        this.editPropositionButton = editPropositionButton;
+        this.removePropositionButton = removePropositionButton;
         this.projectController = projectController;
         this.project = projectController.getProject();
+    }
+
+    private void setupPropositionButtons() {
+        addPropositionButton.setOnAction(e -> handleAddProposition());
+        editPropositionButton.setOnAction(e -> handleEditProposition());
+        removePropositionButton.setOnAction(e -> handleRemoveProposition());
     }
 
     public void addProposition(Proposition proposition) {
@@ -77,6 +91,54 @@ public class PropositionController {
 
     public void updatePropositionTable() {
         propositionTable.setItems(FXCollections.observableArrayList(project.getListProposition().getListProposition()));
+    }
+
+    public void handleAddProposition() {
+        String propositionName = propositionNameTextField.getText(); // pobierz nazwę Propositiona z pola tekstowego
+
+        if (!propositionName.isEmpty()) {
+            Proposition newProposition = new Proposition(propositionName); // utwórz nową instancję Proposition
+            addProposition(newProposition); // dodaj nowego Propositiona do projektu
+            propositionNameTextField.clear(); // wyczyść pole tekstowe
+            updatePropositionTable(); // zaktualizuj tabelę po dodaniu Proposition
+        }
+    }
+
+    public void handleEditProposition() {
+        Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
+        if (selectedProposition != null) {
+            String propositionName = propositionNameTextField.getText();
+            if (!propositionName.isEmpty()) {
+                Proposition newProposition = new Proposition(propositionName);
+                editProposition(selectedProposition, newProposition);
+                propositionNameTextField.clear();
+                updatePropositionTable(); // zaktualizuj tabelę po edycji Proposition
+            }
+        } else {
+            // TODO: Show error to user, no Proposition selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No Proposition selected!");
+
+            alert.showAndWait();
+        }
+    }
+    @FXML
+    public void handleRemoveProposition() {
+        Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
+        if (selectedProposition != null) {
+            removeProposition(selectedProposition);
+            updatePropositionTable(); // zaktualizuj tabelę po usunięciu Proposition
+        } else {
+            // TODO: Show error to user, no Proposition selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No Proposition selected!");
+
+            alert.showAndWait();
+        }
     }
 
     private void updateComboBoxes() {

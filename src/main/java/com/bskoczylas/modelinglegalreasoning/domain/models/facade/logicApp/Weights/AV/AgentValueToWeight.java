@@ -10,12 +10,11 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ValueObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AgentValueWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVObservable;
 
 import java.util.*;
 
-public class AgentValueToWeight extends AgentValueWeight implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
+public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
     private Map<AgentValue, Weight> agentValueWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -40,19 +39,32 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
         return agentValueWeights.keySet();
     }
 
-    @Override
     public void addAgent(Agent agent) {
         agents.add(agent);
     }
 
-    @Override
     public void addValue(Value value) {
         values.add(value);
     }
 
-    @Override
     public void setScale(Scale scale) {
         this.scale = scale;
+    }
+
+    public Map<AgentValue, Weight> getAgentValueWeights() {
+        return agentValueWeights;
+    }
+
+    public List<Agent> getAgents() {
+        return agents;
+    }
+
+    public List<Value> getValues() {
+        return values;
+    }
+
+    public Scale getScale() {
+        return scale;
     }
 
     public void addValue(Agent agent, Value value, Weight weight) {
@@ -157,7 +169,7 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
         }
     }
 
-    public void editWeight(AgentValue agentValue, double newWeight) {
+    public void editWeight(AgentValue agentValue, Integer newWeight) {
         Weight weight = agentValueWeights.get(agentValue);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);
@@ -189,17 +201,18 @@ public class AgentValueToWeight extends AgentValueWeight implements AgentObserve
         agentValueWeights.values().forEach(this::updateWeightAccordingToScale);
     }
 
-    @Override
     protected void updateAllWeightsAccordingToScale() {
         agentValueWeights.values().forEach(this::updateWeightAccordingToScale);
     }
 
     private void updateWeightAccordingToScale(Weight weight) {
-        Integer weightValue = (Integer) weight.getWeight();
-        if (weightValue.equals("?")) {
+        if (weight.getWeight().equals("?")) {
             weight.setWeight(scale.getMax());
-        } else if (!scale.contains(weightValue)) {
-            adjustWeightToScaleBounds(weight, weightValue);
+        } else {
+            Integer weightValue = (Integer) weight.getWeight();
+            if (!scale.contains(weightValue)) {
+                adjustWeightToScaleBounds(weight, weightValue);
+            }
         }
     }
 

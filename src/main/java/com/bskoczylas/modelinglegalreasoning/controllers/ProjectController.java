@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.*;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
@@ -20,6 +21,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.Proje
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -29,6 +31,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ProjectController implements ProjectObserver {
@@ -98,18 +101,17 @@ public class ProjectController implements ProjectObserver {
 
         // for AV
         private AVController avController;
-        AgentValueToWeight avWeights = currentProject.getAgentValueToWeight();
-        Scale scale = currentProject.getScale();
+        private AgentValueToWeight avWeights;
         @FXML
-        private TableView<AgentValue> AVTable;
+        private TableView<AVPair> AVTable;
         @FXML
-        private TableColumn<AgentValue, Integer> AVIdColumn;
+        private TableColumn<AVPair, Integer> AVIdColumn;
         @FXML
-        private TableColumn<AgentValue, String> AVAgentsColumn;
+        private TableColumn<AVPair, String> AVAgentsColumn;
         @FXML
-        private TableColumn<AgentValue, String> AVValuesColumn;
+        private TableColumn<AVPair, String> AVValuesColumn;
         @FXML
-        private TableColumn<AgentValue, Double> AVWeightsColumn;
+        private TableColumn<AVPair, Integer> AVWeightsColumn;
         @FXML
         private Button aVAddButton;
         @FXML
@@ -187,34 +189,48 @@ public class ProjectController implements ProjectObserver {
                 this.incompPropController = new IncompPropController(incompPropTable, this);
 
                 // AgentValue Weights section
+                this.avController = new AVController(
+                        avWeights,
+                        this,
+                        AVTable,
+                        AVIdColumn,
+                        AVAgentsColumn,
+                        AVValuesColumn,
+                        AVWeightsColumn,
+                        aVAddButton,
+                        aVEditButton,
+                        aVRandomButton,
+                        aVAddScaleButton,
+                        aVMinScale,
+                        aVMaxScale,
+                        aVWeightsComboBox
+                );
+
 
                 // Bind the table view to the data
-                AVTable.setItems(FXCollections.observableArrayList(avWeights.keySet())); // nie ma aVWeights - jest to z project.getAgentValueToWeight() praktycznie. Robimy w obrębie ProjectController i tylko jest w AVController, ale to jest jakby to pomocnicza by nadto nie zaśmiecać ProjectController. Jeszcze doślę Project jak wygląda.
-
+                AVTable.setItems(FXCollections.observableArrayList(avWeights.keySet()));
+                
                 // Initialize the table columns
-                AVIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
-                AVAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgent().getName()));
-                AVValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getValue().getName()));
-                AVWeightsColumn.setCellValueFactory(data -> new SimpleDoubleProperty(avWeights.getWeight(data.getValue())).asObject());
+
+
+                AVIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getAgentValue().getId()).asObject());
+                AVAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getAgent().getName()));
+                AVValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getValue().getName()));
+                AVWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
+
 
                 // Initialize the sliders
-                minSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-                        if (newVal.doubleValue() > maxSlider.getValue() - 1) {
-                                minSlider.setValue(oldVal.doubleValue());
+                aVMinScale.valueProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal.doubleValue() > aVMaxScale.getValue() - 1) {
+                                aVMinScale.setValue(oldVal.doubleValue());
                         }
                 });
 
-                maxSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-                        if (newVal.doubleValue() < minSlider.getValue() + 1) {
-                                maxSlider.setValue(oldVal.doubleValue());
+                aVMaxScale.valueProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal.doubleValue() < aVMinScale.getValue() + 1) {
+                                aVMaxScale.setValue(oldVal.doubleValue());
                         }
                 });
-
-                // Initialize the buttons
-                addButton.setOnAction(event -> addWeight());
-                editButton.setOnAction(event -> editWeight());
-                randomButton.setOnAction(event -> randomizeWeights());
-                changeScaleButton.setOnAction(event -> changeScale());
 
                 // Na początku przycisk "Generate" jest nieaktywny
                 generateButton.setDisable(true);
@@ -228,6 +244,7 @@ public class ProjectController implements ProjectObserver {
                         }
                 });
         }
+
         //DODAWANIE PRZYCISKÓW GÓRNYCH ("GENERATE PDF", "NEW", "HELP", "SAVE", "MENU", "EXIT")
 
         //DODAWANIE AGENTÓW POPRZEZ PropositionController
@@ -265,56 +282,43 @@ public class ProjectController implements ProjectObserver {
         //DODAWANIE WARTOŚCI POPRZEZ ValueController
         @FXML
         public void handleAddValue(ActionEvent event) {
-                String valueName = valueNameTextField.getText(); // pobierz nazwę proposition z pola tekstowego
-
-                if (!valueName.isEmpty()) {
-                        Value newValue = new Value(valueName); // utwórz nową instancję Value
-                        valueController.addValue(newValue); // dodaj nowego Value do projektu
-                        valueNameTextField.clear(); // wyczyść pole tekstowe
-                        valueController.updateValueTable(); // zaktualizuj tabelę po dodaniu Value
-                }
+                this.valueController.handleAddValue();
         }
 
         @FXML
         private void handleEditValue(ActionEvent event) {
-                Value selectedValue = valueTable.getSelectionModel().getSelectedItem();
-                if (selectedValue != null) {
-                        String valueName = valueNameTextField.getText();
-                        if (!valueName.isEmpty()) {
-                                Value newValue = new Value(valueName);
-                                valueController.editValue(selectedValue, newValue);
-                                valueNameTextField.clear();
-                                valueController.updateValueTable(); // zaktualizuj tabelę po edycji proposition
-                        }
-                } else {
-                        // TODO: Show error to user, no value selected
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No value selected!");
-
-                        alert.showAndWait();
-                }
+                this.valueController.handleEditValue();
         }
 
         @FXML
         private void handleRemoveValue(ActionEvent event) {
-                Value selectedValue = valueTable.getSelectionModel().getSelectedItem();
-                if (selectedValue != null) {
-                        valueController.removeValue(selectedValue);
-                        valueController.updateValueTable(); // zaktualizuj tabelę po usunięciu value
-                } else {
-                        // TODO: Show error to user, no proposition selected
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No value selected!");
-
-                        alert.showAndWait();
-                }
+                this.valueController.handleRemoveValue();
         }
 
         //DODAWANIA WAG AGENT-VALUE WEIGHTS (I SKALI) POPRZEZ AVController
+        @FXML
+        private void handleaVAddScaleButton() {
+                avController.changeScale();
+                avController.updateAVTable();
+        }
+
+        @FXML
+        private void handleaVRandomButton() {
+                avController.randomizeWeights();
+                avController.updateAVTable();
+        }
+
+        @FXML
+        private void handleaVEditButton() {
+                avController.editWeight();
+                avController.updateAVTable();
+        }
+
+        @FXML
+        private void handleaVAddButton() {
+                avController.addWeight();
+                avController.updateAVTable();
+        }
 
         //DODAWANIE WAG AGENT-VALUE-PROPOSITION WEIGHTS (I SKALI) POPRZEZ AVPController
 

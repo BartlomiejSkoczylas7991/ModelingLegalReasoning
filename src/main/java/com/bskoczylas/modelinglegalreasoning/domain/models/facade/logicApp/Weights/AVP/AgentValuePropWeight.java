@@ -8,7 +8,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AgentValueWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVPObservable;
@@ -17,7 +16,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent
 
 import java.util.*;
 
-public class AgentValuePropWeight extends AgentValueWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
+public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight> implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
     private HashMap<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -93,7 +92,6 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
         this.scale = scale;
     }
 
-    @Override
     public Weight getWeight(AgentValue agentValue) {
         return null;
     }
@@ -261,7 +259,6 @@ public class AgentValuePropWeight extends AgentValueWeight implements AgentObser
         agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
     }
 
-    @Override
     protected void updateAllWeightsAccordingToScale() {
         agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
     }

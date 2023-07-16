@@ -33,10 +33,6 @@ public class Weight implements Comparable<Weight> {
         this.value = value;
     }
 
-    public Object getW() {
-        return value;
-    }
-
     public Scale getScale() {
         return scale;
     }

@@ -7,6 +7,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
 import org.junit.jupiter.api.BeforeAll;
+import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +27,8 @@ public class ListPropBaseCleanTest {
 
     @BeforeEach
     public void setUp() {
-        agents = Arrays.asList(mock(Agent.class), mock(Agent.class));
-        values = Arrays.asList(mock(Value.class), mock(Value.class));
+        Agent agent1 = mock(Agent.class);
+        Agent agent2 = mock(Agent.class);
         propositions = Arrays.asList(mock(Proposition.class), mock(Proposition.class));
         scale = mock(Scale.class);
         AVWeight = new AgentValueToWeight(new HashMap<>(), agents, values, scale);

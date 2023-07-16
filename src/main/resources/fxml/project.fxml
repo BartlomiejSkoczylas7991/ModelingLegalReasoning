@@ -25,12 +25,12 @@
         <items>
             <ButtonBar prefHeight="47.0" prefWidth="1098.0">
               <buttons>
-                  <Button fx:id="GeneratePDFButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="509.0" text="Generate PDF" />
-                  <Button fx:id="NewButton" mnemonicParsing="false" text="Reset" />
-                  <Button fx:id="HelpButton" mnemonicParsing="false" text="Help" />
-                  <Button fx:id="SaveButton" mnemonicParsing="false" text="Save" />
-                <Button fx:id="MenuButton" mnemonicParsing="false" text="Menu" />
-                  <Button fx:id="ExitButton" mnemonicParsing="false" text="Exit" />
+                  <Button fx:id="generatePDFButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="509.0" text="Generate PDF" />
+                  <Button fx:id="newButton" mnemonicParsing="false" text="Reset" />
+                  <Button fx:id="helpButton" mnemonicParsing="false" text="Help" />
+                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
+                <Button fx:id="menuButton" mnemonicParsing="false" text="Menu" />
+                  <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
               </buttons>
             </ButtonBar>
         </items>
@@ -178,12 +178,11 @@
                                  <font>
                                      <Font name="Khmer OS System" size="17.0" />
                                  </font></Label>
-                             <Button fx:id="aVAddButton" layoutX="40.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                             <Button fx:id="aVEditButton" layoutX="159.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVEditButton" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                           <Button fx:id="aVRandomButton" layoutX="280.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVRandomButton" prefHeight="39.0" prefWidth="85.0" text="Random" />
+                             <Button fx:id="aVAddButton" layoutX="96.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                           <Button fx:id="aVRandomButton" layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
                            <Slider fx:id="aVMinScale" layoutX="399.0" layoutY="470.0" />
                            <Slider fx:id="aVMaxScale" layoutX="399.0" layoutY="422.0" />
-                           <Button fx:id="aVAddScaleButton" layoutX="399.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                           <Button fx:id="aVAddScaleButton" layoutX="383.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
                            <Label layoutX="409.0" layoutY="381.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
                               <font>
                                  <Font name="Khmer OS System" size="17.0" />

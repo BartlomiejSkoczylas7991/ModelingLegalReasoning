@@ -6,17 +6,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonFileProjectRepository implements ProjectRepository {
-    private final File file;
+    private File file;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<Project> projects = new ArrayList<>();
 
     public JsonFileProjectRepository() {
-        String filePath = "com/bskoczylas/modelinglegalreasoning/projectData.json";
-        this.file = new File(getClass().getClassLoader().getResource(filePath).getFile());
+        String filePath = "com/bskoczylas/modelinglegalreasoning/database/projectData.json";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
         loadProjects();
     }
 
@@ -44,13 +45,18 @@ public class JsonFileProjectRepository implements ProjectRepository {
     }
 
     private List<Project> loadProjects() {
-        if (file.exists()) {
-            try {
-                projects = objectMapper.readValue(file, new TypeReference<List<Project>>(){});
-            } catch (IOException e) {
-                throw new RuntimeException("Problem with reading projects from JSON file", e);
+        try {
+            String filePath = "com/bskoczylas/modelinglegalreasoning/database/projectData.json";
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+
+            if (inputStream != null) {
+                projects = objectMapper.readValue(inputStream, new TypeReference<List<Project>>() {
+                });
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Problem with reading projects from JSON file", e);
         }
+
         return projects;
     }
 

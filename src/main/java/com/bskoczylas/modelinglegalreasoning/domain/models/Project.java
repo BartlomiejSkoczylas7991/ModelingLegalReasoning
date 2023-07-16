@@ -88,7 +88,8 @@ public class Project implements ProjectObservable {
         this.listIncompProp = new ListIncompProp();
         this.listKnowledgeBase = new ListKnowledgeBase();
         this.listPropBaseClean = new ListPropBaseClean();
-        this.scale = new Scale();
+        this.decision = new Decision();
+        this.scale = new Scale(0,10);
         this.listReasoningChain = new ListReasoningChain();
         this.listConsortium = new ListConsortium();
         this.courtOpinion = new CourtOpinion();
@@ -117,7 +118,8 @@ public class Project implements ProjectObservable {
         this.listIncompProp = new ListIncompProp();
         this.listKnowledgeBase = new ListKnowledgeBase();
         this.listPropBaseClean = new ListPropBaseClean();
-        this.scale = new Scale();
+        this.scale = new Scale(0,10);
+        this.decision = new Decision();
         this.listReasoningChain = new ListReasoningChain();
         this.listConsortium = new ListConsortium();
         this.courtOpinion = new CourtOpinion();

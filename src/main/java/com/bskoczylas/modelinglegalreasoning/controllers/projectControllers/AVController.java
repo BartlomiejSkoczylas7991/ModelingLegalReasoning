@@ -25,7 +25,7 @@ public class AVController {
     
     private TableColumn<AVPair, String> aVValuesColumn;
     
-    private TableColumn<AVPair, Double> aVWeightsColumn;
+    private TableColumn<AVPair, Integer> aVWeightsColumn;
     
     private Button aVaddButton;
     
@@ -47,7 +47,7 @@ public class AVController {
                         TableColumn<AVPair, Integer> aIdColumn,
                         TableColumn<AVPair, String> aVAgentsColumn,
                         TableColumn<AVPair, String> aVValuesColumn,
-                        TableColumn<AVPair, Double> aVWeightsColumn,
+                        TableColumn<AVPair, Integer> aVWeightsColumn,
                         Button aVaddButton,
                         Button aVEditButton,
                         Button aVRandomButton,

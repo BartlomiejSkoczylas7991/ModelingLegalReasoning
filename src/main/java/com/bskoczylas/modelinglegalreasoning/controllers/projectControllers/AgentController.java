@@ -19,7 +19,6 @@ public class AgentController {
     private Button editAgentButton;
     private Button removeAgentButton;
 
-
     public AgentController(TableView<Agent> agentTable, TextField agentNameTextField,
                            Button addAgentButton, Button editAgentButton, Button removeAgentButton,
                            ProjectController projectController) {
@@ -45,7 +44,6 @@ public class AgentController {
             project.getListAgent().addAgent(agent);
             updateAgentTable();
         } else {
-            // TODO: Show error to user, agent with this name already exists
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -75,7 +73,6 @@ public class AgentController {
         if (project.getListAgent().getAgents().remove(agent)) {
             updateAgentTable();
         } else {
-            // TODO: Show error to user, agent does not exist
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -107,7 +104,6 @@ public class AgentController {
                 updateAgentTable(); // zaktualizuj tabelę po edycji agenta
             }
         } else {
-            // TODO: Show error to user, no agent selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -123,7 +119,6 @@ public class AgentController {
             removeAgent(selectedAgent);
             updateAgentTable(); // zaktualizuj tabelę po usunięciu agenta
         } else {
-            // TODO: Show error to user, no agent selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);

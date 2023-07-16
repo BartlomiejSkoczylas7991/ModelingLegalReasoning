@@ -20,10 +20,10 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     private int sum_votes;
     private Proposition decision;
     private Pair<Proposition, Proposition> decisions;
-    private List<DecisionObserver> observers;
+    private List<DecisionObserver> observers = new ArrayList<>();;
     private Pair<Proposition, Proposition> possibleDecisions;
 
-    public Decision(){this.observers = new ArrayList<DecisionObserver>();}
+    public Decision() {}
 
     private void updateDecision(Set<Agent> agents) {
         int ppCount = 0;

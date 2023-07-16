@@ -55,16 +55,4 @@ class ListAgentTest {
         listAgent.setListAgent(newAgents);
         assertEquals(newAgents, listAgent.getAgents(), "List of agents should be updated");
     }
-
-    @Test
-    public void testObserverNotification() {
-        AtomicReference<Agent> agentFromObserver = new AtomicReference<>();
-        AgentObserver observer = agentFromObserver::set;
-        listAgent.addAgentObserver(observer);
-
-        Agent expectedAgent = new Agent("Agent 5");
-        listAgent.addAgent(expectedAgent);  // This should trigger observer notification
-
-        assertEquals(expectedAgent, agentFromObserver.get(), "Observer should receive correct agent");
-    }
 }

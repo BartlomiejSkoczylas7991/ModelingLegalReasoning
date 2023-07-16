@@ -33,7 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+// celem klasy jest edytowanie currentProject, zapisywanie currentProject do bazy
+// (nadpisywania już istniejącego). Każda klasa pełni wzorzec - implementujemy metody modyfikujące
+// dane pole, po czym utwardzamy tą zmianę ze wszystkimi tego konsekwencjami.
+//
 public class ProjectController implements ProjectObserver {
         private ProjectManager projectManager;
         private Project project;
@@ -43,7 +46,7 @@ public class ProjectController implements ProjectObserver {
         @FXML
         private Button newButton;
         @FXML
-        private Button saveAsButton;
+        private Button helpButton;
         @FXML
         private Button saveButton;
         @FXML
@@ -101,17 +104,17 @@ public class ProjectController implements ProjectObserver {
 
         // for AV
         private AVController avController;
-        private AgentValueToWeight avWeights;
+        private AgentValueToWeight aVWeights;
         @FXML
-        private TableView<AVPair> AVTable;
+        private TableView<AVPair> aVTable;
         @FXML
-        private TableColumn<AVPair, Integer> AVIdColumn;
+        private TableColumn<AVPair, Integer> aVIdColumn;
         @FXML
-        private TableColumn<AVPair, String> AVAgentsColumn;
+        private TableColumn<AVPair, String> aVAgentsColumn;
         @FXML
-        private TableColumn<AVPair, String> AVValuesColumn;
+        private TableColumn<AVPair, String> aVValuesColumn;
         @FXML
-        private TableColumn<AVPair, Integer> AVWeightsColumn;
+        private TableColumn<AVPair, Integer> aVWeightsColumn;
         @FXML
         private Button aVAddButton;
         @FXML
@@ -190,13 +193,13 @@ public class ProjectController implements ProjectObserver {
 
                 // AgentValue Weights section
                 this.avController = new AVController(
-                        avWeights,
+                        aVWeights,
                         this,
-                        AVTable,
-                        AVIdColumn,
-                        AVAgentsColumn,
-                        AVValuesColumn,
-                        AVWeightsColumn,
+                        aVTable,
+                        aVIdColumn,
+                        aVAgentsColumn,
+                        aVValuesColumn,
+                        aVWeightsColumn,
                         aVAddButton,
                         aVEditButton,
                         aVRandomButton,
@@ -208,15 +211,19 @@ public class ProjectController implements ProjectObserver {
 
 
                 // Bind the table view to the data
-                AVTable.setItems(FXCollections.observableArrayList(avWeights.keySet()));
+                List<AVPair> avPairs = aVWeights.entrySet().stream()
+                        .map(entry -> new AVPair(entry.getKey(), entry.getValue()))
+                        .collect(Collectors.toList());
+
+                aVTable.setItems(FXCollections.observableArrayList(avPairs));
                 
                 // Initialize the table columns
 
 
-                AVIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getAgentValue().getId()).asObject());
-                AVAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getAgent().getName()));
-                AVValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getValue().getName()));
-                AVWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
+                aVIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getAgentValue().hashCode()).asObject());
+                aVAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getAgent().getName()));
+                aVValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getValue().getName()));
+                aVWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
 
 
                 // Initialize the sliders
@@ -240,7 +247,7 @@ public class ProjectController implements ProjectObserver {
                         @Override
                         public void updateProject(Project project) {
                                 updateGenerateButtonState();
-                                avController.updateAV(project.getAgentValueToWeight());
+                                avController.updateAVTable();
                         }
                 });
         }
@@ -309,12 +316,6 @@ public class ProjectController implements ProjectObserver {
         }
 
         @FXML
-        private void handleaVEditButton() {
-                avController.editWeight();
-                avController.updateAVTable();
-        }
-
-        @FXML
         private void handleaVAddButton() {
                 avController.addWeight();
                 avController.updateAVTable();
@@ -363,20 +364,17 @@ public class ProjectController implements ProjectObserver {
 
 
 
-
-
-
         // GENEROWANIE PDF i "GENERATE" (W Javafx) dopier po spełnieniu warunków:
         // minimum 2 agentów, 2 wartości, 4 propozycje, 1 para decyzji (zwykłe incompProp niekonieczne), 2 zasady
-        @FXML
-        private void handleGenerate() {
-                if (project.hasEnoughData()) {
-                        // Generuj raport
-                        List<Report.ReportSection> reportSections = report.generateReport();
-                        String formattedReport = report.formatForJavaFX(reportSections);
-                        reportTextArea.setText(formattedReport);
-                }
-        }
+        //@FXML
+        //private void handleGenerate() {
+        //        if (project.hasEnoughData()) {
+        //                // Generuj raport
+        //                List<Report.ReportSection> reportSections = report.generateReport();
+        //                String formattedReport = report.formatForJavaFX(reportSections);
+        //                reportTextArea.setText(formattedReport);
+        //        }
+        //}
 
         @FXML
         private void handleGeneratePDF() {
@@ -385,12 +383,12 @@ public class ProjectController implements ProjectObserver {
                 }
         }
 
-        @FXML
-        private void handleNew() {
-                // Reset projektu
-                project.reset();
-                reportTextArea.clear();
-        }
+        //@FXML
+        //private void handleNew() {
+        //        // Reset projektu
+        //        project.reset();
+        //        reportTextArea.clear();
+        //}
 
         //POMOC
         @FXML
@@ -412,11 +410,11 @@ public class ProjectController implements ProjectObserver {
         }
 
         //POWRÓT DO MENU
-        @FXML
-        private void handleMenu() {
-                // Otwórz okno startowe
-                projectManager.openStartWindow();
-        }
+        //@FXML
+        //private void handleMenu() {
+        //        // Otwórz okno startowe
+        //        projectManager.openStartWindow();
+        //}
 
         //WYJŚCIE Z PROGRAMU
         @FXML
@@ -425,13 +423,13 @@ public class ProjectController implements ProjectObserver {
                 System.exit(0);
         }
 
-        @FXML
-        private void handleGenerate() {
-                // Generuj raport
-                List<Report.ReportSection> reportSections = report.generateReport();
-                String formattedReport = report.formatForJavaFX(reportSections);
-                reportTextArea.setText(formattedReport);
-        }
+        //@FXML
+        //private void handleGenerate() {
+        //        // Generuj raport
+        //        List<Report.ReportSection> reportSections = report.generateReport();
+        //        String formattedReport = report.formatForJavaFX(reportSections);
+        //        reportTextArea.setText(formattedReport);
+        //}
 
         private void updateGenerateButtonState() {
                 // Sprawdź, czy wprowadzono wystarczająco dużo danych, aby można było wygenerować raport

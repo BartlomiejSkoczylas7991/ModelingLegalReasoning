@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -20,43 +21,52 @@ import java.util.List;
 
 
 public class App extends Application {
-    FacadeProject facadeProject = new FacadeProject(new JsonFileProjectRepository());
-    ProjectManager projectManager = new ProjectManager(facadeProject);
     private Stage primaryStage;
+    private ProjectManager projectManager;
+    private StartWindowController startWindowController;
+    private JsonFileProjectRepository jsonFileProjectRepository;
+
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Modeling Legal Reasoning");
+        this.jsonFileProjectRepository = new JsonFileProjectRepository();
+        // initialize the FacadeProject here
+        FacadeProject facadeProject = new FacadeProject(this.jsonFileProjectRepository);
+
+        // initialize the ProjectManager here
+        this.projectManager = new ProjectManager(facadeProject);
+
         showStartWindow();
     }
 
     public void showStartWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/start.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/start.fxml"));
             Parent root = loader.load();
 
             StartWindowController controller = loader.getController();
-            controller.setMainApp(this);
             controller.setProjectManager(this.projectManager);
+            controller.setMainApp(this);
 
             // Initialize the controller data
             controller.initData();
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("An error occurred:");
-            alert.setContentText(e.getMessage());
-
-            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("IOException: " + e.getMessage());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            System.out.println("RuntimeException: " + e.getMessage());
         }
     }
 
     public void showProjectWindow(Project project) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
             Parent root = loader.load();
 
             ProjectController controller = loader.getController();

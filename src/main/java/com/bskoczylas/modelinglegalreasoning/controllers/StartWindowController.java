@@ -49,19 +49,21 @@ public class StartWindowController {
     private Button AddProject;
 
     @FXML
-    private Button loadStartProjectButton;
+    private Button loadProjectButton;
 
     @FXML
-    private Button deleteStartProjectButton;
+    private Button deleteProjectButton;
 
     @FXML
-    private Button exitStartButton;
+    private Button exitButton;
 
     @FXML
-    private Button editProjectNameButton;
+    private Button editNameButton;
 
     @FXML
     private TextField nameTextField;
+
+    public StartWindowController() {}
 
     private ObservableList<Project> projectsData = FXCollections.observableArrayList();
 
@@ -95,6 +97,10 @@ public class StartWindowController {
     }
 
     private void loadProjectsIntoTable() {
+        if (projectManager == null) {
+            System.out.println("ProjectManager is null");
+            return;
+        }
         // Uzyskaj strumień projektów z ProjectManager
         Stream<Project> projectStream = projectManager.getProjects();
 
@@ -112,7 +118,23 @@ public class StartWindowController {
     @FXML
     private void initialize() {
         AddProject.setOnAction(event -> handleAddProjectButton());
-        loadStartProjectButton.setOnAction(event -> handleLoadButton());
+        loadProjectButton.setOnAction(event -> handleLoadButton());
+        deleteProjectButton.setOnAction(event -> {
+            try {
+                handleDeleteProject();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        exitButton.setOnAction(event -> handleExit());
+        editNameButton.setOnAction(event -> {
+            try {
+                handleEditNameProject();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         projectsTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> currentProject = newValue
@@ -139,6 +161,10 @@ public class StartWindowController {
         );
     }
 
+    private void handleExit() {
+        System.exit(0);
+    }
+
     // Adding a project
     @FXML
     private void handleAddProjectButton() {
@@ -158,7 +184,7 @@ public class StartWindowController {
                 projectManager.openProject(newProject.getId());
 
                 // Tworzenie nowego okna
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
                 Parent root = loader.load();
 
                 // Przekazanie wybranego projektu do kontrolera
@@ -174,7 +200,7 @@ public class StartWindowController {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Dialog");
                 alert.setHeaderText("An error occurred:");
-                alert.setContentText(e.getMessage());
+                alert.setContentText("There was a problem loading the project view. Check if the /fxml/project.fxml file exists and the path is correct.\n\nDetailed error: " + e.getMessage());
 
                 alert.showAndWait();
             }
@@ -190,7 +216,7 @@ public class StartWindowController {
                 projectManager.openProject(currentProject.getId());
 
                 // Tworzenie nowego okna
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("com/bskoczylas/modelinglegalreasoning/resources/fxml/project.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
                 Parent root = loader.load();
 
                 // Przekazanie wybranego projektu do kontrolera
@@ -198,7 +224,7 @@ public class StartWindowController {
                 projectController.setProject(currentProject);
 
                 // Zamknij obecne okno i otwórz nowe okno projektu
-                Stage stage = (Stage) loadStartProjectButton.getScene().getWindow();
+                Stage stage = (Stage) loadProjectButton.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
 

@@ -3,8 +3,13 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures;
 import java.util.Objects;
 
 public class Pair<F, S> {
-    private final F first;
-    private final S second;
+    private F first;
+    private S second;
+
+    public Pair() {
+        this.first = null;
+        this.second = null;
+    }
 
     public Pair(F key, S second) {
         this.first = key;

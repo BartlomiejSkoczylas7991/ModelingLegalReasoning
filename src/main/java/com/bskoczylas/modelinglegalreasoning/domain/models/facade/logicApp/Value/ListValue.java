@@ -34,6 +34,7 @@ public class ListValue implements ValueObservable {
 
     public void setListValue(List<Value> listValue) {
         this.listValue = listValue;
+        notifyObservers(this);
     }
 
     @Override

@@ -16,29 +16,16 @@ public class PropositionController {
     private ProjectController projectController;
     private Project project;
     private TextField propositionNameTextField;
-    private Button addPropositionButton;
-    private Button editPropositionButton;
-    private Button removePropositionButton;
 
     public PropositionController(TableView<Proposition> propositionTable, ComboBox<Proposition> prop1comboBoxIncompProp,
                                  ComboBox<Proposition> prop2comboBoxIncompProp, TextField propositionNameTextField,
-                                 Button addPropositionButton, Button editPropositionButton, Button removePropositionButton,
                                 ProjectController projectController) {
         this.propositionTable = propositionTable;
         this.prop1comboBoxIncompProp = prop1comboBoxIncompProp;
         this.prop2comboBoxIncompProp = prop2comboBoxIncompProp;
         this.propositionNameTextField = propositionNameTextField;
-        this.addPropositionButton = addPropositionButton;
-        this.editPropositionButton = editPropositionButton;
-        this.removePropositionButton = removePropositionButton;
         this.projectController = projectController;
         this.project = projectController.getProject();
-    }
-
-    private void setupPropositionButtons() {
-        addPropositionButton.setOnAction(e -> handleAddProposition());
-        editPropositionButton.setOnAction(e -> handleEditProposition());
-        removePropositionButton.setOnAction(e -> handleRemoveProposition());
     }
 
     public void addProposition(Proposition proposition) {
@@ -47,7 +34,6 @@ public class PropositionController {
             updatePropositionTable();
             updateComboBoxes();
         } else {
-            // TODO: Show error to user, proposition with this name already exists
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -79,7 +65,6 @@ public class PropositionController {
             updatePropositionTable();
             updateComboBoxes();
         } else {
-            // TODO: Show error to user, proposition does not exist
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -115,7 +100,6 @@ public class PropositionController {
                 updatePropositionTable(); // zaktualizuj tabelę po edycji Proposition
             }
         } else {
-            // TODO: Show error to user, no Proposition selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -131,7 +115,6 @@ public class PropositionController {
             removeProposition(selectedProposition);
             updatePropositionTable(); // zaktualizuj tabelę po usunięciu Proposition
         } else {
-            // TODO: Show error to user, no Proposition selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);

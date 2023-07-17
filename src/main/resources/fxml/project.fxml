@@ -25,12 +25,12 @@
         <items>
             <ButtonBar prefHeight="47.0" prefWidth="1098.0">
               <buttons>
-                  <Button fx:id="generatePDFButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="509.0" text="Generate PDF" />
-                  <Button fx:id="newButton" mnemonicParsing="false" text="Reset" />
-                  <Button fx:id="helpButton" mnemonicParsing="false" text="Help" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                <Button fx:id="menuButton" mnemonicParsing="false" text="Menu" />
-                  <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
+                  <Button fx:id="generatePDFButton" mnemonicParsing="false" onAction="#handleGeneratePDFButton" prefHeight="24.0" prefWidth="509.0" text="Generate PDF" />
+                  <Button mnemonicParsing="false" onAction="#handleNewButton" text="Reset" />
+                  <Button mnemonicParsing="false" onAction="#handleHelpButton" text="Help" />
+                  <Button mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
+                <Button mnemonicParsing="false" onAction="#handleMenuButton" text="Menu" />
+                  <Button mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
               </buttons>
             </ButtonBar>
         </items>
@@ -41,66 +41,68 @@
          <items>
             <TabPane prefHeight="627.0" prefWidth="498.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Agent List">
-                  <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                          <TableView fx:id="agentTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
-                              <columns>
-                                  <TableColumn fx:id="agentIdColumn" prefWidth="50" text="id" />
-                                 <TableColumn fx:id="agentCreatedColumn" minWidth="0.0" prefWidth="222.0" text="Created" />
-                                  <TableColumn fx:id="agentNameColumn" prefWidth="234.0" text="Name" />
-                              </columns>
-                          </TableView>
-                           <Label layoutX="162.0" layoutY="389.0" prefHeight="41.0" prefWidth="235.0" text="Add or remove possible agent">
-                              <font>
-                                 <Font name="Khmer OS System" size="17.0" />
-                              </font></Label>
-                           <TextField fx:id="agentNameTextField" layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Agent Name">
-                              <font>
-                                 <Font size="17.0" />
-                              </font></TextField>
-                           <Button fx:id="addAgentButton" layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddAgent" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                           <Button fx:id="EditAgentButton" layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditAgent" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                           <Button fx:id="RemoveAgentButton" layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveAgent" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                           <Label layoutX="227.0" layoutY="24.0" prefHeight="38.0" prefWidth="109.0" text="Agents">
-                              <font>
-                                 <Font size="29.0" />
-                              </font>
-                           </Label>
-
-                      </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Proposition List">
-                  <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                          <TableView fx:id="propositionTable" layoutX="26.0" layoutY="75.0" prefHeight="288.0" prefWidth="503.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
-                              <columns>
-                                  <TableColumn fx:id="propositionIdColumn" prefWidth="50" text="id" />
-                                  <TableColumn fx:id="propositionCreatedColumn" prefWidth="223.0" text="Created" />
-                                  <TableColumn fx:id="propositionNameColumn" minWidth="0.0" prefWidth="233.0" text="Name" />
-                              </columns>
-                          </TableView>
-                          <Label layoutX="147.0" layoutY="383.0" prefHeight="41.0" prefWidth="270.0" text="Add or remove possible Proposition">
-                              <font>
-                                  <Font name="Khmer OS System" size="17.0" />
-                              </font></Label>
-                          <TextField fx:id="propositionNameTextField" layoutX="154.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Proposition Name">
-                              <font>
-                                  <Font size="17.0" />
-                              </font></TextField>
-                          <Button fx:id="addPropositionButton" layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddProposition" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                          <Button fx:id="editPropositionButton" layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditProposition" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                          <Button fx:id="removePropositionButton" layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveProposition" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                           <Label layoutX="216.0" layoutY="14.0" prefHeight="46.0" prefWidth="131.0" text="Propositions">
-                              <font>
-                                 <Font size="21.0" />
-                              </font>
-                           </Label>
-
-                      </AnchorPane>
-                  </content>
-                </Tab>
+                  <Tab text="Agent List">
+                      <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <TableView fx:id="agentTable" layoutX="26.0" layoutY="35.0" prefHeight="335.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <columns>
+                                      <TableColumn fx:id="agentIdColumn" prefWidth="50" text="id" />
+                                      <TableColumn fx:id="agentCreatedColumn" minWidth="0.0" prefWidth="222.0" text="Created" />
+                                      <TableColumn fx:id="agentNameColumn" prefWidth="234.0" text="Name" />
+                                  </columns>
+                              </TableView>
+                              <Label layoutX="162.0" layoutY="389.0" prefHeight="41.0" prefWidth="235.0" text="Add or remove possible agent">
+                                  <font>
+                                      <Font name="Khmer OS System" size="17.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="agentNameTextField" layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Agent Name">
+                                  <font>
+                                      <Font size="17.0" />
+                                  </font>
+                              </TextField>
+                              <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddAgent" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                              <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditAgent" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                              <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveAgent" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+                              <Label layoutX="227.0" layoutY="24.0" prefHeight="38.0" prefWidth="109.0" text="Agents">
+                                  <font>
+                                      <Font size="29.0" />
+                                  </font>
+                              </Label>
+                          </AnchorPane>
+                      </content>
+                  </Tab>
+                  <Tab text="Proposition List">
+                      <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <TableView fx:id="propositionTable" layoutX="26.0" layoutY="75.0" prefHeight="288.0" prefWidth="503.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <columns>
+                                      <TableColumn fx:id="propositionIdColumn" prefWidth="50" text="id" />
+                                      <TableColumn fx:id="propositionCreatedColumn" prefWidth="223.0" text="Created" />
+                                      <TableColumn fx:id="propositionNameColumn" minWidth="0.0" prefWidth="233.0" text="Name" />
+                                  </columns>
+                              </TableView>
+                              <Label layoutX="147.0" layoutY="383.0" prefHeight="41.0" prefWidth="270.0" text="Add or remove possible Proposition">
+                                  <font>
+                                      <Font name="Khmer OS System" size="17.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="propositionNameTextField" layoutX="154.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Proposition Name">
+                                  <font>
+                                      <Font size="17.0" />
+                                  </font>
+                              </TextField>
+                              <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddProposition" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                              <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditProposition" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                              <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveProposition" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+                              <Label layoutX="194.0" layoutY="14.0" prefHeight="46.0" prefWidth="176.0" text="Propositions">
+                                  <font>
+                                      <Font size="28.0" />
+                                  </font>
+                              </Label>
+                          </AnchorPane>
+                      </content>
+                  </Tab>
                   <Tab text="Value List">
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <TableView fx:id="valueTable" layoutX="26.0" layoutY="73.0" prefHeight="290.0" prefWidth="503.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
@@ -113,20 +115,21 @@
                           <Label contentDisplay="CENTER" layoutX="157.0" layoutY="389.0" prefHeight="41.0" prefWidth="245.0" text="Add or remove possible values" textOverrun="CENTER_ELLIPSIS">
                               <font>
                                   <Font name="Khmer OS System" size="17.0" />
-                              </font></Label>
+                              </font>
+                          </Label>
                           <TextField fx:id="valueNameTextField" layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Value Name">
                               <font>
                                   <Font size="17.0" />
-                              </font></TextField>
-                          <Button fx:id="addValueButton" layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddValue" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                          <Button fx:id="editValueButton" layoutX="229.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditValue" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                          <Button fx:id="removeValueButton" layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveValue" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                        <Label layoutX="227.0" layoutY="14.0" prefHeight="58.0" prefWidth="89.0" text="Values">
-                           <font>
-                              <Font size="23.0" />
-                           </font>
-                        </Label>
-
+                              </font>
+                          </TextField>
+                          <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddValue" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                          <Button layoutX="229.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditValue" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                          <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveValue" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+                          <Label layoutX="223.0" layoutY="14.0" prefHeight="58.0" prefWidth="114.0" text="Values">
+                              <font>
+                                  <Font size="31.0" />
+                              </font>
+                          </Label>
                       </AnchorPane>
                   </Tab>
                   <Tab text="IncompProp decisions">
@@ -145,11 +148,11 @@
                                  <font>
                                      <Font name="Khmer OS System" size="17.0" />
                                  </font></Label>
-                             <Button fx:id="addIncompPropButton" layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
-                             <Button fx:id="removeIncompPropButton" layoutX="303.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
+                             <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
+                             <Button layoutX="303.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveIncompButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
                            <ComboBox fx:id="prop1comboBoxIncompProp" layoutX="62.0" layoutY="462.0" prefWidth="150.0" promptText="Prop1" />
                            <ComboBox fx:id="prop2comboBoxIncompProp" layoutX="241.0" layoutY="462.0" prefWidth="150.0" promptText="Prop1" />
-                           <Label layoutX="30.0" layoutY="13.0" prefHeight="48.0" prefWidth="481.0" text="Incompatible Propositions and decisions">
+                           <Label layoutX="48.0" layoutY="14.0" prefHeight="44.0" prefWidth="467.0" text="Incompatible Propositions and decisions">
                               <font>
                                  <Font size="23.0" />
                               </font>
@@ -168,21 +171,21 @@
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                              <TableView fx:id="aVTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
                                  <columns>
-                                     <TableColumn fx:id="aVIdColumn" prefWidth="50" text="id" />
-                                     <TableColumn fx:id="aVAgentsColumn" prefWidth="188.0" text="Agents" />
-                                 <TableColumn fx:id="aVValuesColumn" prefWidth="190.0" text="Values" />
-                                 <TableColumn fx:id="aVWeightsColumn" prefWidth="74.0" text="Weights" />
+                                     <TableColumn fx:id="avIdColumn" prefWidth="50" text="id" />
+                                     <TableColumn fx:id="avAgentsColumn" prefWidth="188.0" text="Agents" />
+                                 <TableColumn fx:id="avValuesColumn" prefWidth="190.0" text="Values" />
+                                 <TableColumn fx:id="avWeightsColumn" prefWidth="74.0" text="Weights" />
                                  </columns>
                              </TableView>
                              <Label layoutX="54.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
                                  <font>
-                                     <Font name="Khmer OS System" size="17.0" />
+                                     <Font name="Khmer OS System" size="25.0" />
                                  </font></Label>
-                             <Button fx:id="aVAddButton" layoutX="96.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                           <Button fx:id="aVRandomButton" layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
-                           <Slider fx:id="aVMinScale" layoutX="399.0" layoutY="470.0" />
-                           <Slider fx:id="aVMaxScale" layoutX="399.0" layoutY="422.0" />
-                           <Button fx:id="aVAddScaleButton" layoutX="383.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleaVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                             <Button layoutX="96.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                           <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
+                           <Slider fx:id="avMinScale" layoutX="399.0" layoutY="470.0" />
+                           <Slider fx:id="avMaxScale" layoutX="399.0" layoutY="422.0" />
+                           <Button layoutX="383.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
                            <Label layoutX="409.0" layoutY="381.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
                               <font>
                                  <Font name="Khmer OS System" size="17.0" />
@@ -203,7 +206,7 @@
                                  <Font name="Khmer OS System" size="17.0" />
                               </font>
                            </Label>
-                           <ComboBox fx:id="aVWeightsComboBox" layoutX="72.0" layoutY="438.0" prefHeight="36.0" prefWidth="173.0" />
+                           <ComboBox fx:id="avWeightsComboBox" layoutX="55.0" layoutY="433.0" prefHeight="36.0" prefWidth="173.0" />
 
                          </AnchorPane>
                      </content>
@@ -211,33 +214,35 @@
                   <Tab text="A-V-P Weights List">
                       <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                              <TableView fx:id="AVPTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
+                              <TableView fx:id="avpTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
                                   <columns>
-                                      <TableColumn fx:id="AVPIdColumn" prefWidth="50" text="id" />
-                                      <TableColumn fx:id="AVPAgentsColumn" prefWidth="127.0" text="Agents" />
-                                      <TableColumn fx:id="AVPValuesColumn" prefWidth="118.0" text="Values" />
-                                      <TableColumn fx:id="AVPPropositionsColumn" prefWidth="123.0" text="Propositions" />
-                                      <TableColumn fx:id="AVPWeightsColumn" prefWidth="84.0" text="Weights" />
+                                      <TableColumn fx:id="avpIdColumn" prefWidth="50" text="id" />
+                                      <TableColumn fx:id="avpAgentsColumn" prefWidth="127.0" text="Agents" />
+                                      <TableColumn fx:id="avpValuesColumn" prefWidth="118.0" text="Values" />
+                                      <TableColumn fx:id="avpPropositionsColumn" prefWidth="123.0" text="Propositions" />
+                                      <TableColumn fx:id="avpWeightsColumn" prefWidth="84.0" text="Weights" />
                                   </columns>
                               </TableView>
                               <Label layoutX="54.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
                                   <font>
-                                      <Font name="Khmer OS System" size="17.0" />
+                                      <Font name="Khmer OS System" size="23.0" />
                                   </font></Label>
-                              <Button layoutX="40.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                              <Button layoutX="159.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                              <Button layoutX="280.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Random" />
-                              <Slider layoutX="399.0" layoutY="470.0" />
+                              <Button layoutX="54.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                              <Button layoutX="227.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPRandomButton" prefHeight="39.0" prefWidth="85.0" text="Random" />
+                              <Slider layoutX="399.0" layoutY="461.0" />
                               <Slider layoutX="399.0" layoutY="422.0" />
-                              <Button layoutX="399.0" layoutY="502.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
-                              <Label layoutX="409.0" layoutY="381.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
+                              <Button layoutX="399.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                              <Label layoutX="357.0" layoutY="369.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
                                   <font>
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <Label layoutX="45.0" layoutY="14.0" prefHeight="41.0" prefWidth="485.0" text="Agent-worth weight (how important is a given proposition compared to a given value for a given agent)" wrapText="true">
-                                    <font>
-                                      <Font name="Khmer OS System" size="15.0" />
+                              <Label layoutX="-22.0" layoutY="14.0" prefHeight="41.0" prefWidth="731.0"  style="-fx-border-color: transparent;" wrapText="true">
+                                  <text>
+                                      Agent-worth weight (how important is a given proposition compared to a given value for a given agent)
+                                  </text>
+                                  <font>
+                                      <Font name="Khmer OS System" size="23.0" />
                                   </font>
                               </Label>
                               <Label layoutX="357.0" layoutY="410.0" prefHeight="41.0" prefWidth="52.0" text="Min:">
@@ -245,12 +250,12 @@
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <Label layoutX="357.0" layoutY="458.0" prefHeight="41.0" prefWidth="52.0" text="Max:">
+                              <Label layoutX="357.0" layoutY="449.0" prefHeight="41.0" prefWidth="52.0" text="Max:" >
                                   <font>
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <ComboBox layoutX="72.0" layoutY="438.0" prefHeight="36.0" prefWidth="173.0" />
+                              <ComboBox fx:id="avpWeightsComboBox" layoutX="54.0" layoutY="433.0" prefHeight="36.0" prefWidth="173.0" />
 
                           </AnchorPane>
                       </content>
@@ -271,9 +276,9 @@
                                  <font>
                                      <Font name="Khmer OS System" size="17.0" />
                                  </font></Label>
-                             <Button layoutX="120.0" layoutY="490.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                             <Button layoutX="240.0" layoutY="490.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                             <Button layoutX="359.0" layoutY="490.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Remove" />
+                             <Button layoutX="120.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleAddRuleButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="240.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleEditRuleButton" prefHeight="39.0" prefWidth="85.0" text="Edit" />
+                             <Button layoutX="359.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleRemoveRuleButton" prefHeight="39.0" prefWidth="85.0" text="Remove" />
                            <Label layoutX="233.0" layoutY="14.0" prefHeight="70.0" prefWidth="98.0" text="Rules">
                               <font>
                                  <Font name="Khmer OS System" size="35.0" />
@@ -295,7 +300,7 @@
    </center>
     <bottom>
         <HBox alignment="CENTER" prefHeight="95.0" prefWidth="1134.0" spacing="10">
-            <Button fx:id="generateButton" prefHeight="47.0" prefWidth="172.0" text="Generate Report" />
+            <Button fx:id="generateButton" onAction="#handleGenerate" prefHeight="47.0" prefWidth="172.0" text="Generate Report" />
         </HBox>
     </bottom>
 </BorderPane>

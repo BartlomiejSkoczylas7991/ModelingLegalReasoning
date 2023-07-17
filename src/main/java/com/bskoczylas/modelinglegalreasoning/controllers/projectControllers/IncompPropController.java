@@ -14,16 +14,16 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 
 public class IncompPropController {
-    @FXML
+
     private TableView<IncompProp> incompPropTable;
 
-    @FXML
+
     private ComboBox<Proposition> prop1comboBoxIncompProp;
 
-    @FXML
+
     private ComboBox<Proposition> prop2comboBoxIncompProp;
 
-    @FXML
+
     private RadioButton isDecisionRadioButton;
 
     private ProjectController projectController;

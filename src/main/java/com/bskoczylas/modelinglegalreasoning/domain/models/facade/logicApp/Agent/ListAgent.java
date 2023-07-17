@@ -28,20 +28,17 @@ public class ListAgent implements AgentObservable {
 
     public void addAgents(List<Agent> agents) {
         listAgent.addAll(agents);
-        for (Agent agent : agents) {
-            notifyAgentObservers(this);
-        }
+        notifyAgentObservers(this);
     }
 
     public void removeAgents(List<Agent> agents) {
         listAgent.removeAll(agents);
-        for (Agent agent : agents) {
-            notifyAgentObservers(this);
-        }
+        notifyAgentObservers(this);
     }
 
     public void setListAgent(List<Agent> listAgent) {
         this.listAgent = listAgent;
+        notifyAgentObservers(this);
     }
 
     @Override

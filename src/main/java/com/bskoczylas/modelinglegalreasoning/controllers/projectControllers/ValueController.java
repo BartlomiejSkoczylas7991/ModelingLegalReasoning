@@ -13,27 +13,14 @@ public class ValueController {
     private TableView<Value> valueTable;
     private ProjectController projectController;
     private Project project;
-    private Button addValueButton;
-    private Button editValueButton;
-    private Button removeValueButton;
     private TextField valueNameTextField;
 
     public ValueController(TableView<Value> valueTable, TextField valueNameTextField,
-                           Button addValueButton, Button editValueButton, Button removeValueButton,
                            ProjectController projectController) {
         this.valueTable = valueTable;
         this.valueNameTextField = valueNameTextField;
-        this.addValueButton = addValueButton;
-        this.editValueButton = editValueButton;
-        this.removeValueButton = removeValueButton;
         this.projectController = projectController;
         this.project = projectController.getProject();
-    }
-
-    private void setupValueButtons() {
-        addValueButton.setOnAction(e -> handleAddValue());
-        editValueButton.setOnAction(e -> handleEditValue());
-        removeValueButton.setOnAction(e -> handleRemoveValue());
     }
 
     public void addValue(Value value) {
@@ -41,7 +28,6 @@ public class ValueController {
             project.getListValue().addValue(value);
             updateValueTable();
         } else {
-            // TODO: Show error to user, value with this name already exists
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -71,7 +57,6 @@ public class ValueController {
         if (project.getListValue().getValues().remove(value)) {
             updateValueTable();
         } else {
-            // TODO: Show error to user, value does not exist
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -103,7 +88,6 @@ public class ValueController {
                 updateValueTable(); // zaktualizuj tabelę po edycji wartości
             }
         } else {
-            // TODO: Show error to user, no value selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -119,7 +103,6 @@ public class ValueController {
             removeValue(selectedValue);
             updateValueTable(); // zaktualizuj tabelę po usunięciu wartości
         } else {
-            // TODO: Show error to user, no value selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);

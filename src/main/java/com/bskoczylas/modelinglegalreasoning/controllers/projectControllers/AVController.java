@@ -17,23 +17,15 @@ import java.util.stream.Collectors;
 public class AVController {
     private AgentValueToWeight avWeights;
     private ProjectController projectController;
-    private TableView<AVPair> aVTable;
+    private TableView<AVPair> avTable;
     
-    private TableColumn<AVPair, Integer> aIdColumn;
+    private TableColumn<AVPair, Integer> avIdColumn;
     
-    private TableColumn<AVPair, String> aVAgentsColumn;
+    private TableColumn<AVPair, String> avAgentsColumn;
     
-    private TableColumn<AVPair, String> aVValuesColumn;
+    private TableColumn<AVPair, String> avValuesColumn;
     
-    private TableColumn<AVPair, Integer> aVWeightsColumn;
-    
-    private Button aVaddButton;
-    
-    private Button aVEditButton;
-    
-    private Button aVRandomButton;
-    
-    private Button changeScaleButton;
+    private TableColumn<AVPair, Integer> avWeightsColumn;
     
     private Slider minSlider;
     
@@ -43,29 +35,21 @@ public class AVController {
 
     public AVController(AgentValueToWeight avWeights,
                         ProjectController projectController,
-                        TableView<AVPair> aVTable,
-                        TableColumn<AVPair, Integer> aIdColumn,
-                        TableColumn<AVPair, String> aVAgentsColumn,
-                        TableColumn<AVPair, String> aVValuesColumn,
-                        TableColumn<AVPair, Integer> aVWeightsColumn,
-                        Button aVaddButton,
-                        Button aVEditButton,
-                        Button aVRandomButton,
-                        Button changeScaleButton,
+                        TableView<AVPair> avTable,
+                        TableColumn<AVPair, Integer> avIdColumn,
+                        TableColumn<AVPair, String> avAgentsColumn,
+                        TableColumn<AVPair, String> avValuesColumn,
+                        TableColumn<AVPair, Integer> avWeightsColumn,
                         Slider minSlider,
                         Slider maxSlider,
                         ComboBox<Weight> weightsComboBox) {
         this.avWeights = avWeights;
         this.projectController = projectController;
-        this.aVTable = aVTable;
-        this.aIdColumn = aIdColumn;
-        this.aVAgentsColumn = aVAgentsColumn;
-        this.aVValuesColumn = aVValuesColumn;
-        this.aVWeightsColumn = aVWeightsColumn;
-        this.aVaddButton = aVaddButton;
-        this.aVEditButton = aVEditButton;
-        this.aVRandomButton = aVRandomButton;
-        this.changeScaleButton = changeScaleButton;
+        this.avTable = avTable;
+        this.avIdColumn = avIdColumn;
+        this.avAgentsColumn = avAgentsColumn;
+        this.avValuesColumn = avValuesColumn;
+        this.avWeightsColumn = avWeightsColumn;
         this.minSlider = minSlider;
         this.maxSlider = maxSlider;
         this.weightsComboBox = weightsComboBox;
@@ -73,7 +57,7 @@ public class AVController {
 
     public void addWeight() {
         // Retrieve selected AgentValue from the table view
-        AVPair selectedAV = aVTable.getSelectionModel().getSelectedItem();
+        AVPair selectedAV = avTable.getSelectionModel().getSelectedItem();
         // Retrieve selected Weight from the combo box
         Weight selectedWeight = weightsComboBox.getValue();
         // If no item is selected in the table view or in the combo box, do nothing
@@ -89,17 +73,13 @@ public class AVController {
         }
     }
 
-    public void editWeight() {
-        // The logic here would be the same as addWeight, but might include some checks for if the weight has been changed or not
-    }
-
     public void randomizeWeights() {
         // Randomize weights in the model
         Random random = new Random();
         for (AgentValue av : avWeights.keySet()) {
-            Double newWeight = avWeights.getScale().getMin() +
-                    (avWeights.getScale().getMax() - avWeights.getScale().getMin()) * random.nextDouble();
-            avWeights.editWeight(av,Double.valueOf(newWeight).intValue());
+            Integer newWeight = avWeights.getScale().getMin() +
+                    (avWeights.getScale().getMax() - avWeights.getScale().getMin()) * random.nextInt();
+            avWeights.editWeight(av, newWeight);
         }
     }
 
@@ -118,6 +98,6 @@ public class AVController {
         List<AVPair> pairs = avWeights.entrySet().stream()
                 .map(entry -> new AVPair(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-        aVTable.setItems(FXCollections.observableList(pairs));
+        avTable.setItems(FXCollections.observableList(pairs));
     }
 }

@@ -96,7 +96,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         return null;
     }
 
-    public void editWeight(AgentValueProposition agentValueProposition, double newWeight) {
+    public void editWeight(AgentValueProposition agentValueProposition, Integer newWeight) {
         Weight weight = agentValuePropWeights.get(agentValueProposition);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);

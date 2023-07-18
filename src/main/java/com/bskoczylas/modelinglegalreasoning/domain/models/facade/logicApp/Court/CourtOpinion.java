@@ -90,6 +90,34 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
         return this.dissentingOpinions;
     }
 
+    public void setDecision(Proposition decision) {
+        this.decision = decision;
+    }
+
+    public void setMajorityOpinions(Map<ReasoningChain, Set<Agent>> majorityOpinions) {
+        this.majorityOpinions = majorityOpinions;
+    }
+
+    public void setPluralityOpinions(Map<ReasoningChain, Set<Agent>> pluralityOpinions) {
+        this.pluralityOpinions = pluralityOpinions;
+    }
+
+    public void setConcurringOpinions(Map<ReasoningChain, Set<Agent>> concurringOpinions) {
+        this.concurringOpinions = concurringOpinions;
+    }
+
+    public void setDissentingOpinions(Map<ReasoningChain, Set<Agent>> dissentingOpinions) {
+        this.dissentingOpinions = dissentingOpinions;
+    }
+
+    public void setListConsortium(ListConsortium listConsortium) {
+        this.listConsortium = listConsortium;
+    }
+
+    public List<CourtOpinionObserver> getObservers() {
+        return observers;
+    }
+
     @Override
     public void addObserver(CourtOpinionObserver observer) {
         observers.add(observer);

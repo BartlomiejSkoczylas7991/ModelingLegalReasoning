@@ -2,38 +2,36 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
-import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.Report;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.IncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPPair;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -132,8 +130,6 @@ public class ProjectController implements ProjectObserver {
         @FXML
         private ComboBox<Weight> avpWeightsComboBox;
 
-
-
         // for IncompProp
         @FXML
         private TableView<IncompProp> incompPropTable;
@@ -185,6 +181,12 @@ public class ProjectController implements ProjectObserver {
         @FXML
         private Button generatePDFButton;
 
+        public ProjectController() {}
+
+        public ProjectController(Project project) {
+                this.project = project;
+        }
+
         public void setProjectManager(ProjectManager projectManager) {
                 this.projectManager = projectManager;
         }
@@ -223,7 +225,7 @@ public class ProjectController implements ProjectObserver {
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // IncompProp section
-                incompPropController = new IncompPropController(incompPropTable, this);
+                incompPropController = new IncompPropController(incompPropTable, this, project);
 
                 // Set up the columns in the IncompProp table
                 incompIdColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Integer>("id"));
@@ -235,6 +237,8 @@ public class ProjectController implements ProjectObserver {
                 incompPropTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // AgentValue Weights section
+                this.avWeights = this.project.getAgentValueToWeight();
+
                 this.avController = new AVController(
                         avWeights,
                         this,
@@ -277,6 +281,8 @@ public class ProjectController implements ProjectObserver {
                 });
 
                 // AgentValueProposition Weights section
+                this.avpWeights = this.project.getAgentValuePropWeight();
+
                 this.avpController = new AVPController(
                         avpWeights,
                         this,
@@ -302,7 +308,7 @@ public class ProjectController implements ProjectObserver {
                 avpIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getAgentValueProposition().hashCode()).asObject());
                 avpAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getAgent().getName()));
                 avpValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getValue().getName()));
-                avpValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getProposition().getStatement()));
+                avpPropositionsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getProposition().getStatement()));
                 avpWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
 
                 // Initialize the sliders
@@ -323,6 +329,7 @@ public class ProjectController implements ProjectObserver {
 
                 // Na początku przycisk "Generate" jest nieaktywny
                 generateButton.setDisable(true);
+                generatePDFButton.setDisable(true);
 
                 // Nasłuchiwanie zmian w projekcie
                 project.addProjectObserver(new ProjectObserver() {
@@ -364,13 +371,13 @@ public class ProjectController implements ProjectObserver {
         }
 
         @FXML
-        private void handleEditProposition(ActionEvent event) {
+        public void handleEditProposition(ActionEvent event) {
                 this.propositionController.handleEditProposition();
                 propositionController.updatePropositionTable();
         }
 
         @FXML
-        private void handleRemoveProposition(ActionEvent event) {
+        public void handleRemoveProposition(ActionEvent event) {
                 this.propositionController.handleRemoveProposition();
                 propositionController.updatePropositionTable();
         }
@@ -383,100 +390,112 @@ public class ProjectController implements ProjectObserver {
         }
 
         @FXML
-        private void handleEditValue(ActionEvent event) {
+        public void handleEditValue(ActionEvent event) {
                 this.valueController.handleEditValue();
                 valueController.updateValueTable();
         }
 
         @FXML
-        private void handleRemoveValue(ActionEvent event) {
+        public void handleRemoveValue(ActionEvent event) {
                 this.valueController.handleRemoveValue();
                 valueController.updateValueTable();
         }
 
         //DODAWANIA WAG AGENT-VALUE WEIGHTS (I SKALI) POPRZEZ AVController
         @FXML
-        private void handleAVAddScaleButton() {
+        public void handleAVAddScaleButton() {
                 avController.changeScale();
                 avController.updateAVTable();
         }
 
         @FXML
-        private void handleAVRandomButton() {
+        public void handleAVRandomButton() {
                 avController.randomizeWeights();
                 avController.updateAVTable();
         }
 
         @FXML
-        private void handleAVAddButton() {
+        public void handleAVAddButton() {
                 avController.addWeight();
                 avController.updateAVTable();
         }
 
         //DODAWANIE WAG AGENT-VALUE-PROPOSITION WEIGHTS (I SKALI) POPRZEZ AVPController
         @FXML
-        private void handleAVPScaleButton() {
+        public void handleAVPScaleButton() {
                 avpController.changeScale();
                 avpController.updateAVPTable();
         }
 
         @FXML
-        private void handleAVPRandomButton() {
+        public void handleAVPRandomButton() {
                 avpController.randomizeWeights();
                 avpController.updateAVPTable();
         }
 
         @FXML
-        private void handleAVPAddButton() {
+        public void handleAVPAddButton() {
                 avpController.addWeight();
                 avpController.updateAVPTable();
         }
 
         //DODAWANIE INCOMPPROP i 2 decyzji w IncompPropController
+        @FXML
         public void handleAddIncompButtonAction(ActionEvent actionEvent) {
-                // Pobierz wybrane wartości z obu ComboBoxów
-                Proposition prop1 = prop1comboBoxIncompProp.getValue();
-                Proposition prop2 = prop2comboBoxIncompProp.getValue();
-
-                // Sprawdź, czy obie propozycje są różne i czy już nie istnieje para propozycji
-                if(prop1 != null && prop2 != null && !prop1.equals(prop2)
-                        && !project.getListIncompProp().getIncompPropList().contains(new IncompProp(new Pair<>(prop1, prop2), false))) { //nie ma contain
-                        // Dodaj nową parę niekompatybilnych propozycji do listy
-                        IncompProp incompProp = new IncompProp(new Pair<>(prop1, prop2), isDecisionRadioButton.isSelected());
-                        project.getListIncompProp().addIncompatiblePropositions(incompProp);
-
-                        // Zaktualizuj tabelę
-                        incompPropController.updateIncompPropTable();
-                        // Sprawdź stan przycisku decyzji
-                        incompPropController.checkDecision();
-                }
+                incompPropController.handleAddButtonAction(actionEvent);
         }
 
-
+        @FXML
         public void handleRemoveIncompButtonAction(ActionEvent actionEvent) {
-                // Pobierz wybrany element z tabeli
-                IncompProp selectedIncompProp = incompPropTable.getSelectionModel().getSelectedItem();
-
-                // Usuń wybrany element z listy
-                if(selectedIncompProp != null) {
-                        project.getListIncompProp().removeIncompProp(selectedIncompProp);
-
-                        // Zaktualizuj tabelę
-                        incompPropController.updateIncompPropTable();
-                        // Sprawdź stan przycisku decyzji
-                        incompPropController.checkDecision();
-                }
+                incompPropController.handleRemoveButtonAction(actionEvent);
         }
-
 
         //DODAWANIE Zasad w RuleController, gdzie także dodajemy kolejne okienko do dodawania zasad.
+        @FXML
         public void handleAddRuleButton(ActionEvent actionEvent) {
+                Proposition decision1 = project.getListIncompProp().getDecisions().getFirst();
+                Proposition decision2 = project.getListIncompProp().getDecisions().getSecond();
+                if (decision1 == null || decision2 == null) {
+                        // Pokaż komunikat o błędzie
+                        return;
+                }
+
+                // Tworzymy nową instancję RuleController i dostarczamy jej zależności
+                RuleController ruleController = new RuleController(this);
+                ruleController.setDecisions(decision1, decision2);
+
+                try {
+                        // Używamy FXMLLoader do załadowania pliku fxml
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
+                        loader.setController(ruleController);  // Ustawiamy nasz RuleController jako kontroler dla załadowanego pliku fxml
+                        Parent root = loader.load();  // Ładujemy plik fxml
+
+                        // Tworzymy nowe okno i wyświetlamy załadowany interfejs użytkownika
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+
+                // Aktualizujemy tabelę po dodaniu zasady
+                updateRulesTable();
         }
 
-        public void handleEditRuleButton(ActionEvent actionEvent) {
-        }
-
+        @FXML
         public void handleRemoveRuleButton(ActionEvent actionEvent) {
+                Rule selectedRule = rulesTable.getSelectionModel().getSelectedItem();
+
+                if (selectedRule != null) {
+                        project.getListRules().removeRule(selectedRule);
+
+                        updateRulesTable();
+                }
+        }
+
+        public void updateRulesTable() {
+                ObservableList<Rule> rulesObservableList = FXCollections.observableArrayList(project.getListRules().getListRules());
+                rulesTable.setItems(rulesObservableList);
         }
 
         public ListRules getListRules() {
@@ -492,58 +511,12 @@ public class ProjectController implements ProjectObserver {
         //                List<Report.ReportSection> reportSections = report.generateReport();
         //                String formattedReport = report.formatForJavaFX(reportSections);
         //                reportTextArea.setText(formattedReport);
-        //        }
-        //}
-
-        @FXML
-        private void handleGeneratePDF() {
-                if (project.hasEnoughData()) {
-                        // Tutaj implementacja generowania PDFa z raportem
-                }
-        }
-
-        //@FXML
-        //private void handleNew() {
-        //        // Reset projektu
-        //        project.reset();
-        //        reportTextArea.clear();
-        //}
-
-        //POMOC
-        @FXML
-        private void handleHelp() {
-                // Wyświetl okno pomocy
-                // Tutaj może być wywołanie metody, która otwiera nowe okno z instrukcjami korzystania z programu
-        }
-
-        //ZAPIS
-        @FXML
-        private void handleSave() {
-                try {
-                        // Zapisz zmiany w projekcie
-                        projectManager.saveProject(project);
-                } catch (IOException e) {
-                        // Tutaj obsłuż wyjątek - na przykład wyświetl dialog z informacją o błędzie
-                        e.printStackTrace();
-                }
-        }
-
-        //POWRÓT DO MENU
-        //@FXML
-        //private void handleMenu() {
-        //        // Otwórz okno startowe
-        //        projectManager.openStartWindow();
-        //}
+        //
 
         //WYJŚCIE Z PROGRAMU
-        @FXML
-        private void handleExit() {
-                // Zakończ program
-                System.exit(0);
-        }
 
         @FXML
-        private void handleGenerate() {
+        public void handleGenerate() {
                 // Generuj raport
                 //List<Report.ReportSection> reportSections = report.generateReport();
                 //String formattedReport = report.formatForJavaFX(reportSections);
@@ -554,6 +527,7 @@ public class ProjectController implements ProjectObserver {
                 // Sprawdź, czy wprowadzono wystarczająco dużo danych, aby można było wygenerować raport
                 boolean canGenerate = project.hasEnoughData();
                 generateButton.setDisable(!canGenerate);
+                generatePDFButton.setDisable(!canGenerate);
         }
 
         public void setProject(Project project) {
@@ -563,7 +537,7 @@ public class ProjectController implements ProjectObserver {
 
         @Override
         public void updateProject(Project project) {
-
+                this.project = project;
         }
 
         public Project getProject() {
@@ -584,6 +558,13 @@ public class ProjectController implements ProjectObserver {
 
         @FXML
         public void handleSaveButton(ActionEvent actionEvent) {
+                try {
+                        // Zapisz zmiany w projekcie
+                        projectManager.saveProject(project);
+                } catch (IOException e) {
+                        // Tutaj obsłuż wyjątek - na przykład wyświetl dialog z informacją o błędzie
+                        e.printStackTrace();
+                }
         }
 
         @FXML
@@ -593,7 +574,5 @@ public class ProjectController implements ProjectObserver {
         @FXML
         public void handleExitButton(ActionEvent actionEvent) {
         }
-
-
 
 }

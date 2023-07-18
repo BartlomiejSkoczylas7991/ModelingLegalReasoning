@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
    <top>
       <ToolBar prefHeight="57.0" prefWidth="1135.0" BorderPane.alignment="CENTER">
         <items>
@@ -56,7 +56,7 @@
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <TextField fx:id="agentNameTextField" layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Agent Name">
+                              <TextField fx:id="agentNameTextField" layoutX="154.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Agent Name">
                                   <font>
                                       <Font size="17.0" />
                                   </font>
@@ -82,7 +82,7 @@
                                       <TableColumn fx:id="propositionNameColumn" minWidth="0.0" prefWidth="233.0" text="Name" />
                                   </columns>
                               </TableView>
-                              <Label layoutX="147.0" layoutY="383.0" prefHeight="41.0" prefWidth="270.0" text="Add or remove possible Proposition">
+                              <Label layoutX="147.0" layoutY="389.0" prefHeight="41.0" prefWidth="270.0" text="Add or remove possible Proposition">
                                   <font>
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
@@ -117,7 +117,7 @@
                                   <Font name="Khmer OS System" size="17.0" />
                               </font>
                           </Label>
-                          <TextField fx:id="valueNameTextField" layoutX="152.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Value Name">
+                          <TextField fx:id="valueNameTextField" layoutX="154.0" layoutY="430.0" prefHeight="55.0" prefWidth="256.0" text="Value Name">
                               <font>
                                   <Font size="17.0" />
                               </font>
@@ -150,14 +150,14 @@
                                  </font></Label>
                              <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
                              <Button layoutX="303.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveIncompButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
-                           <ComboBox fx:id="prop1comboBoxIncompProp" layoutX="62.0" layoutY="462.0" prefWidth="150.0" promptText="Prop1" />
-                           <ComboBox fx:id="prop2comboBoxIncompProp" layoutX="241.0" layoutY="462.0" prefWidth="150.0" promptText="Prop1" />
+                           <ComboBox fx:id="prop1comboBoxIncompProp" layoutX="63.0" layoutY="450.0" prefWidth="150.0" promptText="Prop1" />
+                           <ComboBox fx:id="prop2comboBoxIncompProp" layoutX="243.0" layoutY="450.0" prefWidth="150.0" promptText="Prop1" />
                            <Label layoutX="48.0" layoutY="14.0" prefHeight="44.0" prefWidth="467.0" text="Incompatible Propositions and decisions">
                               <font>
                                  <Font size="23.0" />
                               </font>
                            </Label>
-                           <RadioButton fx:id="isDecisionRadioButton" layoutX="419.0" layoutY="457.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="114.0" text="Is decision">
+                           <RadioButton fx:id="isDecisionRadioButton" layoutX="419.0" layoutY="445.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="114.0" text="Is decision">
                               <font>
                                  <Font size="15.0" />
                               </font>
@@ -169,7 +169,7 @@
                   <Tab text="A-V Weights List">
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                             <TableView fx:id="aVTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
+                             <TableView fx:id="avTable" layoutX="26.0" layoutY="69.0" prefHeight="301.0" prefWidth="507.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
                                  <columns>
                                      <TableColumn fx:id="avIdColumn" prefWidth="50" text="id" />
                                      <TableColumn fx:id="avAgentsColumn" prefWidth="188.0" text="Agents" />
@@ -181,7 +181,7 @@
                                  <font>
                                      <Font name="Khmer OS System" size="25.0" />
                                  </font></Label>
-                             <Button layoutX="96.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                             <Button layoutX="57.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
                            <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
                            <Slider fx:id="avMinScale" layoutX="399.0" layoutY="470.0" />
                            <Slider fx:id="avMaxScale" layoutX="399.0" layoutY="422.0" />
@@ -237,12 +237,10 @@
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <Label layoutX="-22.0" layoutY="14.0" prefHeight="41.0" prefWidth="731.0"  style="-fx-border-color: transparent;" wrapText="true">
-                                  <text>
-                                      Agent-worth weight (how important is a given proposition compared to a given value for a given agent)
-                                  </text>
+                              <Label layoutX="7.0" prefHeight="69.0" prefWidth="550.0" style="-fx-border-color: transparent;" wrapText="true">
+                                  <text>Agent-worth weight (how important is a given proposition compared to a given value for a given agent)</text>
                                   <font>
-                                      <Font name="Khmer OS System" size="23.0" />
+                                      <Font name="Khmer OS System" size="16.0" />
                                   </font>
                               </Label>
                               <Label layoutX="357.0" layoutY="410.0" prefHeight="41.0" prefWidth="52.0" text="Min:">
@@ -250,7 +248,7 @@
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
                               </Label>
-                              <Label layoutX="357.0" layoutY="449.0" prefHeight="41.0" prefWidth="52.0" text="Max:" >
+                              <Label layoutX="357.0" layoutY="449.0" prefHeight="41.0" prefWidth="52.0" text="Max:">
                                   <font>
                                       <Font name="Khmer OS System" size="17.0" />
                                   </font>
@@ -276,10 +274,9 @@
                                  <font>
                                      <Font name="Khmer OS System" size="17.0" />
                                  </font></Label>
-                             <Button layoutX="120.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleAddRuleButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                             <Button layoutX="240.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleEditRuleButton" prefHeight="39.0" prefWidth="85.0" text="Edit" />
-                             <Button layoutX="359.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleRemoveRuleButton" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                           <Label layoutX="233.0" layoutY="14.0" prefHeight="70.0" prefWidth="98.0" text="Rules">
+                             <Button layoutX="120.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleAddRuleButton" prefHeight="39.0" prefWidth="114.0" text="Add" />
+                             <Button layoutX="319.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleRemoveRuleButton" prefHeight="39.0" prefWidth="125.0" text="Remove" />
+                           <Label layoutX="234.0" prefHeight="39.0" prefWidth="98.0" text="Rules">
                               <font>
                                  <Font name="Khmer OS System" size="35.0" />
                               </font>

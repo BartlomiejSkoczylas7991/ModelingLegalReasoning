@@ -3,8 +3,8 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weig
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
@@ -57,6 +57,22 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     public List<Agent> getAgents() {
         return agents;
+    }
+
+    public void setAgentValueWeights(Map<AgentValue, Weight> agentValueWeights) {
+        this.agentValueWeights = agentValueWeights;
+    }
+
+    public void setAgents(List<Agent> agents) {
+        this.agents = agents;
+    }
+
+    public void setValues(List<Value> values) {
+        this.values = values;
+    }
+
+    public List<AVObserver> getWeightObservers() {
+        return weightObservers;
     }
 
     public List<Value> getValues() {

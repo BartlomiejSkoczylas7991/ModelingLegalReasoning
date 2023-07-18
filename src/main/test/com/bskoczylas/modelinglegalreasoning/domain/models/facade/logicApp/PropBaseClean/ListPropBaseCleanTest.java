@@ -5,15 +5,14 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
-import org.junit.jupiter.api.BeforeAll;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Scale;
+
 import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class ListPropBaseCleanTest {

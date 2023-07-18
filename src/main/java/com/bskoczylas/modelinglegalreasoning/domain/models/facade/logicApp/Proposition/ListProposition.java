@@ -9,6 +9,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListProposition implements PropositionObservable, IncompPropObserver {
     private List<Proposition> listProposition = new LinkedList<>();
@@ -34,9 +35,19 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
         return listProposition;
     }
 
+    public List<Proposition> getPropositionsNotDecisions() {
+        return listProposition.stream()
+                .filter(proposition -> !proposition.isDecision())
+                .collect(Collectors.toList());
+    }
+
     public void setListProposition(List<Proposition> listProposition) {
         this.listProposition = listProposition;
         notifyObservers(this);
+    }
+
+    public List<PropositionObserver> getObservers() {
+        return observers;
     }
 
     @Override

@@ -152,6 +152,78 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         return courtRuling.toString();
     }
 
+    public ListAgent getListAgent() {
+        return listAgent;
+    }
+
+    public void setListAgent(ListAgent listAgent) {
+        this.listAgent = listAgent;
+    }
+
+    public ListValue getListValue() {
+        return listValue;
+    }
+
+    public void setListValue(ListValue listValue) {
+        this.listValue = listValue;
+    }
+
+    public ListProposition getListProposition() {
+        return listProposition;
+    }
+
+    public void setListProposition(ListProposition listProposition) {
+        this.listProposition = listProposition;
+    }
+
+    public ListPropBaseClean getListPropBaseClean() {
+        return listPropBaseClean;
+    }
+
+    public void setListPropBaseClean(ListPropBaseClean listPropBaseClean) {
+        this.listPropBaseClean = listPropBaseClean;
+    }
+
+    public ListRules getListRules() {
+        return listRules;
+    }
+
+    public void setListRules(ListRules listRules) {
+        this.listRules = listRules;
+    }
+
+    public ListReasoningChain getListReasoningChains() {
+        return listReasoningChains;
+    }
+
+    public void setListReasoningChains(ListReasoningChain listReasoningChains) {
+        this.listReasoningChains = listReasoningChains;
+    }
+
+    public ListConsortium getListConsortium() {
+        return listConsortium;
+    }
+
+    public void setListConsortium(ListConsortium listConsortium) {
+        this.listConsortium = listConsortium;
+    }
+
+    public CourtOpinion getCourtOpinion() {
+        return courtOpinion;
+    }
+
+    public void setCourtOpinion(CourtOpinion courtOpinion) {
+        this.courtOpinion = courtOpinion;
+    }
+
+    public ListIncompProp getListIncompProp() {
+        return listIncompProp;
+    }
+
+    public void setListIncompProp(ListIncompProp listIncompProp) {
+        this.listIncompProp = listIncompProp;
+    }
+
     @Override
     public void updateAgent(ListAgent listAgent) {
         this.listAgent = listAgent;

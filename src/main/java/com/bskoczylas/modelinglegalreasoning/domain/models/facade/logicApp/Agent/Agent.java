@@ -34,6 +34,14 @@ public class Agent {
         this.created = created;
     }
 
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Agent.nextId = nextId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

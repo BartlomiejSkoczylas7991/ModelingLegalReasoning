@@ -16,33 +16,27 @@ import javafx.scene.control.TableView;
 public class IncompPropController {
 
     private TableView<IncompProp> incompPropTable;
-
-
     private ComboBox<Proposition> prop1comboBoxIncompProp;
-
-
     private ComboBox<Proposition> prop2comboBoxIncompProp;
-
-
     private RadioButton isDecisionRadioButton;
 
     private ProjectController projectController;
     private Project project;
 
-    public IncompPropController(TableView<IncompProp> incompPropTable, ProjectController projectController) {
+    public IncompPropController(TableView<IncompProp> incompPropTable, ProjectController projectController, Project project) {
         this.incompPropTable = incompPropTable;
         this.projectController = projectController;
-        this.project = projectController.getProject();
+        this.project = project;
 
         checkDecision(); // call this method to initialize the state of the button
     }
 
-    @FXML
     public void handleAddButtonAction(ActionEvent event) {
         Proposition prop1 = prop1comboBoxIncompProp.getValue();
         Proposition prop2 = prop2comboBoxIncompProp.getValue();
 
-        if(prop1 != null && prop2 != null && !prop1.equals(prop2)) {
+        if(prop1 != null && prop2 != null && !prop1.equals(prop2)
+                && !project.getListIncompProp().getIncompPropList().contains(new IncompProp(new Pair<>(prop1, prop2), false))) {
             ListIncompProp listIncompProp = project.getListIncompProp();
             IncompProp incompProp = new IncompProp(new Pair<>(prop1, prop2), isDecisionRadioButton.isSelected());
             listIncompProp.addIncompatiblePropositions(incompProp);
@@ -54,7 +48,6 @@ public class IncompPropController {
         }
     }
 
-    @FXML
     public void handleRemoveButtonAction(ActionEvent event) {
         IncompProp selectedIncompProp = incompPropTable.getSelectionModel().getSelectedItem();
         project.getListIncompProp().removeIncompProp(selectedIncompProp);

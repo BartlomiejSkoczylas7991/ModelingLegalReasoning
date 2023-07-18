@@ -19,7 +19,7 @@ public class ProjectManager {
     private static int nextProjectNumber = 1;
     private List<Project> projects = new ArrayList<>();
     private Project currentProject;
-    private FacadeProject facadeProject;;
+    private FacadeProject facadeProject;
 
     public ProjectManager(FacadeProject facadeProject) {
         this.facadeProject = facadeProject;

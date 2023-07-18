@@ -124,6 +124,14 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         notifyObservers();
     }
 
+    public List<IncompPropObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<IncompPropObserver> observers) {
+        this.observers = observers;
+    }
+
     @Override
     public void addObserver(IncompPropObserver observer) {
         observers.add(observer);

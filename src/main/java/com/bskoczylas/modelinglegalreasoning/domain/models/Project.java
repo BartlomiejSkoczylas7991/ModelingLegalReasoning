@@ -9,15 +9,15 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Knowl
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean.ListPropBaseClean;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision.Decision;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -29,43 +29,43 @@ public class Project implements ProjectObservable {
     @JsonProperty
     private String id; // zapisujemy/wczytujemy
     @JsonProperty
-    private String name; // z/w
+    private String name;
     @JsonProperty
-    private ListAgent listAgent; // z/w
+    private ListAgent listAgent = new ListAgent();
     @JsonProperty
-    private ListProposition listProposition; // z/w
+    private ListProposition listProposition = new ListProposition();
     @JsonProperty
-    private ListValue listValue; // z/w
+    private ListValue listValue = new ListValue();
     @JsonProperty
-    private ListIncompProp listIncompProp; // z/w
+    private ListIncompProp listIncompProp = new ListIncompProp();
     @JsonProperty
-    private AgentValueToWeight agentValueToWeight; // z/w
+    private AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
     @JsonProperty
-    private AgentValuePropWeight agentValuePropWeight; // z/w
+    private AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
     @JsonProperty
-    private Scale scale; // z/w
+    private Scale scale = new Scale(0,10);
     @JsonProperty
-    private ListRules listRules; // z/w
+    private ListRules listRules = new ListRules();
     @JsonProperty
-    private ListPropBaseClean listPropBaseClean;
+    private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
     @JsonProperty
-    private ListKnowledgeBase listKnowledgeBase;
+    private ListKnowledgeBase listKnowledgeBase = new ListKnowledgeBase();
     @JsonProperty
-    private ListReasoningChain listReasoningChain;
+    private ListReasoningChain listReasoningChain = new ListReasoningChain();
     @JsonProperty
-    private Decision decision;
+    private Decision decision = new Decision();
     @JsonProperty
-    private ListConsortium listConsortium;
+    private ListConsortium listConsortium = new ListConsortium();
     @JsonProperty
-    private CourtOpinion courtOpinion;
+    private CourtOpinion courtOpinion = new CourtOpinion();
     @JsonProperty
-    private Report report;
+    private Report report = new Report();
     @JsonProperty
     private List<ProjectObserver> observers = new ArrayList<>();
     @JsonProperty
-    private LocalDateTime createdDate; // z/w
+    private LocalDateTime createdDate = LocalDateTime.now();
     @JsonProperty
-    private LocalDateTime lastModifiedDate; // z/w
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     public Project() {
         if (name == null || name.trim().isEmpty()) {
@@ -79,21 +79,6 @@ public class Project implements ProjectObservable {
         nextId++;  // We increment nextId by 1, so the next Project will have a larger id
 
         // define
-        this.listAgent = new ListAgent();
-        this.listProposition = new ListProposition();
-        this.listValue = new ListValue();
-        this.listRules = new ListRules();
-        this.agentValuePropWeight = new AgentValuePropWeight();
-        this.agentValueToWeight = new AgentValueToWeight();
-        this.listIncompProp = new ListIncompProp();
-        this.listKnowledgeBase = new ListKnowledgeBase();
-        this.listPropBaseClean = new ListPropBaseClean();
-        this.decision = new Decision();
-        this.scale = new Scale(0,10);
-        this.listReasoningChain = new ListReasoningChain();
-        this.listConsortium = new ListConsortium();
-        this.courtOpinion = new CourtOpinion();
-        this.report = new Report();
         configureObservers();
     }
 
@@ -106,24 +91,8 @@ public class Project implements ProjectObservable {
         this.lastModifiedDate = LocalDateTime.now();
         this.name = name;
         this.id = Integer.toString(nextId++);  // set id
-        nextId++;  // We increment nextId by 1, so the next Project will have a larger id
 
-        // define
-        this.listAgent = new ListAgent();
-        this.listProposition = new ListProposition();
-        this.listValue = new ListValue();
-        this.listRules = new ListRules();
-        this.agentValuePropWeight = new AgentValuePropWeight();
-        this.agentValueToWeight = new AgentValueToWeight();
-        this.listIncompProp = new ListIncompProp();
-        this.listKnowledgeBase = new ListKnowledgeBase();
-        this.listPropBaseClean = new ListPropBaseClean();
-        this.scale = new Scale(0,10);
-        this.decision = new Decision();
-        this.listReasoningChain = new ListReasoningChain();
-        this.listConsortium = new ListConsortium();
-        this.courtOpinion = new CourtOpinion();
-        this.report = new Report();
+
         configureObservers();
     }
 
@@ -212,6 +181,14 @@ public class Project implements ProjectObservable {
     @JsonProperty
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Project.nextId = nextId;
     }
 
     public ListAgent getListAgent() {
@@ -312,6 +289,10 @@ public class Project implements ProjectObservable {
 
     public ListRules getListRules() {
         return listRules;
+    }
+
+    public void removeRule(Rule rule) {
+        this.listRules.removeRule(rule);
     }
 
     public void setListRules(ListRules listRules) {

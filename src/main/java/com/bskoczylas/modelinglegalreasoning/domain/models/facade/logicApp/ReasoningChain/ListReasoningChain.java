@@ -178,6 +178,46 @@ public class ListReasoningChain implements KBObserver, RCObservable {
         return agents;
     }
 
+    public void setAgents(Set<Agent> agents) {
+        this.agents = agents;
+    }
+
+    public void setListReasoningChain(HashMap<Agent, ReasoningChain> listReasoningChain) {
+        this.listReasoningChain = listReasoningChain;
+    }
+
+    public ListKnowledgeBase getListKnowledgeBase() {
+        return listKnowledgeBase;
+    }
+
+    public void setListKnowledgeBase(ListKnowledgeBase listKnowledgeBase) {
+        this.listKnowledgeBase = listKnowledgeBase;
+    }
+
+    public Set<Pair<Proposition, Proposition>> getIncompProp() {
+        return incompProp;
+    }
+
+    public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
+        this.incompProp = incompProp;
+    }
+
+    public Pair<Proposition, Proposition> getDecisions() {
+        return decisions;
+    }
+
+    public void setDecisions(Pair<Proposition, Proposition> decisions) {
+        this.decisions = decisions;
+    }
+
+    public List<RCObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<RCObserver> observers) {
+        this.observers = observers;
+    }
+
     @Override
     public void updateKB(ListKnowledgeBase knowledgeBase) {
         this.listKnowledgeBase = knowledgeBase;

@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights;
+package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.ScaleObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
@@ -23,6 +23,22 @@ public class Scale implements ScaleObservable {
     public void setScale(int min_value, int max_value) {
         elements = new Pair<>(min_value, max_value);
         notifyObservers();
+    }
+
+    public Pair<Integer, Integer> getElements() {
+        return elements;
+    }
+
+    public void setElements(Pair<Integer, Integer> elements) {
+        this.elements = elements;
+    }
+
+    public List<ScaleObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<ScaleObserver> observers) {
+        this.observers = observers;
     }
 
     public int getMin() {

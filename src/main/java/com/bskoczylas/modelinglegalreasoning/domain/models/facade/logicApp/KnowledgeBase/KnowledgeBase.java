@@ -37,6 +37,14 @@ public class KnowledgeBase {
         this.rj.add(rule);
     }
 
+    public void setPi(Set<Proposition> pi) {
+        this.pi = pi;
+    }
+
+    public void setRj(Set<Rule> rj) {
+        this.rj = rj;
+    }
+
     @Override
     public String toString() {
         String propositions = pi.stream()

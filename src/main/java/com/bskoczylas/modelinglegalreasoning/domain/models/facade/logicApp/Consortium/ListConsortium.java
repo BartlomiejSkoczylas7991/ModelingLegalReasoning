@@ -91,6 +91,38 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         return listReasoningChain;
     }
 
+    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
+        this.listReasoningChain = listReasoningChain;
+    }
+
+    public void setConsortiumMap(Map<Consortium, ConsortiumType> consortiumMap) {
+        this.consortiumMap = consortiumMap;
+    }
+
+    public Decision getDecision() {
+        return decision;
+    }
+
+    public void setDecision(Decision decision) {
+        this.decision = decision;
+    }
+
+    public Set<Agent> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(Set<Agent> agents) {
+        this.agents = agents;
+    }
+
+    public List<ConsortiumObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<ConsortiumObserver> observers) {
+        this.observers = observers;
+    }
+
     @Override
     public void update(Decision decision) {
         this.decision = decision;

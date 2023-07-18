@@ -81,6 +81,22 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         return listKnowledgeBase.getOrDefault(agent, new KnowledgeBase());
     }
 
+    public void setPropBaseClean(ListPropBaseClean propBaseClean) {
+        this.propBaseClean = propBaseClean;
+    }
+
+    public void setRules(ListRules rules) {
+        this.rules = rules;
+    }
+
+    public List<KBObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<KBObserver> observers) {
+        this.observers = observers;
+    }
+
     @Override
     public void addObserver(KBObserver observer) {
         observers.add(observer);

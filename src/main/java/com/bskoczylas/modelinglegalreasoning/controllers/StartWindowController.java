@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +64,8 @@ public class StartWindowController {
 
     @FXML
     private TextField nameTextField;
+    private static System Logger;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StartWindowController.class.getName());
 
     public StartWindowController() {}
 
@@ -135,7 +139,6 @@ public class StartWindowController {
             }
         });
 
-
         projectsTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> currentProject = newValue
         );
@@ -181,28 +184,41 @@ public class StartWindowController {
 
             try {
                 // Załaduj wybrany projekt
-                projectManager.openProject(newProject.getId());
+
 
                 // Tworzenie nowego okna
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/project.fxml"));
                 Parent root = loader.load();
 
-                // Przekazanie wybranego projektu do kontrolera
+                // Przekazanie nowego projektu do kontrolera
                 ProjectController projectController = loader.getController();
                 projectController.setProject(newProject);
+
+                // Zapisz nowy projekt w ProjectManager
+                projectManager.saveProject(newProject);
 
                 // Zamknij obecne okno i otwórz nowe okno projektu
                 Stage stage = (Stage) nameTextField.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
 
-            } catch (IOException e) {
+            }  catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Dialog");
                 alert.setHeaderText("An error occurred:");
                 alert.setContentText("There was a problem loading the project view. Check if the /fxml/project.fxml file exists and the path is correct.\n\nDetailed error: " + e.getMessage());
-
                 alert.showAndWait();
+
+                logger.log(Level.SEVERE, "An IO error occurred: ", e);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("An unexpected error occurred:");
+                alert.setContentText("An unexpected error occurred while loading the project view. This could be due to an unforeseen issue.\n\nDetailed error: " + e.getMessage());
+                alert.showAndWait();
+
+                logger.log(Level.SEVERE, "An unexpected error occurred: ", e);
             }
         }
     }

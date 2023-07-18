@@ -2,11 +2,13 @@ package com.bskoczylas.modelinglegalreasoning.adapters;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +18,16 @@ public class JsonFileProjectRepository implements ProjectRepository {
     private List<Project> projects = new ArrayList<>();
 
     public JsonFileProjectRepository() {
-        String filePath = "com/bskoczylas/modelinglegalreasoning/database/projectData.json";
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        URL url = getClass().getResource("/com/bskoczylas/modelinglegalreasoning/database/projectData.json");
+        file = new File(url.getPath());
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         loadProjects();
     }
 
     @Override
     public void save(Project project) {
         projects.add(project);
+        saveToFile();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class JsonFileProjectRepository implements ProjectRepository {
     @Override
     public void delete(String projectId) {
         projects.removeIf(project -> project.getId().equals(projectId));
+        saveToFile();
     }
 
     @Override
@@ -64,6 +69,7 @@ public class JsonFileProjectRepository implements ProjectRepository {
         try {
             objectMapper.writeValue(file, projects);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("Problem with saving project to JSON file", e);
         }
     }

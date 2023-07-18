@@ -36,6 +36,26 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         this.listRules = listRules;
     }
 
+    public List<Proposition> getPropositions() {
+        return propositions;
+    }
+
+    public void setPropositions(List<Proposition> propositions) {
+        this.propositions = propositions;
+    }
+
+    public List<RuleObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<RuleObserver> observers) {
+        this.observers = observers;
+    }
+
+    public void setListIncompProp(ListIncompProp listIncompProp) {
+        this.listIncompProp = listIncompProp;
+    }
+
     public void addRule(Set<Proposition> premises, Proposition conclusion, String label) {
         // Check that none of the proposition pairs from premises are in incompProp
         List<IncompProp> incompProp = listIncompProp.getIncompatiblePropositions();
@@ -63,6 +83,10 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
 
     public ListIncompProp getListIncompProp() {
         return listIncompProp;
+    }
+
+    public void removeRule(Rule rule) {
+        this.listRules.remove(rule);
     }
 
     private void updateRules(Proposition removedProposition) {

@@ -46,4 +46,14 @@ public class IncompProp {
     public void setDecision(boolean decision) {
         isDecision = decision;
     }
+
+
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        IncompProp.nextId = nextId;
+    }
 }

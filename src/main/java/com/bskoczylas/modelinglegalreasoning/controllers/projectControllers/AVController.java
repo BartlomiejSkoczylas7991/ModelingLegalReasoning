@@ -4,12 +4,11 @@ import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Scale;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;

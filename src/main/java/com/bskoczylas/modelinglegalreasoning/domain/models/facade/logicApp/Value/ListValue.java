@@ -22,6 +22,18 @@ public class ListValue implements ValueObservable {
         return listValue;
     }
 
+    public List<Value> getListValue() {
+        return listValue;
+    }
+
+    public List<ValueObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<ValueObserver> observers) {
+        this.observers = observers;
+    }
+
     public void addValue(Value value) {
         listValue.add(value);
         notifyObservers(this);

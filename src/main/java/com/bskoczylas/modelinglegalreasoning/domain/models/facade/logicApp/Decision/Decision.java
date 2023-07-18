@@ -60,6 +60,62 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
         return listReasoningChain;
     }
 
+    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
+        this.listReasoningChain = listReasoningChain;
+    }
+
+    public HashMap<Proposition, Iterator> getPp() {
+        return pp;
+    }
+
+    public void setPp(HashMap<Proposition, Iterator> pp) {
+        this.pp = pp;
+    }
+
+    public HashMap<Proposition, Iterator> getPd() {
+        return pd;
+    }
+
+    public void setPd(HashMap<Proposition, Iterator> pd) {
+        this.pd = pd;
+    }
+
+    public int getSum_votes() {
+        return sum_votes;
+    }
+
+    public void setSum_votes(int sum_votes) {
+        this.sum_votes = sum_votes;
+    }
+
+    public void setDecision(Proposition decision) {
+        this.decision = decision;
+    }
+
+    public Pair<Proposition, Proposition> getDecisions() {
+        return decisions;
+    }
+
+    public void setDecisions(Pair<Proposition, Proposition> decisions) {
+        this.decisions = decisions;
+    }
+
+    public List<DecisionObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<DecisionObserver> observers) {
+        this.observers = observers;
+    }
+
+    public Pair<Proposition, Proposition> getPossibleDecisions() {
+        return possibleDecisions;
+    }
+
+    public void setPossibleDecisions(Pair<Proposition, Proposition> possibleDecisions) {
+        this.possibleDecisions = possibleDecisions;
+    }
+
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;

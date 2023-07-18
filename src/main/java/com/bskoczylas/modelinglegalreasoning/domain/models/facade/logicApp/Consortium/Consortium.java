@@ -35,6 +35,7 @@ public class Consortium {
         this.agents = agents;
     }
 
+
     @Override
     public String toString() {
         return "Consortium{" +

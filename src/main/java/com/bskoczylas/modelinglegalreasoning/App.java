@@ -25,6 +25,7 @@ public class App extends Application {
     private ProjectManager projectManager;
     private StartWindowController startWindowController;
     private JsonFileProjectRepository jsonFileProjectRepository;
+    private FacadeProject facadeProject;
 
 
     @Override
@@ -33,7 +34,7 @@ public class App extends Application {
         this.primaryStage.setTitle("Modeling Legal Reasoning");
         this.jsonFileProjectRepository = new JsonFileProjectRepository();
         // initialize the FacadeProject here
-        FacadeProject facadeProject = new FacadeProject(this.jsonFileProjectRepository);
+        this.facadeProject = new FacadeProject(this.jsonFileProjectRepository);
 
         // initialize the ProjectManager here
         this.projectManager = new ProjectManager(facadeProject);

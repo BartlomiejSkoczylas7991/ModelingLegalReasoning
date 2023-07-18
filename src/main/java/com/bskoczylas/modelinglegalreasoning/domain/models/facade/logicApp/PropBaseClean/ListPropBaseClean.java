@@ -3,7 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Prop
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
@@ -87,6 +87,46 @@ public class ListPropBaseClean implements AVObserver, AVPObserver, PBCObservable
 
     public void setPropBaseClean(HashMap<Agent, Set<Proposition>> propBaseClean) {
         this.listPropBaseClean = propBaseClean;
+    }
+
+    public Set<Proposition> getPropositions() {
+        return propositions;
+    }
+
+    public void setPropositions(Set<Proposition> propositions) {
+        this.propositions = propositions;
+    }
+
+    public AgentValueToWeight getAVWeight() {
+        return AVWeight;
+    }
+
+    public void setAVWeight(AgentValueToWeight AVWeight) {
+        this.AVWeight = AVWeight;
+    }
+
+    public AgentValuePropWeight getAVPWeight() {
+        return AVPWeight;
+    }
+
+    public void setAVPWeight(AgentValuePropWeight AVPWeight) {
+        this.AVPWeight = AVPWeight;
+    }
+
+    public HashMap<Agent, Set<Proposition>> getListPropBaseClean() {
+        return listPropBaseClean;
+    }
+
+    public void setListPropBaseClean(HashMap<Agent, Set<Proposition>> listPropBaseClean) {
+        this.listPropBaseClean = listPropBaseClean;
+    }
+
+    public List<PBCObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<PBCObserver> observers) {
+        this.observers = observers;
     }
 
     public void setAgents(Set<Agent> agents) {

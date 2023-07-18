@@ -44,6 +44,30 @@ public class Rule {
         return created;
     }
 
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Rule.nextId = nextId;
+    }
+
+    public void setPremises(Set<Proposition> premises) {
+        this.premises = premises;
+    }
+
+    public void setConclusion(Proposition conclusion) {
+        this.conclusion = conclusion;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }

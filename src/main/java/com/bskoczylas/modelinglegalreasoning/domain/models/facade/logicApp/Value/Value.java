@@ -32,6 +32,18 @@ public class Value {
         return created;
     }
 
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Value.nextId = nextId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }

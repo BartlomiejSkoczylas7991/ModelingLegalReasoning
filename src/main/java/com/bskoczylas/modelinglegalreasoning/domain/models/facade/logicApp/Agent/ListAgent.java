@@ -17,6 +17,14 @@ public class ListAgent implements AgentObservable {
         this.listAgent = listAgent;
     }
 
+    public List<AgentObserver> getObservers() {
+        return observers;
+    }
+
+    public List<Agent> getListAgent() {
+        return listAgent;
+    }
+
     public List<Agent> getAgents() {
         return listAgent;
     }

@@ -8,8 +8,8 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValue;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Scale;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVPObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
@@ -90,6 +90,18 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     public void setScale(Scale scale) {
         this.scale = scale;
+    }
+
+    public boolean isEditing() {
+        return isEditing;
+    }
+
+    public List<AVPObserver> getWeightObservers() {
+        return weightObservers;
+    }
+
+    public void setWeightObservers(List<AVPObserver> weightObservers) {
+        this.weightObservers = weightObservers;
     }
 
     public Weight getWeight(AgentValue agentValue) {

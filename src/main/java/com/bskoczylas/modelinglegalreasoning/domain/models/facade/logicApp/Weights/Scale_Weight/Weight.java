@@ -1,4 +1,4 @@
-package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights;
+package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight;
 
 public class Weight implements Comparable<Weight> {
     private Scale scale;
@@ -14,6 +14,14 @@ public class Weight implements Comparable<Weight> {
 
     public Object getWeight() {
         return this.value;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     @Override

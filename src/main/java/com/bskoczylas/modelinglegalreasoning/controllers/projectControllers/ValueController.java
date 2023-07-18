@@ -2,10 +2,9 @@ package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 

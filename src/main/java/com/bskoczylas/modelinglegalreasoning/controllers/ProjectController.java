@@ -2,17 +2,17 @@ package com.bskoczylas.modelinglegalreasoning.controllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court.Report;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.IncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.Rule;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.Value;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.Report;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -181,7 +181,7 @@ public class ProjectController implements ProjectObserver {
         @FXML
         private Button generatePDFButton;
 
-        public ProjectController() {}
+        public ProjectController() {this.project = new Project();}
 
         public ProjectController(Project project) {
                 this.project = project;
@@ -225,7 +225,7 @@ public class ProjectController implements ProjectObserver {
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // IncompProp section
-                incompPropController = new IncompPropController(incompPropTable, this, project);
+                incompPropController = new IncompPropController(incompPropTable, this, project, isDecisionRadioButton);
 
                 // Set up the columns in the IncompProp table
                 incompIdColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Integer>("id"));
@@ -533,6 +533,8 @@ public class ProjectController implements ProjectObserver {
         public void setProject(Project project) {
                 this.project = project;
                 this.project.addProjectObserver(this);
+
+                incompPropController = new IncompPropController(incompPropTable, this, this.project, isDecisionRadioButton);
         }
 
         @Override

@@ -3,12 +3,11 @@ package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.IncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
@@ -23,10 +22,12 @@ public class IncompPropController {
     private ProjectController projectController;
     private Project project;
 
-    public IncompPropController(TableView<IncompProp> incompPropTable, ProjectController projectController, Project project) {
+    public IncompPropController(TableView<IncompProp> incompPropTable, ProjectController projectController, Project project,
+                                RadioButton isDecisionRadioButton) {
         this.incompPropTable = incompPropTable;
         this.projectController = projectController;
         this.project = project;
+        this.isDecisionRadioButton = isDecisionRadioButton;
 
         checkDecision(); // call this method to initialize the state of the button
     }

@@ -1,11 +1,9 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.Proposition;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RuleController {

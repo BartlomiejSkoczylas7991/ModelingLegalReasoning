@@ -2,7 +2,7 @@ package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

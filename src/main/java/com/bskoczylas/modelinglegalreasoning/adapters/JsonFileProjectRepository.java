@@ -1,10 +1,17 @@
 package com.bskoczylas.modelinglegalreasoning.adapters;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentRepository;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition.PropositionRepository;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.value.ValueRepository;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights.AgentValuePropositionKeyDeserializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,10 +24,20 @@ public class JsonFileProjectRepository implements ProjectRepository {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<Project> projects = new ArrayList<>();
 
-    public JsonFileProjectRepository() {
+    public JsonFileProjectRepository() throws IOException {
+        AgentRepository agentRepository = new AgentRepository("/com/bskoczylas/modelinglegalreasoning/database/agent.json");
+        ValueRepository valueRepository = new ValueRepository("/com/bskoczylas/modelinglegalreasoning/database/value.json");
+        PropositionRepository propositionRepository = new PropositionRepository("/com/bskoczylas/modelinglegalreasoning/database/proposition.json"); // czy nie można tych trzech zmieścić do jednego projectData.json?
+
         URL url = getClass().getResource("/com/bskoczylas/modelinglegalreasoning/database/projectData.json");
         file = new File(url.getPath());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        // Register your custom key deserializer here
+        objectMapper.registerModule(
+                new SimpleModule().addKeyDeserializer(AgentValueProposition.class, new AgentValuePropositionKeyDeserializer())
+        );
+
         loadProjects();
     }
 
@@ -54,9 +71,10 @@ public class JsonFileProjectRepository implements ProjectRepository {
             String filePath = "com/bskoczylas/modelinglegalreasoning/database/projectData.json";
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
 
-            if (inputStream != null) {
-                projects = objectMapper.readValue(inputStream, new TypeReference<List<Project>>() {
-                });
+            if (inputStream != null && inputStream.available() > 0) {
+                projects = objectMapper.readValue(inputStream, new TypeReference<List<Project>>() {});
+            } else {
+                projects = new ArrayList<>();
             }
         } catch (IOException e) {
             throw new RuntimeException("Problem with reading projects from JSON file", e);

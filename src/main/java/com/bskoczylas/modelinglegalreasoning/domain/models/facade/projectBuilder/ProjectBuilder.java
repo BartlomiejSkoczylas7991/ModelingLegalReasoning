@@ -1,13 +1,13 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent.ListAgent;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp.ListIncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition.ListProposition;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule.ListRules;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value.ListValue;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV.AgentValueToWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValuePropWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 
 import java.time.LocalDateTime;
 

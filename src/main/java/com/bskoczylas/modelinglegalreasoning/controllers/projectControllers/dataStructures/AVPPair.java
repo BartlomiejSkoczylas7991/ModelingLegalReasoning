@@ -1,7 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures;
 
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP.AgentValueProposition;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
 
 public class AVPPair {
     private final AgentValueProposition agentValueProposition;

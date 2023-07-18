@@ -17,20 +17,20 @@ module com.example.modelinglegalreasoning {
 
     exports com.bskoczylas.modelinglegalreasoning.domain.models to com.fasterxml.jackson.databind;
     exports com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Agent to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Consortium to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Court to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Decision to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.IncompProp to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.KnowledgeBase to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.ReasoningChain to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Rule to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Value to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AV to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.AVP to com.fasterxml.jackson.databind;
-    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Weights.Scale_Weight to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decision to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowledgeBase to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reasoningChain to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp to com.fasterxml.jackson.databind;
+    exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight to com.fasterxml.jackson.databind;
 
     opens com.bskoczylas.modelinglegalreasoning.controllers to javafx.fxml;
     exports com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;

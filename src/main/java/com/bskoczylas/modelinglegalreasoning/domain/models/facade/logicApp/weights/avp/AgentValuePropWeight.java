@@ -17,7 +17,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent
 import java.util.*;
 
 public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight> implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
-    private HashMap<AgentValueProposition, Weight> agentValuePropWeights;
+    private Map<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
     private List<Proposition> propositions;
@@ -52,12 +52,13 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         return this.agentValuePropWeights.get(agentValueProp);
     }
 
-    public HashMap<AgentValueProposition, Weight> getAgentValuePropWeights() {
+    public Map<AgentValueProposition, Weight> getAgentValuePropWeights() {
         return agentValuePropWeights;
     }
 
-    public void setAgentValuePropWeights(HashMap<AgentValueProposition, Weight> agent_value_prop_weights) {
+    public void setAgentValuePropWeights(Map<AgentValueProposition, Weight> agent_value_prop_weights) {
         this.agentValuePropWeights = agent_value_prop_weights;
+        notifyAVPObservers();
     }
 
     public List<Agent> getAgents() {

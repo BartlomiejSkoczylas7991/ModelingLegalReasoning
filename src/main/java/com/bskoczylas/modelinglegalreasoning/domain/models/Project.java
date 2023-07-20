@@ -1,5 +1,6 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models;
 
+import com.bskoczylas.modelinglegalreasoning.adapters.ProjectData;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.CourtOpinion;
@@ -18,6 +19,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decis
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -26,63 +28,63 @@ import java.util.List;
 
 public class Project implements ProjectObservable {
     private static int nextId = 0;
-    @JsonProperty
-    private String id; // zapisujemy/wczytujemy
-    @JsonProperty
+    private String id;
     private String name;
-    @JsonProperty
     private ListAgent listAgent = new ListAgent();
-    @JsonProperty
     private ListProposition listProposition = new ListProposition();
-    @JsonProperty
     private ListValue listValue = new ListValue();
-    @JsonProperty
     private ListIncompProp listIncompProp = new ListIncompProp();
-    @JsonProperty
     private AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-    @JsonProperty
     private AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-    @JsonProperty
     private Scale scale = new Scale(0,10);
-    @JsonProperty
     private ListRules listRules = new ListRules();
-    @JsonProperty
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-    @JsonProperty
     private ListKnowledgeBase listKnowledgeBase = new ListKnowledgeBase();
-    @JsonProperty
     private ListReasoningChain listReasoningChain = new ListReasoningChain();
-    @JsonProperty
     private Decision decision = new Decision();
-    @JsonProperty
     private ListConsortium listConsortium = new ListConsortium();
-    @JsonProperty
     private CourtOpinion courtOpinion = new CourtOpinion();
-    @JsonProperty
     private Report report = new Report();
-    @JsonProperty
     private List<ProjectObserver> observers = new ArrayList<>();
-    @JsonProperty
     private LocalDateTime createdDate = LocalDateTime.now();
-    @JsonProperty
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
-    public Project() {
-        if (name == null || name.trim().isEmpty()) {
+    public Project(ProjectData projectData) {
+        if (projectData.getName() == null || projectData.getName().trim().isEmpty()) {
             name = "Project" + nextId;
+        } else {
+            name = projectData.getName();
         }
-        // for new project
+
         this.createdDate = LocalDateTime.now();
         this.lastModifiedDate = LocalDateTime.now();
-        this.name = name;
         this.id = Integer.toString(nextId++);  // set id
-        nextId++;  // We increment nextId by 1, so the next Project will have a larger id
+
+        configureObservers();
+
+        this.listAgent.setListAgent(projectData.getAgents());
+        this.listProposition.setListProposition(projectData.getPropositions());
+        this.listValue.setListValue(projectData.getValues());
+        this.listIncompProp.setIncompPropList(projectData.getIncompProps());
+        this.listIncompProp.setDecisions(projectData.getDecisions());
+        this.listRules.setListRules(projectData.getRules());
+        this.scale.setScale(projectData.getScale().getMin(), projectData.getScale().getMax());
+        this.agentValueToWeight.setAgentValueWeights(projectData.getAgentValueWeightHashMap());
+        this.agentValuePropWeight.setAgentValuePropWeights(projectData.getAgentValuePropositionWeightHashMap());
+    }
+
+    public Project() {
+        String defaultName = "Project" + nextId;
+        this.createdDate = LocalDateTime.now();
+        this.lastModifiedDate = LocalDateTime.now();
+        this.name = defaultName;
+        this.id = Integer.toString(nextId++);  // set id
 
         // define
         configureObservers();
     }
 
-    public Project(@JsonProperty("name") String name){
+    public Project(String name){
         if (name == null || name.trim().isEmpty()) {
             name = "Project" + nextId;
         }
@@ -117,6 +119,34 @@ public class Project implements ProjectObservable {
         this.decision.addObserver(this.listConsortium);
         this.listConsortium.addObserver(this.courtOpinion);
         this.courtOpinion.addObserver(this.report);
+    }
+
+    public void fromProjectData(ProjectData projectData) {
+        this.name = projectData.getName();
+        this.listAgent.setListAgent(projectData.getAgents());
+        this.listProposition.setListProposition(projectData.getPropositions());
+        this.listValue.setListValue(projectData.getValues());
+        this.listIncompProp.setIncompPropList(projectData.getIncompProps());
+        this.listIncompProp.setDecisions(projectData.getDecisions());
+        this.listRules.setListRules(projectData.getRules());
+        this.scale.setScale(projectData.getScale().getMin(), projectData.getScale().getMax());
+        this.agentValueToWeight.setAgentValueWeights(projectData.getAgentValueWeightHashMap());
+        this.agentValuePropWeight.setAgentValuePropWeights(projectData.getAgentValuePropositionWeightHashMap());
+    }
+
+    public ProjectData toProjectData() {
+        ProjectData projectData = new ProjectData();
+        projectData.setName(this.name);
+        projectData.setAgents(this.listAgent.getAgents());
+        projectData.setValues(this.listValue.getValues());
+        projectData.setPropositions(this.listProposition.getListProposition());
+        projectData.setScale(this.scale);
+        projectData.setIncompProps(this.listIncompProp.getIncompatiblePropositions());
+        projectData.setAgentValueWeightHashMap(this.agentValueToWeight.getAgentValueWeights());
+        projectData.setAgentValuePropositionWeightHashMap(this.agentValuePropWeight.getAgentValuePropWeights());
+        projectData.setRules(this.listRules.getListRules());
+        // ustawienie reszty pól...
+        return projectData;
     }
 
     @Override
@@ -330,4 +360,5 @@ public class Project implements ProjectObservable {
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
 }

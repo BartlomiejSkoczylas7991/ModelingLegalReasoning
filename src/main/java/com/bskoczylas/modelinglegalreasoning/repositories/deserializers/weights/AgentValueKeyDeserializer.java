@@ -2,12 +2,9 @@ package com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights
 
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValue;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentRepository;
-import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition.PropositionRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.value.ValueRepository;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;

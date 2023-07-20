@@ -34,6 +34,7 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
 
     public void setListRules(List<Rule> listRules) {
         this.listRules = listRules;
+        notifyObservers();
     }
 
     public List<Proposition> getPropositions() {

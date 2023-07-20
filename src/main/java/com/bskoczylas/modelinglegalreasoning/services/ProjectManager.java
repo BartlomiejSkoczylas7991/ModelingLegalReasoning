@@ -1,41 +1,62 @@
 package com.bskoczylas.modelinglegalreasoning.services;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.bskoczylas.modelinglegalreasoning.domain.models.FacadeProject;
+import com.bskoczylas.modelinglegalreasoning.adapters.JsonFileProjectRepository;
+import com.bskoczylas.modelinglegalreasoning.adapters.ProjectData;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.projectBuilder.ProjectBuilder;
+import com.bskoczylas.modelinglegalreasoning.domain.models.ProjectFactory;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProjectManager {
     private static int nextProjectNumber = 1;
     private List<Project> projects = new ArrayList<>();
     private Project currentProject;
-    private FacadeProject facadeProject;
+    private ProjectRepository projectRepository;
+    private final ProjectFactory projectFactory = new ProjectFactory();
 
-    public ProjectManager(FacadeProject facadeProject) {
-        this.facadeProject = facadeProject;
+    public ProjectManager(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
         loadProjects();
     }
 
-    private void loadProjects() {
-        this.projects.addAll(facadeProject.getAllProjects().collect(Collectors.toList()));
+    private void loadAllProjects() {
+        List<ProjectData> allProjectsData = projectRepository.findAll();
+
+        for (ProjectData projectData : allProjectsData) {
+            Project project = projectFactory.createProject(projectData);
+            projects.add(project);
+        }
     }
 
-    public void saveProject(Project project) throws IOException {
-        facadeProject.createProject(project);
+    public void saveCurrentProject() throws IOException {
+        if(currentProject != null){
+            ProjectData projectData = currentProject.toProjectData();
+            projectRepository.save(projectData);
+        }
+    }
+
+    private void loadProjects() {
+        this.projects.addAll(.getAllProjects().collect(Collectors.toList()));
+    }
+
+    public void saveCurrentProject() throws IOException {
+        if(currentProject != null){
+            ProjectData projectData = currentProject.toProjectData();
+            projectRepository.save(projectData);
+        }
     }
 
     public void openProject(String projectId) {
-        currentProject = facadeProject.getProject(projectId);
+        currentProject = projects.stream()
+                .filter(project -> project.getId().equals(projectId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
     public void closeProject(Project project) {
@@ -53,15 +74,15 @@ public class ProjectManager {
         return projects.stream();
     }
 
-    public Project createProject(String name) {
+    public Project createProject(String name, String description) {
         if (name == null || name.trim().isEmpty()) {
             name = "Project" + nextProjectNumber++;
         }
-        Project project = new ProjectBuilder(name).build();
+        Project project = this.projectFactory.createProject(name, description);
         projects.add(project);
 
-        // save project to repository
-        facadeProject.createProject(project);
+        // Set current project to the newly created project
+        currentProject = project;
 
         return project;
     }
@@ -69,7 +90,7 @@ public class ProjectManager {
     public void deleteProject(Project project) {
         if (this.currentProject != project) {
             projects.remove(project);
-            facadeProject.deleteProject(project.getId());
+            projectRepository.delete(project.getId());
         }
     }
 }

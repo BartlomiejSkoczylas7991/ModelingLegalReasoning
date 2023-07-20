@@ -7,33 +7,28 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weigh
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition.PropositionRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.value.ValueRepository;
-import com.fasterxml.jackson.databind.DeserializationContext;
+import
 import com.fasterxml.jackson.databind.KeyDeserializer;
 
 import java.io.IOException;
 
 public class AgentValuePropositionKeyDeserializer extends KeyDeserializer {
 
-    private AgentRepository agentRepository;
-    private ValueRepository valueRepository;
-    private PropositionRepository propositionRepository;
-
-    public AgentValuePropositionKeyDeserializer(AgentRepository agentRepository,
-                                                ValueRepository valueRepository,
-                                                PropositionRepository propositionRepository) {
-        this.agentRepository = agentRepository;
-        this.valueRepository = valueRepository;
-        this.propositionRepository = propositionRepository;
+    public AgentValuePropositionKeyDeserializer() {
     }
 
     @Override
-    public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+    public Object deserializeKey(String key, DeserializationContextAVP ctxt) throws IOException {
+        DeserializationContextAVP deserializationContext = (DeserializationContextAVP) ctxt.f(DeserializationContextAVP.class.getName(), null, null);
+
+        AgentRepository agentRepository = deserializationContext.getAgentRepository();
+        ValueRepository valueRepository = deserializationContext.getValueRepository();
+        PropositionRepository propositionRepository = deserializationContext.getPropositionRepository();
+
         String[] parts = key.split(", ");
         if (parts.length != 3) {
             throw new IOException("Cannot parse AgentValueProposition from key: " + key);
         }
-
-        // Assuming each part is unique and retrievable from their respective repository
 
         int agentId, valueId, propositionId;
         try {

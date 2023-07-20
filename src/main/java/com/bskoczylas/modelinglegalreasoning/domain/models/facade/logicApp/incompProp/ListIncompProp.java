@@ -40,6 +40,12 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         notifyObservers();
     }
 
+    public void setDecisions(Pair<Proposition, Proposition> decisions) {
+        IncompProp incompProp = new IncompProp(decisions, true);
+        this.incompPropList.add(incompProp);
+        notifyObservers();
+    }
+
     public IncompProp getDecision() {
         for (IncompProp prop : incompPropList) {
             if (prop.isDecision()) {
@@ -78,10 +84,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
 
     public void setPropositions(List<Proposition> propositions) {
         this.propositions = propositions;
-    }
-
-    public List<IncompProp> getIncompPropList() {
-        return incompPropList;
     }
 
     public void setIncompPropList(List<IncompProp> incompPropList) {

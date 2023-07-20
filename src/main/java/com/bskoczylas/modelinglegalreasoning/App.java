@@ -4,20 +4,14 @@ import com.bskoczylas.modelinglegalreasoning.adapters.JsonFileProjectRepository;
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.StartWindowController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
-import com.bskoczylas.modelinglegalreasoning.domain.models.FacadeProject;
 import com.bskoczylas.modelinglegalreasoning.services.ProjectManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 
 public class App extends Application {
@@ -25,7 +19,6 @@ public class App extends Application {
     private ProjectManager projectManager;
     private StartWindowController startWindowController;
     private JsonFileProjectRepository jsonFileProjectRepository;
-    private FacadeProject facadeProject;
 
 
     @Override
@@ -33,11 +26,10 @@ public class App extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Modeling Legal Reasoning");
         this.jsonFileProjectRepository = new JsonFileProjectRepository();
-        // initialize the FacadeProject here
-        this.facadeProject = new FacadeProject(this.jsonFileProjectRepository);
+        // initialize the jsonFileProjectRepository here
 
         // initialize the ProjectManager here
-        this.projectManager = new ProjectManager(facadeProject);
+        this.projectManager = new ProjectManager(this.jsonFileProjectRepository);
 
         showStartWindow();
     }

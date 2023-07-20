@@ -61,6 +61,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     public void setAgentValueWeights(Map<AgentValue, Weight> agentValueWeights) {
         this.agentValueWeights = agentValueWeights;
+        notifyAVObservers();
     }
 
     public void setAgents(List<Agent> agents) {

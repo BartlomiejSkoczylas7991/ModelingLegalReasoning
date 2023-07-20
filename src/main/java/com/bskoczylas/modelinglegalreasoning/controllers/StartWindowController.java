@@ -101,6 +101,8 @@ public class StartWindowController {
     }
 
     private void loadProjectsIntoTable() {
+        List<Project> projects = projectManager.getAllProjects(); // Cannot resolve method 'getAllProjects' in 'ProjectManager'
+        projectsData.setAll(projects);
         if (projectManager == null) {
             System.out.println("ProjectManager is null");
             return;
@@ -151,7 +153,7 @@ public class StartWindowController {
                     editedProject.setName(t.getNewValue());
                     try {
                         // Aktualizacja projectManager
-                        projectManager.saveProject(editedProject);
+                        projectManager.saveProject(editedProject); // Cannot resolve method 'saveProject' in 'ProjectManager'
                     } catch (IOException e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error Dialog");
@@ -174,7 +176,7 @@ public class StartWindowController {
         String projectName = nameTextField.getText();
         if (!projectName.isEmpty()) {
             // Tworzenie nowego projektu na podstawie wprowadzonej nazwy
-            Project newProject = projectManager.createProject(projectName);
+            Project newProject = projectManager.createProject(projectName, ); // brakuje description, tylko nie wiem co dokładnie (według Fabryki)
 
             // Dodanie nowego projektu do tabeli lub innego źródła danych
             projectsData.add(newProject);
@@ -196,7 +198,7 @@ public class StartWindowController {
                 projectController.setProject(newProject);
 
                 // Zapisz nowy projekt w ProjectManager
-                projectManager.saveProject(newProject);
+                projectManager.saveProject(newProject); // Cannot resolve method 'saveProject' in 'ProjectManager'
 
                 // Zamknij obecne okno i otwórz nowe okno projektu
                 Stage stage = (Stage) nameTextField.getScene().getWindow();
@@ -288,7 +290,7 @@ public class StartWindowController {
 
                 // Aktualizuj projekt w managerze
                 try {
-                    projectManager.saveProject(selectedProject);
+                    projectManager.saveProject(selectedProject); // tu też błąd
                 } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class IncompProp {
     private static int nextId = 1;
-    private final int id;
+    private int id;
     private Pair<Proposition, Proposition> propositionsPair;
     private LocalDateTime created;
     private boolean isDecision;
@@ -47,7 +47,9 @@ public class IncompProp {
         isDecision = decision;
     }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public static int getNextId() {
         return nextId;

@@ -7,21 +7,27 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weigh
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition.PropositionRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.value.ValueRepository;
-import
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 
 import java.io.IOException;
 
 public class AgentValuePropositionKeyDeserializer extends KeyDeserializer {
+    private AgentRepository agentRepository;
+    private ValueRepository valueRepository;
+    private PropositionRepository propositionRepository;
 
     public AgentValuePropositionKeyDeserializer() {
+        this.agentRepository = AgentRepository.getInstance("agents.json"); // expected 1 arguement but found 0
+        this.valueRepository = ValueRepository.getInstance("values.json");
+        this.propositionRepository = PropositionRepository.getInstance("propositions.json");
     }
 
     @Override
-    public Object deserializeKey(String key, DeserializationContextAVP ctxt) throws IOException {
-        DeserializationContextAVP deserializationContext = (DeserializationContextAVP) ctxt.f(DeserializationContextAVP.class.getName(), null, null);
+    public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+        DeserializationContext deserializationContext = (DeserializationContext) ctxt.findInjectableValue(DeserializationContext.class.getName(), null, null);
 
-        AgentRepository agentRepository = deserializationContext.getAgentRepository();
+        AgentRepository agentRepository = deserializationContext.getAgentRepository(); // mam błąd Cannot resolve method 'getAgentRepository' in 'DeserializationContext'
         ValueRepository valueRepository = deserializationContext.getValueRepository();
         PropositionRepository propositionRepository = deserializationContext.getPropositionRepository();
 

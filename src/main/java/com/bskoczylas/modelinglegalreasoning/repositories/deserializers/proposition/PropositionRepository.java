@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,8 +14,9 @@ public class PropositionRepository {
     private static final ObjectMapper mapper = new ObjectMapper();
     private List<Proposition> propositions;
     private File file;
+    private static PropositionRepository instance;
 
-    public PropositionRepository(String fileName) throws IOException {
+    private PropositionRepository(String fileName) throws IOException {
         file = new File(fileName);
         if (file.exists()) {
             // Read the propositions from the file
@@ -24,6 +26,13 @@ public class PropositionRepository {
             // Initialize an empty list if the file does not exist
             propositions = new ArrayList<>();
         }
+    }
+
+    public static synchronized PropositionRepository getInstance(String fileName) throws IOException {
+        if (instance == null) {
+            instance = new PropositionRepository(fileName);
+        }
+        return instance;
     }
 
     public Proposition find(int id) {

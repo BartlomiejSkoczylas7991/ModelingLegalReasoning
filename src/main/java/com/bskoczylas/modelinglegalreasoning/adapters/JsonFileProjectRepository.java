@@ -2,17 +2,24 @@ package com.bskoczylas.modelinglegalreasoning.adapters;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.repositories.ProjectRepository;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.agent.AgentDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.incompProp.IncompPropDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.scale.ScaleSerializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.serializers.agent.AgentSerializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.proposition.PropositionDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.incompProp.IncompPropSerializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.serializers.proposition.PropositionSerializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.value.ValueDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.scale.ScaleDeserializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.serializers.value.ValueSerializer;
 import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights.AgentValuePropositionKeyDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.weights.AgentValuePropositionKeySerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +35,7 @@ import java.util.List;
 public class JsonFileProjectRepository implements ProjectRepository {
     private File file;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private List<Project> projects = new ArrayList<>();
+    private List<ProjectData> projects = new ArrayList<>();
 
     public JsonFileProjectRepository() throws IOException {
         URL url = getClass().getResource("/com/bskoczylas/modelinglegalreasoning/database/projectData.json");
@@ -42,7 +49,13 @@ public class JsonFileProjectRepository implements ProjectRepository {
                 .addDeserializer(Proposition.class, new PropositionDeserializer())
                 .addSerializer(Value.class, new ValueSerializer())
                 .addDeserializer(Value.class, new ValueDeserializer())
-                .addKeyDeserializer(AgentValueProposition.class, new AgentValuePropositionKeyDeserializer())// błąd
+                .addSerializer(IncompProp.class, new IncompPropSerializer())
+                .addDeserializer(IncompProp.class, new IncompPropDeserializer())
+                        .addDeserializer(Scale.class, new ScaleDeserializer())
+                        .addSerializer(Scale.class, new ScaleSerializer())
+                        .
+                .addKeySerializer(AgentValueProposition.class, new AgentValuePropositionKeySerializer())
+                .addKeyDeserializer(AgentValueProposition.class, new AgentValuePropositionKeyDeserializer())
         );
     }
 

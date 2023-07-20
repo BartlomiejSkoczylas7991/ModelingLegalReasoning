@@ -10,6 +10,14 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights.AgentValueKeyDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights.AgentValuePropositionKeyDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.deserializers.weights.WeightDeserializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.weights.AgentValueKeySerializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.weights.AgentValuePropositionKeySerializer;
+import com.bskoczylas.modelinglegalreasoning.repositories.serializers.weights.WeightSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +33,11 @@ public class ProjectData {
     private List<Rule> rules;
     private List<IncompProp> incompProps;
     private Pair<Proposition, Proposition> decisions;
+    @JsonSerialize(keyUsing = AgentValueKeySerializer.class, contentUsing = WeightSerializer.class)
+    @JsonDeserialize(keyUsing = AgentValueKeyDeserializer.class, contentUsing = WeightDeserializer.class)
     private Map<AgentValue, Weight> agentValueWeightHashMap;
+    @JsonSerialize(keyUsing = AgentValuePropositionKeySerializer.class, contentUsing = WeightSerializer.class)
+    @JsonDeserialize(keyUsing = AgentValuePropositionKeyDeserializer.class, contentUsing = WeightDeserializer.class)
     private Map<AgentValueProposition, Weight> agentValuePropositionWeightHashMap;
     private Scale scale;
     private LocalDateTime created;

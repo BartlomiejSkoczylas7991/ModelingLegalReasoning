@@ -13,8 +13,9 @@ public class AgentRepository {
     private static final ObjectMapper mapper = new ObjectMapper();
     private List<Agent> agents;
     private File file;
+    private static AgentRepository instance;
 
-    public AgentRepository(String fileName) throws IOException {
+    private AgentRepository(String fileName) throws IOException {
         file = new File(fileName);
         if (file.exists()) {
             // Read the agents from the file
@@ -24,6 +25,13 @@ public class AgentRepository {
             // Initialize an empty list if the file does not exist
             agents = new ArrayList<>();
         }
+    }
+
+    public static synchronized AgentRepository getInstance(String fileName) throws IOException {
+        if (instance == null) {
+            instance = new AgentRepository(fileName);
+        }
+        return instance;
     }
 
     public Agent find(int id) {

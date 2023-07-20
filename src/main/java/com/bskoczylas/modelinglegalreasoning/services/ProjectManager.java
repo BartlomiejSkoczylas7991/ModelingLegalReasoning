@@ -45,13 +45,6 @@ public class ProjectManager {
         this.projects.addAll(.getAllProjects().collect(Collectors.toList()));
     }
 
-    public void saveCurrentProject() throws IOException {
-        if(currentProject != null){
-            ProjectData projectData = currentProject.toProjectData();
-            projectRepository.save(projectData);
-        }
-    }
-
     public void openProject(String projectId) {
         currentProject = projects.stream()
                 .filter(project -> project.getId().equals(projectId))

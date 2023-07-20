@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Rule {
     private static int nextId = 1;
-    private final int id;
+    private int id;
     private Set<Proposition> premises;
     private Proposition conclusion;
     private String label;
@@ -50,6 +50,10 @@ public class Rule {
 
     public static void setNextId(int nextId) {
         Rule.nextId = nextId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setPremises(Set<Proposition> premises) {

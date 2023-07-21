@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="551.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.RuleController">
+<AnchorPane prefHeight="551.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.RuleController">
 
     <Label layoutX="246.0" layoutY="321.0" text="Premises:">
       <font>

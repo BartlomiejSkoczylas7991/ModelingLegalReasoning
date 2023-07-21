@@ -38,9 +38,12 @@ public class ListValue implements ValueObservable {
         notifyObservers(this);
     }
 
-    public void removeValue(Value value) {
-        listValue.remove(value);
-        notifyObservers(this);
+    public boolean removeValue(Value value) {
+        boolean result = listValue.remove(value);
+        if(result) {
+            notifyObservers(this);
+        }
+        return result;
     }
 
     public void setListValue(List<Value> listValue) {

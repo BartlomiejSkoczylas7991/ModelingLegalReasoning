@@ -1,6 +1,9 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.RuleControllerObservable;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.RuleControllerObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
 import javafx.collections.FXCollections;
@@ -12,9 +15,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RuleController {
+public class RuleController implements RuleControllerObservable {
     private ProjectController projectController;
     private ListRules listRules;
     @FXML
@@ -26,6 +30,8 @@ public class RuleController {
     private Proposition decision2;
     @FXML
     private TableColumn<Proposition, String> premisesColumn;
+    private final List<RuleControllerObserver> observers = new ArrayList<>();
+
 
     @FXML
     private Button addRuleButton;
@@ -84,4 +90,20 @@ public class RuleController {
         decisionRadioButton2.setText(decision2.getStatement());
     }
 
+    @Override
+    public void addRuleContrObserver(RuleControllerObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeRuleContrObserver(RuleControllerObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyRuleContrObservers() {
+        for (RuleControllerObserver ruleControllerObserver : observers) {
+            ruleControllerObserver.updateRuleController(this);
+        }
+    }
 }

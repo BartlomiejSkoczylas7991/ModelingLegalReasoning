@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ListAgent implements AgentObservable {
-    private List<Agent> listAgent = new LinkedList<>();
+    private List<Agent> listAgent = new ArrayList<>();
     private final List<AgentObserver> observers = new ArrayList<>();
 
     public ListAgent() {}
@@ -19,10 +19,6 @@ public class ListAgent implements AgentObservable {
 
     public List<AgentObserver> getObservers() {
         return observers;
-    }
-
-    public List<Agent> getListAgent() {
-        return listAgent;
     }
 
     public List<Agent> getAgents() {
@@ -66,10 +62,12 @@ public class ListAgent implements AgentObservable {
         }
     }
 
-    public void removeAgent(Agent agent) {
-        if(listAgent.remove(agent)) {
+    public boolean removeAgent(Agent agent) {
+        boolean result = listAgent.remove(agent);
+        if(result) {
             notifyAgentObservers(this);
         }
+        return result;
     }
 
     @Override

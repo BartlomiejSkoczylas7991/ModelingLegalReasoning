@@ -27,7 +27,7 @@ public class Weight implements Comparable<Weight> {
     @Override
     public int compareTo(Weight other) {
         if (this.value.equals("?") || other.value.equals("?")) {
-            throw new IllegalArgumentException("Cannot compare with value \"?\"");
+            return 0;
         }
         return ((Integer)this.value).compareTo((Integer)other.value);
     }
@@ -48,4 +48,6 @@ public class Weight implements Comparable<Weight> {
     public void setScale(Scale scale) {
         this.scale = scale;
     }
+
+
 }

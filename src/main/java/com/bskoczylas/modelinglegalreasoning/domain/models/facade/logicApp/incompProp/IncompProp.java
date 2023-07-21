@@ -4,6 +4,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class IncompProp {
     private static int nextId = 1;
@@ -57,5 +58,18 @@ public class IncompProp {
 
     public static void setNextId(int nextId) {
         IncompProp.nextId = nextId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IncompProp that = (IncompProp) o;
+        return id == that.id && isDecision == that.isDecision && Objects.equals(propositionsPair, that.propositionsPair);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, propositionsPair, isDecision);
     }
 }

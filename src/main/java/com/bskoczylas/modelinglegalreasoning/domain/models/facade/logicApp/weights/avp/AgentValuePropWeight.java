@@ -1,8 +1,10 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp;
 
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVPObserverController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVPObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
@@ -10,7 +12,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVPObservable;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AVPObservableController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 
@@ -58,7 +60,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     public void setAgentValuePropWeights(Map<AgentValueProposition, Weight> agent_value_prop_weights) {
         this.agentValuePropWeights = agent_value_prop_weights;
-        notifyAVPObservers();
+        notifyObservers();
     }
 
     public List<Agent> getAgents() {
@@ -113,7 +115,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         Weight weight = agentValuePropWeights.get(agentValueProposition);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);
-            notifyAVPObservers();
+            notifyObservers();
         }
     }
 
@@ -174,7 +176,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         }
 
         setEditing(false);
-        notifyAVPObservers();
+        notifyObservers();
     }
 
     @Override
@@ -204,7 +206,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         }
 
         setEditing(false);
-        notifyAVPObservers();
+        notifyObservers();
     }
 
     @Override
@@ -234,7 +236,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         }
 
         setEditing(false);
-        notifyAVPObservers();
+        notifyObservers();
     }
 
     public void addWeight(Agent agent, Value value, Proposition prop, Weight weight) {
@@ -294,23 +296,6 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
     }
 
     @Override
-    public void addObserver(AVPObserver observer) {
-        weightObservers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(AVPObserver observer) {
-        weightObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyAVPObservers() {
-        for (AVPObserver observer : weightObservers) {
-            observer.updateAVP(this);
-        }
-    }
-
-    @Override
     public void updateIncomp(ListIncompProp listIncompProp) {
         Pair<Proposition, Proposition> decisions = listIncompProp.getDecisions();
 
@@ -321,6 +306,23 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
                     prop.setDecision(true);
                 }
             }
+        }
+    }
+
+    @Override
+    public void addObserver(AVPObserver observer) {
+        weightObservers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AVPObserver observer) {
+        weightObservers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (AVPObserver observer : weightObservers) {
+            observer.updateAVP(this);
         }
     }
 }

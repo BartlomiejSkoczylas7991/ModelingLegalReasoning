@@ -1,16 +1,18 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVObserverController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ValueObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AVObservable;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AVObservableController;
 
 import java.util.*;
 
@@ -28,12 +30,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         this.values = new LinkedList<Value>();
     }
 
-    public AgentValueToWeight(Map<AgentValue, Weight> agent_value_weights, List<Agent> agents, List<Value> values, Scale scale) {
-        this.agentValueWeights = agent_value_weights;
-        this.agents = agents;
-        this.values = values;
-        this.scale = scale;
-    }
+
 
     public Set<AgentValue> keySet() {
         return agentValueWeights.keySet();
@@ -64,29 +61,10 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         notifyAVObservers();
     }
 
-    public void setAgents(List<Agent> agents) {
-        this.agents = agents;
-    }
-
-    public void setValues(List<Value> values) {
-        this.values = values;
-    }
-
-    public List<AVObserver> getWeightObservers() {
-        return weightObservers;
-    }
-
-    public List<Value> getValues() {
-        return values;
-    }
-
-    public Scale getScale() {
-        return scale;
-    }
-
     public void addValue(Agent agent, Value value, Weight weight) {
         AgentValue agentValue = new AgentValue(agent, value);
         this.agentValueWeights.put(agentValue, weight);
+        notifyAVObservers();
     }
 
     public Weight getWeight(AgentValue agentValue) {
@@ -95,14 +73,6 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     @Override
     public String toString() {
-        for (Agent agent : this.agents) {
-            for (Value value : this.values) {
-                AgentValue agentValue = new AgentValue(agent, value);
-                if (!this.agentValueWeights.containsKey(agentValue)) {
-                    this.agentValueWeights.put(agentValue, new Weight(scale,"?")); // Domyślna wartość "?" dla nowych wag
-                }
-            }
-        }
         StringBuilder weightsStr = new StringBuilder("{");
         for (var entry : this.agentValueWeights.entrySet()) {
             weightsStr.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
@@ -115,7 +85,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     public void updateAgent(ListAgent listAgent) {
         List<Agent> updatedAgents = listAgent.getAgents();
 
-        // Znajdź agenty, które zostały usunięte
+        // Znajdź agentów, które zostały usunięte
         List<Agent> removedAgents = new ArrayList<>(this.agents);
         removedAgents.removeAll(updatedAgents);
         // Usuń związane z nimi AgentValues
@@ -124,7 +94,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
             this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
         }
 
-        // Znajdź nowo dodane agenty
+        // Znajdź nowo dodane agentów
         List<Agent> addedAgents = new ArrayList<>(updatedAgents);
         addedAgents.removeAll(this.agents);
         // Dodaj związane z nimi AgentValues
@@ -140,17 +110,16 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     @Override
     public void updateValue(ListValue listValue) {
         List<Value> updatedValues = listValue.getValues();
-
-        // Znajdź agenty, które zostały usunięte
+        // Znajdź wartosci, które zostały usunięte
         List<Value> removedValues = new ArrayList<>(this.values);
         removedValues.removeAll(removedValues);
         // Usuń związane z nimi AgentValues
         for (Value value : removedValues) {
-            this.agents.remove(value);
+            this.values.remove(value);
             this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
         }
 
-        // Znajdź nowo dodane agenty
+        // Znajdź nowo dodane wartości
         List<Value> addedValues = new ArrayList<>(updatedValues);
         addedValues.removeAll(this.values);
         // Dodaj związane z nimi AgentValues
@@ -249,4 +218,23 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         isEditing = editing;
     }
 
+    public void setAgents(List<Agent> agents) {
+        this.agents = agents;
+    }
+
+    public void setValues(List<Value> values) {
+        this.values = values;
+    }
+
+    public List<AVObserver> getWeightObservers() {
+        return weightObservers;
+    }
+
+    public List<Value> getValues() {
+        return values;
+    }
+
+    public Scale getScale() {
+        return scale;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ListProposition implements PropositionObservable, IncompPropObserver {
-    private List<Proposition> listProposition = new LinkedList<>();
+    private List<Proposition> listProposition = new ArrayList<>();
     private final List<PropositionObserver> observers = new ArrayList<>();
 
     public ListProposition() {}
@@ -26,9 +26,17 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
         notifyObservers(this);
     }
 
-    public void removeProposition(List<Proposition> propositions) {
+    public void removePropositions(List<Proposition> propositions) {
         listProposition.removeAll(propositions);
         notifyObservers(this);
+    }
+
+    public boolean removeProposition(Proposition proposition) {
+        boolean result = listProposition.remove(proposition);
+        if(result) {
+            notifyObservers(this);
+        }
+        return result;
     }
 
     public List<Proposition> getListProposition() {

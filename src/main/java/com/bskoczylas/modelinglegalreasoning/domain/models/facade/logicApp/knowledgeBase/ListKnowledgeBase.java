@@ -15,15 +15,9 @@ import java.util.*;
 public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables {
     private Set<Agent> agents = new HashSet<>();
     private ListPropBaseClean propBaseClean;
-    private ListRules rules;
-    private HashMap<Agent, KnowledgeBase> listKnowledgeBase;
-    private List<KBObserver> observers;
-
-    public ListKnowledgeBase(ListPropBaseClean propBaseClean, ListRules rules) {
-        this.propBaseClean = propBaseClean;
-        this.rules = rules;
-        this.observers = new ArrayList<>();
-    }
+    private ListRules rules = new ListRules();
+    private Map<Agent, KnowledgeBase> listKnowledgeBase = new HashMap<Agent, KnowledgeBase>();
+    private List<KBObserver> observers = new ArrayList<>();
 
     public ListKnowledgeBase(){this.observers = new ArrayList<>();}
 
@@ -114,7 +108,7 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         }
     }
 
-    public HashMap<Agent, KnowledgeBase> getListKnowledgeBase() {
+    public Map<Agent, KnowledgeBase> getListKnowledgeBase() {
         return listKnowledgeBase;
     }
 }

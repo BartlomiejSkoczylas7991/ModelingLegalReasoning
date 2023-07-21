@@ -1,31 +1,45 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AgContrObservable;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AgContrObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.AgentObservable;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class AgentController {
+import java.util.ArrayList;
+import java.util.List;
+
+public class AgentController implements AgContrObservable {
     private TableView<Agent> agentTable;
     private ProjectController projectController;
     private Project project;
     private TextField agentNameTextField;
+    private final List<AgContrObserver> observers = new ArrayList<>();
 
-    public AgentController(TableView<Agent> agentTable, TextField agentNameTextField, ProjectController projectController) {
+    public AgentController(Project project, TableView<Agent> agentTable, TextField agentNameTextField, ProjectController projectController) {
         this.agentTable = agentTable;
         this.agentNameTextField = agentNameTextField;
         this.projectController = projectController;
-        this.project = projectController.getProject();
+        this.project = project;
     }
 
-    public void addAgent(Agent agent) {
+    public Project getProject() {
+        return project;
+    }
+
+    private void addAgent(Agent agent) {
         if (!project.getListAgent().getAgents().stream().anyMatch(existingAgent -> existingAgent.getName().equals(agent.getName()))) {
             project.getListAgent().addAgent(agent);
             updateAgentTable();
+            notifyAgentContrObservers();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -36,25 +50,10 @@ public class AgentController {
         }
     }
 
-    public void editAgent(Agent oldAgent, Agent newAgent) {
-        int index = project.getListAgent().getAgents().indexOf(oldAgent);
-        if (index != -1) {
-            project.getListAgent().getAgents().set(index, newAgent);
-            updateAgentTable();
-        } else {
-            // Show error to user, agent does not exist
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Agent doesn't exist!");
-
-            alert.showAndWait();
-        }
-    }
-
     public void removeAgent(Agent agent) {
-        if (project.getListAgent().getAgents().remove(agent)) {
+        if (project.getListAgent().removeAgent(agent)) {
             updateAgentTable();
+            notifyAgentContrObservers();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -75,26 +74,6 @@ public class AgentController {
             updateAgentTable(); // zaktualizuj tabelę po dodaniu agenta
         }
     }
-
-    public void handleEditAgent() {
-        Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
-        if (selectedAgent != null) {
-            String agentName = agentNameTextField.getText();
-            if (!agentName.isEmpty()) {
-                Agent newAgent = new Agent(agentName);
-                editAgent(selectedAgent, newAgent);
-                agentNameTextField.clear();
-                updateAgentTable(); // zaktualizuj tabelę po edycji agenta
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("No agent selected!");
-
-            alert.showAndWait();
-        }
-    }
     @FXML
     public void handleRemoveAgent() {
         Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
@@ -113,5 +92,23 @@ public class AgentController {
 
     public void updateAgentTable() {
         agentTable.setItems(FXCollections.observableArrayList(project.getListAgent().getAgents()));
+    }
+
+
+    @Override
+    public void addAgentContrObserver(AgContrObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeAgentContrObserver(AgContrObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyAgentContrObservers() {
+        for (AgContrObserver observer : this.observers) {
+            observer.updateAgentController(this);
+        }
     }
 }

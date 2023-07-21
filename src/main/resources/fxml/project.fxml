@@ -28,7 +28,6 @@
                   <Button fx:id="generatePDFButton" mnemonicParsing="false" onAction="#handleGeneratePDFButton" prefHeight="24.0" prefWidth="509.0" text="Generate PDF" />
                   <Button mnemonicParsing="false" onAction="#handleNewButton" text="Reset" />
                   <Button mnemonicParsing="false" onAction="#handleHelpButton" text="Help" />
-                  <Button mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
                 <Button mnemonicParsing="false" onAction="#handleMenuButton" text="Menu" />
                   <Button mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
               </buttons>
@@ -62,7 +61,6 @@
                                   </font>
                               </TextField>
                               <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddAgent" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                              <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditAgent" prefHeight="39.0" prefWidth="85.0" text="Edit" />
                               <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveAgent" prefHeight="39.0" prefWidth="85.0" text="Remove" />
                               <Label layoutX="227.0" layoutY="24.0" prefHeight="38.0" prefWidth="109.0" text="Agents">
                                   <font>
@@ -93,7 +91,6 @@
                                   </font>
                               </TextField>
                               <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddProposition" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                              <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditProposition" prefHeight="39.0" prefWidth="85.0" text="Edit" />
                               <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveProposition" prefHeight="39.0" prefWidth="85.0" text="Remove" />
                               <Label layoutX="194.0" layoutY="14.0" prefHeight="46.0" prefWidth="176.0" text="Propositions">
                                   <font>
@@ -123,7 +120,6 @@
                               </font>
                           </TextField>
                           <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddValue" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                          <Button layoutX="229.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleEditValue" prefHeight="39.0" prefWidth="85.0" text="Edit" />
                           <Button layoutX="348.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveValue" prefHeight="39.0" prefWidth="85.0" text="Remove" />
                           <Label layoutX="223.0" layoutY="14.0" prefHeight="58.0" prefWidth="114.0" text="Values">
                               <font>
@@ -151,7 +147,7 @@
                              <Button layoutX="110.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
                              <Button layoutX="303.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRemoveIncompButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
                            <ComboBox fx:id="prop1comboBoxIncompProp" layoutX="63.0" layoutY="450.0" prefWidth="150.0" promptText="Prop1" />
-                           <ComboBox fx:id="prop2comboBoxIncompProp" layoutX="243.0" layoutY="450.0" prefWidth="150.0" promptText="Prop1" />
+                           <ComboBox fx:id="prop2comboBoxIncompProp" layoutX="243.0" layoutY="450.0" prefWidth="150.0" promptText="Prop2" />
                            <Label layoutX="48.0" layoutY="14.0" prefHeight="44.0" prefWidth="467.0" text="Incompatible Propositions and decisions">
                               <font>
                                  <Font size="23.0" />
@@ -177,18 +173,18 @@
                                  <TableColumn fx:id="avWeightsColumn" prefWidth="74.0" text="Weights" />
                                  </columns>
                              </TableView>
-                             <Label layoutX="54.0" layoutY="389.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
+                             <Label layoutX="55.0" layoutY="380.0" prefHeight="41.0" prefWidth="157.0" text="Weight:">
                                  <font>
                                      <Font name="Khmer OS System" size="25.0" />
                                  </font></Label>
                              <Button layoutX="57.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                           <Button layoutX="228.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
-                           <Slider fx:id="avMinScale" layoutX="399.0" layoutY="470.0" />
-                           <Slider fx:id="avMaxScale" layoutX="399.0" layoutY="422.0" />
+                           <Button layoutX="211.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
+                           <Slider fx:id="avMinScale" layoutX="399.0" layoutY="425.0" max="15.0" />
+                           <Slider fx:id="avMaxScale" layoutX="399.0" layoutY="471.0" max="15.0" />
                            <Button layoutX="383.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleAVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
-                           <Label layoutX="409.0" layoutY="381.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
+                           <Label layoutX="357.0" layoutY="369.0" prefHeight="41.0" prefWidth="81.0" text="Scale:">
                               <font>
-                                 <Font name="Khmer OS System" size="17.0" />
+                                 <Font name="Khmer OS System" size="19.0" />
                               </font>
                            </Label>
                            <Label layoutX="45.0" layoutY="14.0" prefHeight="41.0" prefWidth="485.0" text="Agent-worth weight (how important is a given value for a given agent)">
@@ -229,12 +225,12 @@
                                   </font></Label>
                               <Button layoutX="54.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
                               <Button layoutX="227.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPRandomButton" prefHeight="39.0" prefWidth="85.0" text="Random" />
-                              <Slider fx:id="avpMinScale" layoutX="399.0" layoutY="461.0" />
-                              <Slider fx:id="avpMaxScale" layoutX="399.0" layoutY="422.0" />
+                              <Slider fx:id="avpMinScale" layoutX="409.0" layoutY="423.0" />
+                              <Slider fx:id="avpMaxScale" layoutX="409.0" layoutY="462.0" />
                               <Button layoutX="399.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleAVPScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
-                              <Label layoutX="357.0" layoutY="369.0" prefHeight="41.0" prefWidth="52.0" text="Scale:">
+                              <Label layoutX="357.0" layoutY="369.0" prefHeight="41.0" prefWidth="91.0" text="Scale:">
                                   <font>
-                                      <Font name="Khmer OS System" size="17.0" />
+                                      <Font name="Khmer OS System" size="19.0" />
                                   </font>
                               </Label>
                               <Label layoutX="7.0" prefHeight="69.0" prefWidth="550.0" style="-fx-border-color: transparent;" wrapText="true">

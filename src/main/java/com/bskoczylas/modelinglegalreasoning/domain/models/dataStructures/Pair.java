@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 public class Pair<F, S> {
-    @JsonProperty
     private F first;
-    @JsonProperty
     private S second;
 
     public Pair() {
@@ -15,7 +13,7 @@ public class Pair<F, S> {
         this.second = null;
     }
 
-    public Pair(@JsonProperty("first") F key, @JsonProperty("second") S second) {
+    public Pair( F key, S second) {
         this.first = key;
         this.second = second;
     }

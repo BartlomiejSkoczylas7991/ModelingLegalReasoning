@@ -1,6 +1,9 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.PropositionControllerObservable;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.IncompControllerObserver;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.PropositionControllerObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
@@ -9,13 +12,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class PropositionController {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PropositionController implements PropositionControllerObservable {
     private TableView<Proposition> propositionTable;
     private ComboBox<Proposition> prop1comboBoxIncompProp;
     private ComboBox<Proposition> prop2comboBoxIncompProp;
     private ProjectController projectController;
     private Project project;
     private TextField propositionNameTextField;
+    private final List<PropositionControllerObserver> observers = new ArrayList<>();
+
 
     public PropositionController(TableView<Proposition> propositionTable, ComboBox<Proposition> prop1comboBoxIncompProp,
                                  ComboBox<Proposition> prop2comboBoxIncompProp, TextField propositionNameTextField,
@@ -28,11 +36,16 @@ public class PropositionController {
         this.project = projectController.getProject();
     }
 
+    public Project getProject() {
+        return project;
+    }
+
     public void addProposition(Proposition proposition) {
         if (!project.getListProposition().getListProposition().stream().anyMatch(existingProposition -> existingProposition.getStatement().equals(proposition.getStatement()))) {
             project.getListProposition().addProposition(proposition);
             updatePropositionTable();
             updateComboBoxes();
+            notifyPropositionContrObservers();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -43,27 +56,11 @@ public class PropositionController {
         }
     }
 
-    public void editProposition(Proposition oldProposition, Proposition newProposition) {
-        int index = project.getListProposition().getListProposition().indexOf(oldProposition);
-        if (index != -1) {
-            project.getListProposition().getListProposition().set(index, newProposition);
-            updatePropositionTable();
-            updateComboBoxes();
-        } else {
-            // Show error to user, proposition does not exist
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Proposition doesn't exist!");
-
-            alert.showAndWait();
-        }
-    }
-
     public void removeProposition(Proposition proposition) {
-        if (project.getListProposition().getListProposition().remove(proposition)) {
+        if (project.getListProposition().removeProposition(proposition)) {
             updatePropositionTable();
             updateComboBoxes();
+            notifyPropositionContrObservers();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -88,26 +85,6 @@ public class PropositionController {
             updatePropositionTable(); // zaktualizuj tabelę po dodaniu Proposition
         }
     }
-
-    public void handleEditProposition() {
-        Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
-        if (selectedProposition != null) {
-            String propositionName = propositionNameTextField.getText();
-            if (!propositionName.isEmpty()) {
-                Proposition newProposition = new Proposition(propositionName);
-                editProposition(selectedProposition, newProposition);
-                propositionNameTextField.clear();
-                updatePropositionTable(); // zaktualizuj tabelę po edycji Proposition
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("No Proposition selected!");
-
-            alert.showAndWait();
-        }
-    }
     @FXML
     public void handleRemoveProposition() {
         Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
@@ -128,5 +105,22 @@ public class PropositionController {
         ObservableList<Proposition> propositions = FXCollections.observableArrayList(project.getListProposition().getListProposition());
         prop1comboBoxIncompProp.setItems(propositions);
         prop2comboBoxIncompProp.setItems(propositions);
+    }
+
+    @Override
+    public void addPropositionContrObserver(PropositionControllerObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removePropositionContrObserver(PropositionControllerObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyPropositionContrObservers() {
+        for (PropositionControllerObserver propositionControllerObserver : observers) {
+            propositionControllerObserver.updatePropositionController(this);
+        }
     }
 }

@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ListReasoningChain implements KBObserver, RCObservable {
-    private Set<Agent> agents;
+    private List<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
     private Set<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
@@ -172,11 +172,11 @@ public class ListReasoningChain implements KBObserver, RCObservable {
         return minimalKB;
     }
 
-    public Set<Agent> getAgents() {
+    public List<Agent> getAgents() {
         return agents;
     }
 
-    public void setAgents(Set<Agent> agents) {
+    public void setAgents(List<Agent> agents) {
         this.agents = agents;
     }
 

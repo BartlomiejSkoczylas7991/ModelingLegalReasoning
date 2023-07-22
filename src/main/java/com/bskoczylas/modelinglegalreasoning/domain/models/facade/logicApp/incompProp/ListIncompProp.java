@@ -105,7 +105,7 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         for (Proposition prop : localPropositionsCopy) {
             if (!listProposition.getListProposition().contains(prop)) {
                 this.propositions.remove(prop);
-                removeDecision(prop);
+                removeDecisionProp(prop);
                 removeIncompPropByProposition(prop);
             }
         }
@@ -160,7 +160,7 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         return false;
     }
 
-    public void removeDecision(Proposition prop) {
+    public void removeDecisionProp(Proposition prop) {
         for (IncompProp incompProp : incompPropList) {
             if (incompProp.isDecision() &&
                     (incompProp.getPropositionsPair().getFirst().equals(prop)

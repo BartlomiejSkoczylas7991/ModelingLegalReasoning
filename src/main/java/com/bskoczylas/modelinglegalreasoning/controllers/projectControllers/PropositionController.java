@@ -23,6 +23,8 @@ public class PropositionController implements PropositionControllerObservable {
     private Project project;
     private TextField propositionNameTextField;
     private final List<PropositionControllerObserver> observers = new ArrayList<>();
+    private Proposition removedProposition;
+
 
 
     public PropositionController(TableView<Proposition> propositionTable, ComboBox<Proposition> prop1comboBoxIncompProp,
@@ -58,9 +60,10 @@ public class PropositionController implements PropositionControllerObservable {
 
     public void removeProposition(Proposition proposition) {
         if (project.getListProposition().removeProposition(proposition)) {
+            removedProposition = proposition; // przechowuj usuniętą propozycję
             updatePropositionTable();
             updateComboBoxes();
-            notifyPropositionContrObservers();
+            notifyPropositionContrObservers(); // Notyfikuj obserwatorów o usunięciu propozycji
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -85,12 +88,11 @@ public class PropositionController implements PropositionControllerObservable {
             updatePropositionTable(); // zaktualizuj tabelę po dodaniu Proposition
         }
     }
-    @FXML
+
     public void handleRemoveProposition() {
         Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
         if (selectedProposition != null) {
             removeProposition(selectedProposition);
-            updatePropositionTable(); // zaktualizuj tabelę po usunięciu Proposition
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -99,6 +101,10 @@ public class PropositionController implements PropositionControllerObservable {
 
             alert.showAndWait();
         }
+    }
+
+    public Proposition getRemovedProposition() {
+        return removedProposition;
     }
 
     private void updateComboBoxes() {

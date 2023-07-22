@@ -15,7 +15,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     private ListReasoningChain listReasoningChain;
     Map<Consortium, ConsortiumType> consortiumMap;
     private Decision decision;
-    private Set<Agent> agents;
+    private List<Agent> agents;
     private List<ConsortiumObserver> observers;
 
     public ListConsortium() {
@@ -107,11 +107,11 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         this.decision = decision;
     }
 
-    public Set<Agent> getAgents() {
+    public List<Agent> getAgents() {
         return agents;
     }
 
-    public void setAgents(Set<Agent> agents) {
+    public void setAgents(List<Agent> agents) {
         this.agents = agents;
     }
 

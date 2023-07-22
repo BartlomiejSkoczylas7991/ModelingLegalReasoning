@@ -30,7 +30,8 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         this.values = new LinkedList<Value>();
     }
 
-
+    public AgentValueToWeight(HashMap<Object, Object> objectObjectHashMap, List<Agent> agents, List<Value> values, Scale scale) {
+    }
 
     public Set<AgentValue> keySet() {
         return agentValueWeights.keySet();
@@ -112,7 +113,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         List<Value> updatedValues = listValue.getValues();
         // Znajdź wartosci, które zostały usunięte
         List<Value> removedValues = new ArrayList<>(this.values);
-        removedValues.removeAll(removedValues);
+        removedValues.removeAll(updatedValues);
         // Usuń związane z nimi AgentValues
         for (Value value : removedValues) {
             this.values.remove(value);

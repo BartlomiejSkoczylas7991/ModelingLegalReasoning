@@ -31,14 +31,14 @@ public class ListPropBaseCleanTest {
         propositions = Arrays.asList(mock(Proposition.class), mock(Proposition.class));
         scale = mock(Scale.class);
         AVWeight = new AgentValueToWeight();
-        AVPWeight = new AgentValuePropWeight(new HashMap<>(), agents, values, propositions, scale);
+        AVPWeight = new AgentValuePropWeight();
         listPropBaseClean = new ListPropBaseClean();
     }
     @Test
     public void testCalculatePropBaseClean() {
         // Przykładowe dane wejściowe
-        Set<Agent> agents = new HashSet<>();
-        Set<Proposition> propositions = new HashSet<>();
+        List<Agent> agents = new ArrayList<>();
+        List<Proposition> propositions = new ArrayList<>();
 
         // Wywołanie metody do przetestowania
         HashMap<Agent, Set<Proposition>> result = listPropBaseClean.calculatePropBaseClean(agents, propositions, AVWeight, AVPWeight);
@@ -51,7 +51,7 @@ public class ListPropBaseCleanTest {
     public void testCalculateAgentPropositions() {
         // Przykładowe dane wejściowe
         Agent agent = new Agent("Agent1"); // Utwórz agenta
-        Set<Proposition> propositions = new HashSet<>();
+        List<Proposition> propositions = new ArrayList<>();
 
         // Wywołanie metody do przetestowania
         Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent, propositions, AVWeight, AVPWeight);
@@ -79,7 +79,6 @@ public class ListPropBaseCleanTest {
         AgentValueToWeight avtw = new AgentValueToWeight(); // Utwórz nową instancję AgentValueToWeight
 
         // Wywołanie metody do przetestowania
-        listPropBaseClean.u(avtw);
 
         // Sprawdzanie wyniku
         // Tu powinien być twój kod sprawdzający, czy metoda updateAV działa prawidłowo.

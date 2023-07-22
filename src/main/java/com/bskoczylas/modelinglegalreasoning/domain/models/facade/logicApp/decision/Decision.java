@@ -25,7 +25,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
 
     public Decision() {}
 
-    private void updateDecision(Set<Agent> agents) {
+    private void updateDecision(List<Agent> agents) {
         int ppCount = 0;
         int pdCount = 0;
 

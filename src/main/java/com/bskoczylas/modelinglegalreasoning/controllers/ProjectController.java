@@ -39,6 +39,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -126,6 +127,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         // for AVP
         private AVPController avpController;
         private AgentValuePropWeight avpWeights;
+        private ObservableList<AVPPair> avpPairs;
         @FXML
         private TableView<AVPPair> avpTable;
         @FXML
@@ -151,13 +153,13 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         @FXML
         private TableColumn<IncompProp, Integer> incompIdColumn;
         @FXML
-        private TableColumn<IncompProp, LocalDateTime> incompCreatedColumn;
+        private TableColumn<IncompProp, String> incompCreatedColumn;
         @FXML
         private TableColumn<IncompProp, Boolean> incompIsDecisionColumn;
         @FXML
-        private TableColumn<IncompProp, String> incompNameColumn;
+        private TableColumn<IncompProp, String> incompProp1NameColumn;
         @FXML
-        private TableColumn<IncompProp, String> incompPropNameColumn;
+        private TableColumn<IncompProp, String> incompProp2NameColumn;
 
         @FXML
         private ComboBox<Proposition> prop1comboBoxIncompProp = new ComboBox<>();
@@ -197,13 +199,14 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public ProjectController() {
                 this.project = new Project();
                 this.avPairs = FXCollections.observableArrayList();
+                this.avpPairs = FXCollections.observableArrayList();
         }
 
         public void setProject(Project project) {
                 this.project = project;
                 this.project.addProjectObserver(this);
 
-                incompPropController = new IncompPropController(incompPropTable, this, this.project, isDecisionRadioButton);
+                incompPropController = new IncompPropController(incompPropTable, this, this.project, prop1comboBoxIncompProp, prop2comboBoxIncompProp, isDecisionRadioButton);
         }
 
         public void initialize() {
@@ -245,15 +248,16 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // IncompProp section
-                this.incompPropController = new IncompPropController(incompPropTable, this, project, isDecisionRadioButton);
+                this.incompPropController = new IncompPropController(incompPropTable, this, project, prop1comboBoxIncompProp,
+                        prop2comboBoxIncompProp, isDecisionRadioButton);
                 this.incompPropController.addIncompContrObserver(this);
 
                 // Set up the columns in the IncompProp table
                 incompIdColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Integer>("id"));
-                incompCreatedColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, LocalDateTime>("created"));
-                incompIsDecisionColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Boolean>("isDecision"));
-                incompNameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("name"));
-                incompPropNameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("propName"));
+                incompCreatedColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("formattedCreated"));
+                incompIsDecisionColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Boolean>("decision"));
+                incompProp1NameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("prop1Name"));
+                incompProp2NameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("prop2Name"));
 
                 incompPropTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -272,6 +276,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         avMaxScale,
                         avWeightsComboBox
                 );
+                this.avController.addAVObserver(this);
 
                 // Bind the table view to the data
                 Map.Entry<AgentValue, Weight>[] entries = avWeights.entrySet().stream()
@@ -286,7 +291,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         .collect(Collectors.toList());
 
                 // Inicjalizacja cell factory dla ComboBoxa.
-                avpWeightsComboBox.setCellFactory(new Callback<ListView<Weight>, ListCell<Weight>>() {
+                avWeightsComboBox.setCellFactory(new Callback<ListView<Weight>, ListCell<Weight>>() {
                         @Override
                         public ListCell<Weight> call(ListView<Weight> param) {
                                 return new ListCell<Weight>() {
@@ -343,6 +348,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         avpMaxScale,
                         avpWeightsComboBox
                 );
+                this.avpController.addObserver(this);
 
                 // Bind the table view to the data
                 Map.Entry<AgentValueProposition, Weight>[] entriesAVP = avpWeights.entrySet().stream()
@@ -451,7 +457,8 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void handleAddAgent(ActionEvent event) {
                 this.agentController.handleAddAgent();
                 agentController.updateAgentTable();
-                System.out.println("To jest lista agentów: " + this.project.getListAgent().getAgents()); // przy dodawaniu agentów lista jest pusta
+                avController.updateAVTable();
+                avpController.updateAVPTable();
         }
 
         @FXML
@@ -476,12 +483,24 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void handleAddProposition(ActionEvent event) {
                 this.propositionController.handleAddProposition();
                 propositionController.updatePropositionTable();
+                avpController.updateAVPTable();
         }
 
         @FXML
-        public void handleRemoveProposition(ActionEvent event) {
-                this.propositionController.handleRemoveProposition();
-                propositionController.updatePropositionTable();
+        public void handleRemoveProposition() {
+                Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
+                if (selectedProposition != null) {
+                        propositionController.removeProposition(selectedProposition);
+                        propositionController.updatePropositionTable(); // zaktualizuj tabelę po usunięciu Proposition
+                        incompPropController.removeIncompPropsIncludingProposition(propositionController.getRemovedProposition());
+                } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("No Proposition selected!");
+
+                        alert.showAndWait();
+                }
         }
 
         //DODAWANIE WARTOŚCI POPRZEZ ValueController
@@ -489,6 +508,9 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void handleAddValue(ActionEvent event) {
                 this.valueController.handleAddValue();
                 valueController.updateValueTable();
+                avController.updateAVTable();
+                avpController.updateAVPTable();
+                avTable.refresh();
         }
 
         @FXML
@@ -551,10 +573,8 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         .collect(Collectors.toList()));
                 this.avController.setAvWeights(this.avWeights);
                 avTable.setItems(avPairs);  // Bind the ObservableList to the TableView
-
                 // Here is the added call to update the table
                 this.avController.updateAVTable();
-                System.out.println(project.getAgentValueToWeight().getAgentValueWeights()); // pusta lista
         }
 
         //DODAWANIE WAG AGENT-VALUE-PROPOSITION WEIGHTS (I SKALI) POPRZEZ AVPController
@@ -577,14 +597,18 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         }
 
         @Override
-        public void updateAVP(AgentValuePropWeight agentValuePropWeight) {
-                this.avpWeights = agentValuePropWeight;
-                List<AVPPair> avPairList = avpWeights.entrySet().stream()
+        public void updateAVP(AVPController avpController) {
+                this.avpWeights = avpController.getAvpWeights();
+                this.project.getAgentValuePropWeight().setAgentValuePropWeights(this.avpWeights.getAgentValuePropWeights());
+                // Update the ObservableList
+                avpPairs.clear();
+                avpPairs.addAll(avpWeights.entrySet().stream()
                         .map(entry -> new AVPPair(entry.getKey(), entry.getValue()))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()));
                 this.avpController.setAvpWeights(this.avpWeights);
-                avpTable.setItems(FXCollections.observableArrayList(avPairList));
-
+                avpTable.setItems(avpPairs);  // Bind the ObservableList to the TableView
+                System.out.println(this.project.getAgentValuePropWeight().toString());
+                // Here is the added call to update the table
                 this.avpController.updateAVPTable();
         }
 
@@ -700,12 +724,18 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 }
                         }
                 } else if (newList.size() < oldList.size()) {
-                        // Usunięto agenta
+                        // Remove Agent
+                        List<Value> toRemove = new ArrayList<>();
+
                         for (Value oldValue : oldList) {
                                 if (!newList.contains(oldValue)) {
-                                        // Znaleźliśmy usuniętego agenta
-                                        project.getListValue().removeValue(oldValue);
+                                        toRemove.add(oldValue);
                                 }
+                        }
+                        avController.removeDeletedValueEntriesFromTable(toRemove);
+                        avpController.removeDeletedValueEntriesFromTable(toRemove);
+                        for (Value value : toRemove) {
+                                project.getListValue().removeValue(value);
                         }
                 }
         }
@@ -725,18 +755,24 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         }
                 } else if (newList.size() < oldList.size()) {
                         // Usunięto agenta
+                        List<Agent> toRemove = new ArrayList<>();
+
                         for (Agent oldAgent : oldList) {
                                 if (!newList.contains(oldAgent)) {
-                                        // Znaleźliśmy usuniętego agenta
-                                        project.getListAgent().removeAgent(oldAgent);
+                                        toRemove.add(oldAgent);
                                 }
+                        }
+                        avController.removeDeletedAgentEntriesFromTable(toRemove);
+                        avpController.removeDeletedAgentEntriesFromTable(toRemove);
+                        for (Agent agent : toRemove) {
+                                project.getListAgent().removeAgent(agent);
                         }
                 }
         }
 
         @Override
         public void updatePropositionController(PropositionController propositionController) {
-                List<Proposition> oldList = project.getListProposition().getListProposition();
+                List<Proposition> oldList = new ArrayList<>(project.getListProposition().getListProposition());
                 List<Proposition> newList = propositionController.getProject().getListProposition().getListProposition();
 
                 if (newList.size() > oldList.size()) {
@@ -748,11 +784,15 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 }
                         }
                 } else if (newList.size() < oldList.size()) {
-                        // Usunięto agenta
-                        for (Proposition oldProposition : oldList) {
+                        Iterator<Proposition> iterator = oldList.iterator();
+                        while (iterator.hasNext()) {
+                                Proposition oldProposition = iterator.next();
                                 if (!newList.contains(oldProposition)) {
-                                        // Znaleźliśmy usuniętego agenta
+                                        // Znaleźliśmy usuniętą propozycję
                                         project.getListProposition().removeProposition(oldProposition);
+                                        incompPropController.removeIncompPropsIncludingProposition(oldProposition);
+                                        avpController.removeDeletedPropositionEntryFromTable(oldProposition);
+                                        iterator.remove(); // to jest bezpieczne usuwanie elementu podczas iteracji
                                 }
                         }
                 }
@@ -760,6 +800,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
 
         @Override
         public void updateIncompController(IncompPropController incompPropController) {
-
+                project.getListIncompProp().setIncompPropList(incompPropController.getProject()
+                        .getListIncompProp().getIncompatiblePropositions());
         }
 }

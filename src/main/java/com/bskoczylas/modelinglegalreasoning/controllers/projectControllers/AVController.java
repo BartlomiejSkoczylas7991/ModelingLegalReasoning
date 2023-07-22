@@ -63,10 +63,6 @@ public class AVController implements AVObservableController {
         this.weightsComboBox = weightsComboBox;
     }
 
-    public ProjectController getProjectController() {
-        return projectController;
-    }
-
     public AgentValueToWeight getAvWeights() {
         return avWeights;
     }
@@ -89,9 +85,8 @@ public class AVController implements AVObservableController {
             avWeights.editWeight(selectedAV.getAgentValue(), null);
         }
 
-        // Notify the project about the change
-        projectController.getProject().notifyProjectObservers(projectController.getProject());
-
+        // Notify the project about the change (TO MOŻE BYĆ ŹLE - może być notify() zwykłe jednak
+        notifyAVObservers();
         // Force the table to refresh
         avTable.refresh();
     }
@@ -157,12 +152,10 @@ public class AVController implements AVObservableController {
             Integer newWeight = min + random.nextInt(max - min + 1);
             avWeights.editWeight(av, newWeight);
         }
-
-        // Notify the project about the change
-        projectController.getProject().notifyProjectObservers(projectController.getProject());
-
         // Force the table to refresh
         avTable.refresh();
+        // Notify the project about the change
+        notifyAVObservers();
     }
 
     public void changeScale() {
@@ -186,6 +179,7 @@ public class AVController implements AVObservableController {
         });
         // Update the table view
         avTable.refresh();
+        notifyAVObservers();
     }
 
     public void setAvWeights(AgentValueToWeight avWeights) {
@@ -198,7 +192,7 @@ public class AVController implements AVObservableController {
         List<AVPair> pairs = IntStream.range(0, entries.length)
                 .mapToObj(i -> {
                     AVPair pair = new AVPair(entries[i].getKey(), entries[i].getValue());
-                    pair.setId(i+1);  // Assume that setId exists in AVPair.
+                    pair.setId(i+1);
                     return pair;
                 })
                 .collect(Collectors.toList());

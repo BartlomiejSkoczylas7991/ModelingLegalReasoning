@@ -5,6 +5,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Scale implements ScaleObservable {
     private Pair<Integer, Integer> elements;
@@ -75,5 +76,18 @@ public class Scale implements ScaleObservable {
         for (ScaleObserver observer : this.observers) {
             observer.updateScale(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Scale scale = (Scale) o;
+        return Objects.equals(elements, scale.elements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(elements);
     }
 }

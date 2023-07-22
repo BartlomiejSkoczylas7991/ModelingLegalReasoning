@@ -33,9 +33,7 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
 
     public boolean removeProposition(Proposition proposition) {
         boolean result = listProposition.remove(proposition);
-        if(result) {
-            notifyObservers(this);
-        }
+        notifyObservers(this);
         return result;
     }
 

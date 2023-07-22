@@ -136,8 +136,8 @@
                                      <TableColumn fx:id="incompIdColumn" prefWidth="50" text="id" />
                                  <TableColumn fx:id="incompCreatedColumn" prefWidth="122.0" text="Created" />
                                      <TableColumn fx:id="incompIsDecisionColumn" prefWidth="105.0" text="isDecision" />
-                                 <TableColumn fx:id="incompNameColumn" prefWidth="102.0" text="Name" />
-                                     <TableColumn fx:id="incompPropNameColumn" minWidth="0.0" prefWidth="123.0" text="Name" />
+                                 <TableColumn fx:id="incompProp1NameColumn" prefWidth="102.0" text="Name" />
+                                     <TableColumn fx:id="incompProp2NameColumn" minWidth="0.0" prefWidth="123.0" text="Name" />
                                  </columns>
                              </TableView>
                              <Label layoutX="89.0" layoutY="389.0" prefHeight="59.0" prefWidth="377.0" text="Add or remove pairs of incompatible propositions">

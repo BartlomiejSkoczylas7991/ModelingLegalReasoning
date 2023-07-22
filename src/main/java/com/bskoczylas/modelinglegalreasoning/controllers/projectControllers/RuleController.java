@@ -56,6 +56,10 @@ public class RuleController implements RuleControllerObservable {
         premisesColumn.setCellValueFactory(new PropertyValueFactory<>("statement"));
         premisesTable.setItems(premisesObservableList);
 
+        ToggleGroup group = new ToggleGroup();
+        decisionRadioButton1.setToggleGroup(group);
+        decisionRadioButton2.setToggleGroup(group);
+
         // Inicjalizacja ComboBoxa
         premisesComboBox.setItems(premisesObservableList);
 
@@ -76,9 +80,10 @@ public class RuleController implements RuleControllerObservable {
         // Pobierz wybraną propozycję
         Proposition selectedPremise = (Proposition) premisesComboBox.getSelectionModel().getSelectedItem();
 
-        // Dodaj propozycję do listy przesłanek
-        if (selectedPremise != null) {
+        // Dodaj propozycję do listy przesłanek tylko jeżeli jej tam jeszcze nie ma
+        if (selectedPremise != null && !premises.contains(selectedPremise)) {
             premises.add(selectedPremise);
+            premisesTable.getItems().add(selectedPremise); // Aktualizacja widoku tabeli
         }
     }
 

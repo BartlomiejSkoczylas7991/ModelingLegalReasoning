@@ -36,12 +36,8 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         this.weightObservers = new ArrayList<>();
     }
 
-    public AgentValuePropWeight(HashMap<AgentValueProposition, Weight> agent_value_prop_weights, List<Agent> agents, List<Value> values, List<Proposition> propositions, Scale scale) {
-        this.agentValuePropWeights = agent_value_prop_weights;
-        this.agents = agents;
-        this.values = values;
-        this.propositions = propositions;
-        this.scale = scale;
+    public Set<AgentValueProposition> keySet() {
+        return agentValuePropWeights.keySet();
     }
 
     public void addValue(Agent agent, Value value, Proposition prop, Weight weight) {
@@ -115,6 +111,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         Weight weight = agentValuePropWeights.get(agentValueProposition);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);
+            setEditing(true);
             notifyObservers();
         }
     }

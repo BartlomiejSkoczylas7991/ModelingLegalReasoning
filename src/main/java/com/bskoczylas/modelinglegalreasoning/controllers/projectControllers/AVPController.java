@@ -4,10 +4,16 @@ import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AVPObservableController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVPObserverController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPPair;
+import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 
@@ -58,6 +64,10 @@ public class AVPController implements AVPObservableController {
         this.weightsComboBox = weightsComboBox;
     }
 
+    public AgentValuePropWeight getAvpWeights() {
+        return this.avpWeights;
+    }
+
     public void addWeight() {
         // Retrieve selected AgentValue from the table view
         AVPPair selectedAVP = avpTable.getSelectionModel().getSelectedItem();
@@ -76,10 +86,52 @@ public class AVPController implements AVPObservableController {
             avpWeights.editWeight(selectedAVP.getAgentValueProposition(), null);
         }
         // Notify the project about the change
-        projectController.getProject().notifyProjectObservers(projectController.getProject());
+        notifyAVPObservers();
 
         // Force the table to refresh
         avpTable.refresh();
+    }
+
+    public void removeDeletedAgentEntriesFromTable(List<Agent> removedAgents) {
+        // Pobierz aktualne wpisy w tabeli
+        List<AVPPair> currentTableEntries = avpTable.getItems();
+
+        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
+        currentTableEntries.removeIf(avPPair -> removedAgents.contains(avPPair.getAgentValueProposition().getAgent()));
+
+        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
+        avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
+
+        // Aktualizuj tabelę
+        updateAVPTable();
+    }
+
+    public void removeDeletedValueEntriesFromTable(List<Value> removedValues) {
+        // Pobierz aktualne wpisy w tabeli
+        List<AVPPair> currentTableEntries = avpTable.getItems();
+
+        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
+        currentTableEntries.removeIf(avPPair -> removedValues.contains(avPPair.getAgentValueProposition().getValue()));
+
+        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
+        avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
+
+        // Aktualizuj tabelę
+        updateAVPTable();
+    }
+
+    public void removeDeletedPropositionEntryFromTable(Proposition removedProposition) {
+        // Pobierz aktualne wpisy w tabeli
+        List<AVPPair> currentTableEntries = new ArrayList<>(avpTable.getItems());
+
+        // Usuń wpisy z tabeli, które są związane z usuniętą propozycją
+        currentTableEntries.removeIf(avPPair -> avPPair.getAgentValueProposition().getProposition().equals(removedProposition));
+
+        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
+        avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
+
+        // Aktualizuj tabelę
+        updateAVPTable();
     }
 
     private void showAlert() {
@@ -109,11 +161,20 @@ public class AVPController implements AVPObservableController {
     public void randomizeWeights() {
         // Randomize weights in the model
         Random random = new Random();
+        System.out.println("Keys: " + avpWeights.keySet().toString());
         for (AgentValueProposition avp : avpWeights.keySet()) {
-            Integer newWeight = avpWeights.getScale().getMin() +
-                    (avpWeights.getScale().getMax() - avpWeights.getScale().getMin()) * random.nextInt();
-            avpWeights.editWeight(avp, newWeight);
+            int min = avpWeights.getScale().getMin();
+            int max = avpWeights.getScale().getMax();
+            Integer newWeight = min + random.nextInt(max - min + 1);
+            System.out.println(newWeight);
+            System.out.println("wywoływanko");
+            this.avpWeights.editWeight(avp, newWeight);
         }
+        System.out.println(this.avpWeights.getAgentValuePropWeights().toString());
+        // Force the table to refresh
+        avpTable.refresh();
+        // Notify the project about the change
+        notifyAVPObservers();
     }
 
     public void changeScale() {
@@ -130,6 +191,14 @@ public class AVPController implements AVPObservableController {
 
         // Notify the project about the change
         projectController.getProject().notifyProjectObservers(projectController.getProject());
+
+        // Update the table view after all other tasks have completed
+        Platform.runLater(() -> {
+            updateAVPTable();
+        });
+        // Update the table view
+        avpTable.refresh();
+        notifyAVPObservers();
     }
 
     public void setAvpWeights(AgentValuePropWeight avpWeights) {
@@ -142,7 +211,7 @@ public class AVPController implements AVPObservableController {
         List<AVPPair> pairs = IntStream.range(0, entries.length)
                 .mapToObj(i -> {
                     AVPPair pair = new AVPPair(entries[i].getKey(), entries[i].getValue());
-                    pair.setId(i+1);  // Assume that setId exists in AVPair.
+                    pair.setId(i+1);
                     return pair;
                 })
                 .collect(Collectors.toList());
@@ -162,7 +231,7 @@ public class AVPController implements AVPObservableController {
     @Override
     public void notifyAVPObservers() {
         for (AVPObserverController observer : this.observers) {
-            observer.updateAVP(this.avpWeights);
+            observer.updateAVP(this);
         }
     }
 }

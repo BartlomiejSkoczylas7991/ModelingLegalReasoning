@@ -1,8 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning;
 
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
-import com.bskoczylas.modelinglegalreasoning.models.Project;
-import com.bskoczylas.modelinglegalreasoning.models.ProjectManager;
+import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,37 +12,27 @@ import java.io.IOException;
 
 
 public class App extends Application {
-    private ProjectManager projectManager = new ProjectManager();
+    private Stage primaryStage;
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/startWindow.fxml"));
-            Parent root = loader.load();
-
-            StartWindowController controller = loader.getController();
-            controller.setProjectManager(projectManager);
-
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void start(Stage primaryStage) throws IOException {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Modeling Legal Reasoning");
+        showProjectWindow();
     }
 
-    public void openProjectWindow(Project project) {
+    public void showProjectWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/projectWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
             Parent root = loader.load();
 
             ProjectController controller = loader.getController();
+            // create a new Project here and pass it to the controller
+            Project project = new Project();
             controller.setProject(project);
-            controller.setProjectManager(projectManager);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }

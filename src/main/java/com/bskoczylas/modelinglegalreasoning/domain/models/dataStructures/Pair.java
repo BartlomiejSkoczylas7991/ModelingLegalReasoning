@@ -51,4 +51,8 @@ public class Pair<F, S> {
     public S getValue() {
         return this.second;
     }
+
+    public boolean exists() {
+        return first != null && second != null;
+    }
 }

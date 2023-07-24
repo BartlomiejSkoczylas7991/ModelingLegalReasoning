@@ -24,7 +24,10 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
     private HashMap<Agent, Set<Proposition>> listPropBaseClean;
     private List<PBCObserver> observers;
 
-    public ListPropBaseClean(){this.observers = new ArrayList<>();}
+    public ListPropBaseClean(){
+        this.observers = new ArrayList<>();
+        this.listPropBaseClean = new HashMap<>();
+    }
 
     protected HashMap<Agent, Set<Proposition>> calculatePropBaseClean(List<Agent> agents,
                                                                       List<Proposition> props,
@@ -158,18 +161,19 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        if (listPropBaseClean != null) {
+            for (Map.Entry<Agent, Set<Proposition>> entry : listPropBaseClean.entrySet()) {
+                sb.append(entry.getKey().getName()).append(" = {");
 
-        for (Map.Entry<Agent, Set<Proposition>> entry : listPropBaseClean.entrySet()) {
-            sb.append(entry.getKey().getName()).append(" = {");
-
-            Iterator<Proposition> iterator = entry.getValue().iterator();
-            while (iterator.hasNext()) {
-                sb.append(iterator.next().getStatement());
-                if (iterator.hasNext()) {
-                    sb.append(", ");
+                Iterator<Proposition> iterator = entry.getValue().iterator();
+                while (iterator.hasNext()) {
+                    sb.append(iterator.next().getStatement());
+                    if (iterator.hasNext()) {
+                        sb.append(", ");
+                    }
                 }
+                sb.append("}\n");
             }
-            sb.append("}\n");
         }
         return sb.toString();
     }

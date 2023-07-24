@@ -80,6 +80,7 @@ public class Project implements ProjectObservable {
         this.agentValuePropWeight.setScale(this.scale);
         this.listPropBaseClean.addObserver(this.listKnowledgeBase);
         this.listIncompProp.addObserver(this.listProposition);
+        this.listIncompProp.addObserver(this.report);
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listRules);
@@ -87,6 +88,10 @@ public class Project implements ProjectObservable {
         this.decision.addObserver(this.listConsortium);
         this.listConsortium.addObserver(this.courtOpinion);
         this.courtOpinion.addObserver(this.report);
+        this.listAgent.addAgentObserver(this.report);
+        this.listRules.addObserver(this.report);
+        this.listValue.addObserver(this.report);
+        this.listPropBaseClean.addObserver(this.report);
     }
 
     @Override
@@ -254,8 +259,9 @@ public class Project implements ProjectObservable {
         this.listRules.removeRule(rule);
     }
 
-    public void setListRules(ListRules listRules) {
+    public void addListRules(ListRules listRules) {
         this.listRules = listRules;
+        this.listRules.notifyObservers();
     }
 
     public ListPropBaseClean getListPropBaseClean() {

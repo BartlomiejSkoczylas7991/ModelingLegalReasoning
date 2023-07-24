@@ -9,28 +9,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="551.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.RuleController">
+<AnchorPane prefHeight="551.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
-    <Label layoutX="246.0" layoutY="321.0" text="Premises:">
+    <Label layoutX="237.0" layoutY="306.0" text="Premises:">
       <font>
          <Font size="17.0" />
       </font></Label>
-    <ComboBox fx:id="premisesComboBox" layoutX="246.0" layoutY="363.0" prefHeight="24.0" prefWidth="180.0" />
-    <Button layoutX="279.0" layoutY="411.0" onAction="#handleAddPremiseButtonAction" text="Add premise" />
+    <ComboBox fx:id="premisesComboBox" layoutX="239.0" layoutY="337.0" prefHeight="24.0" prefWidth="180.0" />
+    <Button layoutX="281.0" layoutY="379.0" onAction="#handleAddPremiseButtonAction" text="Add premise" />
     <TableView fx:id="premisesTable" layoutX="20.0" layoutY="206.0" prefHeight="314.0" prefWidth="200.0">
         <columns>
-            <TableColumn prefWidth="199.0" text="Premises" />
+            <TableColumn fx:id="premisesColumn" prefWidth="199.0" text="Premises" />
         </columns>
     </TableView>
     
-    <Label layoutX="244.0" layoutY="217.0" prefHeight="24.0" prefWidth="101.0" text="Conclusions:">
+    <Label layoutX="237.0" layoutY="206.0" prefHeight="24.0" prefWidth="101.0" text="Conclusions:">
       <font>
          <Font size="16.0" />
       </font></Label>
-    <RadioButton fx:id="decisionRadioButton1" layoutX="244.0" layoutY="258.0" prefHeight="18.0" prefWidth="158.0" text="Decision 1" />
-    <RadioButton fx:id="decisionRadioButton2" layoutX="244.0" layoutY="292.0" prefHeight="18.0" prefWidth="171.0" text="Decision 2" />
+    <RadioButton fx:id="decisionRadioButton1" layoutX="237.0" layoutY="240.0" prefHeight="18.0" prefWidth="158.0" text="Decision 1" />
+    <RadioButton fx:id="decisionRadioButton2" layoutX="237.0" layoutY="276.0" prefHeight="18.0" prefWidth="171.0" text="Decision 2" />
 
-    <Button layoutX="264.0" layoutY="461.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
+    <Button layoutX="258.0" layoutY="460.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
       <font>
          <Font size="22.0" />
       </font></Button>
@@ -45,7 +45,8 @@
             A set of premises leads to a given conclusion (decision one or two).
         </text>
       <font>
-         <Font size="23.0" />
+         <Font size="21.0" />
       </font>
     </Label>
+   <Button layoutX="271.0" layoutY="419.0" onAction="#handleRemovePremiseButtonAction" text="Remove premise" />
 </AnchorPane>

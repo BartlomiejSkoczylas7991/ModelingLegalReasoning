@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -173,9 +174,9 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         private IncompPropController incompPropController;
 
         // for Rules
+        private RuleController ruleController;
         @FXML
         private TableView<Rule> rulesTable;
-        private RuleController ruleController;
         @FXML
         private TableColumn<Rule, String> rulesIdColumn;
         @FXML
@@ -184,11 +185,13 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         private TableColumn<Rule, String> rulesPremisesColumn;
         @FXML
         private TableColumn<Rule, String> rulesConclusionsColumn;
-        @FXML
-        private TableColumn<Rule, String> rulesNameColumn;
+        private ObservableList<Rule> rulesObservableList = FXCollections.observableArrayList();
+
 
         // buttons
         private Report report = new Report();
+        @FXML
+        private TextArea reportTextArea;
 
         @FXML
         private Button generateButton;
@@ -212,8 +215,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void initialize() {
                 // Inicjalizacja kontrolerów
                 // Agent section
-                this.agentController = new AgentController(this.project, agentTable,
-                        agentNameTextField, this);
+                this.agentController = new AgentController(this);
                 this.agentController.addAgentContrObserver(this);
 
                 // Ustawienie kolumn w tabeli
@@ -224,8 +226,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 agentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // Value section
-                this.valueController = new ValueController(valueTable,
-                        this.valueNameTextField, this);
+                this.valueController = new ValueController(this);
                 this.valueController.addValueContrObserver(this);
 
                 valueIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -236,9 +237,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 valueTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 // Proposition section
-                this.propositionController = new PropositionController(propositionTable,
-                        prop1comboBoxIncompProp, prop2comboBoxIncompProp,
-                        this.propositionNameTextField, this);
+                this.propositionController = new PropositionController(this);
                 this.propositionController.addPropositionContrObserver(this);
 
                 propositionIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -407,6 +406,28 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 // rules
 
 
+                // Ustawienie kolumn w tabeli
+                rulesIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                rulesCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
+                rulesPremisesColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Rule, String>, ObservableValue<String>>() {
+                        @Override
+                        public ObservableValue<String> call(TableColumn.CellDataFeatures<Rule, String> param) {
+                                String premisesString = param.getValue().getPremises().stream()
+                                        .map(Proposition::getStatement)
+                                        .collect(Collectors.joining(", "));
+                                return new SimpleStringProperty(premisesString);
+                        }
+                });
+                rulesConclusionsColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Rule, String>, ObservableValue<String>>() {
+                        @Override
+                        public ObservableValue<String> call(TableColumn.CellDataFeatures<Rule, String> param) {
+                                return new SimpleStringProperty(param.getValue().getConclusion().getStatement());
+                        }
+                });
+
+
+                rulesTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
                 // Na początku przycisk "Generate" jest nieaktywny
                 generateButton.setDisable(true);
                 generatePDFButton.setDisable(true);
@@ -425,23 +446,14 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         //DODAWANIE PRZYCISKÓW GÓRNYCH ("GENERATE PDF", "NEW", "HELP", "EXIT")
         // GENEROWANIE PDF i "GENERATE" (W Javafx) dopier po spełnieniu warunków:
         // minimum 2 agentów, 2 wartości, 4 propozycje, 1 para decyzji (zwykłe incompProp niekonieczne), 2 zasady
-        //@FXML
-        //private void handleGenerate() {
-        //        if (project.hasEnoughData()) {
-        //                // Generuj raport
-        //                List<Report.ReportSection> reportSections = report.generateReport();
-        //                String formattedReport = report.formatForJavaFX(reportSections);
-        //                reportTextArea.setText(formattedReport);
-        //
-
-        //WYJŚCIE Z PROGRAMU
-
         @FXML
-        public void handleGenerate() {
-                // Generuj raport
-                //List<Report.ReportSection> reportSections = report.generateReport();
-                //String formattedReport = report.formatForJavaFX(reportSections);
-                //reportTextArea.setText(formattedReport);
+        private void handleGenerate() {
+                // Generowanie raportu
+                List<Report.ReportSection> reportSections = project.getReport().generateReport();
+                String formattedReport = report.formatForJavaFX(reportSections);
+
+                // Wyświetlanie raportu w obszarze tekstowym
+                reportTextArea.setText(formattedReport);
         }
 
         private void updateGenerateButtonState() {
@@ -607,7 +619,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                         .collect(Collectors.toList()));
                 this.avpController.setAvpWeights(this.avpWeights);
                 avpTable.setItems(avpPairs);  // Bind the ObservableList to the TableView
-                System.out.println(this.project.getAgentValuePropWeight().toString());
                 // Here is the added call to update the table
                 this.avpController.updateAVPTable();
         }
@@ -626,33 +637,44 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         //DODAWANIE Zasad w RuleController, gdzie także dodajemy kolejne okienko do dodawania zasad.
         @FXML
         public void handleAddRuleButton(ActionEvent actionEvent) {
-                Proposition decision1 = project.getListIncompProp().getDecisions().getFirst();
-                Proposition decision2 = project.getListIncompProp().getDecisions().getSecond();
-                if (decision1 == null || decision2 == null) {
-                        // Pokaż komunikat o błędzie
-                        return;
+                if(!(project.getListIncompProp().getDecisions() == null)) {
+                        Proposition decision1 = project.getListIncompProp().getDecisions().getFirst();
+                        Proposition decision2 = project.getListIncompProp().getDecisions().getSecond();
+
+                        try {
+                                // Używamy FXMLLoader do załadowania pliku fxml
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
+
+                                // Tworzymy nową instancję RuleController i dostarczamy jej zależności
+                                RuleController ruleController = new RuleController(this);
+                                ruleController.addRuleContrObserver(this);
+
+                                loader.setController(ruleController);
+
+                                Parent root = loader.load();  // Ładujemy plik fxml, błąd
+
+                                // Teraz, gdy plik FXML został załadowany, możemy bezpiecznie wywołać metodę setDecisions
+                                ruleController.setDecisions(decision1, decision2);
+
+                                // Tworzymy nowe okno i wyświetlamy załadowany interfejs użytkownika
+                                Stage stage = new Stage();
+                                stage.setScene(new Scene(root));
+                                stage.show();
+
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
+                        // Aktualizujemy tabelę po dodaniu zasady
+                        updateRulesTable();
+                } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("There is no decisions in project! You have to define them in IncompProp section.");
+
+                        alert.showAndWait();
                 }
-
-                // Tworzymy nową instancję RuleController i dostarczamy jej zależności
-                RuleController ruleController = new RuleController(this);
-                ruleController.setDecisions(decision1, decision2);
-
-                try {
-                        // Używamy FXMLLoader do załadowania pliku fxml
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
-                        loader.setController(ruleController);  // Ustawiamy nasz RuleController jako kontroler dla załadowanego pliku fxml
-                        Parent root = loader.load();  // Ładujemy plik fxml
-
-                        // Tworzymy nowe okno i wyświetlamy załadowany interfejs użytkownika
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root));
-                        stage.show();
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-
-                // Aktualizujemy tabelę po dodaniu zasady
-                updateRulesTable();
         }
 
         @FXML
@@ -697,17 +719,16 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         }
 
         @FXML
-        public void handleMenuButton(ActionEvent actionEvent) {
-        }
-
-        @FXML
         public void handleExitButton(ActionEvent actionEvent) {
         }
 
 
         @Override
         public void updateRuleController(RuleController ruleController) {
-
+                project.addListRules(ruleController.getListRules());
+                // Aktualizujemy tabelę po dodaniu zasady
+                updateRulesTable();
+                updateGenerateButtonState();
         }
 
         @Override
@@ -738,6 +759,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 project.getListValue().removeValue(value);
                         }
                 }
+                updateGenerateButtonState();
         }
 
         @Override
@@ -768,6 +790,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 project.getListAgent().removeAgent(agent);
                         }
                 }
+                updateGenerateButtonState();
         }
 
         @Override
@@ -796,11 +819,213 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 }
                         }
                 }
+                updateGenerateButtonState();
         }
 
         @Override
         public void updateIncompController(IncompPropController incompPropController) {
                 project.getListIncompProp().setIncompPropList(incompPropController.getProject()
                         .getListIncompProp().getIncompatiblePropositions());
+                updateGenerateButtonState();
+        }
+
+        public TableView<Agent> getAgentTable() {
+                return agentTable;
+        }
+
+        public TextField getAgentNameTextField() {
+                return agentNameTextField;
+        }
+
+        public TableColumn<Agent, Integer> getAgentIdColumn() {
+                return agentIdColumn;
+        }
+
+        public TableColumn<Agent, String> getAgentCreatedColumn() {
+                return agentCreatedColumn;
+        }
+
+        public TableColumn<Agent, String> getAgentNameColumn() {
+                return agentNameColumn;
+        }
+
+        public TableView<Value> getValueTable() {
+                return valueTable;
+        }
+
+        public TextField getValueNameTextField() {
+                return valueNameTextField;
+        }
+
+        public TableColumn<Value, Integer> getValueIdColumn() {
+                return valueIdColumn;
+        }
+
+        public TableColumn<Value, String> getValueCreatedColumn() {
+                return valueCreatedColumn;
+        }
+
+        public TableColumn<Value, String> getValueNameColumn() {
+                return valueNameColumn;
+        }
+
+        public TableView<Proposition> getPropositionTable() {
+                return propositionTable;
+        }
+
+        public TextField getPropositionNameTextField() {
+                return propositionNameTextField;
+        }
+
+        public TableColumn<Proposition, Integer> getPropositionIdColumn() {
+                return propositionIdColumn;
+        }
+
+        public TableColumn<Proposition, String> getPropositionCreatedColumn() {
+                return propositionCreatedColumn;
+        }
+
+        public TableColumn<Proposition, String> getPropositionNameColumn() {
+                return propositionNameColumn;
+        }
+
+        public AgentValueToWeight getAvWeights() {
+                return avWeights;
+        }
+
+        public ObservableList<AVPair> getAvPairs() {
+                return avPairs;
+        }
+
+        public TableView<AVPair> getAvTable() {
+                return avTable;
+        }
+
+        public TableColumn<AVPair, Integer> getAvIdColumn() {
+                return avIdColumn;
+        }
+
+        public TableColumn<AVPair, String> getAvAgentsColumn() {
+                return avAgentsColumn;
+        }
+
+        public TableColumn<AVPair, String> getAvValuesColumn() {
+                return avValuesColumn;
+        }
+
+        public TableColumn<AVPair, Integer> getAvWeightsColumn() {
+                return avWeightsColumn;
+        }
+
+        public Slider getAvMinScale() {
+                return avMinScale;
+        }
+
+        public Slider getAvMaxScale() {
+                return avMaxScale;
+        }
+
+        public ComboBox<Weight> getAvWeightsComboBox() {
+                return avWeightsComboBox;
+        }
+
+        public AgentValuePropWeight getAvpWeights() {
+                return avpWeights;
+        }
+
+        public ObservableList<AVPPair> getAvpPairs() {
+                return avpPairs;
+        }
+
+        public TableView<AVPPair> getAvpTable() {
+                return avpTable;
+        }
+
+        public TableColumn<AVPPair, Integer> getAvpIdColumn() {
+                return avpIdColumn;
+        }
+
+        public TableColumn<AVPPair, String> getAvpAgentsColumn() {
+                return avpAgentsColumn;
+        }
+
+        public TableColumn<AVPPair, String> getAvpValuesColumn() {
+                return avpValuesColumn;
+        }
+
+        public TableColumn<AVPPair, String> getAvpPropositionsColumn() {
+                return avpPropositionsColumn;
+        }
+
+        public TableColumn<AVPPair, Integer> getAvpWeightsColumn() {
+                return avpWeightsColumn;
+        }
+
+        public Slider getAvpMinScale() {
+                return avpMinScale;
+        }
+
+        public Slider getAvpMaxScale() {
+                return avpMaxScale;
+        }
+
+        public ComboBox<Weight> getAvpWeightsComboBox() {
+                return avpWeightsComboBox;
+        }
+
+        public TableView<IncompProp> getIncompPropTable() {
+                return incompPropTable;
+        }
+
+        public TableColumn<IncompProp, Integer> getIncompIdColumn() {
+                return incompIdColumn;
+        }
+
+        public TableColumn<IncompProp, String> getIncompCreatedColumn() {
+                return incompCreatedColumn;
+        }
+
+        public TableColumn<IncompProp, Boolean> getIncompIsDecisionColumn() {
+                return incompIsDecisionColumn;
+        }
+
+        public TableColumn<IncompProp, String> getIncompProp1NameColumn() {
+                return incompProp1NameColumn;
+        }
+
+        public TableColumn<IncompProp, String> getIncompProp2NameColumn() {
+                return incompProp2NameColumn;
+        }
+
+        public ComboBox<Proposition> getProp1comboBoxIncompProp() {
+                return prop1comboBoxIncompProp;
+        }
+
+        public ComboBox<Proposition> getProp2comboBoxIncompProp() {
+                return prop2comboBoxIncompProp;
+        }
+
+        public RadioButton getIsDecisionRadioButton() {
+                return isDecisionRadioButton;
+        }
+
+        public TableView<Rule> getRulesTable() {
+                return rulesTable;
+        }
+
+        public TableColumn<Rule, String> getRulesIdColumn() {
+                return rulesIdColumn;
+        }
+
+        public TableColumn<Rule, String> getRulesCreatedColumn() {
+                return rulesCreatedColumn;
+        }
+
+        public TableColumn<Rule, String> getRulesPremisesColumn() {
+                return rulesPremisesColumn;
+        }
+
+        public TableColumn<Rule, String> getRulesConclusionsColumn() {
+                return rulesConclusionsColumn;
         }
 }

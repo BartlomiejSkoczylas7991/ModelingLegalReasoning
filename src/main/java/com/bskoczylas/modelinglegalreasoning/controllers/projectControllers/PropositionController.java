@@ -19,7 +19,6 @@ public class PropositionController implements PropositionControllerObservable {
     private TableView<Proposition> propositionTable;
     private ComboBox<Proposition> prop1comboBoxIncompProp;
     private ComboBox<Proposition> prop2comboBoxIncompProp;
-    private ProjectController projectController;
     private Project project;
     private TextField propositionNameTextField;
     private final List<PropositionControllerObserver> observers = new ArrayList<>();
@@ -27,14 +26,11 @@ public class PropositionController implements PropositionControllerObservable {
 
 
 
-    public PropositionController(TableView<Proposition> propositionTable, ComboBox<Proposition> prop1comboBoxIncompProp,
-                                 ComboBox<Proposition> prop2comboBoxIncompProp, TextField propositionNameTextField,
-                                ProjectController projectController) {
-        this.propositionTable = propositionTable;
-        this.prop1comboBoxIncompProp = prop1comboBoxIncompProp;
-        this.prop2comboBoxIncompProp = prop2comboBoxIncompProp;
-        this.propositionNameTextField = propositionNameTextField;
-        this.projectController = projectController;
+    public PropositionController(ProjectController projectController) {
+        this.propositionTable = projectController.getPropositionTable();
+        this.prop1comboBoxIncompProp = projectController.getProp1comboBoxIncompProp();
+        this.prop2comboBoxIncompProp = projectController.getProp2comboBoxIncompProp();
+        this.propositionNameTextField = projectController.getPropositionNameTextField();
         this.project = projectController.getProject();
     }
 

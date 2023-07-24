@@ -37,6 +37,7 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
     private ListValue listValue = new ListValue();
     private ListProposition listProposition = new ListProposition();
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+    private ListIncompProp incompProp = new ListIncompProp();
     private ListRules listRules = new ListRules();
     private ListReasoningChain listReasoningChains = new ListReasoningChain();
     private ListConsortium listConsortium = new ListConsortium();
@@ -76,7 +77,7 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         StringBuilder observations = new StringBuilder();
         int consortiumCount = 1; // used for syndication naming
 
-        for (Map.Entry<Consortium, ConsortiumType> entry : listConsortium.getConsortiumMap().entrySet()) {
+        for (Map.Entry<Consortium, ConsortiumType> entry : this.listConsortium.getConsortiumMap().entrySet()) {
             Consortium consortium = entry.getKey();
             ReasoningChain rc = consortium.getReasoningChain();
             Set<Agent> agents = consortium.getAgents();

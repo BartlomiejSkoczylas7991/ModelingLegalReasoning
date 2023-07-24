@@ -63,6 +63,7 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         }
         return null;
     }
+
     boolean containsPair(Proposition prop1, Proposition prop2) {
         for (IncompProp pair : this.incompPropList) {
             Pair<Proposition, Proposition> propPair = pair.getPropositionsPair();

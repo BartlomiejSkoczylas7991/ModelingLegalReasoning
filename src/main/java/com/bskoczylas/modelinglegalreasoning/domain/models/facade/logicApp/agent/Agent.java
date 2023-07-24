@@ -12,6 +12,8 @@ public class Agent {
     public Agent(String name) {
         this.id = nextId++;
         this.name = name;
+        this.created = LocalDateTime.now();
+
     }
 
     public String getName() {

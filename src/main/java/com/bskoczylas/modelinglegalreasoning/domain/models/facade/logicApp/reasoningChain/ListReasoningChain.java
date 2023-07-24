@@ -22,7 +22,9 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     private Pair<Proposition, Proposition> decisions;
     private List<RCObserver> observers = new ArrayList<>();
 
-    public ListReasoningChain() {}
+    public ListReasoningChain() {
+        this.listReasoningChain = new HashMap<>();
+    }
 
     private Map<Proposition, Integer> calculateVotes(Agent agent, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
         Map<Proposition, Integer> votes = new HashMap<>();

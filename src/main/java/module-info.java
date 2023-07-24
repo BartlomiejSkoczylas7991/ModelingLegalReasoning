@@ -1,4 +1,4 @@
-module com.example.modelinglegalreasoning {
+module com.bskoczylas.modelinglegalreasoning {
     requires javafx.controls;
     requires javafx.fxml;
         requires javafx.web;
@@ -31,6 +31,14 @@ module com.example.modelinglegalreasoning {
     exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av to com.fasterxml.jackson.databind;
     exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp to com.fasterxml.jackson.databind;
     exports com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight to com.fasterxml.jackson.databind;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp to javafx.base;
+    opens com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight to javafx.base;
 
     opens com.bskoczylas.modelinglegalreasoning.controllers to javafx.fxml;
     exports com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;

@@ -8,17 +8,17 @@ import java.util.stream.Collectors;
 
 public class Rule {
     private static int nextId = 1;
-    private int id;
+    private int id = 0;
     private Set<Proposition> premises;
     private Proposition conclusion;
     private String label;
     private LocalDateTime created;
 
-    public Rule(Set<Proposition> premises, Proposition conclusion, String label) {
+    public Rule(Set<Proposition> premises, Proposition conclusion) {
         this.id = nextId++;
         this.premises = premises;
         this.conclusion = conclusion;
-        this.label = label;
+        this.created = LocalDateTime.now();
     }
     public Set<Proposition> getPremises() {
         return premises;

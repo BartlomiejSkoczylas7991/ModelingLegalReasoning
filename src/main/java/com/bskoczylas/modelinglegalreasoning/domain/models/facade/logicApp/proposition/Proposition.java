@@ -16,6 +16,7 @@ public class Proposition {
     public Proposition(String statement) {
         this.id = Proposition.next_id++;
         this.statement = statement;
+        this.created = LocalDateTime.now();
     }
 
     @JsonCreator

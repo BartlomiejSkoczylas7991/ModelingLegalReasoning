@@ -12,6 +12,7 @@ public class Value {
     public Value(String name) {
         this.id = nextId++;
         this.name = name;
+        this.created = LocalDateTime.now();
     }
 
     public String getName() {

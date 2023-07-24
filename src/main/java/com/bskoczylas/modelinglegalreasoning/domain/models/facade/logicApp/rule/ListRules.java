@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class ListRules implements PropositionObserver, RuleObservable, IncompPropObserver {
     private List<Proposition> propositions = new ArrayList<>();
-    private List<Rule> listRules = new LinkedList<>();
+    private List<Rule> listRules = new ArrayList<>();
     private List<RuleObserver> observers = new ArrayList<>();
     private ListIncompProp listIncompProp = new ListIncompProp();
 
@@ -57,29 +57,26 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         this.listIncompProp = listIncompProp;
     }
 
-    public void addRule(Set<Proposition> premises, Proposition conclusion, String label) {
-        // Check that none of the proposition pairs from premises are in incompProp
-        List<IncompProp> incompProp = listIncompProp.getIncompatiblePropositions();
-        for (Proposition premise1 : premises) {
-            for (Proposition premise2 : premises) {
-                Pair<Proposition, Proposition> pair1 = new Pair<>(premise1, premise2);
-                Pair<Proposition, Proposition> pair2 = new Pair<>(premise2, premise1);
-                if (incompProp.stream().anyMatch(ip -> ip.getPropositionsPair().equals(pair1) || ip.getPropositionsPair().equals(pair2))) {
-                    throw new IllegalArgumentException("You cannot add a rule that contains incompatible propositions in premises.");
-                }
+    public boolean addRule(Set<Proposition> premises, Proposition conclusion) {
+        // We add a new rule only if no exception occurred
+        Rule newRule = new Rule(premises, conclusion);
+        if (!isRuleAlreadyPresent(newRule)) {
+            listRules.add(newRule);
+            notifyObservers();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isRuleAlreadyPresent(Rule newRule) {
+        for (Rule existingRule : listRules) {
+            if (existingRule.getPremises().equals(newRule.getPremises())
+                    && existingRule.getConclusion().equals(newRule.getConclusion())) {
+                return true;
             }
         }
-
-        // Check if the conclusion is one of the decisions
-        Pair<Proposition, Proposition> decisions = listIncompProp.getDecisions();
-        if (!conclusion.equals(decisions.getFirst()) && !conclusion.equals(decisions.getSecond())) {
-            throw new IllegalArgumentException("The conclusion must be one of the decisions.");
-        }
-
-        // We add a new rule only if no exception occurred
-        Rule newRule = new Rule(premises, conclusion, label);
-        listRules.add(newRule);
-        notifyObservers();
+        return false;
     }
 
     public ListIncompProp getListIncompProp() {
@@ -113,6 +110,10 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
                 updateRules(prop);
             }
         }
+    }
+
+    public boolean containsSamePremises(Rule rule) {
+        return listRules.stream().anyMatch(r -> r.getPremises().equals(rule.getPremises()));
     }
 
     @Override

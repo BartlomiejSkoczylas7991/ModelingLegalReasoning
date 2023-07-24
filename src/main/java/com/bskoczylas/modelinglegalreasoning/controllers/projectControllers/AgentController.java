@@ -19,16 +19,14 @@ import java.util.List;
 
 public class AgentController implements AgContrObservable {
     private TableView<Agent> agentTable;
-    private ProjectController projectController;
     private Project project;
     private TextField agentNameTextField;
     private final List<AgContrObserver> observers = new ArrayList<>();
 
-    public AgentController(Project project, TableView<Agent> agentTable, TextField agentNameTextField, ProjectController projectController) {
-        this.agentTable = agentTable;
-        this.agentNameTextField = agentNameTextField;
-        this.projectController = projectController;
-        this.project = project;
+    public AgentController(ProjectController projectController) {
+        this.agentTable = projectController.getAgentTable();
+        this.agentNameTextField = projectController.getAgentNameTextField();
+        this.project = projectController.getProject();
     }
 
     public Project getProject() {

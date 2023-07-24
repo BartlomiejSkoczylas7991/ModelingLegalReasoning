@@ -15,16 +15,13 @@ import java.util.List;
 
 public class ValueController implements ValueControllerObservable {
     private TableView<Value> valueTable;
-    private ProjectController projectController;
     private Project project;
     private TextField valueNameTextField;
     private final List<ValueControllerObserver> observers = new ArrayList<>();
 
-    public ValueController(TableView<Value> valueTable, TextField valueNameTextField,
-                           ProjectController projectController) {
-        this.valueTable = valueTable;
-        this.valueNameTextField = valueNameTextField;
-        this.projectController = projectController;
+    public ValueController(ProjectController projectController) {
+        this.valueTable = projectController.getValueTable();
+        this.valueNameTextField = projectController.getValueNameTextField();
         this.project = projectController.getProject();
     }
 

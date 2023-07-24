@@ -20,6 +20,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
 
     public ListConsortium() {
         this.observers = new ArrayList<ConsortiumObserver>();
+        this.consortiumMap = new HashMap<>();
     }
 
     private void updateConsortium(ListReasoningChain listReasoningChain) {

@@ -4,61 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValuePropWeight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueProposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/AgentValueToWeight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListProposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListRules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Agent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/IncompProp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/KnowledgeBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/ReasoningChain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Objects/Rule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/PropBaseClean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Proposition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Scale.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Value.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/Weight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/FacadeClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/ProjectState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AVP_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AV_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/AgentObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/IncompProp_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PBC_Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/PropositionObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observables/ValueObservable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AVP_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AV_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/AgentObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/IncompProp_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/KB_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PBC_Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/PropositionObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/RuleObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/observers/ValueObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/resources/fxml/home.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning/hello-view.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,21 +14,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
-        <option value="Class" />
+        <option value="JUnit5 Test Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="2QTxaa1cN88bg2iYUgt2yG5qZql" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -90,44 +32,62 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/media/bartlomiejskoczylas/ksztalcenie/magisterka/przykladowecwiczeniowe/1/EmployeeManagementSystem-main/employeeManagementSystem",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning" />
+      <recent name="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning/database" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.Proposition" />
+      <recent name="com.bskoczylas.modelinglegalreasoning.models.Facade.logicApp" />
       <recent name="com.bskoczylas.modelinglegalreasoning" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.bskoczylas.modelinglegalreasoning.domain.models" />
+      <recent name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.PropBaseClean" />
+      <recent name="com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Proposition" />
+      <recent name="com.bskoczylas.modelinglegalreasoning.models.facade.logicApp.Agent" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.App" />
       <module name="ModelingLegalReasoning" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.controllers.*" />
+          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.App" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -142,23 +102,92 @@
       <workItem from="1685471280473" duration="5808000" />
       <workItem from="1685540977408" duration="3333000" />
       <workItem from="1685552925992" duration="9891000" />
-      <workItem from="1685620557426" duration="8648000" />
+      <workItem from="1685620557426" duration="11048000" />
+      <workItem from="1685712862875" duration="6805000" />
+      <workItem from="1687711395787" duration="1349000" />
+      <workItem from="1687859671027" duration="276000" />
+      <workItem from="1688137419182" duration="967000" />
+      <workItem from="1688140094331" duration="1895000" />
+      <workItem from="1688143986418" duration="916000" />
+      <workItem from="1688144930810" duration="1476000" />
+      <workItem from="1688146574071" duration="1718000" />
+      <workItem from="1688197533107" duration="1326000" />
+      <workItem from="1688205999714" duration="10233000" />
+      <workItem from="1690055002467" duration="606000" />
+      <workItem from="1688205999714" duration="9555000" />
+      <workItem from="1688320694198" duration="2844000" />
+      <workItem from="1688364494496" duration="34076000" />
+      <workItem from="1688450917778" duration="3880000" />
+      <workItem from="1688480917398" duration="11438000" />
+      <workItem from="1688541717489" duration="10495000" />
+      <workItem from="1688564130152" duration="5722000" />
+      <workItem from="1688620984024" duration="25328000" />
+      <workItem from="1688715861785" duration="3605000" />
+      <workItem from="1688804947617" duration="599000" />
+      <workItem from="1688810357796" duration="6316000" />
+      <workItem from="1688889152156" duration="5616000" />
+      <workItem from="1688932262747" duration="1204000" />
+      <workItem from="1688964834817" duration="10518000" />
+      <workItem from="1689064419165" duration="15510000" />
+      <workItem from="1689150119162" duration="23634000" />
+      <workItem from="1689222019623" duration="828000" />
+      <workItem from="1689222899407" duration="42902000" />
+      <workItem from="1689320885364" duration="25161000" />
+      <workItem from="1689411791093" duration="13739000" />
+      <workItem from="1689454630946" duration="1283000" />
+      <workItem from="1689455926356" duration="12572000" />
+      <workItem from="1689498425884" duration="34427000" />
+      <workItem from="1689584469368" duration="21578000" />
+      <workItem from="1689673983095" duration="5560000" />
+      <workItem from="1689691638921" duration="8870000" />
+      <workItem from="1689714144616" duration="4233000" />
+      <workItem from="1689752627494" duration="21097000" />
+      <workItem from="1689837577492" duration="12260000" />
+      <workItem from="1689860446143" duration="23384000" />
+      <workItem from="1689923715795" duration="43435000" />
+      <workItem from="1690016648617" duration="7265000" />
+      <workItem from="1690116597333" duration="30868000" />
     </task>
+    <task id="LOCAL-00001" summary="Moving the project to JavaFX">
+      <created>1685648652870</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685648652870</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/models/Facade/logicApp/ListAgent.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Moving the project to JavaFX" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moving the project to JavaFX" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

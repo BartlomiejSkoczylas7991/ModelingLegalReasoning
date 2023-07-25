@@ -25,13 +25,14 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
 
     @Override
     public void updateCon(ListConsortium listConsortium) {
+        System.out.println("UpdateCon w Court");
         this.listConsortium = listConsortium;
         // We go through each consortium and check its type
         for (Consortium consortium : listConsortium.getConsortiumMap().keySet()) {
             ConsortiumType type = listConsortium.getConsortiumMap().get(consortium);
             ReasoningChain rc = consortium.getReasoningChain();
             Set<Agent> agents = consortium.getAgents();
-
+            System.out.println("Iteracja w updateCon");
             switch (type) {
                 case MAJORITY:
                     majorityOpinions.put(rc, agents);
@@ -132,5 +133,18 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
         for(CourtOpinionObserver observer : observers) {
             observer.updateCourtOpinion(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "CourtOpinion{" +
+                "decision=" + decision +
+                ", majorityOpinions=" + majorityOpinions +
+                ", pluralityOpinions=" + pluralityOpinions +
+                ", concurringOpinions=" + concurringOpinions +
+                ", dissentingOpinions=" + dissentingOpinions +
+                ", listConsortium=" + listConsortium +
+                ", observers=" + observers +
+                '}';
     }
 }

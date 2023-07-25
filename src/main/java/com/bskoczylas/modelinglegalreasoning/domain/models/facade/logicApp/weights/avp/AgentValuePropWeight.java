@@ -253,6 +253,14 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         }
     }
 
+    public boolean isEmpty() {
+        if (this.agentValuePropWeights.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void addValue(Value value) {
         if (!values.contains(value)) {
             values.add(value);

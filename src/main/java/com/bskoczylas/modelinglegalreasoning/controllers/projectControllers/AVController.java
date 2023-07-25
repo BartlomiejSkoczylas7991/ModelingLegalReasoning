@@ -51,7 +51,7 @@ public class AVController implements AVObservableController {
                         Slider minSlider,
                         Slider maxSlider,
                         ComboBox<Weight> weightsComboBox) {
-        this.avWeights = avWeights;
+        this.avWeights = projectController.getProject().getAgentValueToWeight();
         this.projectController = projectController;
         this.avTable = avTable;
         this.avIdColumn = avIdColumn;

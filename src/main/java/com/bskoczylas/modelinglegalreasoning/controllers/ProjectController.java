@@ -200,7 +200,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         private Button generatePDFButton;
 
         public ProjectController() {
-                this.project = new Project();
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
         }
@@ -208,8 +207,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void setProject(Project project) {
                 this.project = project;
                 this.project.addProjectObserver(this);
-
-                incompPropController = new IncompPropController(incompPropTable, this, this.project, prop1comboBoxIncompProp, prop2comboBoxIncompProp, isDecisionRadioButton);
         }
 
         public void initialize() {
@@ -559,25 +556,12 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 avController.updateAVTable();
         }
 
-       // @FXML
-       // public void handleRemoveAgent() {
-       //         // Załóżmy, że mamy jakąś logikę do wybrania i usunięcia agenta
-       //         Agent selectedAgent = this.agentTable.getSelectionModel().getSelectedItem();
-       //         if (selectedAgent != null) {
-       //                 // Usuwamy agenta
-       //                 project.getListAgent().removeAgent(selectedAgent);
-       //                 // Teraz musimy zaktualizować AVController o usunięciu agenta
-       //                 // Przyjmujemy, że mamy listę usuniętych agentów (w tym przypadku tylko jeden)
-       //                 List<Agent> removedAgents = new ArrayList<>();
-       //                 removedAgents.add(selectedAgent);
-       //                 avController.removeDeletedEntriesFromTable(removedAgents);
-       //         }
-       // }
-
         @Override
         public void updateAV(AVController avController) {
                 this.avWeights = avController.getAvWeights();
                 this.project.getAgentValueToWeight().setAgentValueWeights(this.avWeights.getAgentValueWeights());
+                System.out.println("TO jest w updateAV " + System.identityHashCode(this.project));
+
                 // Update the ObservableList
                 avPairs.clear();
                 avPairs.addAll(avWeights.entrySet().stream()
@@ -646,7 +630,7 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
 
                                 // Tworzymy nową instancję RuleController i dostarczamy jej zależności
-                                RuleController ruleController = new RuleController(this);
+                                ruleController = new RuleController(this);
                                 ruleController.addRuleContrObserver(this);
 
                                 loader.setController(ruleController);
@@ -693,6 +677,16 @@ public class ProjectController implements ProjectObserver, AVObserverController,
                 rulesTable.setItems(rulesObservableList);
         }
 
+        @Override
+        public void updateRuleController(RuleController ruleController) {
+                project.getListRules().setListRules(ruleController.getListRules().getListRules());
+                System.out.println("TO jest w updateRuleController " + System.identityHashCode(project));
+
+                // Aktualizujemy tabelę po dodaniu zasady
+                updateRulesTable();
+                updateGenerateButtonState();
+        }
+
         public ListRules getListRules() {
                 return project.getListRules();
         }
@@ -720,15 +714,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
 
         @FXML
         public void handleExitButton(ActionEvent actionEvent) {
-        }
-
-
-        @Override
-        public void updateRuleController(RuleController ruleController) {
-                project.addListRules(ruleController.getListRules());
-                // Aktualizujemy tabelę po dodaniu zasady
-                updateRulesTable();
-                updateGenerateButtonState();
         }
 
         @Override

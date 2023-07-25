@@ -56,9 +56,8 @@ public class RuleController implements RuleControllerObservable {
 
     public RuleController(ProjectController projectController) {
         this.projectController = projectController;
-        this.listRules = projectController.getListRules();
+        this.listRules = projectController.getProject().getListRules();
         availablePropositions = projectController.getProject().getListProposition().getPropositionsNotDecisions();
-
     }
 
     public ListRules getListRules() {
@@ -88,16 +87,6 @@ public class RuleController implements RuleControllerObservable {
 
         // Inicjalizacja ComboBoxa
         projectController.getProject().getListIncompProp().getIncompatiblePropositions();
-    }
-
-
-    @FXML
-    private void handleEnterKeyPress(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            // Tutaj możesz wykonać dowolne działania po naciśnięciu Enter
-            String text = labelTextArea.getText();
-            System.out.println("Wprowadzony tekst: " + text);
-        }
     }
 
     @FXML
@@ -155,11 +144,8 @@ public class RuleController implements RuleControllerObservable {
         }
     }
 
-
     @FXML
     public void handleAddPremiseButtonAction(ActionEvent event) {
-        System.out.println("handleAddPremiseButtonAction called"); //jest wywoływane
-
         // Pobierz wybraną propozycję
         Proposition selectedPremise = (Proposition) premisesComboBox.getSelectionModel().getSelectedItem();
         // Sprawdź, czy wybrana propozycja jest niekompatybilna z jakąkolwiek propozycją już na liście
@@ -181,8 +167,6 @@ public class RuleController implements RuleControllerObservable {
 
             alert.showAndWait();
         } else {
-            System.out.println("SelectedPremise " + selectedPremise);
-            System.out.println("premises contains " + premises.contains(selectedPremise));
             // Dodaj propozycję do listy przesłanek tylko jeżeli jej tam jeszcze nie ma
             if (selectedPremise != null && availablePropositions.contains(selectedPremise)) {
                 premises.add(selectedPremise);

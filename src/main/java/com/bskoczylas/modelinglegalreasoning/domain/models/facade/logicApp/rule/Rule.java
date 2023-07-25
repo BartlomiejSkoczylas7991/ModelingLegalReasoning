@@ -11,7 +11,6 @@ public class Rule {
     private int id = 0;
     private Set<Proposition> premises;
     private Proposition conclusion;
-    private String label;
     private LocalDateTime created;
 
     public Rule(Set<Proposition> premises, Proposition conclusion) {
@@ -29,7 +28,7 @@ public class Rule {
         String premisesString = this.premises.stream()
                 .map(Proposition::getStatement)
                 .collect(Collectors.joining(", "));
-        return this.label + ": " + premisesString + " -> " + this.conclusion.getStatement();
+        return premisesString + " -> " + this.conclusion.getStatement();
     }
 
     public Proposition getConclusion() {
@@ -62,14 +61,6 @@ public class Rule {
 
     public void setConclusion(Proposition conclusion) {
         this.conclusion = conclusion;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 
     public void setCreated(LocalDateTime created) {

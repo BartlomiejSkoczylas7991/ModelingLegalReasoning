@@ -14,7 +14,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import java.util.*;
 
 public class Decision implements DecisionObservable, RCObserver, IncompPropObserver {
-    private ListReasoningChain listReasoningChain;
+    private ListReasoningChain listReasoningChain = new ListReasoningChain();
     private HashMap<Proposition, Iterator> pp;
     private HashMap<Proposition, Iterator> pd;
     private int sum_votes;
@@ -28,7 +28,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     private void updateDecision(List<Agent> agents) {
         int ppCount = 0;
         int pdCount = 0;
-
+        System.out.println("updateDecision w Decision");
         for (Agent agent : agents) {
             ReasoningChain agentRC = listReasoningChain.getReasoningChainByAgent(agent);
             if (agentRC != null) {
@@ -119,6 +119,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
+        System.out.println("Czy decyzja jest null? " + this.decisions != null);
         if (this.decisions != null) {
             updateDecision(this.listReasoningChain.getAgents());
         }
@@ -147,5 +148,19 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
         for (DecisionObserver observer : observers){
             observer.update(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Decision{" +
+                "listReasoningChain=" + listReasoningChain +
+                ", pp=" + pp +
+                ", pd=" + pd +
+                ", sum_votes=" + sum_votes +
+                ", decision=" + decision +
+                ", decisions=" + decisions +
+                ", observers=" + observers +
+                ", possibleDecisions=" + possibleDecisions +
+                '}';
     }
 }

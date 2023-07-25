@@ -51,7 +51,7 @@ public class AVPController implements AVPObservableController {
                         Slider minSlider,
                         Slider maxSlider,
                         ComboBox<Weight> weightsComboBox) {
-        this.avpWeights = avpWeights;
+        this.avpWeights = projectController.getProject().getAgentValuePropWeight();
         this.projectController = projectController;
         this.avpTable = avpTable;
         this.avpIdColumn = avpIdColumn;
@@ -161,16 +161,12 @@ public class AVPController implements AVPObservableController {
     public void randomizeWeights() {
         // Randomize weights in the model
         Random random = new Random();
-        System.out.println("Keys: " + avpWeights.keySet().toString());
         for (AgentValueProposition avp : avpWeights.keySet()) {
             int min = avpWeights.getScale().getMin();
             int max = avpWeights.getScale().getMax();
             Integer newWeight = min + random.nextInt(max - min + 1);
-            System.out.println(newWeight);
-            System.out.println("wywoływanko");
             this.avpWeights.editWeight(avp, newWeight);
         }
-        System.out.println(this.avpWeights.getAgentValuePropWeights().toString());
         // Force the table to refresh
         avpTable.refresh();
         // Notify the project about the change

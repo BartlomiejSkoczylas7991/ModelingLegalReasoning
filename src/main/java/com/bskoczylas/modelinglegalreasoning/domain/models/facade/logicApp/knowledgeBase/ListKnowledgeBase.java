@@ -14,12 +14,14 @@ import java.util.*;
 
 public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables {
     private List<Agent> agents = new ArrayList<>();
-    private ListPropBaseClean propBaseClean;
+    private ListPropBaseClean propBaseClean = new ListPropBaseClean();
     private ListRules rules = new ListRules();
     private Map<Agent, KnowledgeBase> listKnowledgeBase = new HashMap<Agent, KnowledgeBase>();
     private List<KBObserver> observers = new ArrayList<>();
+    private boolean pbcUpdated = false;
+    private boolean rulesUpdated = false;
 
-    public ListKnowledgeBase(){this.observers = new ArrayList<>();}
+    public ListKnowledgeBase(){}
 
     public ListRules getRules() {
         return this.rules;
@@ -40,19 +42,34 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         for (Agent agent : agents) {
             listKnowledgeBase.put(agent, calculate(agent));
         }
+        notifyObservers();
     }
 
+    // it works
     @Override
     public void updatePBC(ListPropBaseClean propBaseClean) {
-        this.agents = propBaseClean.getAgents();
-        this.propBaseClean = propBaseClean;
+        this.setAgents(propBaseClean.getAgents());
+        System.out.println("TO jest w updatePBC " + System.identityHashCode(this));
+        this.propBaseClean.setListPropBaseClean(propBaseClean.getListPropBaseClean());
         calculateKnowledgeBase();
+        System.out.println(this.listKnowledgeBase);
     }
 
     @Override
-    public void updateRule(ListRules listRules) {
-        this.rules = listRules;
-        calculateKnowledgeBase();
+    public void updateRule(ListRules newRules) {
+        // Dodaj nowe zasady
+        for (Rule rule : newRules.getListRules()) {
+            if (!this.rules.getListRules().contains(rule)) {
+                this.rules.getListRules().add(rule);
+            }
+        }
+        System.out.println("TO jest w updateRule " + System.identityHashCode(this));
+
+        // Usuń stare zasady
+        this.rules.getListRules().removeIf(rule -> !newRules.getListRules().contains(rule));
+
+        // Powiadom obserwatorów
+        notifyObservers();
     }
 
     public List<Agent> getAgents() {
@@ -67,20 +84,8 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         return this.propBaseClean;
     }
 
-    public void setListKnowledgeBase(HashMap<Agent, KnowledgeBase> listKnowledgeBase) {
-        this.listKnowledgeBase = listKnowledgeBase;
-    }
-
     public KnowledgeBase getKnowledgeBase(Agent agent) {
         return listKnowledgeBase.getOrDefault(agent, new KnowledgeBase());
-    }
-
-    public void setPropBaseClean(ListPropBaseClean propBaseClean) {
-        this.propBaseClean = propBaseClean;
-    }
-
-    public void setRules(ListRules rules) {
-        this.rules = rules;
     }
 
     public List<KBObserver> getObservers() {
@@ -108,7 +113,14 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         }
     }
 
-    public Map<Agent, KnowledgeBase> getListKnowledgeBase() {
-        return listKnowledgeBase;
+    @Override
+    public String toString() {
+        return "ListKnowledgeBase{" +
+                "agents=" + agents +
+                ", propBaseClean=" + propBaseClean +
+                ", rules=" + rules +
+                ", listKnowledgeBase=" + listKnowledgeBase +
+                ", observers=" + observers +
+                '}';
     }
 }

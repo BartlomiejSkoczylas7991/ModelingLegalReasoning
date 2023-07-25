@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reasoningChain;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RCObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KBObserver;
@@ -14,16 +16,17 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incom
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ListReasoningChain implements KBObserver, RCObservable {
+public class ListReasoningChain implements KBObserver, RCObservable, IncompPropObserver {
     private List<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
-    private Set<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
-    private Pair<Proposition, Proposition> decisions;
+    private List<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
+    private IncompProp decisions;
     private List<RCObserver> observers = new ArrayList<>();
 
     public ListReasoningChain() {
         this.listReasoningChain = new HashMap<>();
+        this.incompProp = new ArrayList<>();
     }
 
     private Map<Proposition, Integer> calculateVotes(Agent agent, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
@@ -38,10 +41,12 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     }
 
     private Proposition findFinalProposition(Map<Proposition, Integer> votes) {
+        System.out.println("Wywołanie findFinalProposition");
         return Collections.max(votes.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
     private void removeInconsistentRules(Set<Rule> minimalKB, Set<Proposition> visited, Set<Proposition> propBaseClean) {
+        System.out.println("Wywołanie removeInconsistentRules");
         Iterator<Rule> ruleIterator = minimalKB.iterator();
         while (ruleIterator.hasNext()) {
             Rule rule = ruleIterator.next();
@@ -58,6 +63,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     }
 
     private void resolveIncompProp(Set<Rule> minimalKB, Set<Proposition> visited) {
+        System.out.println("Wywołanie resolveIncompProp");
         for (Pair<Proposition, Proposition> incompPair : incompProp) {
             if (visited.contains(incompPair.getFirst()) && visited.contains(incompPair.getSecond())) {
                 // If both conflicting suggestions are in the visited list, delete one of them
@@ -80,6 +86,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     }
 
     private Set<Rule> findMinimalKB(Proposition finalProposition, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean, Set<Proposition> visited) {
+        System.out.println("Wywołanie findMinimalKB");
         Set<Rule> minimalKB = new HashSet<>();
         Stack<Proposition> stack = new Stack<>();
         stack.push(finalProposition);
@@ -103,6 +110,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
     }
 
     private ReasoningChain calculateWithVoting(Agent agent) {
+        System.out.println("Wywołanie calculateWithVoting");
         // Get the subjective knowledge base for a given agent
         KnowledgeBase subjectiveKB = listKnowledgeBase.getKnowledgeBase(agent);
         Set<Proposition> propBaseClean = listKnowledgeBase.getPropBaseClean().getAgentPropBaseClean(agent);
@@ -138,7 +146,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
         ReasoningChain reasoningChain = new ReasoningChain(new KnowledgeBase(visited, minimalKB), finalProposition);
 
         // check if finalProposition is in Pair of decisions
-        if(!decisions.getFirst().equals(finalProposition) && !decisions.getSecond().equals(finalProposition)) {
+        if(!decisions.getPropositionsPair().getFirst().equals(finalProposition) && !decisions.getPropositionsPair().getSecond().equals(finalProposition)) {
             throw new RuntimeException("Final proposition is not a valid decision");
         }
 
@@ -155,23 +163,8 @@ public class ListReasoningChain implements KBObserver, RCObservable {
             for (Agent agent : agents) {
                 listReasoningChain.put(agent, calculateWithVoting(agent));
             }
+            notifyObservers();
         }
-    }
-
-    private Set<Rule> createMinimalKB(Set<Rule> rules, Set<Proposition> visited, Set<Proposition> propBaseClean) {
-        Set<Rule> minimalKB = new HashSet<>();
-        for (Rule rule : rules) {
-            if (visited.contains(rule.getConclusion()) && propBaseClean.contains(rule.getConclusion())) {
-                minimalKB.add(rule);
-                // Add suggestions from the antecedent of the rule to the set of visited proposals
-                visited.addAll(rule.getPremises());
-            }
-        }
-
-        // Remove rules whose premises are not present in propBaseClean
-        minimalKB.removeIf(rule -> !propBaseClean.containsAll(rule.getPremises()));
-
-        return minimalKB;
     }
 
     public List<Agent> getAgents() {
@@ -194,19 +187,19 @@ public class ListReasoningChain implements KBObserver, RCObservable {
         this.listKnowledgeBase = listKnowledgeBase;
     }
 
-    public Set<Pair<Proposition, Proposition>> getIncompProp() {
+    public List<Pair<Proposition, Proposition>> getIncompProp() {
         return incompProp;
     }
 
-    public void setIncompProp(Set<Pair<Proposition, Proposition>> incompProp) {
+    public void setIncompProp(List<Pair<Proposition, Proposition>> incompProp) {
         this.incompProp = incompProp;
     }
 
-    public Pair<Proposition, Proposition> getDecisions() {
+    public IncompProp getDecisions() {
         return decisions;
     }
 
-    public void setDecisions(Pair<Proposition, Proposition> decisions) {
+    public void setDecisions(IncompProp decisions) {
         this.decisions = decisions;
     }
 
@@ -220,16 +213,28 @@ public class ListReasoningChain implements KBObserver, RCObservable {
 
     @Override
     public void updateKB(ListKnowledgeBase knowledgeBase) {
+        System.out.println(knowledgeBase.toString());
         this.listKnowledgeBase = knowledgeBase;
         this.agents = knowledgeBase.getAgents();
-        this.incompProp = knowledgeBase.getRules().getListIncompProp()
-                .getIncompatiblePropositions()
-                .stream()
-                .map(IncompProp::getPropositionsPair)
-                .collect(Collectors.toSet());
-        this.decisions = knowledgeBase.getRules().getListIncompProp().getDecisions();
+        if (this.decisions == null) {
+            System.out.println("decyzjon null");
+        }
+        if (this.decisions != null) {
+            System.out.println("Wywołanie w reason knowledge");
+            calculateReasoningChain();
+        }
+    }
 
-        calculateReasoningChain();
+    @Override
+    public void updateIncomp(ListIncompProp listIncompProp) {
+        if (listIncompProp.decisionsExist()) {
+            Pair<Proposition, Proposition> incompDecisions =  listIncompProp.getDecisions();
+            this.decisions = new IncompProp(listIncompProp.getDecisions(), true);
+        }
+        this.incompProp = listIncompProp.getIncompatiblePropositions_asPair();
+        if (this.decisions != null && this.listKnowledgeBase != null && this.agents != null) {
+            calculateReasoningChain();
+        }
     }
 
     @Override
@@ -260,4 +265,7 @@ public class ListReasoningChain implements KBObserver, RCObservable {
                 .collect(Collectors.joining("\n"));
     }
 
+    public String stringgg() {
+        return listReasoningChain.toString();
+    }
 }

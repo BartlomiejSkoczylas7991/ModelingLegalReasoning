@@ -9,6 +9,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListIncompProp implements PropositionObserver, IncompPropObservable {
     private List<Proposition> propositions;
@@ -77,6 +78,12 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
 
     public List<IncompProp> getIncompatiblePropositions() {
         return incompPropList;
+    }
+
+    public List<Pair<Proposition, Proposition>> getIncompatiblePropositions_asPair() {
+        return incompPropList.stream()
+                .map(IncompProp::getPropositionsPair)
+                .collect(Collectors.toList());
     }
 
     public List<Proposition> getPropositions() {

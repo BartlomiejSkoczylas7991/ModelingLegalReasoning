@@ -72,6 +72,7 @@ public class Project implements ProjectObservable {
         this.listValue.addObserver(this.agentValueToWeight);
         this.listProposition.addObserver(this.agentValuePropWeight);
         this.listProposition.addObserver(this.listIncompProp);
+        this.listIncompProp.addObserver(this.listProposition);
         this.scale.addObserver(this.agentValuePropWeight);
         this.scale.addObserver(this.agentValueToWeight);
         this.agentValuePropWeight.addObserver(this.listPropBaseClean);
@@ -79,12 +80,13 @@ public class Project implements ProjectObservable {
         this.agentValueToWeight.setScale(this.scale);
         this.agentValuePropWeight.setScale(this.scale);
         this.listPropBaseClean.addObserver(this.listKnowledgeBase);
-        this.listIncompProp.addObserver(this.listProposition);
         this.listIncompProp.addObserver(this.report);
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
+        this.listIncompProp.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listRules);
         this.listReasoningChain.addObserver(this.decision);
+        System.out.println("TO jest w listKnowledgeBase " + System.identityHashCode(this.listKnowledgeBase));
         this.decision.addObserver(this.listConsortium);
         this.listConsortium.addObserver(this.courtOpinion);
         this.courtOpinion.addObserver(this.report);

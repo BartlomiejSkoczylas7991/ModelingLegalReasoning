@@ -24,8 +24,6 @@ public class PropositionController implements PropositionControllerObservable {
     private final List<PropositionControllerObserver> observers = new ArrayList<>();
     private Proposition removedProposition;
 
-
-
     public PropositionController(ProjectController projectController) {
         this.propositionTable = projectController.getPropositionTable();
         this.prop1comboBoxIncompProp = projectController.getProp1comboBoxIncompProp();

@@ -30,7 +30,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         for (Map.Entry<Agent, ReasoningChain> entry : listReasoningChain.getListReasoningChain().entrySet()) {
             ReasoningChain rc = entry.getValue();
             Agent agent = entry.getKey();
-
+            System.out.println("updateConsortium");
             // Go through all the syndications and try to find the right one for the agent
             boolean consortiumFound = false;
             for (Consortium consortium : consortiumMap.keySet()) {
@@ -62,7 +62,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium > (numberOfAllAgents / 2)) {
             return ConsortiumType.MAJORITY;
         }
-
+        System.out.println("determineConsortiumType");
         // Plurality
         int maxNumberOfAgentsInOtherConsortiums = allConsortiums.stream()
                 .filter(c -> !c.equals(consortium))
@@ -116,6 +116,17 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
         this.agents = agents;
     }
 
+    @Override
+    public String toString() {
+        return "ListConsortium{" +
+                "listReasoningChain=" + listReasoningChain +
+                ", consortiumMap=" + consortiumMap +
+                ", decision=" + decision +
+                ", agents=" + agents +
+                ", observers=" + observers +
+                '}';
+    }
+
     public List<ConsortiumObserver> getObservers() {
         return observers;
     }
@@ -128,6 +139,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     public void update(Decision decision) {
         this.decision = decision;
         this.listReasoningChain = decision.getListReasoningChain();
+        System.out.println("Update decyzja w ListConsortium");
         updateConsortium(this.listReasoningChain);
     }
 

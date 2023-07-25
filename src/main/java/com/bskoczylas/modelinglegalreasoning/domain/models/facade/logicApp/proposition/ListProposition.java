@@ -83,14 +83,15 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
                 if (prop.equals(decisions.getFirst()) || prop.equals(decisions.getSecond())) {
                     prop.setDecision(true);
                 }
-                notifyObservers(this);
             }
+            notifyObservers(this);
         } else {  // if the decisions are removed, we unset the decisions in the proposal pool
             for (Proposition prop : listProposition) {
                 if (prop.isDecision()) {
                     prop.setDecision(false);
                 }
             }
+            notifyObservers(this);
         }
     }
 

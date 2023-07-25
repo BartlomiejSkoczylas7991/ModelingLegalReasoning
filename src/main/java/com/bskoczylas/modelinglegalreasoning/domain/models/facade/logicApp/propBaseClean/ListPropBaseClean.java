@@ -200,10 +200,14 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
         this.propositions = agentValuePropWeight.getPropositions();
         // if the weight is edited, then do (so that when we add agents and values, it is not done twice)
         if(this.AVPWeight.isEditing()) {
-            if(!(this.AVWeight).isEmpty()) {
+            if(!(this.AVPWeight).isEmpty()) {
                 this.listPropBaseClean = calculatePropBaseClean(this.agents, this.propositions, this.AVWeight, this.AVPWeight);
                 notifyObservers();
             }
         }
+    }
+
+    public String sstring(){
+        return listPropBaseClean.toString();
     }
 }

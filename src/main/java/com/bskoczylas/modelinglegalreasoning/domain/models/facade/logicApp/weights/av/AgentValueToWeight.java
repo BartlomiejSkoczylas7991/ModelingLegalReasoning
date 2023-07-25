@@ -165,6 +165,14 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         }
     }
 
+    public boolean isEmpty() {
+        if (this.agentValueWeights.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void addAVObserver(AVObserver observer) {
         weightObservers.add(observer);

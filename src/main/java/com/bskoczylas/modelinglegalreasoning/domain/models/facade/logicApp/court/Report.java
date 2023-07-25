@@ -136,6 +136,10 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         StringBuilder courtRuling = new StringBuilder();
         courtRuling.append("The Court's ruling:\n");
         courtRuling.append("Decision = ");
+        System.out.println("To jest propbaseclean:" + listPropBaseClean.toString() + listPropBaseClean.sstring());
+        System.out.println("To są rules: " + listRules.toString());
+        System.out.println(listConsortium.toString());
+        System.out.println(courtOpinion.toString());
         courtRuling.append(courtOpinion.getDecision().toString());
         courtRuling.append("\n");
 

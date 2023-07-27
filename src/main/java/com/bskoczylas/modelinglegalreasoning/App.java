@@ -1,5 +1,3 @@
-package com.bskoczylas.modelinglegalreasoning;
-
 import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import javafx.application.Application;
@@ -18,6 +16,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Modeling Legal Reasoning");
+        this.primaryStage.setResizable(false);
         showProjectWindow();
     }
 
@@ -27,9 +26,7 @@ public class App extends Application {
             Parent root = loader.load();
 
             ProjectController controller = loader.getController();
-            // create a new Project here and pass it to the controller
-            Project project = new Project();
-            controller.setProject(project);
+            controller.setApp(this);
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();

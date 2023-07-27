@@ -35,7 +35,8 @@ public class ReasoningChain {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReasoningChain that = (ReasoningChain) o;
-        return Objects.equals(knowledgeBase, that.knowledgeBase) && Objects.equals(decision, that.decision);
+        return Objects.equals(knowledgeBase, that.knowledgeBase) &&
+                Objects.equals(decision, that.decision);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class ReasoningChain {
 
     @Override
     public String toString() {
-        return "<<" + knowledgeBase.toString() + ", " + decision.toString() + ">>";
+        return "<<" + knowledgeBase.toString() + ", " + (decision != null ? decision.toString() : "not decided") + ">>";
     }
 }

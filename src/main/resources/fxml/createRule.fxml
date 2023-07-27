@@ -16,7 +16,7 @@
          <Font size="17.0" />
       </font></Label>
     <ComboBox fx:id="premisesComboBox" layoutX="239.0" layoutY="337.0" prefHeight="24.0" prefWidth="180.0" />
-    <Button layoutX="281.0" layoutY="379.0" onAction="#handleAddPremiseButtonAction" text="Add premise" />
+    <Button layoutX="285.0" layoutY="379.0" onAction="#handleAddPremiseButtonAction" text="Add premise" />
     <TableView fx:id="premisesTable" layoutX="20.0" layoutY="206.0" prefHeight="314.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="premisesColumn" prefWidth="199.0" text="Premises" />
@@ -30,7 +30,7 @@
     <RadioButton fx:id="decisionRadioButton1" layoutX="237.0" layoutY="240.0" prefHeight="18.0" prefWidth="158.0" text="Decision 1" />
     <RadioButton fx:id="decisionRadioButton2" layoutX="237.0" layoutY="276.0" prefHeight="18.0" prefWidth="171.0" text="Decision 2" />
 
-    <Button layoutX="258.0" layoutY="460.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
+    <Button layoutX="273.0" layoutY="461.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
       <font>
          <Font size="22.0" />
       </font></Button>

@@ -73,7 +73,7 @@ public class PropositionController implements PropositionControllerObservable {
     }
 
     public void handleAddProposition() {
-        String propositionName = propositionNameTextField.getText(); // pobierz nazwę Propositiona z pola tekstowego
+        String propositionName = propositionNameTextField.getText().trim(); // pobierz nazwę Propositiona z pola tekstowego
 
         if (!propositionName.isEmpty()) {
             Proposition newProposition = new Proposition(propositionName); // utwórz nową instancję Proposition

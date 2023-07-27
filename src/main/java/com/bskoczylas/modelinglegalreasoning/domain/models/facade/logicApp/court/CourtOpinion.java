@@ -14,10 +14,10 @@ import java.util.*;
 
 public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable {
     private Proposition decision;
-    private Map<ReasoningChain, Set<Agent>> majorityOpinions = new HashMap<>();
-    private Map<ReasoningChain, Set<Agent>> pluralityOpinions = new HashMap<>();
-    private Map<ReasoningChain, Set<Agent>> concurringOpinions = new HashMap<>();
-    private Map<ReasoningChain, Set<Agent>> dissentingOpinions = new HashMap<>();
+    private List<Consortium> majorityOpinions = new ArrayList<>();
+    private List<Consortium> pluralityOpinions = new ArrayList<>();
+    private List<Consortium> concurringOpinions = new ArrayList<>();
+    private List<Consortium> dissentingOpinions = new ArrayList<>();
     private ListConsortium listConsortium;
     private final List<CourtOpinionObserver> observers = new ArrayList<>();
 
@@ -25,44 +25,45 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
 
     @Override
     public void updateCon(ListConsortium listConsortium) {
-        System.out.println("UpdateCon w Court");
         this.listConsortium = listConsortium;
         // We go through each consortium and check its type
+        majorityOpinions.clear();
+        pluralityOpinions.clear();
+        concurringOpinions.clear();
+        dissentingOpinions.clear();
         for (Consortium consortium : listConsortium.getConsortiumMap().keySet()) {
             ConsortiumType type = listConsortium.getConsortiumMap().get(consortium);
-            ReasoningChain rc = consortium.getReasoningChain();
-            Set<Agent> agents = consortium.getAgents();
-            System.out.println("Iteracja w updateCon");
             switch (type) {
                 case MAJORITY:
-                    majorityOpinions.put(rc, agents);
+                    majorityOpinions.add(consortium);
                     break;
                 case PLURALITY:
-                    pluralityOpinions.put(rc, agents);
+                    pluralityOpinions.add(consortium);
                     break;
                 case CONCURRING:
-                    concurringOpinions.put(rc, agents);
+                    concurringOpinions.add(consortium);
                     break;
                 case DISSENTING:
-                    dissentingOpinions.put(rc, agents);
+                    dissentingOpinions.add(consortium);
                     break;
             }
         }
 
         // Finally, we frame the court's decision based on the largest majority or plurality opinion
-        Map.Entry<ReasoningChain, Set<Agent>> largestMajorityOpinion = findLargestOpinion(majorityOpinions);
-        Map.Entry<ReasoningChain, Set<Agent>> largestPluralityOpinion = findLargestOpinion(pluralityOpinions);
+        Consortium largestMajorityOpinion = findLargestOpinion(majorityOpinions);
+        Consortium largestPluralityOpinion = findLargestOpinion(pluralityOpinions);
 
         if (largestMajorityOpinion != null) {
-            this.decision = largestMajorityOpinion.getKey().getDecision();
+            this.decision = largestMajorityOpinion.getReasoningChain().getDecision();
         } else if (largestPluralityOpinion != null) {
-            this.decision = largestPluralityOpinion.getKey().getDecision();
+            this.decision = largestPluralityOpinion.getReasoningChain().getDecision();
         }
+        notifyObservers();
     }
 
-    private Map.Entry<ReasoningChain, Set<Agent>> findLargestOpinion(Map<ReasoningChain, Set<Agent>> opinions) {
-        return opinions.entrySet().stream()
-                .max(Comparator.comparingInt(e -> e.getValue().size()))
+    private Consortium findLargestOpinion(List<Consortium> opinions) {
+        return opinions.stream()
+                .max(Comparator.comparingInt(e -> e.getAgents().size()))
                 .orElse(null);
     }
 
@@ -74,44 +75,24 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
         return this.decision;
     }
 
-    public Map<ReasoningChain, Set<Agent>> getMajorityOpinions() {
+    public List<Consortium> getMajorityOpinions() {
         return this.majorityOpinions;
     }
 
-    public Map<ReasoningChain, Set<Agent>> getPluralityOpinions() {
+    public List<Consortium> getPluralityOpinions() {
         return this.pluralityOpinions;
     }
 
-    public Map<ReasoningChain, Set<Agent>> getConcurringOpinions() {
+    public List<Consortium> getConcurringOpinions() {
         return this.concurringOpinions;
     }
 
-    public Map<ReasoningChain, Set<Agent>> getDissentingOpinions() {
+    public List<Consortium> getDissentingOpinions() {
         return this.dissentingOpinions;
     }
 
     public void setDecision(Proposition decision) {
         this.decision = decision;
-    }
-
-    public void setMajorityOpinions(Map<ReasoningChain, Set<Agent>> majorityOpinions) {
-        this.majorityOpinions = majorityOpinions;
-    }
-
-    public void setPluralityOpinions(Map<ReasoningChain, Set<Agent>> pluralityOpinions) {
-        this.pluralityOpinions = pluralityOpinions;
-    }
-
-    public void setConcurringOpinions(Map<ReasoningChain, Set<Agent>> concurringOpinions) {
-        this.concurringOpinions = concurringOpinions;
-    }
-
-    public void setDissentingOpinions(Map<ReasoningChain, Set<Agent>> dissentingOpinions) {
-        this.dissentingOpinions = dissentingOpinions;
-    }
-
-    public void setListConsortium(ListConsortium listConsortium) {
-        this.listConsortium = listConsortium;
     }
 
     public List<CourtOpinionObserver> getObservers() {

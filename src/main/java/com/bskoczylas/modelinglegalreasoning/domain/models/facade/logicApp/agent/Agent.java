@@ -49,14 +49,13 @@ public class Agent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Agent agent = (Agent) o;
-        return id == agent.id && Objects.equals(name, agent.name);
+        return Objects.equals(name, agent.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
-
     @Override
     public String toString() {
         return name;

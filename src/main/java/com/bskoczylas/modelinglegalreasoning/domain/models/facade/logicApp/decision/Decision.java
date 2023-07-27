@@ -28,16 +28,17 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     private void updateDecision(List<Agent> agents) {
         int ppCount = 0;
         int pdCount = 0;
-        System.out.println("updateDecision w Decision");
-        for (Agent agent : agents) {
-            ReasoningChain agentRC = listReasoningChain.getReasoningChainByAgent(agent);
-            if (agentRC != null) {
-                Proposition agentDecision = agentRC.getDecision();
-                if (agentDecision != null) {
-                    if (agentDecision.equals(decisions.getFirst())) {
-                        ppCount++;
-                    } else if (agentDecision.equals(decisions.getSecond())) {
-                        pdCount++;
+        if (this.listReasoningChain.getAgents() != null) {
+            for (Agent agent : agents) {
+                ReasoningChain agentRC = listReasoningChain.getReasoningChainByAgent(agent);
+                if (agentRC != null) {
+                    Proposition agentDecision = agentRC.getDecision();
+                    if (agentDecision != null) {
+                        if (agentDecision.equals(decisions.getFirst())) {
+                            ppCount++;
+                        } else if (agentDecision.equals(decisions.getSecond())) {
+                            pdCount++;
+                        }
                     }
                 }
             }
@@ -45,10 +46,13 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
 
         if (ppCount > pdCount) {
             decision = decisions.getFirst();
+            notifyObservers();
         } else if (pdCount > ppCount) {
             decision = decisions.getSecond();
+            notifyObservers();
         } else {
-            decision = null;  // A tie, no proposal won a majority of votes.
+            decision = null; // A tie, no proposal won a majority of votes.
+            notifyObservers();
         }
     }
 
@@ -58,34 +62,6 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
 
     public ListReasoningChain getListReasoningChain() {
         return listReasoningChain;
-    }
-
-    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
-        this.listReasoningChain = listReasoningChain;
-    }
-
-    public HashMap<Proposition, Iterator> getPp() {
-        return pp;
-    }
-
-    public void setPp(HashMap<Proposition, Iterator> pp) {
-        this.pp = pp;
-    }
-
-    public HashMap<Proposition, Iterator> getPd() {
-        return pd;
-    }
-
-    public void setPd(HashMap<Proposition, Iterator> pd) {
-        this.pd = pd;
-    }
-
-    public int getSum_votes() {
-        return sum_votes;
-    }
-
-    public void setSum_votes(int sum_votes) {
-        this.sum_votes = sum_votes;
     }
 
     public void setDecision(Proposition decision) {
@@ -119,7 +95,6 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     @Override
     public void updateRC(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
-        System.out.println("Czy decyzja jest null? " + this.decisions != null);
         if (this.decisions != null) {
             updateDecision(this.listReasoningChain.getAgents());
         }
@@ -157,8 +132,6 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
                 ", pp=" + pp +
                 ", pd=" + pd +
                 ", sum_votes=" + sum_votes +
-                ", decision=" + decision +
-                ", decisions=" + decisions +
                 ", observers=" + observers +
                 ", possibleDecisions=" + possibleDecisions +
                 '}';

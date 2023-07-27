@@ -18,8 +18,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decis
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,9 +82,9 @@ public class Project implements ProjectObservable {
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listReasoningChain);
+        this.listIncompProp.addObserver(this.decision);
         this.listIncompProp.addObserver(this.listRules);
         this.listReasoningChain.addObserver(this.decision);
-        System.out.println("TO jest w listKnowledgeBase " + System.identityHashCode(this.listKnowledgeBase));
         this.decision.addObserver(this.listConsortium);
         this.listConsortium.addObserver(this.courtOpinion);
         this.courtOpinion.addObserver(this.report);
@@ -144,7 +142,6 @@ public class Project implements ProjectObservable {
         return name;
     }
 
-    @JsonProperty
     public void setName(String name) {
         this.name = name;
     }

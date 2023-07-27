@@ -92,7 +92,7 @@ public class RuleController implements RuleControllerObservable {
     @FXML
     public void handleAddRuleButtonAction(ActionEvent actionEvent) {
         // Pobierz wybraną decyzję
-        RadioButton selectedDecisionButton = (RadioButton) group.getSelectedToggle(); // nie ma group
+        RadioButton selectedDecisionButton = (RadioButton) group.getSelectedToggle();
         Proposition selectedDecision = selectedDecisionButton == decisionRadioButton1 ? decision1 : decision2;
 
         // Sprawdź, czy została wybrana decyzja i czy są jakiekolwiek przesłanki
@@ -112,10 +112,12 @@ public class RuleController implements RuleControllerObservable {
         // Dodaj zasadę do listy zasad tylko jeżeli jej tam jeszcze nie ma
         if (!listRules.containsSamePremises(newRule)) {
             listRules.addRule(newRule.getPremises(), newRule.getConclusion());
-            System.out.println("lista zasad" + newRule.getPremises());
             // Czyść listę przesłanek
 
-            group.getSelectedToggle().setSelected(false);
+            Toggle selectedToggle = group.getSelectedToggle();
+            if (selectedToggle != null) {
+                selectedToggle.setSelected(false);
+            }
 
             // Powiadom obserwatorów
             notifyRuleContrObservers();

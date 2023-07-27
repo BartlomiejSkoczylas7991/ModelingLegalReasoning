@@ -63,7 +63,7 @@ public class AgentController implements AgContrObservable {
     }
 
     public void handleAddAgent() {
-        String agentName = agentNameTextField.getText(); // pobierz nazwę agenta z pola tekstowego
+        String agentName = agentNameTextField.getText().trim(); // pobierz nazwę agenta z pola tekstowego
 
         if (!agentName.isEmpty()) {
             Agent newAgent = new Agent(agentName); // utwórz nową instancję agenta

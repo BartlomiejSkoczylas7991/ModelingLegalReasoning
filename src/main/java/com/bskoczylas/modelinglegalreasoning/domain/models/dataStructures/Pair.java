@@ -1,7 +1,5 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
 
 public class Pair<F, S> {

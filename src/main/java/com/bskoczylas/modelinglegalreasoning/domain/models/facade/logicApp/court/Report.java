@@ -14,7 +14,16 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reaso
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +46,11 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
     private ListValue listValue = new ListValue();
     private ListProposition listProposition = new ListProposition();
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-    private ListIncompProp incompProp = new ListIncompProp();
     private ListRules listRules = new ListRules();
     private ListReasoningChain listReasoningChains = new ListReasoningChain();
     private ListConsortium listConsortium = new ListConsortium();
     private CourtOpinion courtOpinion = new CourtOpinion();
-    private ListIncompProp listIncompProp;
+    private ListIncompProp listIncompProp = new ListIncompProp();
 
     public Report() {}
 
@@ -52,15 +60,14 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
 
     public List<ReportSection> generateReport() {
         List<ReportSection> report = new ArrayList<>();
-        report.add(new ReportSection("Agents", listAgent.toString()));
-        report.add(new ReportSection("Propositions", listProposition.toString()));
-        report.add(new ReportSection("Incompatible Propositions", listIncompProp.toString()));
-        report.add(new ReportSection("PropBaseClean for Each Agent", listPropBaseClean.toString()));
+        report.add(new ReportSection("Agents: ", listAgent.toString()));
+        report.add(new ReportSection("Propositions: ", listProposition.toString()));
+        report.add(new ReportSection("Incompatible Propositions: ", listIncompProp.toString()));
+        report.add(new ReportSection("PropBaseClean for Each Agent: ", listPropBaseClean.toString()));
         report.add(new ReportSection("Rules", listRules.toString()));
         report.add(new ReportSection("Reasoning Chains of All Agents", listReasoningChains.toString()));
         report.add(new ReportSection("Observations", generateObservations()));
         report.add(new ReportSection("The Court's Ruling", generateCourtRuling()));
-
         return report;
     }
 
@@ -86,12 +93,20 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
             String consortiumName = "Consortium" + consortiumCount;
 
             // Add consortium information
-            observations.append("Chains of ");
-            observations.append(agents.stream().map(Agent::getName).collect(Collectors.joining(", ")));
-            observations.append(" are the same and they constitute ");
+            if (agents.size() > 1) {
+                observations.append("Chains of ");
+                observations.append(agents.stream().map(Agent::getName).collect(Collectors.joining(", ")));
+                observations.append(" are the same and they constitute ");
+            } else {
+                observations.append("Only ");
+                observations.append(agents.stream().findFirst().get().getName());
+                observations.append(" has chain constituting ");
+            }
+
             observations.append(consortiumName);
             observations.append(", ");
-            observations.append(rc.getDecision().toString());
+            Proposition decision = rc.getDecision();
+            observations.append(decision == null ? "not decided" : decision.toString());
             observations.append(" , where ");
             observations.append(consortiumName);
             observations.append(" =< ");
@@ -111,14 +126,23 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         return observations.toString();
     }
 
-    private String generateJudgesInformation(String judgeType, Map<ReasoningChain, Set<Agent>> opinions) {
+    private String generateJudgesInformation(String judgeType, List<Consortium> opinions) {
         StringBuilder judgesInformation = new StringBuilder();
-        for (Map.Entry<ReasoningChain, Set<Agent>> entry : opinions.entrySet()) {
+
+        // Grupowanie opinii według łańcucha rozumowania
+        Map<ReasoningChain, Set<Agent>> groupedOpinions = opinions.stream()
+                .collect(Collectors.groupingBy(
+                        Consortium::getReasoningChain,
+                        Collectors.flatMapping(e -> e.getAgents().stream(), Collectors.toSet())
+                ));
+
+        for (Map.Entry<ReasoningChain, Set<Agent>> entry : groupedOpinions.entrySet()) {
             judgesInformation.append(judgeType);
             judgesInformation.append("<");
             judgesInformation.append(entry.getKey().toString());
             judgesInformation.append(",");
-            judgesInformation.append(entry.getKey().getDecision().toString());
+            Proposition decision = entry.getKey().getDecision();
+            judgesInformation.append(decision == null ? "not decided" : decision.toString());
             judgesInformation.append("> = ");
             judgesInformation.append("{");
             judgesInformation.append(entry.getValue().stream().map(Agent::getName).collect(Collectors.joining(", ")));
@@ -136,11 +160,12 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         StringBuilder courtRuling = new StringBuilder();
         courtRuling.append("The Court's ruling:\n");
         courtRuling.append("Decision = ");
-        System.out.println("To jest propbaseclean:" + listPropBaseClean.toString() + listPropBaseClean.sstring());
-        System.out.println("To są rules: " + listRules.toString());
-        System.out.println(listConsortium.toString());
-        System.out.println(courtOpinion.toString());
-        courtRuling.append(courtOpinion.getDecision().toString());
+        if (courtOpinion.getDecision() == null) {
+            courtRuling.append("draw");
+        }
+        else {
+            courtRuling.append(courtOpinion.getDecision().toString());
+        }
         courtRuling.append("\n");
 
         courtRuling.append(generateJudgesInformation("MajorityJudges", courtOpinion.getMajorityOpinions()));
@@ -156,76 +181,79 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
         return courtRuling.toString();
     }
 
-    public ListAgent getListAgent() {
-        return listAgent;
-    }
+    public void generateReportPDF(List<ReportSection> reportSections, String destinationPath) {
+        try (PDDocument document = new PDDocument()) {
+            PDType0Font font = PDType0Font.load(document, new File("src/main/resources/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf"));
 
-    public void setListAgent(ListAgent listAgent) {
-        this.listAgent = listAgent;
-    }
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
 
-    public ListValue getListValue() {
-        return listValue;
-    }
+            float yPosition = page.getMediaBox().getHeight() - 50;  // Start near the top of the page
+            float titleIndent = 50;
+            float contentIndent = 100;
+            float bottomMargin = 50;  // Bottom margin of the page
 
-    public void setListValue(ListValue listValue) {
-        this.listValue = listValue;
-    }
+            for (ReportSection section : reportSections) {
+                PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
+                contentStream.setFont(font, 14);
 
-    public ListProposition getListProposition() {
-        return listProposition;
-    }
+                // Add title
+                contentStream.beginText();
+                contentStream.newLineAtOffset(titleIndent, yPosition);
+                contentStream.showText(section.getTitle());
+                contentStream.endText();
+                yPosition -= 20;  // Move down for content
+                contentStream.setFont(font, 12);
 
-    public void setListProposition(ListProposition listProposition) {
-        this.listProposition = listProposition;
-    }
+                // Add content
+                String[] lines = section.getContent().split("\n");
 
-    public ListPropBaseClean getListPropBaseClean() {
-        return listPropBaseClean;
-    }
+                for (String line : lines) {
+                    int index = 0;
+                    while (index < line.length()) {
+                        if (yPosition < bottomMargin) {  // If near the bottom of the page
+                            if (contentStream != null) {
+                                contentStream.close();
+                            }
+                            page = new PDPage(PDRectangle.A4);  // Create new page
+                            document.addPage(page);
+                            yPosition = page.getMediaBox().getHeight() - 50;  // Reset yPosition
+                            contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
+                            contentStream.setFont(font, 12);
+                        }
 
-    public void setListPropBaseClean(ListPropBaseClean listPropBaseClean) {
-        this.listPropBaseClean = listPropBaseClean;
-    }
+                        String subLine;
+                        if (line.length() > index + 50) {
+                            int end = line.lastIndexOf(" ", index + 50);
+                            if (end == -1) {
+                                end = index + 50;
+                            }
+                            subLine = line.substring(index, end);
+                            index = end + 1;
+                        } else {
+                            subLine = line.substring(index);
+                            index = line.length();
+                        }
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset(contentIndent, yPosition);
+                        contentStream.setFont(font, 14);
+                        contentStream.showText(subLine);
+                        contentStream.endText();
+                        yPosition -= 16;  // Move down for next line
+                    }
+                    yPosition -= 30;  // Move down for next section
+                }
 
-    public ListRules getListRules() {
-        return listRules;
-    }
+                if (contentStream != null) {
+                    contentStream.close();
+                }
+            }
 
-    public void setListRules(ListRules listRules) {
-        this.listRules = listRules;
-    }
-
-    public ListReasoningChain getListReasoningChains() {
-        return listReasoningChains;
-    }
-
-    public void setListReasoningChains(ListReasoningChain listReasoningChains) {
-        this.listReasoningChains = listReasoningChains;
-    }
-
-    public ListConsortium getListConsortium() {
-        return listConsortium;
-    }
-
-    public void setListConsortium(ListConsortium listConsortium) {
-        this.listConsortium = listConsortium;
-    }
-
-    public CourtOpinion getCourtOpinion() {
-        return courtOpinion;
-    }
-
-    public void setCourtOpinion(CourtOpinion courtOpinion) {
-        this.courtOpinion = courtOpinion;
-    }
-
-    public ListIncompProp getListIncompProp() {
-        return listIncompProp;
-    }
-
-    public void setListIncompProp(ListIncompProp listIncompProp) {
-        this.listIncompProp = listIncompProp;
+            // Save the document after processing all report sections
+            document.save(destinationPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -258,7 +286,7 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
     @Override
     public void updateIncomp(ListIncompProp listIncompProp) {
         this.listIncompProp = listIncompProp;
-        this.listProposition.updateIncomp(this.listIncompProp);
+        this.listProposition.setListProposition(listIncompProp.getPropositions());
     }
 
     public class ReportSection {

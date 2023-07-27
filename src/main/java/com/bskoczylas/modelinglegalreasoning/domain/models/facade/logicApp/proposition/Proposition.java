@@ -1,8 +1,5 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,11 +16,17 @@ public class Proposition {
         this.created = LocalDateTime.now();
     }
 
-    @JsonCreator
-    public Proposition(@JsonProperty("id") int id,
-                       @JsonProperty("statement") String statement,
-                       @JsonProperty("isDecision") boolean isDecision,
-                       @JsonProperty("created") LocalDateTime created) {
+    public Proposition( String statement, boolean isDecision) {
+        this.id = id;
+        this.statement = statement;
+        this.isDecision = isDecision;
+        this.created = LocalDateTime.now();
+        if (id >= next_id) {
+            next_id = id + 1;
+        }
+    }
+
+    public Proposition( int id, String statement, boolean isDecision, LocalDateTime created) {
         this.id = id;
         this.statement = statement;
         this.isDecision = isDecision;
@@ -32,7 +35,7 @@ public class Proposition {
             next_id = id + 1;
         }
     }
-    @JsonProperty
+
     public String getStatement() {
         return this.statement;
     }
@@ -88,6 +91,6 @@ public class Proposition {
 
     @Override
     public String toString() {
-        return this.statement;
+        return this.statement == null ? "not decided" : this.statement;
     }
 }

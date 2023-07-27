@@ -59,7 +59,7 @@ public class ValueController implements ValueControllerObservable {
     }
 
     public void handleAddValue() {
-        String valueName = valueNameTextField.getText(); // pobierz nazwę wartości z pola tekstowego
+        String valueName = valueNameTextField.getText().trim(); // pobierz nazwę wartości z pola tekstowego
 
         if (!valueName.isEmpty()) {
             Value newValue = new Value(valueName); // utwórz nową instancję wartości

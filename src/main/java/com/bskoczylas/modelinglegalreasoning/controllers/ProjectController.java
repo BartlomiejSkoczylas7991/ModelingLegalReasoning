@@ -1,14 +1,13 @@
 package com.bskoczylas.modelinglegalreasoning.controllers;
 
+import com.bskoczylas.modelinglegalreasoning.App;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.Report;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
@@ -29,20 +28,24 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPPair;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.net.URL;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -56,8 +59,13 @@ import java.util.stream.IntStream;
 // 4 initializer
 // 5 handlers
 // 6 observers
-public class ProjectController implements ProjectObserver, AVObserverController, AVPObserverController, AgContrObserver, PropositionControllerObserver, ValueControllerObserver, IncompControllerObserver, RuleControllerObserver {
+public class ProjectController implements Initializable, ProjectObserver, AVObserverController, AVPObserverController, AgContrObserver, PropositionControllerObserver, ValueControllerObserver, IncompControllerObserver, RuleControllerObserver {
         private Project project;
+
+        @FXML
+        private SplitPane splitPane;
+
+        private App app;
 
         // for agent
         @FXML
@@ -200,16 +208,15 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         private Button generatePDFButton;
 
         public ProjectController() {
+                this.project = new Project();
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
-        }
-
-        public void setProject(Project project) {
-                this.project = project;
                 this.project.addProjectObserver(this);
         }
 
-        public void initialize() {
+        @Override
+        public void initialize(URL url, ResourceBundle rb) {
+                splitPane.lookupAll(".split-pane-divider").forEach(div ->  div.setMouseTransparent(true));
                 // Inicjalizacja kontrolerów
                 // Agent section
                 this.agentController = new AgentController(this);
@@ -560,7 +567,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         public void updateAV(AVController avController) {
                 this.avWeights = avController.getAvWeights();
                 this.project.getAgentValueToWeight().setAgentValueWeights(this.avWeights.getAgentValueWeights());
-                System.out.println("TO jest w updateAV " + System.identityHashCode(this.project));
 
                 // Update the ObservableList
                 avPairs.clear();
@@ -680,7 +686,6 @@ public class ProjectController implements ProjectObserver, AVObserverController,
         @Override
         public void updateRuleController(RuleController ruleController) {
                 project.getListRules().setListRules(ruleController.getListRules().getListRules());
-                System.out.println("TO jest w updateRuleController " + System.identityHashCode(project));
 
                 // Aktualizujemy tabelę po dodaniu zasady
                 updateRulesTable();
@@ -702,6 +707,46 @@ public class ProjectController implements ProjectObserver, AVObserverController,
 
         @FXML
         public void handleGeneratePDFButton(ActionEvent actionEvent) {
+                // Generowanie raportu
+                List<Report.ReportSection> reportSections = project.getReport().generateReport();
+
+                // Ustawienie ścieżki docelowej dokumentu PDF
+                String destinationPath = "src/main/resources/pdf/project.pdf";
+
+                // Wywołanie metody generującej PDF
+                report.generateReportPDF(reportSections, destinationPath);
+
+                // Otwarcie pliku PDF
+                try {
+                        File pdfFile = new File(destinationPath);
+                        if (pdfFile.exists()) {
+                                if (Desktop.isDesktopSupported()) {
+                                        new Thread(() -> {
+                                                try {
+                                                        Desktop.getDesktop().open(pdfFile);
+                                                } catch (IOException ex) {
+                                                        ex.printStackTrace();
+                                                }
+                                        }).start();
+                                } else {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setTitle("Error");
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Awt Desktop is not supported!");
+
+                                        alert.showAndWait();
+                                }
+                        } else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText(null);
+                                alert.setContentText("File does not exist!");
+
+                                alert.showAndWait();
+                        }
+                } catch (Exception ex) {
+                        ex.printStackTrace();
+                }
         }
 
         @FXML
@@ -710,7 +755,10 @@ public class ProjectController implements ProjectObserver, AVObserverController,
 
         @FXML
         public void handleNewButton(ActionEvent actionEvent) {
+                app.showProjectWindow();
         }
+
+
 
         @FXML
         public void handleExitButton(ActionEvent actionEvent) {
@@ -1012,5 +1060,9 @@ public class ProjectController implements ProjectObserver, AVObserverController,
 
         public TableColumn<Rule, String> getRulesConclusionsColumn() {
                 return rulesConclusionsColumn;
+        }
+
+        public void setApp(App app) {
+                this.app = app;
         }
 }

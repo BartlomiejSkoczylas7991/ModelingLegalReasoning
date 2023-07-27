@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 // Set Agents, in full agreement on the following conclusion (same RC agents)
 public class Consortium {
     private ReasoningChain reasoningChain;
-    private Set<Agent> agents;// enum ConsortiumType
+    private Set<Agent> agents ;// enum ConsortiumType
 
     public Consortium() {
+        this.agents = new HashSet<>();
     }
 
     public Consortium(ReasoningChain reasoningChain) {
         this.reasoningChain = reasoningChain;
+        this.agents = new HashSet<>();
     }
 
     public ReasoningChain getReasoningChain() {
@@ -35,6 +37,9 @@ public class Consortium {
         this.agents = agents;
     }
 
+    public void addAgent(Agent agent) {
+        this.agents.add(agent);
+    }
 
     @Override
     public String toString() {

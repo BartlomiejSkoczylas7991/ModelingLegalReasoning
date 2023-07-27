@@ -4,6 +4,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,19 @@ public class KnowledgeBase {
 
     public void setRj(Set<Rule> rj) {
         this.rj = rj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KnowledgeBase that = (KnowledgeBase) o;
+        return Objects.equals(pi, that.pi) && Objects.equals(rj, that.rj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pi, rj);
     }
 
     @Override

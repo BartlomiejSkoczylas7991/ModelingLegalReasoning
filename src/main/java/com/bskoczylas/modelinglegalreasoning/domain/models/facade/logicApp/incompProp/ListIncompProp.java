@@ -186,7 +186,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
             }
             notifyObservers();
         }
-
     }
 
     @Override

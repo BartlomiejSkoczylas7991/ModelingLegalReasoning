@@ -49,10 +49,8 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
     @Override
     public void updatePBC(ListPropBaseClean propBaseClean) {
         this.setAgents(propBaseClean.getAgents());
-        System.out.println("TO jest w updatePBC " + System.identityHashCode(this));
         this.propBaseClean.setListPropBaseClean(propBaseClean.getListPropBaseClean());
         calculateKnowledgeBase();
-        System.out.println(this.listKnowledgeBase);
     }
 
     @Override
@@ -63,7 +61,6 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
                 this.rules.getListRules().add(rule);
             }
         }
-        System.out.println("TO jest w updateRule " + System.identityHashCode(this));
 
         // Usuń stare zasady
         this.rules.getListRules().removeIf(rule -> !newRules.getListRules().contains(rule));
@@ -110,6 +107,17 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
     public void notifyObservers() {
         for (KBObserver observer : observers){
             observer.updateKB(this);
+            // Przechodzenie przez klucze w mapie
+            for (Agent agent : listKnowledgeBase.keySet()) {
+                // Tutaj 'agent' będzie kolejnym kluczem w mapie
+                // Możesz użyć 'agent' do otrzymania odpowiadającej mu wartości KnowledgeBase
+
+                KnowledgeBase knowledgeBase = listKnowledgeBase.get(agent);
+
+                // Teraz 'knowledgeBase' zawiera wartość KnowledgeBase dla danego 'agent'
+                // Możesz wykonywać na nim operacje, np. wypisywanie informacji, przetwarzanie itp.
+                // Przykładowo:
+            }
         }
     }
 

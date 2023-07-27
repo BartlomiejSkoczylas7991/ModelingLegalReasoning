@@ -131,7 +131,6 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         for (RuleObserver observer : observers) {
             observer.updateRule(this);
         }
-        System.out.println("CO JEST OBSERWOWANE rules: " + observers);
     }
 
     @Override

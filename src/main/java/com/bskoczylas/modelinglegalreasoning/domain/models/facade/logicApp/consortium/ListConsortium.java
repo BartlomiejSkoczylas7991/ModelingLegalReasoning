@@ -11,8 +11,10 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 
 import java.util.*;
 
+// Zadaniem ListConsortium
 public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     private ListReasoningChain listReasoningChain;
+    private List<Consortium> listConsortium;
     Map<Consortium, ConsortiumType> consortiumMap;
     private Decision decision;
     private List<Agent> agents;
@@ -21,67 +23,81 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     public ListConsortium() {
         this.observers = new ArrayList<ConsortiumObserver>();
         this.consortiumMap = new HashMap<>();
+        this.listConsortium = new ArrayList<>();
     }
 
-    private void updateConsortium(ListReasoningChain listReasoningChain) {
+    void updateConsortium(ListReasoningChain listReasoningChain) {
         this.agents = listReasoningChain.getAgents();
-        this.consortiumMap = new HashMap<>();
+        this.consortiumMap.clear();
+        this.listConsortium.clear();
 
+        // We will group agents by the decision
         for (Map.Entry<Agent, ReasoningChain> entry : listReasoningChain.getListReasoningChain().entrySet()) {
             ReasoningChain rc = entry.getValue();
             Agent agent = entry.getKey();
-            System.out.println("updateConsortium");
-            // Go through all the syndications and try to find the right one for the agent
-            boolean consortiumFound = false;
-            for (Consortium consortium : consortiumMap.keySet()) {
-                if (consortium.getReasoningChain().equals(rc)) {
-                    consortium.getAgents().add(agent);
-                    consortiumFound = true;
-                    break;
+
+            Proposition decision = rc.getDecision();
+            boolean filter = false;
+            for (Consortium consortium : this.listConsortium) {
+                if (consortium.getReasoningChain().equals(rc)){
+                    filter = true;
+                    consortium.addAgent(agent);
                 }
             }
-
-            // If no matching consortium is found, create a new one
-            if (!consortiumFound) {
-                Consortium newConsortium = new Consortium(rc);
-                Set<Agent> newConsortiumAgents = new HashSet<>();
-                newConsortiumAgents.add(agent);
-                newConsortium.setAgents(newConsortiumAgents);
-                consortiumMap.put(newConsortium, null);
+            if (!filter) {
+                Consortium consortium = new Consortium(rc);
+                consortium.addAgent(agent);
+                this.listConsortium.add(consortium);
             }
         }
+
+        for (Consortium consortium : this.listConsortium) {
+            ReasoningChain rc = consortium.getReasoningChain();
+            Set<Agent> agentSet = consortium.getAgents();
+
+            ConsortiumType type = determineConsortiumType(consortium, consortiumMap, this.decision);
+            consortiumMap.put(consortium, type);
+        }
+        notifyObservers();
     }
 
-    private ConsortiumType determineConsortiumType(Consortium consortium, List<Consortium> allConsortiums, Decision decisionClass) {
+    private ConsortiumType determineConsortiumType(Consortium consortium, Map<Consortium, ConsortiumType> consortiumMap, Decision decisionClass) {
         ReasoningChain rc = consortium.getReasoningChain();
-        int numberOfAgentsInConsortium = consortium.getAgents().size();
-        int numberOfAllAgents = this.agents.size(); // "this.agents" is assumed to contain all agents.
-        Proposition decision = decisionClass.getDecision(); // I fetch the current decision from the Decision class
+        if (decision != null && rc.getDecision() != null) {
+           int numberOfAgentsInConsortium = consortium.getAgents().size();
+           int numberOfAllAgents = this.agents.size();
+           Proposition decision = decisionClass.getDecision();
+           // Majority
+           if (decision != null && rc.getDecision().equals(decision) && numberOfAgentsInConsortium > (numberOfAllAgents / 2)) {
+               return ConsortiumType.MAJORITY;
+           }
+            // Plurality
+            boolean isAnyConsortiumBigger = consortiumMap.keySet().stream()
+                    .filter(c -> !c.equals(consortium))
+                    .filter(c -> Objects.nonNull(c.getReasoningChain().getDecision()) && c.getReasoningChain().getDecision().equals(decision))
+                    .anyMatch(c -> c.getAgents().size() > numberOfAgentsInConsortium);
 
-        // Majority
-        if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium > (numberOfAllAgents / 2)) {
-            return ConsortiumType.MAJORITY;
-        }
-        System.out.println("determineConsortiumType");
-        // Plurality
-        int maxNumberOfAgentsInOtherConsortiums = allConsortiums.stream()
-                .filter(c -> !c.equals(consortium))
-                .filter(c -> c.getReasoningChain().getDecision().equals(decision))
-                .mapToInt(c -> c.getAgents().size())
-                .max()
-                .orElse(0);
+            if (rc.getDecision().equals(decision) && !isAnyConsortiumBigger && numberOfAgentsInConsortium <= (numberOfAllAgents / 2)) {
+                return ConsortiumType.PLURALITY;
+            }
+            // Agree
+            int maxNumberOfAgentsInOtherConsortiums = consortiumMap.keySet().stream()
+                    .filter(c -> !c.equals(consortium))
+                    .filter(c -> Objects.nonNull(c.getReasoningChain().getDecision()) && c.getReasoningChain().getDecision().equals(decision))
+                    .mapToInt(c -> c.getAgents().size())
+                    .max()
+                    .orElse(0);
 
-        if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium > maxNumberOfAgentsInOtherConsortiums) {
-            return ConsortiumType.PLURALITY;
-        }
+            if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium < maxNumberOfAgentsInOtherConsortiums) {
+                return ConsortiumType.CONCURRING;
+            }
 
-        // Agree
-        if (rc.getDecision().equals(decision) && numberOfAgentsInConsortium < maxNumberOfAgentsInOtherConsortiums) {
-            return ConsortiumType.CONCURRING;
-        }
-
-        // Oposition
-        return ConsortiumType.DISSENTING;
+            // DISSENTING
+            if(rc.getDecision() == null || !rc.getDecision().equals(decision)){
+                return ConsortiumType.DISSENTING;
+            }
+       }
+       return ConsortiumType.MAJORITY; // no matter what (user can't see it)
     }
 
     public Map<Consortium, ConsortiumType> getConsortiumMap() {
@@ -90,14 +106,6 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
 
     public ListReasoningChain getListReasoningChain() {
         return listReasoningChain;
-    }
-
-    public void setListReasoningChain(ListReasoningChain listReasoningChain) {
-        this.listReasoningChain = listReasoningChain;
-    }
-
-    public void setConsortiumMap(Map<Consortium, ConsortiumType> consortiumMap) {
-        this.consortiumMap = consortiumMap;
     }
 
     public Decision getDecision() {
@@ -120,10 +128,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     public String toString() {
         return "ListConsortium{" +
                 "listReasoningChain=" + listReasoningChain +
-                ", consortiumMap=" + consortiumMap +
-                ", decision=" + decision +
-                ", agents=" + agents +
-                ", observers=" + observers +
+                ", consortiumMap=" + this.listConsortium +
                 '}';
     }
 
@@ -139,7 +144,7 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     public void update(Decision decision) {
         this.decision = decision;
         this.listReasoningChain = decision.getListReasoningChain();
-        System.out.println("Update decyzja w ListConsortium");
+
         updateConsortium(this.listReasoningChain);
     }
 
@@ -159,4 +164,5 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
             observer.updateCon(this);
         }
     }
+
 }

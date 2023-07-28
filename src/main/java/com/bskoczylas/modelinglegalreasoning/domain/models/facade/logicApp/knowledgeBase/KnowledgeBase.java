@@ -30,20 +30,8 @@ public class KnowledgeBase {
         return rj;
     }
 
-    public void addPropToPBC(Proposition proposition){
-        this.pi.add(proposition);
-    }
-
-    public void addRuleToPBC(Rule rule){
-        this.rj.add(rule);
-    }
-
     public void setPi(Set<Proposition> pi) {
         this.pi = pi;
-    }
-
-    public void setRj(Set<Rule> rj) {
-        this.rj = rj;
     }
 
     @Override

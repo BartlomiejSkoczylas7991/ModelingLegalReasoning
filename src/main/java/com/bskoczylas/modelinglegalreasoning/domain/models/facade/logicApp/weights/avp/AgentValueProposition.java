@@ -57,10 +57,6 @@ public class AgentValueProposition {
         return Objects.hash(agent, value, proposition);
     }
 
-    public boolean matchesAgentValue(AgentValue agentValue) {
-        return agent.equals(agentValue.getAgent()) && value.equals(agentValue.getValue());
-    }
-
     @Override
     public String toString() {
         return "(" + agent + ", " + value + ", " + proposition + ")";

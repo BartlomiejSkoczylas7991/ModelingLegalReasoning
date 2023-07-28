@@ -22,10 +22,6 @@ public class ReasoningChain {
         return decision;
     }
 
-    public void setKnowledgeBase(KnowledgeBase knowledgeBase) {
-        this.knowledgeBase = knowledgeBase;
-    }
-
     public void setDecision(Proposition decision) {
         this.decision = decision;
     }

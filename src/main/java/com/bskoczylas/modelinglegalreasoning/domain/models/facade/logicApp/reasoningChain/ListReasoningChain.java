@@ -177,18 +177,6 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         this.agents = agents;
     }
 
-    public void setListReasoningChain(HashMap<Agent, ReasoningChain> listReasoningChain) {
-        this.listReasoningChain = listReasoningChain;
-    }
-
-    public ListKnowledgeBase getListKnowledgeBase() {
-        return listKnowledgeBase;
-    }
-
-    public void setListKnowledgeBase(ListKnowledgeBase listKnowledgeBase) {
-        this.listKnowledgeBase = listKnowledgeBase;
-    }
-
     public List<Pair<Proposition, Proposition>> getIncompProp() {
         return incompProp;
     }

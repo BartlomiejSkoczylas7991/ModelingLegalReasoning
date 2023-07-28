@@ -128,7 +128,6 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
                 ", propBaseClean=" + propBaseClean +
                 ", rules=" + rules +
                 ", listKnowledgeBase=" + listKnowledgeBase +
-                ", observers=" + observers +
                 '}';
     }
 }

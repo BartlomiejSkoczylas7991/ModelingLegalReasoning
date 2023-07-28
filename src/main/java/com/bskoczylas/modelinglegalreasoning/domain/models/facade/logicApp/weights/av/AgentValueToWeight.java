@@ -30,9 +30,6 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         this.values = new LinkedList<Value>();
     }
 
-    public AgentValueToWeight(HashMap<Object, Object> objectObjectHashMap, List<Agent> agents, List<Value> values, Scale scale) {
-    }
-
     public Set<AgentValue> keySet() {
         return agentValueWeights.keySet();
     }
@@ -229,18 +226,6 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
-    }
-
-    public void setValues(List<Value> values) {
-        this.values = values;
-    }
-
-    public List<AVObserver> getWeightObservers() {
-        return weightObservers;
-    }
-
-    public List<Value> getValues() {
-        return values;
     }
 
     public Scale getScale() {

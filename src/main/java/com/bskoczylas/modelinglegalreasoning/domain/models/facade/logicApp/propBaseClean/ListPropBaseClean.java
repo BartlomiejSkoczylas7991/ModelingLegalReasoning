@@ -81,17 +81,10 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
         return propStatements;
     }
 
-    public HashMap<Agent, Set<Proposition>> getPropBaseClean() {
-        return listPropBaseClean;
-    }
-
     public Set<Proposition> getAgentPropBaseClean(Agent agent){
         return listPropBaseClean.get(agent);
     }
 
-    public void setPropBaseClean(HashMap<Agent, Set<Proposition>> propBaseClean) {
-        this.listPropBaseClean = propBaseClean;
-    }
 
     public List<Proposition> getPropositions() {
         return propositions;
@@ -99,22 +92,6 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
 
     public void setPropositions(List<Proposition> propositions) {
         this.propositions = propositions;
-    }
-
-    public AgentValueToWeight getAVWeight() {
-        return AVWeight;
-    }
-
-    public void setAVWeight(AgentValueToWeight AVWeight) {
-        this.AVWeight = AVWeight;
-    }
-
-    public AgentValuePropWeight getAVPWeight() {
-        return AVPWeight;
-    }
-
-    public void setAVPWeight(AgentValuePropWeight AVPWeight) {
-        this.AVPWeight = AVPWeight;
     }
 
     public HashMap<Agent, Set<Proposition>> getListPropBaseClean() {
@@ -205,9 +182,5 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
                 notifyObservers();
             }
         }
-    }
-
-    public String sstring(){
-        return listPropBaseClean.toString();
     }
 }

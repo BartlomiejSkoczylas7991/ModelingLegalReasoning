@@ -65,21 +65,6 @@ public class IncompProp {
         this.id = id;
     }
 
-    public static int getNextId() {
-        return nextId;
-    }
-
-    public static void setNextId(int nextId) {
-        IncompProp.nextId = nextId;
-    }
-    public String getProp1Name() {
-        return this.propositionsPair.getKey().getStatement(); // przyjmując, że obiekt Proposition ma metodę getName()
-    }
-
-    public String getProp2Name() {
-        return this.propositionsPair.getValue().getStatement(); // przyjmując, że obiekt Proposition ma metodę getName()
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

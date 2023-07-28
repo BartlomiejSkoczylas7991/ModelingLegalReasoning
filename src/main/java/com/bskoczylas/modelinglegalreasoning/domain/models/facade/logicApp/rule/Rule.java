@@ -3,6 +3,7 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,35 +40,12 @@ public class Rule {
         return id;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public static int getNextId() {
-        return nextId;
-    }
-
-    public static void setNextId(int nextId) {
-        Rule.nextId = nextId;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setPremises(Set<Proposition> premises) {
-        this.premises = premises;
-    }
-
-    public void setConclusion(Proposition conclusion) {
-        this.conclusion = conclusion;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public boolean isApplicableTo(Set<Proposition> propositions) {
-        return propositions.containsAll(this.premises);
+    public String getFormattedCreated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return created.format(formatter);
     }
 }

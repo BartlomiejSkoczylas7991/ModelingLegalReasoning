@@ -21,6 +21,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.Proje
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Project implements ProjectObservable {
     private static int nextId = 0;
     private String id;
@@ -186,28 +187,8 @@ public class Project implements ProjectObservable {
         this.listKnowledgeBase = listKnowledgeBase;
     }
 
-    public ListReasoningChain getListReasoningChain() {
-        return listReasoningChain;
-    }
-
     public void setListReasoningChain(ListReasoningChain listReasoningChain) {
         this.listReasoningChain = listReasoningChain;
-    }
-
-    public ListConsortium getListConsortium() {
-        return listConsortium;
-    }
-
-    public void setListConsortium(ListConsortium listConsortium) {
-        this.listConsortium = listConsortium;
-    }
-
-    public CourtOpinion getCourtOpinion() {
-        return courtOpinion;
-    }
-
-    public void setCourtOpinion(CourtOpinion courtOpinion) {
-        this.courtOpinion = courtOpinion;
     }
 
     public List<ProjectObserver> getObservers() {
@@ -220,10 +201,6 @@ public class Project implements ProjectObservable {
 
     public ListIncompProp getListIncompProp() {
         return listIncompProp;
-    }
-
-    public void setListIncompProp(ListIncompProp listIncompProp) {
-        this.listIncompProp = listIncompProp;
     }
 
     public AgentValueToWeight getAgentValueToWeight() {

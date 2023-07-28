@@ -40,14 +40,4 @@ public class Weight implements Comparable<Weight> {
     public void setWeight(Object value) {
         this.value = value;
     }
-
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
-    }
-
-
 }

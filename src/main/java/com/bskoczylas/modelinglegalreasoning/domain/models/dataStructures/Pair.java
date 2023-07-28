@@ -50,7 +50,4 @@ public class Pair<F, S> {
         return this.second;
     }
 
-    public boolean exists() {
-        return first != null && second != null;
-    }
 }

@@ -20,9 +20,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     private int sum_votes;
     private Proposition decision;
     private Pair<Proposition, Proposition> decisions;
-    private List<DecisionObserver> observers = new ArrayList<>();;
-    private Pair<Proposition, Proposition> possibleDecisions;
-
+    private List<DecisionObserver> observers = new ArrayList<>();
     public Decision() {}
 
     private void updateDecision(List<Agent> agents) {
@@ -72,24 +70,12 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
         return decisions;
     }
 
-    public void setDecisions(Pair<Proposition, Proposition> decisions) {
-        this.decisions = decisions;
-    }
-
     public List<DecisionObserver> getObservers() {
         return observers;
     }
 
     public void setObservers(List<DecisionObserver> observers) {
         this.observers = observers;
-    }
-
-    public Pair<Proposition, Proposition> getPossibleDecisions() {
-        return possibleDecisions;
-    }
-
-    public void setPossibleDecisions(Pair<Proposition, Proposition> possibleDecisions) {
-        this.possibleDecisions = possibleDecisions;
     }
 
     @Override
@@ -132,8 +118,6 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
                 ", pp=" + pp +
                 ", pd=" + pd +
                 ", sum_votes=" + sum_votes +
-                ", observers=" + observers +
-                ", possibleDecisions=" + possibleDecisions +
                 '}';
     }
 }

@@ -26,14 +26,6 @@ public class Scale implements ScaleObservable {
         notifyObservers();
     }
 
-    public Pair<Integer, Integer> getElements() {
-        return elements;
-    }
-
-    public void setElements(Pair<Integer, Integer> elements) {
-        this.elements = elements;
-    }
-
     public List<ScaleObserver> getObservers() {
         return observers;
     }

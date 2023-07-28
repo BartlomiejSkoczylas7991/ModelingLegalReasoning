@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Agent {
@@ -28,20 +29,9 @@ public class Agent {
         return id;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public static int getNextId() {
-        return nextId;
-    }
-
-    public static void setNextId(int nextId) {
-        Agent.nextId = nextId;
+    public String getFormattedCreated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return created.format(formatter);
     }
 
     @Override

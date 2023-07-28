@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Proposition {
@@ -40,14 +41,6 @@ public class Proposition {
         return this.statement;
     }
 
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
-
-    public static int getNext_id() {
-        return next_id;
-    }
-
     public boolean isDecision() {
         return isDecision;
     }
@@ -56,16 +49,9 @@ public class Proposition {
         isDecision = decision;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public static void setNext_id(int next_id) {
-        Proposition.next_id = next_id;
+    public String getFormattedCreated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return created.format(formatter);
     }
 
     public int getId() {

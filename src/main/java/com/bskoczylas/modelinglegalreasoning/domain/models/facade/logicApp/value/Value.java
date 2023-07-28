@@ -1,6 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Value {
@@ -41,6 +42,11 @@ public class Value {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFormattedCreated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return created.format(formatter);
     }
 
     public void setCreated(LocalDateTime created) {

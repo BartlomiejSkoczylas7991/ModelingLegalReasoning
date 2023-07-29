@@ -224,7 +224,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 // Ustawienie kolumn w tabeli
                 agentIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-                agentCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
+                agentCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
                 agentNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
                 agentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -234,7 +234,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.valueController.addValueContrObserver(this);
 
                 valueIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-                valueCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
+                valueCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
                 valueNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 
@@ -245,7 +245,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.propositionController.addPropositionContrObserver(this);
 
                 propositionIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-                propositionCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
+                propositionCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
                 propositionNameColumn.setCellValueFactory(new PropertyValueFactory<>("statement"));
 
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

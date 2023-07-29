@@ -28,17 +28,29 @@ public class Value {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Value.nextId = nextId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFormattedCreated() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return created.format(formatter);
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     @Override

@@ -42,14 +42,6 @@ public class Agent {
         return Objects.equals(name, agent.name);
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(name);

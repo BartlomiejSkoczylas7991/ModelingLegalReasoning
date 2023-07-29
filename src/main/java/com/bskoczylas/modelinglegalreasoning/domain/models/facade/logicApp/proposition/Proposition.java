@@ -62,6 +62,19 @@ public class Proposition {
         this.id = id;
     }
 
+
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

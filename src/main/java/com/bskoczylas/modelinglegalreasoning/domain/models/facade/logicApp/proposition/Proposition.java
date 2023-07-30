@@ -62,7 +62,6 @@ public class Proposition {
         this.id = id;
     }
 
-
     public void setStatement(String statement) {
         this.statement = statement;
     }

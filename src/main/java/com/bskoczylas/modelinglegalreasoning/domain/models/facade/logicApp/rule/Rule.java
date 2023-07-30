@@ -44,6 +44,10 @@ public class Rule {
         this.id = id;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     public String getFormattedCreated() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return created.format(formatter);

@@ -35,6 +35,24 @@ public class IncompProp {
         this.propositionsPair = propositionsPair;
     }
 
+    public Proposition getProp1() {
+        Proposition proposition = propositionsPair.getFirst();
+        return proposition;
+    }
+
+    public String getProp1Name() {
+        return this.getProp1().getStatement();
+    }
+
+    public Proposition getProp2() {
+        Proposition proposition = propositionsPair.getSecond();
+        return proposition;
+    }
+
+    public String getProp2Name() {
+        return this.getProp2().getStatement();
+    }
+
     public LocalDateTime getCreated() {
         return created;
     }

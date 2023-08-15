@@ -41,7 +41,7 @@ public class ListPropBaseCleanTest {
         List<Proposition> propositions = new ArrayList<>();
 
         // Wywołanie metody do przetestowania
-        HashMap<Agent, Set<Proposition>> result = listPropBaseClean.calculatePropBaseClean(agents, propositions, AVWeight, AVPWeight);
+        Map<Agent, Set<Proposition>> result = listPropBaseClean.calculatePropBaseClean(agents, propositions, AVWeight, AVPWeight);
 
         // Sprawdzanie wyniku
         // Tu powinien być twój kod sprawdzający, czy wynik jest poprawny. To zależy od tego, jakie są oczekiwane wyniki.

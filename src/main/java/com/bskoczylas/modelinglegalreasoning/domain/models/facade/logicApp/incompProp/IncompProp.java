@@ -88,11 +88,12 @@ public class IncompProp {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IncompProp that = (IncompProp) o;
-        return id == that.id && isDecision == that.isDecision && Objects.equals(propositionsPair, that.propositionsPair);
+        return isDecision.get() == that.isDecision.get() &&
+                propositionsPair.equals(that.getPropositionsPair());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, propositionsPair, isDecision);
+        return Objects.hash(propositionsPair, isDecision.get());
     }
 }

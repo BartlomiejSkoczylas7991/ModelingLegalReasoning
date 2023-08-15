@@ -24,7 +24,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
     private List<Value> values;
     private List<Proposition> propositions;
     private boolean isEditing = false;
-    private List<AVPObserver> weightObservers = new ArrayList<>();
+    private List<AVPObserver> observers = new ArrayList<>();
     private Scale scale;
 
     public AgentValuePropWeight() {
@@ -33,7 +33,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         this.values = new LinkedList<Value>();
         this.propositions = new LinkedList<Proposition>();
         this.scale = new Scale();
-        this.weightObservers = new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
     public Set<AgentValueProposition> keySet() {
@@ -64,7 +64,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
     }
 
     public void setAgents(List<Agent> agents) {
-        this.agents = agents;
+        this.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        agents = agents;
     }
 
     public List<Value> getValues() {
@@ -93,14 +93,6 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     public boolean isEditing() {
         return isEditing;
-    }
-
-    public List<AVPObserver> getWeightObservers() {
-        return weightObservers;
-    }
-
-    public void setWeightObservers(List<AVPObserver> weightObservers) {
-        this.weightObservers = weightObservers;
     }
 
     public Weight getWeight(AgentValue agentValue) {
@@ -316,17 +308,17 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     @Override
     public void addObserver(AVPObserver observer) {
-        weightObservers.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void removeObserver(AVPObserver observer) {
-        weightObservers.remove(observer);
+        observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (AVPObserver observer : weightObservers) {
+        for (AVPObserver observer : observers) {
             observer.updateAVP(this);
         }
     }

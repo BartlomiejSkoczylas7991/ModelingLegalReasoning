@@ -79,12 +79,12 @@ public class Proposition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proposition that = (Proposition) o;
-        return id == that.id && Objects.equals(statement, that.statement);
+        return Objects.equals(statement, that.statement);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, statement);
+        return Objects.hash(statement);
     }
 
     @Override

@@ -41,12 +41,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         notifyObservers();
     }
 
-    public void setDecisions(Pair<Proposition, Proposition> decisions) {
-        IncompProp incompProp = new IncompProp(decisions, true);
-        this.incompPropList.add(incompProp);
-        notifyObservers();
-    }
-
     public IncompProp getDecision() {
         for (IncompProp prop : incompPropList) {
             if (prop.isDecision()) {
@@ -134,31 +128,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
         notifyObservers();
     }
 
-    public List<IncompPropObserver> getObservers() {
-        return observers;
-    }
-
-    public void setObservers(List<IncompPropObserver> observers) {
-        this.observers = observers;
-    }
-
-    @Override
-    public void addObserver(IncompPropObserver observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(IncompPropObserver observer) {
-        this.observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (IncompPropObserver observer : this.observers) {
-            observer.updateIncomp(this);
-        }
-    }
-
     public boolean decisionsExist() {
         for (IncompProp pair : this.incompPropList){
             if (pair.isDecision()) {
@@ -185,6 +154,31 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
                 incompPropList.remove(entry);
             }
             notifyObservers();
+        }
+    }
+
+    public List<IncompPropObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<IncompPropObserver> observers) {
+        this.observers = observers;
+    }
+
+    @Override
+    public void addObserver(IncompPropObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(IncompPropObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (IncompPropObserver observer : this.observers) {
+            observer.updateIncomp(this);
         }
     }
 

@@ -164,5 +164,4 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
             observer.updateCon(this);
         }
     }
-
 }

@@ -95,8 +95,8 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         return isEditing;
     }
 
-    public Weight getWeight(AgentValue agentValue) {
-        return null;
+    public Weight getWeight(AgentValueProposition agentValueProposition) {
+        return this.agentValuePropWeights.get(agentValueProposition);
     }
 
     public void editWeight(AgentValueProposition agentValueProposition, Integer newWeight) {

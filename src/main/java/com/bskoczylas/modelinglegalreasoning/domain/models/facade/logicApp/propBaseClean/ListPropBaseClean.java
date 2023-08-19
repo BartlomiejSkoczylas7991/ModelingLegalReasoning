@@ -29,7 +29,7 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
         this.listPropBaseClean = new HashMap<>();
     }
 
-    protected HashMap<Agent, Set<Proposition>> calculatePropBaseClean(List<Agent> agents,
+    public HashMap<Agent, Set<Proposition>> calculatePropBaseClean(List<Agent> agents,
                                                                       List<Proposition> props,
                                                                       AgentValueToWeight agentValueToWeight,
                                                                       AgentValuePropWeight agentValuePropWeight) {
@@ -112,6 +112,10 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
+    }
+
+    public AgentValueToWeight getAVWeight() {
+        return AVWeight;
     }
 
     public List<Agent> getAgents() {

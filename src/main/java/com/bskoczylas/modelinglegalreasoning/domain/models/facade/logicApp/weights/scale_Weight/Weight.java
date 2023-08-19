@@ -12,6 +12,24 @@ public class Weight implements Comparable<Weight> {
         this.value = value;
     }
 
+    public Weight(Object value) {
+        if (value.equals("?")) {
+            this.scale = new Scale(0, 15);
+        } else {
+            int intValue = (Integer) value;
+            if (intValue < 5) {
+                this.scale = new Scale(intValue, 15);
+            } else {
+                this.scale = new Scale(0, 15);
+            }
+        }
+
+        if (!value.equals("?") && !scale.contains((Integer) value)) {
+            throw new IllegalArgumentException("Value not in scale");
+        }
+        this.value = value;
+    }
+
     public Object getWeight() {
         return this.value;
     }

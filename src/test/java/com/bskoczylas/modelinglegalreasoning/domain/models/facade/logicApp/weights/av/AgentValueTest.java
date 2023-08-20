@@ -10,7 +10,7 @@ class AgentValueTest {
     @Test
     void testConstructor() {
         Agent agent = new Agent("Alice");
-        Value value = new Value("Truth"); // Ustal wartość według konstruktora klasy Value
+        Value value = new Value("Truth");
         AgentValue agentValue = new AgentValue(agent, value);
         assertEquals(agent, agentValue.getAgent());
         assertEquals(value, agentValue.getValue());
@@ -20,7 +20,7 @@ class AgentValueTest {
     void testSetAgent() {
         Agent agent1 = new Agent("Alice");
         Agent agent2 = new Agent("Bob");
-        Value value = new Value("Truth"); // Ustal wartość według konstruktora klasy Value
+        Value value = new Value("Truth");
         AgentValue agentValue = new AgentValue(agent1, value);
         agentValue.setAgent(agent2);
         assertEquals(agent2, agentValue.getAgent());
@@ -39,11 +39,11 @@ class AgentValueTest {
     @Test
     void testEqualsAndHashCode() {
         Agent agent1 = new Agent("Alice");
-        Value value1 = new Value("Truth"); // Ustal wartość według konstruktora klasy Value
+        Value value1 = new Value("Truth");
         AgentValue agentValue1 = new AgentValue(agent1, value1);
 
         Agent agent2 = new Agent("Alice");
-        Value value2 = new Value("Truth"); // Ustal tę samą wartość co value1
+        Value value2 = new Value("Truth");
         AgentValue agentValue2 = new AgentValue(agent2, value2);
 
         assertTrue(agentValue1.equals(agentValue2) && agentValue2.equals(agentValue1));

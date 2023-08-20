@@ -26,7 +26,7 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
 
     public ListPropBaseClean(){
         this.observers = new ArrayList<>();
-        this.listPropBaseClean = new HashMap<>();
+        this.listPropBaseClean = new HashMap<Agent, Set<Proposition>>();
     }
 
     public HashMap<Agent, Set<Proposition>> calculatePropBaseClean(List<Agent> agents,
@@ -79,6 +79,31 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
             }
         }
         return propStatements;
+    }
+
+    @Override
+    public void updateAV(AgentValueToWeight agentValueToWeight) {
+        // Update the weight for a given AgentValue
+        this.AVWeight = agentValueToWeight;
+        this.agents = agentValueToWeight.getAgents();
+        // if the weight is edited, then do (so that when we add agents and values, it is not done twice)
+            if(!(propositions).isEmpty() || !(this.AVPWeight).isEmpty()) {
+                this.listPropBaseClean = calculatePropBaseClean(this.agents, this.propositions, this.AVWeight, this.AVPWeight);
+                notifyObservers();
+        }
+    }
+
+    @Override
+    public void updateAVP(AgentValuePropWeight agentValuePropWeight) {
+        // Update the weight for a given AgentValue
+        this.AVPWeight = agentValuePropWeight;
+        this.agents = agentValuePropWeight.getAgents();
+        this.propositions = agentValuePropWeight.getPropositions();
+        // if the weight is edited, then do (so that when we add agents and values, it is not done twice)
+        if(!(this.AVPWeight).isEmpty()) {
+            this.listPropBaseClean = calculatePropBaseClean(this.agents, this.propositions, this.AVWeight, this.AVPWeight);
+            notifyObservers();
+        }
     }
 
     public Set<Proposition> getAgentPropBaseClean(Agent agent){
@@ -157,34 +182,5 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
             }
         }
         return sb.toString();
-    }
-
-    @Override
-    public void updateAV(AgentValueToWeight agentValueToWeight) {
-        // Update the weight for a given AgentValue
-        this.AVWeight = agentValueToWeight;
-        this.agents = agentValueToWeight.getAgents();
-        // if the weight is edited, then do (so that when we add agents and values, it is not done twice)
-        if(this.AVWeight.isEditing()) {
-            if(!(propositions).isEmpty() || !(this.AVPWeight).isEmpty()) {
-                this.listPropBaseClean = calculatePropBaseClean(this.agents, this.propositions, this.AVWeight, this.AVPWeight);
-                notifyObservers();
-            }
-        }
-    }
-
-    @Override
-    public void updateAVP(AgentValuePropWeight agentValuePropWeight) {
-        // Update the weight for a given AgentValue
-        this.AVPWeight = agentValuePropWeight;
-        this.agents = agentValuePropWeight.getAgents();
-        this.propositions = agentValuePropWeight.getPropositions();
-        // if the weight is edited, then do (so that when we add agents and values, it is not done twice)
-        if(this.AVPWeight.isEditing()) {
-            if(!(this.AVPWeight).isEmpty()) {
-                this.listPropBaseClean = calculatePropBaseClean(this.agents, this.propositions, this.AVWeight, this.AVPWeight);
-                notifyObservers();
-            }
-        }
     }
 }

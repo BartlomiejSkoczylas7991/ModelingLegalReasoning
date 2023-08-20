@@ -17,13 +17,18 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 
 import java.util.*;
-
+// zadanie
+// konstruktor
+// gety
+// sety - by powiadamiały gdy się ustawia...
+// dodawanie
+// update
+//obserwatorzy
 public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight> implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
     private Map<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
     private List<Proposition> propositions;
-    private boolean isEditing = false;
     private List<AVPObserver> observers = new ArrayList<>();
     private Scale scale;
 
@@ -33,21 +38,19 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         this.values = new LinkedList<Value>();
         this.propositions = new LinkedList<Proposition>();
         this.scale = new Scale();
-        this.observers = new ArrayList<>();
     }
 
     public Set<AgentValueProposition> keySet() {
         return agentValuePropWeights.keySet();
     }
 
-    public void addValue(Agent agent, Value value, Proposition prop, Weight weight) {
-        AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
-        this.agentValuePropWeights.put(agentValueProp, weight);
-    }
-
     public Weight getWeight(Agent agent, Value value, Proposition prop) {
         AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
         return this.agentValuePropWeights.get(agentValueProp);
+    }
+
+    public Weight getWeight(AgentValueProposition agentValueProposition) {
+        return this.agentValuePropWeights.get(agentValueProposition);
     }
 
     public Map<AgentValueProposition, Weight> getAgentValuePropWeights() {
@@ -89,21 +92,34 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     public void setScale(Scale scale) {
         this.scale = scale;
+        notifyObservers();
     }
 
-    public boolean isEditing() {
-        return isEditing;
-    }
+    public void addWeight(Agent agent, Value value, Proposition prop, Weight weight) {
+        // if agent, value and proposition exists
+        addAgent(agent);
+        addValue(value);
+        addProposition(prop);
 
-    public Weight getWeight(AgentValueProposition agentValueProposition) {
-        return this.agentValuePropWeights.get(agentValueProposition);
+        // add weight
+        AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
+        agentValuePropWeights.put(agentValueProp, weight);
+        notifyObservers();
     }
 
     public void editWeight(AgentValueProposition agentValueProposition, Integer newWeight) {
         Weight weight = agentValuePropWeights.get(agentValueProposition);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);
-            setEditing(true);
+            notifyObservers();
+        }
+    }
+
+    public void editWeight(Agent agent, Value value, Proposition proposition, Integer newWeight) {
+        AgentValueProposition agentValueProposition = new AgentValueProposition(agent, value, proposition);
+        Weight weight = agentValuePropWeights.get(agentValueProposition);
+        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
+            weight.setWeight(newWeight);
             notifyObservers();
         }
     }
@@ -115,11 +131,6 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
             agentValuePropWeights.put(agentValueProposition, new Weight(scale, "?"));  // Default "?" for new scales
         }
     }
-
-    public void setEditing(boolean isEditing) {
-        this.isEditing = isEditing;
-    }
-
 
     @Override
     public String toString() {
@@ -147,7 +158,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
         removedAgents.removeAll(updatedAgents);
         // Remove the associated AgentValuePropWeights
         for (Agent agent : removedAgents) {
-            this.values.remove(agent);
+            this.agents.remove(agent);
             this.agentValuePropWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
         }
 
@@ -163,8 +174,6 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
                 }
             }
         }
-
-        setEditing(false);
         notifyObservers();
     }
 
@@ -194,7 +203,6 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
             }
         }
 
-        setEditing(false);
         notifyObservers();
     }
 
@@ -224,19 +232,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
             }
         }
 
-        setEditing(false);
         notifyObservers();
-    }
-
-    public void addWeight(Agent agent, Value value, Proposition prop, Weight weight) {
-        // if agent, value and proposition exists
-        addAgent(agent);
-        addValue(value);
-        addProposition(prop);
-
-        // add weight
-        AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
-        agentValuePropWeights.put(agentValueProp, weight);
     }
 
     public void addAgent(Agent agent) {

@@ -5,17 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
-      <change afterPath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropositionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/KnowledgeBaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortium.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortium.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/ProjectTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/ProjectTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/AgentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/AgentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/ListAgentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/ListAgentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortiumTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortiumTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/IncompPropTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/IncompPropTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/ListIncompPropTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/ListIncompPropTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/ListPropositionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/ListPropositionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/PropositionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/PropositionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/value/ValueTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/value/ValueTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropositionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropositionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/ScaleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/ScaleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/test/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/WeightTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/WeightTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,30 +67,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-controls/18.0.2/javafx-controls-18.0.2.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.32722512&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowRun.ShowToolbar" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+  </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\magisterka\Dodanie_nowego\ModelingLegalReasoning\src\test\java" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/resources/com/bskoczylas/modelinglegalreasoning" />
@@ -90,23 +99,23 @@
       <recent name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ListPropBaseCleanTest">
-    <configuration name="AgentValueTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.ListPropBaseCleanTest.testCalculateAgentPropositions">
+    <configuration name="AgentValuePropWeightTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ModelingLegalReasoning" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.*" />
+          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av" />
-      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueTest" />
+      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp" />
+      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeightTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AgentValueTest.testEqualsAndHashCode" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AgentValueToWeightTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ModelingLegalReasoning" />
       <extension name="coverage">
         <pattern>
@@ -115,9 +124,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av" />
-      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueTest" />
-      <option name="METHOD_NAME" value="testEqualsAndHashCode" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeightTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -137,50 +145,52 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScaleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ListPropBaseCleanTest.testCalculateAgentPropositions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ModelingLegalReasoning" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.*" />
+          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight" />
-      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.ScaleTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean" />
+      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" />
+      <option name="METHOD_NAME" value="testCalculateAgentPropositions" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WeightTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ListPropBaseCleanTest.testCalculatePropBaseClean" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ModelingLegalReasoning" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.*" />
+          <option name="PATTERN" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight" />
-      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.WeightTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean" />
+      <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" />
+      <option name="METHOD_NAME" value="testCalculatePropBaseClean" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.AgentValuePropWeightTest" />
       <item itemvalue="JUnit.ListPropBaseCleanTest" />
-      <item itemvalue="JUnit.AgentValueTest" />
-      <item itemvalue="JUnit.AgentValueTest.testEqualsAndHashCode" />
-      <item itemvalue="JUnit.ScaleTest" />
-      <item itemvalue="JUnit.WeightTest" />
+      <item itemvalue="JUnit.ListPropBaseCleanTest.testCalculatePropBaseClean" />
+      <item itemvalue="JUnit.ListPropBaseCleanTest.testCalculateAgentPropositions" />
+      <item itemvalue="JUnit.AgentValueToWeightTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ListPropBaseCleanTest.testCalculateAgentPropositions" />
+        <item itemvalue="JUnit.AgentValueToWeightTest" />
+        <item itemvalue="JUnit.ListPropBaseCleanTest.testCalculatePropBaseClean" />
         <item itemvalue="JUnit.ListPropBaseCleanTest" />
-        <item itemvalue="JUnit.AgentValueTest.testEqualsAndHashCode" />
-        <item itemvalue="JUnit.AgentValueTest" />
-        <item itemvalue="JUnit.ScaleTest" />
-        <item itemvalue="JUnit.WeightTest" />
+        <item itemvalue="JUnit.AgentValuePropWeightTest" />
       </list>
     </recent_temporary>
   </component>
@@ -256,6 +266,8 @@
       <workItem from="1692133467365" duration="1049000" />
       <workItem from="1692293439759" duration="4935000" />
       <workItem from="1692430189916" duration="5459000" />
+      <workItem from="1692470214476" duration="6126000" />
+      <workItem from="1692504726377" duration="11095000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>
@@ -292,6 +304,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moving the project to JavaFX" />

@@ -22,28 +22,27 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     private List<Value> values;
     private final List<AVObserver> weightObservers = new ArrayList<>();
     private Scale scale;
-    private boolean isEditing = false;
 
     public AgentValueToWeight() {
         this.agentValueWeights = new HashMap<>();
         this.agents = new LinkedList<Agent>();
         this.values = new LinkedList<Value>();
+        this.scale = new Scale();
     }
 
     public Set<AgentValue> keySet() {
         return agentValueWeights.keySet();
     }
 
-    public void addAgent(Agent agent) {
-        agents.add(agent);
-    }
-
-    public void addValue(Value value) {
-        values.add(value);
+    public void addWeight(Agent agent, Value value, Weight weight) {
+        AgentValue agentValue = new AgentValue(agent, value);
+        this.agentValueWeights.put(agentValue, weight);
+        notifyAVObservers();
     }
 
     public void setScale(Scale scale) {
         this.scale = scale;
+        notifyAVObservers();
     }
 
     public Map<AgentValue, Weight> getAgentValueWeights() {
@@ -58,14 +57,12 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         return values;
     }
 
-    public void setAgentValueWeights(Map<AgentValue, Weight> agentValueWeights) {
-        this.agentValueWeights = agentValueWeights;
-        notifyAVObservers();
+    public Scale getScale() {
+        return scale;
     }
 
-    public void addValue(Agent agent, Value value, Weight weight) {
-        AgentValue agentValue = new AgentValue(agent, value);
-        this.agentValueWeights.put(agentValue, weight);
+    public void setAgentValueWeights(Map<AgentValue, Weight> agentValueWeights) {
+        this.agentValueWeights = agentValueWeights;
         notifyAVObservers();
     }
 
@@ -74,64 +71,71 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     }
 
     @Override
-    public String toString() {
-        StringBuilder weightsStr = new StringBuilder("{");
-        for (var entry : this.agentValueWeights.entrySet()) {
-            weightsStr.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
-        }
-        weightsStr.append("}");
-        return weightsStr.toString();
-    }
-
-    @Override
     public void updateAgent(ListAgent listAgent) {
         List<Agent> updatedAgents = listAgent.getAgents();
+        boolean changed = false; // Flaga do śledzenia, czy coś się zmieniło
 
         // Znajdź agentów, które zostały usunięte
         List<Agent> removedAgents = new ArrayList<>(this.agents);
         removedAgents.removeAll(updatedAgents);
-        // Usuń związane z nimi AgentValues
-        for (Agent agent : removedAgents) {
-            this.agents.remove(agent);
-            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
+        if (!removedAgents.isEmpty()) {
+            changed = true;
+            // Usuń związane z nimi AgentValues
+            for (Agent agent : removedAgents) {
+                this.agents.remove(agent);
+                this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
+            }
         }
 
         // Znajdź nowo dodane agentów
         List<Agent> addedAgents = new ArrayList<>(updatedAgents);
         addedAgents.removeAll(this.agents);
-        // Dodaj związane z nimi AgentValues
-        for (Agent agent : addedAgents) {
-            this.agents.add(agent);
-            addAgentValuesForAgent(agent);
+        if (!addedAgents.isEmpty()) {
+            changed = true;
+            // Dodaj związane z nimi AgentValues
+            for (Agent agent : addedAgents) {
+                this.agents.add(agent);
+                addAgentValuesForAgent(agent);
+            }
         }
 
-        setEditing(false);
-        notifyAVObservers();
+        if (changed && !this.agentValueWeights.isEmpty()) { // Powiadamiaj tylko wtedy, gdy coś się zmieniło i agentValueWeights nie jest pusty
+            notifyAVObservers();
+        }
     }
 
     @Override
     public void updateValue(ListValue listValue) {
         List<Value> updatedValues = listValue.getValues();
+        boolean changed = false; // Flaga do śledzenia, czy coś się zmieniło
+
         // Znajdź wartosci, które zostały usunięte
         List<Value> removedValues = new ArrayList<>(this.values);
         removedValues.removeAll(updatedValues);
-        // Usuń związane z nimi AgentValues
-        for (Value value : removedValues) {
-            this.values.remove(value);
-            this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
+        if (!removedValues.isEmpty()) {
+            changed = true;
+            // Usuń związane z nimi AgentValues
+            for (Value value : removedValues) {
+                this.values.remove(value);
+                this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
+            }
         }
 
         // Znajdź nowo dodane wartości
         List<Value> addedValues = new ArrayList<>(updatedValues);
         addedValues.removeAll(this.values);
-        // Dodaj związane z nimi AgentValues
-        for (Value value : addedValues) {
-            this.values.add(value);
-            addAgentValuesForValue(value);
+        if (!addedValues.isEmpty()) {
+            changed = true;
+            // Dodaj związane z nimi AgentValues
+            for (Value value : addedValues) {
+                this.values.add(value);
+                addAgentValuesForValue(value);
+            }
         }
 
-        setEditing(false);
-        notifyAVObservers();
+        if (changed && !this.agentValueWeights.isEmpty()) { // Powiadamiaj tylko wtedy, gdy coś się zmieniło i agentValueWeights nie jest pusty
+            notifyAVObservers();
+        }
     }
 
     private void addAgentValuesForAgent(Agent agent) {
@@ -161,7 +165,15 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         Weight weight = agentValueWeights.get(agentValue);
         if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
             weight.setWeight(newWeight);
-            setEditing(true);
+            notifyAVObservers();
+        }
+    }
+
+    public void editWeight(Agent agent, Value value, Integer newWeight) {
+        AgentValue agentValue = new AgentValue(agent, value);
+        Weight weight = agentValueWeights.get(agentValue);
+        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
+            weight.setWeight(newWeight);
             notifyAVObservers();
         }
     }
@@ -220,19 +232,13 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
         }
     }
 
-    public boolean isEditing() {
-        return isEditing;
-    }
-
-    public void setEditing(boolean editing) {
-        isEditing = editing;
-    }
-
-    public void setAgents(List<Agent> agents) {
-        this.agents = agents;
-    }
-
-    public Scale getScale() {
-        return scale;
+    @Override
+    public String toString() {
+        StringBuilder weightsStr = new StringBuilder("{");
+        for (var entry : this.agentValueWeights.entrySet()) {
+            weightsStr.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
+        }
+        weightsStr.append("}");
+        return weightsStr.toString();
     }
 }

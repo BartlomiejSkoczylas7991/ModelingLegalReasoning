@@ -1,8 +1,11 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean;
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AVObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
@@ -16,42 +19,48 @@ import static org.mockito.Mockito.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
 public class ListPropBaseCleanTest {
     @Test
-    public void testCalculatePropBaseClean() {
+    public void testCalculateAgentPropositions() {
         // Przygotowanie danych testowych
-        List<Agent> agents = new ArrayList<>();
         Agent agent1 = new Agent("Agent1");
-        Agent agent2 = new Agent("Agent2");
-        agents.add(agent1);
-        agents.add(agent2);
+        Proposition prop1 = new Proposition("Guilty");
+        Value truth = new Value("Truth");
+        List<Proposition> propositions = Arrays.asList(prop1);
+        ListAgent listAgent = new ListAgent();
+        ListValue listValue = new ListValue();
+        ListProposition listProposition = new ListProposition();
 
-        List<Proposition> propositions = new ArrayList<>();
-        Proposition prop1 = new Proposition("Prop1");
-        Proposition prop2 = new Proposition("Prop2");
-        propositions.add(prop1);
-        propositions.add(prop2);
-
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-
-        // Tutaj możesz dodać logikę do ustawienia wag dla agentów i wartości zgodnie z oczekiwanym scenariuszem
-
-        // Tworzenie obiektu klasy, którą testujemy
+        AgentValueToWeight avWeight = new AgentValueToWeight();
+        AgentValuePropWeight avpWeight = new AgentValuePropWeight();
+        listAgent.addAgentObserver(avWeight);
+        listValue.addObserver(avWeight);
+        listAgent.addAgentObserver(avpWeight);
+        listValue.addObserver(avpWeight);
+        listProposition.addObserver(avpWeight);
         ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+        avWeight.addAVObserver(listPropBaseClean);
+        avpWeight.addObserver(listPropBaseClean);
+        listAgent.addAgent(agent1);
+        listValue.addValue(truth);
+        listProposition.addProposition(prop1);
+        avWeight.editWeight(agent1, truth, 2);
+        avpWeight.editWeight(agent1, truth, prop1, 3);
+        System.out.println(avWeight.getAgentValueWeights());
+        System.out.println(avpWeight.getAgentValuePropWeights());
 
-        // Wywołanie metody, którą testujemy
-        HashMap<Agent, Set<Proposition>> result = listPropBaseClean.calculatePropBaseClean(agents, propositions, agentValueToWeight, agentValuePropWeight);
+        Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent1, propositions, avWeight, avpWeight);
 
         // Oczekiwany wynik
-        HashMap<Agent, Set<Proposition>> expected = new HashMap<>();
-        // Tutaj możesz dodać oczekiwane propozycje dla każdego agenta
+        Set<Proposition> expected = new HashSet<>();
+        expected.add(prop1);
 
-        // Sprawdzanie wyniku
-        assertEquals(expected, result, "The calculated PropBaseClean does not match the expected result");
+        // Sprawdzenie wyniku
+        assertEquals(expected, result, "The calculated agent propositions do not match the expected result");
     }
 
     @Test
@@ -112,7 +121,7 @@ public class ListPropBaseCleanTest {
         Value value1 = new Value("Value1");
         AgentValue agentValue1 = new AgentValue(agent, value1);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value1, new Weight(5));
+        agentValueToWeight.addWeight(agent, value1, new Weight(5));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value1, proposition1, new Weight(3));
@@ -137,7 +146,7 @@ public class ListPropBaseCleanTest {
         Value value1 = new Value("Value1");
         AgentValue agentValue1 = new AgentValue(agent, value1);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value1, new Weight(5));
+        agentValueToWeight.addWeight(agent, value1, new Weight(5));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value1, proposition1, new Weight(6));
@@ -160,7 +169,7 @@ public class ListPropBaseCleanTest {
 
         Value value1 = new Value("Value1");
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value1, new Weight("?"));
+        agentValueToWeight.addWeight(agent, value1, new Weight("?"));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value1, proposition1, new Weight(3));
@@ -181,7 +190,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(5));
+        agentValueToWeight.addWeight(agent, value, new Weight(5));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(3));
@@ -200,7 +209,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(5));
+        agentValueToWeight.addWeight(agent, value, new Weight(5));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(5));
@@ -220,7 +229,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(3));
+        agentValueToWeight.addWeight(agent, value, new Weight(3));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(5));
@@ -239,7 +248,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight("?"));
+        agentValueToWeight.addWeight(agent, value, new Weight("?"));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(3));
@@ -258,7 +267,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(5));
+        agentValueToWeight.addWeight(agent, value, new Weight(5));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(5));
@@ -278,7 +287,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(3));
+        agentValueToWeight.addWeight(agent, value, new Weight(3));
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(5)); // Greater than the value weight
@@ -298,7 +307,7 @@ public class ListPropBaseCleanTest {
 
         AgentValue agentValue = new AgentValue(agent, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent, value, new Weight(5)); // Greater than the proposition weight
+        agentValueToWeight.addWeight(agent, value, new Weight(5)); // Greater than the proposition weight
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
         agentValuePropWeight.addWeight(agent, value, proposition, new Weight(3)); // Less than the value weight
@@ -324,7 +333,7 @@ public class ListPropBaseCleanTest {
         Value value = new Value("Value1");
         AgentValue agentValue = new AgentValue(agent1, value);
         AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addValue(agent1, value, new Weight(5));
+        agentValueToWeight.addWeight(agent1, value, new Weight(5));
 
 
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
@@ -393,7 +402,6 @@ public class ListPropBaseCleanTest {
 
         // Aktualizujemy wagę
         agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
-        agentValueToWeight.setEditing(true); // Oznaczamy, że waga została zmieniona
         listPropBaseClean.updateAV(agentValueToWeight);
 
         // Sprawdzamy, czy waga została zaktualizowana
@@ -421,7 +429,7 @@ public class ListPropBaseCleanTest {
 
         // Ustalamy wagę propozycji dla agenta, wartości i propozycji
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addValue(agent, value, proposition, initialWeight); // Używamy metody addValue
+        agentValuePropWeight.addWeight(agent, value, proposition, initialWeight); // Używamy metody addValue
 
         // Ustalamy listę agentów i propozycji
         List<Agent> agents = Collections.singletonList(agent);
@@ -435,8 +443,7 @@ public class ListPropBaseCleanTest {
 
         // Aktualizujemy wagę
         agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
-        agentValuePropWeight.addValue(agent, value, proposition, updatedWeight); // Aktualizujemy wagę za pomocą metody addValue
-        agentValueToWeight.setEditing(true); // Oznaczamy, że waga została zmieniona
+        agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Aktualizujemy wagę za pomocą metody addValue
         listPropBaseClean.updateAV(agentValueToWeight);
 
         // Obliczamy oczekiwany PropBaseClean po edycji wagi
@@ -459,13 +466,13 @@ public class ListPropBaseCleanTest {
 
         // Tworzymy mapę AgentValueProp do wagi i ustawiamy początkową wagę
         AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addValue(agent, value, proposition, initialWeight);
+        agentValuePropWeight.addWeight(agent, value, proposition, initialWeight);
 
         // Sprawdzamy, czy początkowa waga została ustawiona poprawnie
         assertEquals(initialWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Initial weight should be set correctly");
 
         // Aktualizujemy wagę
-        agentValuePropWeight.addValue(agent, value, proposition, updatedWeight); // Ponownie używamy metody addValue
+        agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Ponownie używamy metody addValue
 
         // Sprawdzamy, czy waga została zaktualizowana poprawnie
         assertEquals(updatedWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Weight should be updated correctly");
@@ -493,7 +500,7 @@ public class ListPropBaseCleanTest {
 
         // Ustawianie początkowej wagi
         Weight weight = new Weight(scale, 10); // zakładając, że konstruktor Weight przyjmuje Scale i wartość
-        agentValueToWeight.addValue(agent, value, weight);
+        agentValueToWeight.addWeight(agent, value, weight);
 
         // Wywołanie metody edycji wagi, która powinna powiadomić obserwatorów
         agentValueToWeight.editWeight(agentValue, 20);

@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight;
 
+import java.util.Objects;
+
 public class Weight implements Comparable<Weight> {
     private Scale scale;
     private Object value;
@@ -38,8 +40,25 @@ public class Weight implements Comparable<Weight> {
         return value;
     }
 
+    public void setWeight(Object value) {
+        this.value = value;
+    }
+
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Weight weight = (Weight) o;
+        return Objects.equals(scale, weight.scale) && Objects.equals(value, weight.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(scale, value);
     }
 
     @Override
@@ -53,9 +72,5 @@ public class Weight implements Comparable<Weight> {
     @Override
     public String toString() {
         return this.value.toString();
-    }
-
-    public void setWeight(Object value) {
-        this.value = value;
     }
 }

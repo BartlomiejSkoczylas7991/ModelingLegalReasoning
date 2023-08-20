@@ -11,29 +11,16 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AgentValueToWeightTest {
-    @Test
-    void testAddAgentAndValue() {
-        Agent agent = new Agent("Alice");
-        Value value = new Value("Truth");
-        AgentValueToWeight avtWeight = new AgentValueToWeight();
 
-        avtWeight.addAgent(agent);
-        avtWeight.addValue(value);
-
-        assertTrue(avtWeight.getAgents().contains(agent));
-        assertTrue(avtWeight.getValues().contains(value));
-    }
 
     @Test
     void testAddAndEditWeight() {
         Agent agent = new Agent("Alice");
         Value value = new Value("Truth");
         AgentValueToWeight avtWeight = new AgentValueToWeight();
-        avtWeight.setScale(new Scale(0, 10)); // Przykład skali
+        avtWeight.setScale(new Scale(0, 10));
 
-        avtWeight.addAgent(agent);
-        avtWeight.addValue(value);
-        avtWeight.addValue(agent, value, new Weight(avtWeight.getScale(), 5));
+        avtWeight.addWeight(agent, value, new Weight(avtWeight.getScale(), 5));
 
         AgentValue agentValue = new AgentValue(agent, value);
         assertEquals(new Weight(avtWeight.getScale(), 5), avtWeight.getWeight(agentValue));
@@ -54,10 +41,6 @@ class AgentValueToWeightTest {
         // Dodajemy atrapę obserwatora
         avtWeight.addAVObserver(observerSpy);
 
-        // Dodajemy agenta i wartość, co powinno spowodować powiadomienie obserwatora
-        avtWeight.addAgent(agent);
-        avtWeight.addValue(value);
-
         // Sprawdzamy, czy metoda updateAV została wywołana na obserwatorzeadd
         Mockito.verify(observerSpy).updateAV(avtWeight);
     }
@@ -69,9 +52,7 @@ class AgentValueToWeightTest {
         Scale scale = new Scale(0, 10);
         AgentValueToWeight avtWeight = new AgentValueToWeight();
         avtWeight.setScale(scale);
-        avtWeight.addAgent(agent);
-        avtWeight.addValue(value);
-        avtWeight.addValue(agent, value, new Weight(scale, 5));
+        avtWeight.addWeight(agent, value, new Weight(scale, 5));
 
         String expectedString = "{(Alice, Truth): 5, }"; // Zakładam, że AgentValue i Weight mają odpowiednie metody toString
         assertEquals(expectedString, avtWeight.toString(), "toString should generate the correct string");

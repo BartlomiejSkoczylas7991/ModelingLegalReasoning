@@ -40,7 +40,7 @@ class KnowledgeBaseTest {
     @Test
     public void testUniqueIds() {
         Rule rule1 = new Rule(new HashSet<>(), new Proposition(""));
-        Rule rule2 = new Rule(new HashSet<>(), new Proposition(/* wartości */));
+        Rule rule2 = new Rule(new HashSet<>(), new Proposition(" "));
 
         assertNotEquals(rule1.getId(), rule2.getId());
     }

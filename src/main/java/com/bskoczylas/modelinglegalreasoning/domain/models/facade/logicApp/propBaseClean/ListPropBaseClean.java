@@ -110,7 +110,6 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
         return listPropBaseClean.get(agent);
     }
 
-
     public List<Proposition> getPropositions() {
         return propositions;
     }

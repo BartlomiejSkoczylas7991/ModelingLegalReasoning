@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/KnowledgeBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/KnowledgeBaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChainTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,14 +41,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="ToolWindowRun.ShowToolbar" value="false" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="nodejs_package_manager_path" value="npm" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "dart.analysis.tool.window.visible": "false",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -276,7 +277,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moving the project to JavaFX" />

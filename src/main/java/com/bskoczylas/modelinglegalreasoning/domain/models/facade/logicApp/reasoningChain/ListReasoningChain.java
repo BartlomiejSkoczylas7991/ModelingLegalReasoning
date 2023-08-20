@@ -29,7 +29,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         this.incompProp = new ArrayList<>();
     }
 
-    public Map<Proposition, Integer> calculateVotes(Agent agent, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
+    public Map<Proposition, Integer> calculateVotes(KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
         Map<Proposition, Integer> votes = new HashMap<>();
         for (Rule rule : subjectiveKB.getRj()) {
             Proposition conclusion = rule.getConclusion();
@@ -108,7 +108,29 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
     private ReasoningChain calculateWithVoting(Agent agent) {
         // Get the subjective knowledge base for a given agent
         KnowledgeBase subjectiveKB = listKnowledgeBase.getKnowledgeBase(agent);
-        Set<Proposition> propBaseClean = listKnowledgeBase.getPropBaseClean().getAgentPropBaseClean(agent);
+        Set<Proposition> propBaseClean = subjectiveKB.getPi();
+        Set<Rule> setRules = subjectiveKB.getRj();
+
+        int howManyDecisionsPBCContains = 0;
+        for (Proposition prop : propBaseClean) {
+            if (prop.isDecision()) {
+                howManyDecisionsPBCContains++;
+            }
+        }
+        // przypadek z jedną decyzją
+        if (howManyDecisionsPBCContains == 1) {
+
+        }
+
+        // przypadek z dwoma decyzjami
+        if (howManyDecisionsPBCContains == 2) {
+
+        }
+
+        // przypadek z żądną propozycją
+        else{
+
+        }
 
         // If propBaseClean contains only a decision, create a reasoning chain with no extra rules
         if (propBaseClean.size() == 1 && propBaseClean.iterator().next().isDecision()) {
@@ -117,12 +139,13 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
             return reasoningChain;
         }
 
+
         // Initialize a set of visited propositions and the minimum knowledge base
         Set<Proposition> visited = new HashSet<>();
         Set<Rule> minimalKB = new HashSet<>();
 
         // Calculate votes
-        Map<Proposition, Integer> votes = calculateVotes(agent, subjectiveKB, propBaseClean);
+        Map<Proposition, Integer> votes = calculateVotes(subjectiveKB, propBaseClean);
 
         // if there are no final propositions, return an empty reasoning string
         if (votes.isEmpty()) {

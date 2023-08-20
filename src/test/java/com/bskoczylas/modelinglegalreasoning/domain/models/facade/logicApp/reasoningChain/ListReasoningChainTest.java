@@ -27,7 +27,7 @@ import java.util.*;
             Set<Proposition> propBaseClean = new HashSet<Proposition>(Arrays.asList(new Proposition[] {prop1, prop2}));
 
             // Wywołanie metody do testu
-            Map<Proposition, Integer> votes = new ListReasoningChain().calculateVotes(new Agent("agent"), kb, propBaseClean);
+            Map<Proposition, Integer> votes = new ListReasoningChain().calculateVotes(kb, propBaseClean);
 
             // Oczekiwane wyniki
             Map<Proposition, Integer> expectedVotes = new HashMap<>();

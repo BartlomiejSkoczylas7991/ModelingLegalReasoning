@@ -20,6 +20,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
     private List<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
+    private final ReasoningChainStrategyFactory factory = new ReasoningChainStrategyFactory();
     private List<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
     private IncompProp decisions;
     private List<RCObserver> observers = new ArrayList<>();
@@ -29,159 +30,20 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         this.incompProp = new ArrayList<>();
     }
 
-    public Map<Proposition, Integer> calculateVotes(KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
-        Map<Proposition, Integer> votes = new HashMap<>();
-        // to jest bezsensu poniewaz opiera sie to na zasadach zamiast na propbaseClean (premises)
-        for (Rule rule : subjectiveKB.getRj()) {
-            Proposition conclusion = rule.getConclusion();
-            if (propBaseClean.contains(conclusion) && conclusion.isDecision()) {
-                votes.put(conclusion, votes.getOrDefault(conclusion, 0) + 1);
-            }
-        }
-        return votes;
-    }
-
-    public Proposition findFinalProposition(Map<Proposition, Integer> votes) {
-        return Collections.max(votes.entrySet(), Map.Entry.comparingByValue()).getKey();
-    }
-
-    public void removeInconsistentRules(Set<Rule> minimalKB, Set<Proposition> visited, Set<Proposition> propBaseClean) {
-        Iterator<Rule> ruleIterator = minimalKB.iterator();
-        while (ruleIterator.hasNext()) {
-            Rule rule = ruleIterator.next();
-            for (Proposition premise : rule.getPremises()) {
-                if (!propBaseClean.contains(premise)) {
-                    // if there is a proposition that is not in propBaseClean
-                    // remove rule from minimalKnowledgeBase and remove proposition from visited
-                    ruleIterator.remove();
-                    visited.remove(premise);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void resolveIncompProp(Set<Rule> minimalKB, Set<Proposition> visited) {
-        for (Pair<Proposition, Proposition> incompPair : incompProp) {
-            if (visited.contains(incompPair.getFirst()) && visited.contains(incompPair.getSecond())) {
-                // If both conflicting suggestions are in the visited list, delete one of them
-                if (minimalKB.size() > 1) {
-                    // Remove the rule that leads to fewer proposals
-                    Rule toRemove = null;
-                    for (Rule rule : minimalKB) {
-                        if (rule.getConclusion().equals(incompPair.getFirst()) || rule.getConclusion().equals(incompPair.getSecond())) {
-                            toRemove = rule;
-                            break;
-                        }
-                    }
-                    minimalKB.remove(toRemove);
-                    visited.remove(toRemove.getConclusion());
-                } else {
-                    throw new RuntimeException("Inconsistent propositions in reasoning chain");
-                }
-            }
-        }
-    }
-
-    private Set<Rule> findMinimalKB(Proposition finalProposition, KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean, Set<Proposition> visited) {
-        Set<Rule> minimalKB = new HashSet<>();
-        Stack<Proposition> stack = new Stack<>();
-        stack.push(finalProposition);
-        while (!stack.isEmpty()) {
-            Proposition currentProp = stack.pop();
-            for (Rule rule : subjectiveKB.getRj()) {
-                // If this rule concludes the currentProp and all premises are in the clean prop base, add to minimalKB
-                if (rule.getConclusion().equals(currentProp) && propBaseClean.containsAll(rule.getPremises())) {
-                    minimalKB.add(rule);
-                    visited.addAll(rule.getPremises());
-                    // Add all the premises to the stack for further investigation
-                    for (Proposition premise : rule.getPremises()) {
-                        if (!visited.contains(premise)) {
-                            stack.push(premise);
-                        }
-                    }
-                }
-            }
-        }
-        return minimalKB;
-    }
-
     private ReasoningChain calculateWithVoting(Agent agent) {
         // Get the subjective knowledge base for a given agent
         KnowledgeBase subjectiveKB = listKnowledgeBase.getKnowledgeBase(agent);
-        Set<Proposition> propBaseClean = subjectiveKB.getPi();
         Set<Rule> setRules = subjectiveKB.getRj();
 
         int howManyDecisionsPBCContains = 0;
-        for (Proposition prop : propBaseClean) {
+        for (Proposition prop : subjectiveKB.getPi()) {
             if (prop.isDecision()) {
                 howManyDecisionsPBCContains++;
             }
         }
-        // przypadek z jedną decyzją
-        if (howManyDecisionsPBCContains == 1) {
-            // usun te zasady, ktorych nie ma w pelni w PBC
-            // usun te propozycje, ktore nie daza w zasadach do tej decyzji w PBC
-            // wstaw to do nowego KB minimal - to jest wynik wraz z decyzja (kwestia czy usunac z minimal z PBC decyzje - sprawdzic)
-        }
 
-        // przypadek z dwoma decyzjami
-        if (howManyDecisionsPBCContains == 2) {
-            // glosowanie jak jest pokazane w istniejacym kodzie - jesli wiecej jest za danym propbaseclean
-            // to trzeba wybrac jedna decyzje i gdy juz sie ja wybierze usunać z PBC decyzje drugą, a nastepnie wykonac te same metody co gdy jest jedna
-        }
-
-        // przypadek z żądną propozycją
-        else{
-            // gdy nie ma zadnej decyzji to sprawdzic czy jest mozliwe by zadnego nie bylo
-            //
-        }
-
-        // If propBaseClean contains only a decision, create a reasoning chain with no extra rules
-        if (propBaseClean.size() == 1 && propBaseClean.iterator().next().isDecision()) {
-            Proposition decision = propBaseClean.iterator().next();
-            ReasoningChain reasoningChain = new ReasoningChain(new KnowledgeBase(new HashSet<>(), new HashSet<>()), decision);
-            return reasoningChain;
-        }
-
-
-        // Initialize a set of visited propositions and the minimum knowledge base
-        Set<Proposition> visited = new HashSet<>();
-        Set<Rule> minimalKB = new HashSet<>();
-
-        // Calculate votes
-        Map<Proposition, Integer> votes = calculateVotes(subjectiveKB, propBaseClean);
-
-        // if there are no final propositions, return an empty reasoning string
-        if (votes.isEmpty()) {
-            return new ReasoningChain(new KnowledgeBase(new HashSet<>(), new HashSet<>()), null);
-        }
-
-        // Find the final proposition
-        Proposition finalProposition = findFinalProposition(votes);
-
-        // Dodaj końcową propozycję do zbioru odwiedzonych propozycji
-        visited.add(finalProposition);
-
-        // Znajdź minimalną bazę wiedzy potrzebną do wywnioskowania końcowej propozycji
-        minimalKB = findMinimalKB(finalProposition, subjectiveKB, propBaseClean, visited);
-
-        // Remove inconsistent rules
-        removeInconsistentRules(minimalKB, visited, propBaseClean);
-
-        // Resolve incompProp
-        resolveIncompProp(minimalKB, visited);
-
-        // Twórz łańcuch rozumowania, dodając do niego reguły z minimalnej bazy wiedzy
-        ReasoningChain reasoningChain = new ReasoningChain(new KnowledgeBase(visited, minimalKB), finalProposition);
-
-        // check if finalProposition is in Pair of decisions
-        if(!decisions.getPropositionsPair().getFirst().equals(finalProposition) && !decisions.getPropositionsPair().getSecond().equals(finalProposition)) {
-            throw new RuntimeException("Final proposition is not a valid decision");
-        }
-
-        // Return the chain of reasoning
-        return reasoningChain;
+        ReasoningChainStrategy strategy = factory.createStrategy(subjectiveKB.getPi());
+        return strategy.calculate(subjectiveKB);
     }
 
     public HashMap<Agent, ReasoningChain> getListReasoningChain() {

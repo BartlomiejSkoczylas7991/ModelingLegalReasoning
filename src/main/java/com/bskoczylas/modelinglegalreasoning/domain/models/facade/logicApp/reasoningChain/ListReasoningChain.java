@@ -31,6 +31,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
 
     public Map<Proposition, Integer> calculateVotes(KnowledgeBase subjectiveKB, Set<Proposition> propBaseClean) {
         Map<Proposition, Integer> votes = new HashMap<>();
+        // to jest bezsensu poniewaz opiera sie to na zasadach zamiast na propbaseClean (premises)
         for (Rule rule : subjectiveKB.getRj()) {
             Proposition conclusion = rule.getConclusion();
             if (propBaseClean.contains(conclusion) && conclusion.isDecision()) {
@@ -119,17 +120,21 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         }
         // przypadek z jedną decyzją
         if (howManyDecisionsPBCContains == 1) {
-
+            // usun te zasady, ktorych nie ma w pelni w PBC
+            // usun te propozycje, ktore nie daza w zasadach do tej decyzji w PBC
+            // wstaw to do nowego KB minimal - to jest wynik wraz z decyzja (kwestia czy usunac z minimal z PBC decyzje - sprawdzic)
         }
 
         // przypadek z dwoma decyzjami
         if (howManyDecisionsPBCContains == 2) {
-
+            // glosowanie jak jest pokazane w istniejacym kodzie - jesli wiecej jest za danym propbaseclean
+            // to trzeba wybrac jedna decyzje i gdy juz sie ja wybierze usunać z PBC decyzje drugą, a nastepnie wykonac te same metody co gdy jest jedna
         }
 
         // przypadek z żądną propozycją
         else{
-
+            // gdy nie ma zadnej decyzji to sprawdzic czy jest mozliwe by zadnego nie bylo
+            //
         }
 
         // If propBaseClean contains only a decision, create a reasoning chain with no extra rules

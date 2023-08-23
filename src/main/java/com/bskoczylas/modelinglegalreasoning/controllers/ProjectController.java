@@ -448,8 +448,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         }
 
         //DODAWANIE PRZYCISKÓW GÓRNYCH ("GENERATE PDF", "NEW", "HELP", "EXIT")
-        // GENEROWANIE PDF i "GENERATE" (W Javafx) dopier po spełnieniu warunków:
-        // minimum 2 agentów, 2 wartości, 4 propozycje, 1 para decyzji (zwykłe incompProp niekonieczne), 2 zasady
         @FXML
         private void handleGenerate() {
                 // Generowanie raportu

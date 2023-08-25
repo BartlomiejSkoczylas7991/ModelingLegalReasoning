@@ -109,10 +109,9 @@ public class Project implements ProjectObservable {
 
     @Override
     public void notifyProjectObservers(Project project) {
-        for (ProjectObserver projectObserver : observers) {
-            projectObserver.updateProject(project);
-        }
+
     }
+
     // For ProjectController
     public boolean hasEnoughData() {
         boolean hasEnoughAgents = this.getListAgent().getAgents().size() >= 2;

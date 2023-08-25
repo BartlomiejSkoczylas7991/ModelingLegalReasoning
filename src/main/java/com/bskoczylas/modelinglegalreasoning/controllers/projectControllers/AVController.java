@@ -78,11 +78,10 @@ public class AVController implements AVObservableController {
             return;
         }
         // Check the type of weight value
-        Object weightValue = selectedWeight.getWeight();
-        if (weightValue instanceof Integer) {
-            avWeights.editWeight(selectedAV.getAgentValue(), (Integer) weightValue);
-        } else if (weightValue instanceof String && weightValue.equals("?")) {
+        if (selectedWeight.isIndeterminate()) {
             avWeights.editWeight(selectedAV.getAgentValue(), null);
+        } else {
+            avWeights.editWeight(selectedAV.getAgentValue(), selectedWeight.getNumberValue());
         }
 
         // Notify the project about the change (TO MOŻE BYĆ ŹLE - może być notify() zwykłe jednak
@@ -132,14 +131,12 @@ public class AVController implements AVObservableController {
         int min = avWeights.getScale().getMin();
         int max = avWeights.getScale().getMax();
 
-        // Check if min is less than or equal to max
-        if (min <= max) {
+        if (min < max) {
             for (int i = min; i <= max; i++) {
-                // assume Weight class has a constructor that accepts an int
-                weights.add(new Weight(this.projectController.getProject().getScale(), i));
+                weights.add(Weight.of(i));
+
             }
         }
-
         weightsComboBox.setItems(FXCollections.observableArrayList(weights));
     }
 
@@ -199,6 +196,13 @@ public class AVController implements AVObservableController {
         avTable.setItems(FXCollections.observableList(pairs));
     }
 
+    public void changeScale(Scale newScale) {
+        this.avWeights.setScale(newScale);
+        updateWeightsComboBox();
+        updateAVTable();
+        notifyAVObservers();
+    }
+
 
     @Override
     public void addAVObserver(AVObserverController observer) {
@@ -216,4 +220,6 @@ public class AVController implements AVObservableController {
             observer.updateAV(this);
         }
     }
+
+
 }

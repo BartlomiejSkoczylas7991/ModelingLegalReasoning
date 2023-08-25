@@ -9,6 +9,8 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incom
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -18,14 +20,17 @@ import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class IncompPropController implements IncompControllerObservable {
     private TableView<IncompProp> incompPropTable;
     private ComboBox<Proposition> prop1comboBoxIncompProp;
-    private ComboBox<Proposition> prop2comboBoxIncompProp;
+    private final ComboBox<Proposition> prop2comboBoxIncompProp;
     private RadioButton isDecisionRadioButton;
     private ProjectController projectController;
     private Project project;
+    private ListRules listRules;
     private final List<IncompControllerObserver> observers = new ArrayList<>();
 
     public IncompPropController(TableView<IncompProp> incompPropTable, ProjectController projectController, Project project
@@ -34,6 +39,7 @@ public class IncompPropController implements IncompControllerObservable {
         this.incompPropTable = incompPropTable;
         this.projectController = projectController;
         this.project = project;
+        this.listRules = project.getListRules();
         this.prop1comboBoxIncompProp = prop1comboBoxIncompProp;
         this.prop2comboBoxIncompProp = prop2comboBoxIncompProp;
         this.isDecisionRadioButton = isDecisionRadioButton;
@@ -46,6 +52,7 @@ public class IncompPropController implements IncompControllerObservable {
         Proposition prop1 = prop1comboBoxIncompProp.getValue();
         Proposition prop2 = prop2comboBoxIncompProp.getValue();
 
+
         if (prop1 != null && prop2 != null && !prop1.equals(prop2)) {
             Pair<Proposition, Proposition> newPair = new Pair<>(prop1, prop2);
             Pair<Proposition, Proposition> reversedPair = new Pair<>(prop2, prop1);
@@ -56,6 +63,7 @@ public class IncompPropController implements IncompControllerObservable {
                     .anyMatch(ip -> (ip.isDecision() || isDecisionRadioButton.isSelected()) &&
                             (ip.getPropositionsPair().getKey().equals(prop1) || ip.getPropositionsPair().getValue().equals(prop1) ||
                                     ip.getPropositionsPair().getKey().equals(prop2) || ip.getPropositionsPair().getValue().equals(prop2)));
+            boolean conflictingRules = checkConflictingRules(prop1, prop2);
 
             if (!alreadyExists && !isPartOfDecision) {
                 ListIncompProp listIncompProp = project.getListIncompProp();
@@ -63,16 +71,21 @@ public class IncompPropController implements IncompControllerObservable {
                 listIncompProp.addIncompatiblePropositions(incompProp);
                 updateIncompPropTable();
 
-                checkDecision(); // call this method after adding a new IncompProp
-                isDecisionRadioButton.setSelected(false); // uncheck the RadioButton after adding a decision
+                checkDecision();
+                isDecisionRadioButton.setSelected(false);
                 notifyIncompContrObservers();
             } else {
-                // Show error to user, pair already exists or is part of decision
+                // Show error to user
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Pair already exists or is part of decision");
-
+                if (alreadyExists || isPartOfDecision) {
+                    alert.setContentText("Pair already exists or is part of decision");
+                } else if (conflictingRules) {
+                    alert.setContentText("Pair has conflicting rules");
+                } else {
+                    alert.setContentText("Invalid propositions selected");
+                }
                 alert.showAndWait();
             }
         } else {
@@ -81,7 +94,6 @@ public class IncompPropController implements IncompControllerObservable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Invalid propositions selected");
-
             alert.showAndWait();
         }
     }
@@ -103,8 +115,6 @@ public class IncompPropController implements IncompControllerObservable {
     }
 
     public void checkDecision() {
-        // If there is already a decision, disable the RadioButton.
-        // Otherwise, enable it.
         if(project.getListIncompProp()
                 .getIncompatiblePropositions()
                 .stream()
@@ -121,15 +131,53 @@ public class IncompPropController implements IncompControllerObservable {
 
         for (IncompProp ip : listIncompProp) {
             if (ip.getPropositionsPair().getKey().equals(proposition) || ip.getPropositionsPair().getValue().equals(proposition)) {
-                // Znaleziono IncompProp zawierające usuniętą propozycję
                 toRemove.add(ip);
             }
         }
 
-        // Usunięcie IncompProp zawierających usuniętą propozycję
         listIncompProp.removeAll(toRemove);
         updateIncompPropTable();
         notifyIncompContrObservers();
+    }
+
+    private boolean containsPropositions(Rule rule, Proposition prop1, Proposition prop2) {
+        return rule.getPremises().contains(prop1) && rule.getPremises().contains(prop2);
+    }
+
+    private boolean checkConflictingRules(Proposition prop1, Proposition prop2) {
+        List<Rule> listRules = this.listRules.getListRules();
+
+        for (Rule rule : listRules) {
+            if (containsPropositions(rule, prop1, prop2)) {
+                return true;
+            }
+        }
+
+        Map<Proposition, List<Rule>> conclusionToRulesMap = listRules.stream()
+                .collect(Collectors.groupingBy(Rule::getConclusion));
+
+        for (Proposition conclusion : conclusionToRulesMap.keySet()) {
+            List<Rule> rulesWithSameConclusion = conclusionToRulesMap.get(conclusion);
+
+            for (Rule rule1 : rulesWithSameConclusion) {
+                for (Rule rule2 : rulesWithSameConclusion) {
+                    if (!rule1.equals(rule2)
+                            && rule1.getPremises().contains(prop1)
+                            && rule2.getPremises().contains(prop2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public ListRules getListRules() {
+        return listRules;
+    }
+
+    public void setListRules(ListRules listRules) {
+        this.listRules = listRules;
     }
 
     @Override

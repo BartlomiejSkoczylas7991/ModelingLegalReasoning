@@ -24,7 +24,7 @@ import java.util.*;
 // dodawanie
 // update
 //obserwatorzy
-public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight> implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
+public class AgentValuePropWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
     private Map<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -92,43 +92,36 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
 
     public void setScale(Scale scale) {
         this.scale = scale;
+        agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
         notifyObservers();
     }
 
     public void addWeight(Agent agent, Value value, Proposition prop, Weight weight) {
-        // if agent, value and proposition exists
-        addAgent(agent);
-        addValue(value);
-        addProposition(prop);
-
-        // add weight
         AgentValueProposition agentValueProp = new AgentValueProposition(agent, value, prop);
         agentValuePropWeights.put(agentValueProp, weight);
         notifyObservers();
     }
 
     public void editWeight(AgentValueProposition agentValueProposition, Integer newWeight) {
-        Weight weight = agentValuePropWeights.get(agentValueProposition);
-        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
-            weight.setWeight(newWeight);
+        if (newWeight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
+            agentValuePropWeights.put(agentValueProposition, Weight.of(newWeight));
+            notifyObservers();
+        } else if (newWeight == null) {
+            agentValuePropWeights.put(agentValueProposition, Weight.indeterminate());
             notifyObservers();
         }
     }
 
     public void editWeight(Agent agent, Value value, Proposition proposition, Integer newWeight) {
         AgentValueProposition agentValueProposition = new AgentValueProposition(agent, value, proposition);
-        Weight weight = agentValuePropWeights.get(agentValueProposition);
-        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
-            weight.setWeight(newWeight);
-            notifyObservers();
-        }
+        editWeight(agentValueProposition, newWeight);
     }
 
     //Adding default weights "?" - waiting for user edits
     private void addWeightsForNewElement(Agent agent, Value value, Proposition proposition) {
         AgentValueProposition agentValueProposition = new AgentValueProposition(agent, value, proposition);
         if (!agentValuePropWeights.containsKey(agentValueProposition)) {
-            agentValuePropWeights.put(agentValueProposition, new Weight(scale, "?"));  // Default "?" for new scales
+            agentValuePropWeights.put(agentValueProposition, Weight.indeterminate());
         }
     }
 
@@ -242,11 +235,7 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
     }
 
     public boolean isEmpty() {
-        if (this.agentValuePropWeights.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.agentValuePropWeights.isEmpty();
     }
 
     public void addValue(Value value) {
@@ -265,26 +254,30 @@ public class AgentValuePropWeight extends HashMap<AgentValueProposition, Weight>
     public void updateScale(Scale updatedScale) {
         this.scale = updatedScale;
         agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
-    }
-
-    protected void updateAllWeightsAccordingToScale() {
-        agentValuePropWeights.values().forEach(this::updateWeightAccordingToScale);
+        notifyObservers();
     }
 
     private void updateWeightAccordingToScale(Weight weight) {
-        Integer weightValue = (Integer) weight.getWeight();
-        if (weightValue.equals("?")) {
-            weight.setWeight(scale.getMax());
-        } else if (!scale.contains(weightValue)) {
+        Integer weightValue = weight.getNumberValue();
+        if (weightValue != null && !scale.contains(weightValue)) {
             adjustWeightToScaleBounds(weight, weightValue);
         }
     }
 
     private void adjustWeightToScaleBounds(Weight weight, Integer weightValue) {
+        Map.Entry<AgentValueProposition, Weight> entry = agentValuePropWeights.entrySet()
+                .stream()
+                .filter(e -> e.getValue().equals(weight))
+                .findFirst()
+                .orElse(null);
+        if (entry == null) {
+            return;
+        }
+
         if (weightValue < scale.getMin()) {
-            weight.setWeight(scale.getMin());
+            entry.setValue(Weight.of(scale.getMin()));
         } else {
-            weight.setWeight(scale.getMax());
+            entry.setValue(Weight.of(scale.getMax()));
         }
     }
 

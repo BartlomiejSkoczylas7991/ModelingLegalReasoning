@@ -3,49 +3,39 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weig
 import java.util.Objects;
 
 public class Weight implements Comparable<Weight> {
-    private Scale scale;
-    private Object value;
-
-    public Weight(Scale scale, Object value) {
-        if (!value.equals("?") && !scale.contains((Integer) value)) {
-            throw new IllegalArgumentException("Value not in scale");
-        }
-        this.scale = scale;
-        this.value = value;
+    public enum ValueType {
+        NUMBER, INDETERMINATE
     }
 
-    public Weight(Object value) {
-        if (value.equals("?")) {
-            this.scale = new Scale(0, 15);
-        } else {
-            int intValue = (Integer) value;
-            if (intValue < 5) {
-                this.scale = new Scale(intValue, 15);
-            } else {
-                this.scale = new Scale(0, 15);
-            }
-        }
+    private final ValueType type;
+    private final Integer numberValue;
 
-        if (!value.equals("?") && !scale.contains((Integer) value)) {
-            throw new IllegalArgumentException("Value not in scale");
+    private Weight(ValueType type, Integer numberValue) {
+        this.type = type;
+        this.numberValue = numberValue;
+    }
+
+    public static Weight of(Integer value) {
+        return new Weight(ValueType.NUMBER, value);
+    }
+
+    public static Weight indeterminate() {
+        return new Weight(ValueType.INDETERMINATE, null);
+    }
+
+    public boolean isIndeterminate() {
+        return this.type == ValueType.INDETERMINATE;
+    }
+
+    public Integer getNumberValue() {
+        if (type != ValueType.NUMBER) {
+            return null;
         }
-        this.value = value;
+        return numberValue;
     }
 
     public Object getWeight() {
-        return this.value;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setWeight(Object value) {
-        this.value = value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
+        return this.numberValue;
     }
 
     @Override
@@ -53,24 +43,24 @@ public class Weight implements Comparable<Weight> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Weight weight = (Weight) o;
-        return Objects.equals(scale, weight.scale) && Objects.equals(value, weight.value);
+        return type == weight.type && Objects.equals(numberValue, weight.numberValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scale, value);
+        return Objects.hash(type, numberValue);
     }
 
     @Override
     public int compareTo(Weight other) {
-        if (this.value.equals("?") || other.value.equals("?")) {
+        if (this.isIndeterminate() || other.isIndeterminate()) {
             return 0;
         }
-        return ((Integer)this.value).compareTo((Integer)other.value);
+        return this.numberValue.compareTo(other.numberValue);
     }
 
     @Override
     public String toString() {
-        return this.value.toString();
+        return isIndeterminate() ? "?" : String.valueOf(numberValue);
     }
 }

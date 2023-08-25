@@ -4,11 +4,9 @@ import com.bskoczylas.modelinglegalreasoning.controllers.ProjectController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AVPObservableController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVPObserverController;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPPair;
-import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
@@ -147,11 +145,9 @@ public class AVPController implements AVPObservableController {
         int min = avpWeights.getScale().getMin();
         int max = avpWeights.getScale().getMax();
 
-        // Check if min is less than or equal to max
         if (min <= max) {
             for (int i = min; i <= max; i++) {
-                // assume Weight class has a constructor that accepts an int
-                weights.add(new Weight(this.projectController.getProject().getScale(), i));
+                weights.add(Weight.of(i));
             }
         }
 
@@ -185,9 +181,6 @@ public class AVPController implements AVPObservableController {
         // Create new weights with the new scale
         updateWeightsComboBox();
 
-        // Notify the project about the change
-        projectController.getProject().notifyProjectObservers(projectController.getProject());
-
         // Update the table view after all other tasks have completed
         Platform.runLater(() -> {
             updateAVPTable();
@@ -212,6 +205,13 @@ public class AVPController implements AVPObservableController {
                 })
                 .collect(Collectors.toList());
         avpTable.setItems(FXCollections.observableList(pairs));
+    }
+
+    public void changeScale(Scale newScale) {
+        this.avpWeights.setScale(newScale);
+        updateWeightsComboBox();
+        updateAVPTable();
+        notifyAVPObservers();
     }
 
     @Override

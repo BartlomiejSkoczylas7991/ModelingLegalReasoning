@@ -61,8 +61,10 @@ public class ListPropBaseClean implements AVPObserver, AVObserver, PBCObservable
                 Value value = agentValue.getValue();
                 Weight weightAgentValueProp = agentValuePropWeight.getWeight(agent, value, prop);
                 Weight weightAgentValueTo = agentValueToWeight.getWeight(agentValue);
-                if (weightAgentValueProp != null && (weightAgentValueProp.getValue().equals("?") ||
-                        (weightAgentValueTo != null && weightAgentValueProp.compareTo(weightAgentValueTo) >= 0))) {
+                if (weightAgentValueProp != null && (weightAgentValueProp.isIndeterminate() ||
+                        (weightAgentValueTo != null &&
+                                !weightAgentValueTo.isIndeterminate() &&
+                                weightAgentValueProp.getNumberValue() >= weightAgentValueTo.getNumberValue()))) {
                     return true;
                 }
             }

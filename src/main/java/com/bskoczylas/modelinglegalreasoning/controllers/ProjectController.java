@@ -16,6 +16,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
 import javafx.application.Platform;
@@ -282,7 +283,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.avController.addAVObserver(this);
 
                 // Bind the table view to the data
-                Map.Entry<AgentValue, Weight>[] entries = avWeights.entrySet().stream()
+                Map.Entry<AgentValue, Weight>[] entries = avWeights.getAgentValueWeights().entrySet().stream()
                         .toArray(Map.Entry[]::new);
 
                 List<AVPair> avPairs = IntStream.range(0, entries.length)
@@ -354,7 +355,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.avpController.addObserver(this);
 
                 // Bind the table view to the data
-                Map.Entry<AgentValueProposition, Weight>[] entriesAVP = avpWeights.entrySet().stream()
+                Map.Entry<AgentValueProposition, Weight>[] entriesAVP = avpWeights.getAgentValuePropWeights().entrySet().stream()
                         .toArray(Map.Entry[]::new);
 
                 List<AVPPair> avpPairs = IntStream.range(0, entriesAVP.length)
@@ -565,10 +566,13 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void updateAV(AVController avController) {
                 this.avWeights = avController.getAvWeights();
                 this.project.getAgentValueToWeight().setAgentValueWeights(this.avWeights.getAgentValueWeights());
-
+                Scale newScale = avController.getAvWeights().getScale();
+                if (!this.avWeights.getScale().equals(newScale)) {  // Use negation here
+                        this.project.getAgentValuePropWeight().setScale(this.avWeights.getScale());
+                }
                 // Update the ObservableList
                 avPairs.clear();
-                avPairs.addAll(avWeights.entrySet().stream()
+                avPairs.addAll(avWeights.getAgentValueWeights().entrySet().stream()
                         .map(entry -> new AVPair(entry.getKey(), entry.getValue()))
                         .collect(Collectors.toList()));
                 this.avController.setAvWeights(this.avWeights);
@@ -600,9 +604,14 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void updateAVP(AVPController avpController) {
                 this.avpWeights = avpController.getAvpWeights();
                 this.project.getAgentValuePropWeight().setAgentValuePropWeights(this.avpWeights.getAgentValuePropWeights());
+
+                Scale newScale = avpController.getAvpWeights().getScale();
+                if (!this.avpWeights.getScale().equals(newScale)) {  // Use negation here and the correct scale
+                        this.project.getAgentValueToWeight().setScale(this.avpWeights.getScale());
+                }
                 // Update the ObservableList
                 avpPairs.clear();
-                avpPairs.addAll(avpWeights.entrySet().stream()
+                avpPairs.addAll(avpWeights.getAgentValuePropWeights().entrySet().stream()
                         .map(entry -> new AVPPair(entry.getKey(), entry.getValue()))
                         .collect(Collectors.toList()));
                 this.avpController.setAvpWeights(this.avpWeights);
@@ -755,8 +764,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void handleNewButton(ActionEvent actionEvent) {
                 app.showProjectWindow();
         }
-
-
 
         @FXML
         public void handleExitButton(ActionEvent actionEvent) {

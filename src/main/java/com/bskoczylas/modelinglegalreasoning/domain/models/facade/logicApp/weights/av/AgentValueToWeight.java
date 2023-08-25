@@ -16,7 +16,7 @@ import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Obse
 
 import java.util.*;
 
-public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
+public class AgentValueToWeight implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
     private Map<AgentValue, Weight> agentValueWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -25,9 +25,13 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     public AgentValueToWeight() {
         this.agentValueWeights = new HashMap<>();
-        this.agents = new LinkedList<Agent>();
-        this.values = new LinkedList<Value>();
+        this.agents = new LinkedList<>();
+        this.values = new LinkedList<>();
         this.scale = new Scale();
+    }
+
+    public Weight getWeight(AgentValue agentValue) {
+        return this.agentValueWeights.get(agentValue);
     }
 
     public Set<AgentValue> keySet() {
@@ -42,6 +46,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
 
     public void setScale(Scale scale) {
         this.scale = scale;
+        agentValueWeights.values().forEach(this::updateWeightAccordingToScale);
         notifyAVObservers();
     }
 
@@ -64,10 +69,6 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     public void setAgentValueWeights(Map<AgentValue, Weight> agentValueWeights) {
         this.agentValueWeights = agentValueWeights;
         notifyAVObservers();
-    }
-
-    public Weight getWeight(AgentValue agentValue) {
-        return this.agentValueWeights.get(agentValue);
     }
 
     @Override
@@ -139,7 +140,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     }
 
     private void addAgentValuesForAgent(Agent agent) {
-        if (!this.values.isEmpty()){
+        if (!this.values.isEmpty()) {
             for (Value value : this.values) {
                 addAgentValue(agent, value);
             }
@@ -147,7 +148,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     }
 
     private void addAgentValuesForValue(Value value) {
-        if (!this.agents.isEmpty()){
+        if (!this.agents.isEmpty()) {
             for (Agent agent : this.agents) {
                 addAgentValue(agent, value);
             }
@@ -157,33 +158,27 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     private void addAgentValue(Agent agent, Value value) {
         AgentValue agentValue = new AgentValue(agent, value);
         if (!this.agentValueWeights.containsKey(agentValue)) {
-            this.agentValueWeights.put(agentValue, new Weight(scale, "?"));
+            this.agentValueWeights.put(agentValue, Weight.indeterminate());
         }
     }
 
     public void editWeight(AgentValue agentValue, Integer newWeight) {
-        Weight weight = agentValueWeights.get(agentValue);
-        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
-            weight.setWeight(newWeight);
+        if (newWeight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
+            this.agentValueWeights.put(agentValue, Weight.of(newWeight));
+            notifyAVObservers();
+        } else if (newWeight == null) {
+            this.agentValueWeights.put(agentValue, Weight.indeterminate());
             notifyAVObservers();
         }
     }
 
     public void editWeight(Agent agent, Value value, Integer newWeight) {
         AgentValue agentValue = new AgentValue(agent, value);
-        Weight weight = agentValueWeights.get(agentValue);
-        if (weight != null && newWeight >= scale.getMin() && newWeight <= scale.getMax()) {
-            weight.setWeight(newWeight);
-            notifyAVObservers();
-        }
+        editWeight(agentValue, newWeight);
     }
 
     public boolean isEmpty() {
-        if (this.agentValueWeights.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.agentValueWeights.isEmpty();
     }
 
     @Override
@@ -207,28 +202,30 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     public void updateScale(Scale updatedScale) {
         this.scale = updatedScale;
         agentValueWeights.values().forEach(this::updateWeightAccordingToScale);
-    }
-
-    protected void updateAllWeightsAccordingToScale() {
-        agentValueWeights.values().forEach(this::updateWeightAccordingToScale);
+        notifyAVObservers();
     }
 
     private void updateWeightAccordingToScale(Weight weight) {
-        if (weight.getWeight().equals("?")) {
-            weight.setWeight(scale.getMax());
-        } else {
-            Integer weightValue = (Integer) weight.getWeight();
-            if (!scale.contains(weightValue)) {
-                adjustWeightToScaleBounds(weight, weightValue);
-            }
+        Integer weightValue = weight.getNumberValue();
+        if (weightValue != null && !scale.contains(weightValue)) {
+            adjustWeightToScaleBounds(weight, weightValue);
         }
     }
 
     private void adjustWeightToScaleBounds(Weight weight, Integer weightValue) {
+        Map.Entry<AgentValue, Weight> entry = agentValueWeights.entrySet()
+                .stream()
+                .filter(e -> e.getValue().equals(weight))
+                .findFirst()
+                .orElse(null);
+        if (entry == null) {
+            return;
+        }
+
         if (weightValue < scale.getMin()) {
-            weight.setWeight(scale.getMin());
+            entry.setValue(Weight.of(scale.getMin()));
         } else {
-            weight.setWeight(scale.getMax());
+            entry.setValue(Weight.of(scale.getMax()));
         }
     }
 
@@ -236,7 +233,7 @@ public class AgentValueToWeight extends HashMap<AgentValue, Weight> implements A
     public String toString() {
         StringBuilder weightsStr = new StringBuilder("{");
         for (var entry : this.agentValueWeights.entrySet()) {
-            weightsStr.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
+            weightsStr.append(entry.getKey()).append(": ").append(entry.getValue().getWeight()).append(", ");
         }
         weightsStr.append("}");
         return weightsStr.toString();

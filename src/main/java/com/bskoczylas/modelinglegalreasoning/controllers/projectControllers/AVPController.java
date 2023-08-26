@@ -30,7 +30,7 @@ public class AVPController implements AVPObservableController {
     private TableColumn<AVPPair, String> avpAgentsColumn;
     private TableColumn<AVPPair, String> avpValuesColumn;
     private TableColumn<AVPPair, String> avpPropositionColumn;
-    private TableColumn<AVPPair, Integer> avpWeightsColumn;
+    private TableColumn<AVPPair, String> avpWeightsColumn;
     private Slider minSlider;
 
     private Slider maxSlider;
@@ -45,7 +45,7 @@ public class AVPController implements AVPObservableController {
                         TableColumn<AVPPair, String> avpAgentsColumn,
                         TableColumn<AVPPair, String> avpValuesColumn,
                          TableColumn<AVPPair, String> avpPropositionColumn,
-                        TableColumn<AVPPair, Integer> avpWeightsColumn,
+                        TableColumn<AVPPair, String> avpWeightsColumn,
                         Slider minSlider,
                         Slider maxSlider,
                         ComboBox<Weight> weightsComboBox) {

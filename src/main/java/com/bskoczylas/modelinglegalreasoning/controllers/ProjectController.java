@@ -126,7 +126,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @FXML
         private TableColumn<AVPair, String> avValuesColumn;
         @FXML
-        private TableColumn<AVPair, Integer> avWeightsColumn;
+        private TableColumn<AVPair, String> avWeightsColumn;
         @FXML
         private Slider avMinScale;
         @FXML
@@ -149,7 +149,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @FXML
         private TableColumn<AVPPair, String> avpPropositionsColumn;
         @FXML
-        private TableColumn<AVPPair, Integer> avpWeightsColumn;
+        private TableColumn<AVPPair, String> avpWeightsColumn;
         @FXML
         private Slider avpMinScale;
         @FXML
@@ -318,7 +318,14 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 avIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
                 avAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getAgent().getName()));
                 avValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getValue().getName()));
-                avWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
+                avWeightsColumn.setCellValueFactory(cellData -> {
+                        Weight weight = cellData.getValue().getWeight();
+                        if (weight.isIndeterminate()) {
+                                return new SimpleStringProperty("?");
+                        } else {
+                                return new SimpleStringProperty(String.valueOf(weight.getNumberValue()));
+                        }
+                });
 
                 avTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -391,7 +398,14 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 avpAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getAgent().getName()));
                 avpValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getValue().getName()));
                 avpPropositionsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getProposition().getStatement()));
-                avpWeightsColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getWeight()));
+                avpWeightsColumn.setCellValueFactory(cellData -> {
+                        Weight weight = cellData.getValue().getWeight();
+                        if (weight.isIndeterminate()) {
+                                return new SimpleStringProperty("?");
+                        } else {
+                                return new SimpleStringProperty(String.valueOf(weight.getNumberValue()));
+                        }
+                });
 
                 avpTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -758,6 +772,18 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         @FXML
         public void handleHelpButton(ActionEvent actionEvent) {
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+                        Parent root = loader.load();
+
+                        Scene scene = new Scene(root);
+                        Stage helpStage = new Stage();
+                        helpStage.setScene(scene);
+                        helpStage.setTitle("Help");
+                        helpStage.show();
+                } catch (IOException ex) {
+                        ex.printStackTrace();
+                }
         }
 
         @FXML
@@ -951,7 +977,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 return avValuesColumn;
         }
 
-        public TableColumn<AVPair, Integer> getAvWeightsColumn() {
+        public TableColumn<AVPair, String> getAvWeightsColumn() {
                 return avWeightsColumn;
         }
 
@@ -995,7 +1021,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 return avpPropositionsColumn;
         }
 
-        public TableColumn<AVPPair, Integer> getAvpWeightsColumn() {
+        public TableColumn<AVPPair, String> getAvpWeightsColumn() {
                 return avpWeightsColumn;
         }
 

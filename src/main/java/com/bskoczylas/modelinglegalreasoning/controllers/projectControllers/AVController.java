@@ -32,7 +32,7 @@ public class AVController implements AVObservableController {
     
     private TableColumn<AVPair, String> avValuesColumn;
     
-    private TableColumn<AVPair, Integer> avWeightsColumn;
+    private TableColumn<AVPair, String> avWeightsColumn;
     
     private Slider minSlider;
     
@@ -47,7 +47,7 @@ public class AVController implements AVObservableController {
                         TableColumn<AVPair, Integer> avIdColumn,
                         TableColumn<AVPair, String> avAgentsColumn,
                         TableColumn<AVPair, String> avValuesColumn,
-                        TableColumn<AVPair, Integer> avWeightsColumn,
+                        TableColumn<AVPair, String> avWeightsColumn,
                         Slider minSlider,
                         Slider maxSlider,
                         ComboBox<Weight> weightsComboBox) {

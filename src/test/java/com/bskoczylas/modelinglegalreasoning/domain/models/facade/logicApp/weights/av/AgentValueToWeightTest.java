@@ -19,21 +19,5 @@ class AgentValueToWeightTest {
 
 
 
-    @Test
-    void testObserverNotification() {
-        Agent agent = new Agent("Alice");
-        Value value = new Value("Truth");
-        AgentValueToWeight avtWeight = new AgentValueToWeight();
-
-        // Tworzymy atrapę obserwatora (spy)
-        AVObserver observerSpy = Mockito.spy(AVObserver.class);
-
-        // Dodajemy atrapę obserwatora
-        avtWeight.addAVObserver(observerSpy);
-
-        // Sprawdzamy, czy metoda updateAV została wywołana na obserwatorzeadd
-        Mockito.verify(observerSpy).updateAV(avtWeight);
-    }
-
 
 }

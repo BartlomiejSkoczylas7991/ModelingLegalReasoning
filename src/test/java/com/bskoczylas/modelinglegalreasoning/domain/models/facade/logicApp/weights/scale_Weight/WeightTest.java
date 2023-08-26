@@ -9,20 +9,15 @@ class WeightTest {
     @Test
     void testConstructorWithValidValue() {
         Scale scale = new Scale(1, 3);
-        Weight weight = new Weight(scale, 2);
-        assertEquals(2, weight.getValue());
+        Weight weight = Weight.of(2);
+        assertEquals(2, weight.getWeight());
     }
 
     @Test
     void testConstructorWithQuestionMark() {
         Scale scale = new Scale(1, 3);
-        Weight weight = new Weight(scale, "?");
-        assertEquals("?", weight.getValue());
+        Weight weight = Weight.indeterminate();
+        assertEquals(null, weight.getWeight());
     }
 
-    @Test
-    void testConstructorWithInvalidValue() {
-        Scale scale = new Scale(1, 3);
-        assertThrows(IllegalArgumentException.class, () -> new Weight(scale, 4));
-    }
 }

@@ -57,6 +57,7 @@ public class RuleController implements RuleControllerObservable {
     public RuleController(ProjectController projectController) {
         this.projectController = projectController;
         this.listRules = projectController.getProject().getListRules();
+        this.incompPropList = projectController.getProject().getListIncompProp().getIncompatiblePropositions();
         availablePropositions = projectController.getProject().getListProposition().getPropositionsNotDecisions();
     }
 

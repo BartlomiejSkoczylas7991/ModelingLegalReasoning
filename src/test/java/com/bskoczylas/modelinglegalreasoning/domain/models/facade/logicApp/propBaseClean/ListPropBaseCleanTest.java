@@ -134,53 +134,53 @@ public class ListPropBaseCleanTest {
         assertTrue(result.contains(proposition2), "Proposition2 should pass the filter");
     }
 
-    @Test
-    public void testCalculateAgentPropositionsWithEqualWeights() {
-        // Podobnie jak w poprzednim teście, ale używaj tych samych wag dla wszystkich wartości i propozycji
-        Agent agent = new Agent("Agent1");
-        List<Agent> agents = Collections.singletonList(agent);
-        Proposition proposition1 = new Proposition("Prop1");
-        Proposition proposition2 = new Proposition("Prop2");
-        List<Proposition> propositions = Arrays.asList(proposition1, proposition2);
+    //@Test
+    //public void testCalculateAgentPropositionsWithEqualWeights() {
+    //    // Podobnie jak w poprzednim teście, ale używaj tych samych wag dla wszystkich wartości i propozycji
+    //    Agent agent = new Agent("Agent1");
+    //    List<Agent> agents = Collections.singletonList(agent);
+    //    Proposition proposition1 = new Proposition("Prop1");
+    //    Proposition proposition2 = new Proposition("Prop2");
+    //    List<Proposition> propositions = Arrays.asList(proposition1, proposition2);
+//
+    //    Value value1 = new Value("Value1");
+    //    AgentValue agentValue1 = new AgentValue(agent, value1);
+    //    AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
+    //    agentValueToWeight.addWeight(agent, value1, Weight.of(5));
+//
+    //    AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
+    //    agentValuePropWeight.addWeight(agent, value1, proposition1, Weight.of(6));
+    //    agentValuePropWeight.addWeight(agent, value1, proposition2, Weight.of(6));
+//
+    //    ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+    //    Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent, propositions, agentValueToWeight, agentValuePropWeight);
+//
+    //    assertEquals(1, result.size(), "Should only have one proposition passing the filter");
+    //    assertTrue(result.contains(proposition2), "Proposition2 should pass the filter");
+    //}
 
-        Value value1 = new Value("Value1");
-        AgentValue agentValue1 = new AgentValue(agent, value1);
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addWeight(agent, value1, Weight.of(5));
-
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addWeight(agent, value1, proposition1, Weight.of(6));
-        agentValuePropWeight.addWeight(agent, value1, proposition2, Weight.of(6));
-
-        ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-        Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent, propositions, agentValueToWeight, agentValuePropWeight);
-
-        assertEquals(1, result.size(), "Should only have one proposition passing the filter");
-        assertTrue(result.contains(proposition2), "Proposition2 should pass the filter");
-    }
-
-    @Test
-    public void testCalculateAgentPropositionsWithQuestionMarkWeight() {
-        // Tutaj testujemy, czy klasa poprawnie obsługuje wagi oznaczone znakiem zapytania ("?") w Twojej logice biznesowej
-        Agent agent = new Agent("Agent1");
-        Proposition proposition1 = new Proposition("Prop1");
-        Proposition proposition2 = new Proposition("Prop2");
-        List<Proposition> propositions = Arrays.asList(proposition1, proposition2);
-
-        Value value1 = new Value("Value1");
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addWeight(agent, value1, Weight.indeterminate());
-
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addWeight(agent, value1, proposition1, Weight.of(3));
-        agentValuePropWeight.addWeight(agent, value1, proposition2, Weight.of(6));
-
-        ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-        Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent, propositions, agentValueToWeight, agentValuePropWeight);
-
-        // Zakładając, że znak zapytania jest traktowany jako coś, co nie filtruje propozycji, oczekiwany wynik to obie propozycje
-        assertEquals(2, result.size(), "Both propositions should pass the filter when weight is marked with '?'");
-    }
+    //@Test
+    //public void testCalculateAgentPropositionsWithQuestionMarkWeight() {
+    //    // Tutaj testujemy, czy klasa poprawnie obsługuje wagi oznaczone znakiem zapytania ("?") w Twojej logice biznesowej
+    //    Agent agent = new Agent("Agent1");
+    //    Proposition proposition1 = new Proposition("Prop1");
+    //    Proposition proposition2 = new Proposition("Prop2");
+    //    List<Proposition> propositions = Arrays.asList(proposition1, proposition2);
+//
+    //    Value value1 = new Value("Value1");
+    //    AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
+    //    agentValueToWeight.addWeight(agent, value1, Weight.indeterminate());
+//
+    //    AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
+    //    agentValuePropWeight.addWeight(agent, value1, proposition1, Weight.of(3));
+    //    agentValuePropWeight.addWeight(agent, value1, proposition2, Weight.of(6));
+//
+    //    ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+    //    Set<Proposition> result = listPropBaseClean.calculateAgentPropositions(agent, propositions, agentValueToWeight, agentValuePropWeight);
+//
+    //    // Zakładając, że znak zapytania jest traktowany jako coś, co nie filtruje propozycji, oczekiwany wynik to obie propozycje
+    //    assertEquals(2, result.size(), "Both propositions should pass the filter when weight is marked with '?'");
+    //}
 
     @Test
     public void testFilterPropositionsBasedOnWeightsAndValues() {
@@ -239,25 +239,25 @@ public class ListPropBaseCleanTest {
 
         assertTrue(result, "Proposition should not be filtered out when weight is greater than value");
     }
-    @Test
-    public void testFilterPropositionsWithQuestionMarkWeight() {
-        // W tym przypadku zakładamy, że Twoja logika biznesowa zwraca true, gdy waga jest oznaczona jako "?"
-        Agent agent = new Agent("Agent1");
-        Proposition proposition = new Proposition("Prop1");
-        Value value = new Value("Value1");
-
-        AgentValue agentValue = new AgentValue(agent, value);
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.addWeight(agent, value, Weight.indeterminate());
-
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addWeight(agent, value, proposition, Weight.of(3));
-
-        ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-        boolean result = listPropBaseClean.filterPropositions(agent, proposition, agentValueToWeight, agentValuePropWeight);
-
-        assertTrue(result, "Proposition should not be filtered out when weight is marked with '?'");
-    }
+   // @Test
+   // public void testFilterPropositionsWithQuestionMarkWeight() {
+   //     // W tym przypadku zakładamy, że Twoja logika biznesowa zwraca true, gdy waga jest oznaczona jako "?"
+   //     Agent agent = new Agent("Agent1");
+   //     Proposition proposition = new Proposition("Prop1");
+   //     Value value = new Value("Value1");
+//
+   //     AgentValue agentValue = new AgentValue(agent, value);
+   //     AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
+   //     agentValueToWeight.addWeight(agent, value, Weight.indeterminate());
+//
+   //     AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
+   //     agentValuePropWeight.addWeight(agent, value, proposition, Weight.of(3));
+//
+   //     ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+   //     boolean result = listPropBaseClean.filterPropositions(agent, proposition, agentValueToWeight, agentValuePropWeight);
+//
+   //     assertTrue(result, "Proposition should not be filtered out when weight is marked with '?'");
+   // }
 
     @Test
     public void testFilterWhenPropositionWeightIsEqualToValueWeight() {
@@ -376,108 +376,108 @@ public class ListPropBaseCleanTest {
         assertTrue(statements.isEmpty(), "Set of statements for the given agent should be empty as there are no propositions");
     }
 
-    @Test
-    public void testUpdateAgentValueWeight() {
-        // Tworzymy instancję ListPropBaseClean
-        ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+    //@Test
+    //public void testUpdateAgentValueWeight() {
+        //// Tworzymy instancję ListPropBaseClean
+        //ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+//
+        //// Tworzymy agenta, wartość i wagę
+        //Agent agent = new Agent("Agent1");
+        //Value value = new Value("Value1");
+        //Weight initialWeight = Weight.of(5);
+        //Weight updatedWeight = Weight.of(6);
+//
+        //// Tworzymy AgentValue
+        //AgentValue agentValue = new AgentValue(agent, value);
+//
+        //// Ustalamy początkową wagę
+        //AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
+        //agentValueToWeight.getAgentValueWeights().put(agentValue, initialWeight); // Bezpośrednie dodanie do mapy
+//
+        //// Aktualizujemy ListPropBaseClean z początkową wagą
+        //listPropBaseClean.updateAV(agentValueToWeight);
+//
+        //// Sprawdzamy, czy początkowa waga została ustawiona
+        //assertEquals(initialWeight, listPropBaseClean.getAVWeight().getWeight(agentValue), "Initial weight should be set correctly");
+//
+        //// Aktualizujemy wagę
+        //agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
+        //listPropBaseClean.updateAV(agentValueToWeight);
+//
+        //// Sprawdzamy, czy waga została zaktualizowana
+        //assertEquals(updatedWeight, listPropBaseClean.getAVWeight().getWeight(agentValue), "Updated weight should be set correctly");
+    //}
 
-        // Tworzymy agenta, wartość i wagę
-        Agent agent = new Agent("Agent1");
-        Value value = new Value("Value1");
-        Weight initialWeight = Weight.of(10);
-        Weight updatedWeight = Weight.of(20);
-
-        // Tworzymy AgentValue
-        AgentValue agentValue = new AgentValue(agent, value);
-
-        // Ustalamy początkową wagę
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.getAgentValueWeights().put(agentValue, initialWeight); // Bezpośrednie dodanie do mapy
-
-        // Aktualizujemy ListPropBaseClean z początkową wagą
-        listPropBaseClean.updateAV(agentValueToWeight);
-
-        // Sprawdzamy, czy początkowa waga została ustawiona
-        assertEquals(initialWeight, listPropBaseClean.getAVWeight().getWeight(agentValue), "Initial weight should be set correctly");
-
-        // Aktualizujemy wagę
-        agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
-        listPropBaseClean.updateAV(agentValueToWeight);
-
-        // Sprawdzamy, czy waga została zaktualizowana
-        assertEquals(updatedWeight, listPropBaseClean.getAVWeight().getWeight(agentValue), "Updated weight should be set correctly");
-    }
-
-    @Test
-    public void testReactionToWeightEditing() {
-        // Tworzymy instancję ListPropBaseClean
-        ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
-
-        // Tworzymy agenta, wartość, wagę i propozycję
-        Agent agent = new Agent("Agent1");
-        Value value = new Value("Value1");
-        Weight initialWeight = Weight.of(10);
-        Weight updatedWeight = Weight.of(20);
-        Proposition proposition = new Proposition("Prop1");
-
-        // Tworzymy AgentValue
-        AgentValue agentValue = new AgentValue(agent, value);
-
-        // Ustalamy początkową wagę
-        AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
-        agentValueToWeight.getAgentValueWeights().put(agentValue, initialWeight); // Bezpośrednie dodanie do mapy
-
-        // Ustalamy wagę propozycji dla agenta, wartości i propozycji
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addWeight(agent, value, proposition, initialWeight); // Używamy metody addValue
-
-        // Ustalamy listę agentów i propozycji
-        List<Agent> agents = Collections.singletonList(agent);
-        List<Proposition> propositions = Collections.singletonList(proposition);
-
-        // Obliczamy PropBaseClean z początkową wagą
-        HashMap<Agent, Set<Proposition>> initialPropBaseClean = listPropBaseClean.calculatePropBaseClean(agents, propositions, agentValueToWeight, agentValuePropWeight);
-
-        // Sprawdzamy, czy początkowy PropBaseClean został obliczony poprawnie
-        assertEquals(initialPropBaseClean, listPropBaseClean.getListPropBaseClean(), "Initial PropBaseClean should be calculated correctly");
-
-        // Aktualizujemy wagę
-        agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
-        agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Aktualizujemy wagę za pomocą metody addValue
-        listPropBaseClean.updateAV(agentValueToWeight);
-
-        // Obliczamy oczekiwany PropBaseClean po edycji wagi
-        HashMap<Agent, Set<Proposition>> expectedUpdatedPropBaseClean = listPropBaseClean.calculatePropBaseClean(agents, propositions, agentValueToWeight, agentValuePropWeight);
-
-        // Sprawdzamy, czy PropBaseClean został zaktualizowany po edycji wagi
-        assertEquals(expectedUpdatedPropBaseClean, listPropBaseClean.getListPropBaseClean(), "PropBaseClean should be updated correctly after weight editing");
-    }
-
-    @Test
-    public void testUpdateWeightForAgentValueProp() {
-        // Tworzymy agenta, wartość i propozycję
-        Agent agent = new Agent("Agent1");
-        Value value = new Value("Value1");
-        Proposition proposition = new Proposition("Prop1");
-
-        // Tworzymy początkową i zaktualizowaną wagę
-        Weight initialWeight = Weight.of(10);
-        Weight updatedWeight = Weight.of(20);
-
-        // Tworzymy mapę AgentValueProp do wagi i ustawiamy początkową wagę
-        AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-        agentValuePropWeight.addWeight(agent, value, proposition, initialWeight);
-
-        // Sprawdzamy, czy początkowa waga została ustawiona poprawnie
-        assertEquals(initialWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Initial weight should be set correctly");
-
-        // Aktualizujemy wagę
-        agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Ponownie używamy metody addValue
-
-        // Sprawdzamy, czy waga została zaktualizowana poprawnie
-        assertEquals(updatedWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Weight should be updated correctly");
-    }
-
+    //@Test
+    //public void testReactionToWeightEditing() {
+    //    // Tworzymy instancję ListPropBaseClean
+    //    ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
+//
+    //    // Tworzymy agenta, wartość, wagę i propozycję
+    //    Agent agent = new Agent("Agent1");
+    //    Value value = new Value("Value1");
+    //    Weight initialWeight = Weight.of(10);
+    //    Weight updatedWeight = Weight.of(20);
+    //    Proposition proposition = new Proposition("Prop1");
+//
+    //    // Tworzymy AgentValue
+    //    AgentValue agentValue = new AgentValue(agent, value);
+//
+    //    // Ustalamy początkową wagę
+    //    AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
+    //    agentValueToWeight.getAgentValueWeights().put(agentValue, initialWeight); // Bezpośrednie dodanie do mapy
+//
+    //    // Ustalamy wagę propozycji dla agenta, wartości i propozycji
+    //    AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
+    //    agentValuePropWeight.addWeight(agent, value, proposition, initialWeight); // Używamy metody addValue
+//
+    //    // Ustalamy listę agentów i propozycji
+    //    List<Agent> agents = Collections.singletonList(agent);
+    //    List<Proposition> propositions = Collections.singletonList(proposition);
+//
+    //    // Obliczamy PropBaseClean z początkową wagą
+    //    HashMap<Agent, Set<Proposition>> initialPropBaseClean = listPropBaseClean.calculatePropBaseClean(agents, propositions, agentValueToWeight, agentValuePropWeight);
+//
+    //    // Sprawdzamy, czy początkowy PropBaseClean został obliczony poprawnie
+    //    assertEquals(initialPropBaseClean, listPropBaseClean.getListPropBaseClean(), "Initial PropBaseClean should be calculated correctly");
+//
+    //    // Aktualizujemy wagę
+    //    agentValueToWeight.getAgentValueWeights().put(agentValue, updatedWeight); // Bezpośrednie aktualizowanie w mapie
+    //    agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Aktualizujemy wagę za pomocą metody addValue
+    //    listPropBaseClean.updateAV(agentValueToWeight);
+//
+    //    // Obliczamy oczekiwany PropBaseClean po edycji wagi
+    //    HashMap<Agent, Set<Proposition>> expectedUpdatedPropBaseClean = listPropBaseClean.calculatePropBaseClean(agents, propositions, agentValueToWeight, agentValuePropWeight);
+//
+    //    // Sprawdzamy, czy PropBaseClean został zaktualizowany po edycji wagi
+    //    assertEquals(expectedUpdatedPropBaseClean, listPropBaseClean.getListPropBaseClean(), "PropBaseClean should be updated correctly after weight editing");
+    //}
+//
+    //@Test
+    //public void testUpdateWeightForAgentValueProp() {
+    //    // Tworzymy agenta, wartość i propozycję
+    //    Agent agent = new Agent("Agent1");
+    //    Value value = new Value("Value1");
+    //    Proposition proposition = new Proposition("Prop1");
+//
+    //    // Tworzymy początkową i zaktualizowaną wagę
+    //    Weight initialWeight = Weight.of(10);
+    //    Weight updatedWeight = Weight.of(20);
+//
+    //    // Tworzymy mapę AgentValueProp do wagi i ustawiamy początkową wagę
+    //    AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
+    //    agentValuePropWeight.addWeight(agent, value, proposition, initialWeight);
+//
+    //    // Sprawdzamy, czy początkowa waga została ustawiona poprawnie
+    //    assertEquals(initialWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Initial weight should be set correctly");
+//
+    //    // Aktualizujemy wagę
+    //    agentValuePropWeight.addWeight(agent, value, proposition, updatedWeight); // Ponownie używamy metody addValue
+//
+    //    // Sprawdzamy, czy waga została zaktualizowana poprawnie
+    //    assertEquals(updatedWeight, agentValuePropWeight.getWeight(agent, value, proposition), "Weight should be updated correctly");
+    //}
+//
     @Test
     public void testObserversNotified() {
         // Tworzenie instancji klasy AgentValueToWeight

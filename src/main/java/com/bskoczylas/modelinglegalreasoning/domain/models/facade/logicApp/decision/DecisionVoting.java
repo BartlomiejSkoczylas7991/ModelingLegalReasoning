@@ -13,33 +13,39 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 
 import java.util.*;
 
-public class Decision implements DecisionObservable, RCObserver, IncompPropObserver {
+public class DecisionVoting implements DecisionObservable, RCObserver, IncompPropObserver {
     private ListReasoningChain listReasoningChain = new ListReasoningChain();
-    private HashMap<Proposition, Iterator> pp;
-    private HashMap<Proposition, Iterator> pd;
-    private int sum_votes;
+    private Map<Proposition, Set<Agent>> pp; // pro appellant
+    private Map<Proposition, Set<Agent>> pd; // pro appellee
+    private int sumVotesAgentsWithDecision;
+    private int sumVotesAllAgents;
     private Proposition decision;
     private Pair<Proposition, Proposition> decisions;
     private List<DecisionObserver> observers = new ArrayList<>();
-    public Decision() {}
+    public DecisionVoting() {}
 
     private void updateDecision(List<Agent> agents) {
         int ppCount = 0;
         int pdCount = 0;
+        sumVotesAllAgents = 0;
+        sumVotesAgentsWithDecision = 0;
         if (this.listReasoningChain.getAgents() != null) {
             for (Agent agent : agents) {
                 ReasoningChain agentRC = listReasoningChain.getReasoningChainByAgent(agent);
-                if (agentRC != null) {
+                if (agentRC.getDecision() != null) {
                     Proposition agentDecision = agentRC.getDecision();
-                    if (agentDecision != null) {
-                        if (agentDecision.equals(decisions.getFirst())) {
-                            ppCount++;
-                        } else if (agentDecision.equals(decisions.getSecond())) {
-                            pdCount++;
-                        }
+                    if (agentDecision.equals(decisions.getFirst())) {
+                        ppCount++;
+                        pp.get(decisions.getFirst()).add(agent);
+
+                    } else if (agentDecision.equals(decisions.getSecond())) {
+                        pdCount++;
+                        pd.get(decisions.getSecond()).add(agent);
                     }
                 }
+                sumVotesAllAgents++;
             }
+            sumVotesAgentsWithDecision = ppCount + pdCount;
         }
 
         if (ppCount > pdCount) {
@@ -70,12 +76,8 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
         return decisions;
     }
 
-    public List<DecisionObserver> getObservers() {
-        return observers;
-    }
-
-    public void setObservers(List<DecisionObserver> observers) {
-        this.observers = observers;
+    public int getSumVotesAgentsWithDecision() {
+        return sumVotesAgentsWithDecision;
     }
 
     @Override
@@ -90,6 +92,10 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
     public void updateIncomp(ListIncompProp listIncompProp) {
         this.decisions = listIncompProp.getDecisions();
         if(this.listReasoningChain != null){
+            pp = new HashMap<>();
+            pp.put(listIncompProp.getDecisions().getFirst(), new HashSet<>());
+            pd = new HashMap<>();
+            pd.put(listIncompProp.getDecisions().getSecond(), new HashSet<>());
             updateDecision(this.listReasoningChain.getAgents());
         }
     }
@@ -117,7 +123,7 @@ public class Decision implements DecisionObservable, RCObserver, IncompPropObser
                 "listReasoningChain=" + listReasoningChain +
                 ", pp=" + pp +
                 ", pd=" + pd +
-                ", sum_votes=" + sum_votes +
+                ", sum_votes=" +
                 '}';
     }
 }

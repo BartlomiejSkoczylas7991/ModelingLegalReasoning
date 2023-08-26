@@ -34,6 +34,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -160,15 +161,16 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         private TableColumn<IncompProp, String> incompProp1NameColumn;
         @FXML
         private TableColumn<IncompProp, String> incompProp2NameColumn;
-
         @FXML
         private ComboBox<Proposition> prop1comboBoxIncompProp = new ComboBox<>();
-
         @FXML
         private ComboBox<Proposition> prop2comboBoxIncompProp = new ComboBox<>();
-
         @FXML
         private RadioButton isDecisionRadioButton;
+        @FXML
+        private Label proAppellantLabel;
+        @FXML
+        private Label proAppelleeLabel;
 
         private IncompPropController incompPropController;
 
@@ -271,7 +273,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 List<AVPair> avPairs = IntStream.range(0, entries.length)
                         .mapToObj(i -> {
                                 AVPair pair = new AVPair(entries[i].getKey(), entries[i].getValue());
-                                pair.setId(i+1); // Assume that setId exists in AVPair.
+                                pair.setId(i+1);
                                 return pair;
                         })
                         .collect(Collectors.toList());
@@ -286,7 +288,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                                 if (item == null || empty) {
                                                         setText(null);
                                                 } else {
-                                                        setText(item.toString()); // replace with your own method to convert Weight to a string
+                                                        setText(item.toString());
                                                 }
                                         }
                                 };
@@ -361,8 +363,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                                 if (item == null || empty) {
                                                         setText(null);
                                                 } else {
-                                                        setText(item.toString()); // replace with your own method to convert Weight to a string
-                                                }
+                                                        setText(item.toString());                                                 }
                                         }
                                 };
                         }
@@ -398,7 +399,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 avpController.updateWeightsComboBox();
 
                 rulesIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-                rulesCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
+                rulesCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
                 rulesPremisesColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Rule, String>, ObservableValue<String>>() {
                         @Override
                         public ObservableValue<String> call(TableColumn.CellDataFeatures<Rule, String> param) {
@@ -863,6 +864,14 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         public ComboBox<Proposition> getProp2comboBoxIncompProp() {
                 return prop2comboBoxIncompProp;
+        }
+
+        public Label getProAppellantLabel() {
+                return proAppellantLabel;
+        }
+
+        public Label getProAppelleeLabel() {
+                return proAppelleeLabel;
         }
 
         public void setApp(App app) {

@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 
@@ -28,6 +29,8 @@ public class IncompPropController implements IncompControllerObservable {
     private ComboBox<Proposition> prop1comboBoxIncompProp;
     private final ComboBox<Proposition> prop2comboBoxIncompProp;
     private RadioButton isDecisionRadioButton;
+    private Label proAppellantLabel;
+    private Label proAppelleeLabel;
     private ProjectController projectController;
     private Project project;
     private ListRules listRules;
@@ -43,9 +46,12 @@ public class IncompPropController implements IncompControllerObservable {
         this.prop1comboBoxIncompProp = prop1comboBoxIncompProp;
         this.prop2comboBoxIncompProp = prop2comboBoxIncompProp;
         this.isDecisionRadioButton = isDecisionRadioButton;
+        this.proAppelleeLabel = projectController.getProAppelleeLabel();
+        this.proAppellantLabel = projectController.getProAppellantLabel();
 
         checkDecision();
-        isDecisionRadioButton.setSelected(false);// call this method to initialize the state of the button
+        isDecisionRadioButton.setSelected(false);
+        setupDecisionLabelsVisibility();
     }
 
     public void handleAddButtonAction(ActionEvent event) {
@@ -75,7 +81,6 @@ public class IncompPropController implements IncompControllerObservable {
                 isDecisionRadioButton.setSelected(false);
                 notifyIncompContrObservers();
             } else {
-                // Show error to user
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
@@ -89,7 +94,6 @@ public class IncompPropController implements IncompControllerObservable {
                 alert.showAndWait();
             }
         } else {
-            // Show error to user, invalid propositions selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -107,7 +111,7 @@ public class IncompPropController implements IncompControllerObservable {
         project.getListIncompProp().removeIncompProp(selectedIncompProp);
         updateIncompPropTable();
 
-        checkDecision(); // call this method after removing an IncompProp
+        checkDecision();
     }
 
     public void updateIncompPropTable() {
@@ -123,6 +127,13 @@ public class IncompPropController implements IncompControllerObservable {
         } else {
             isDecisionRadioButton.setDisable(false);
         }
+    }
+
+    private void setupDecisionLabelsVisibility() {
+        isDecisionRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            proAppellantLabel.setVisible(newValue);
+            proAppelleeLabel.setVisible(newValue);
+        });
     }
 
     public void removeIncompPropsIncludingProposition(Proposition proposition) {

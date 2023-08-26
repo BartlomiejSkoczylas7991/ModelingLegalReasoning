@@ -59,13 +59,13 @@ public class ValueController implements ValueControllerObservable {
     }
 
     public void handleAddValue() {
-        String valueName = valueNameTextField.getText().trim(); // pobierz nazwę wartości z pola tekstowego
+        String valueName = valueNameTextField.getText().trim();
 
         if (!valueName.isEmpty()) {
-            Value newValue = new Value(valueName); // utwórz nową instancję wartości
-            addValue(newValue); // dodaj nowego wartość do projektu
-            valueNameTextField.clear(); // wyczyść pole tekstowe
-            updateValueTable(); // zaktualizuj tabelę po dodaniu wartości
+            Value newValue = new Value(valueName);
+            addValue(newValue);
+            valueNameTextField.clear();
+            updateValueTable();
         }
     }
 
@@ -73,7 +73,7 @@ public class ValueController implements ValueControllerObservable {
         Value selectedValue = valueTable.getSelectionModel().getSelectedItem();
         if (selectedValue != null) {
             removeValue(selectedValue);
-            updateValueTable(); // zaktualizuj tabelę po usunięciu wartości
+            updateValueTable();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

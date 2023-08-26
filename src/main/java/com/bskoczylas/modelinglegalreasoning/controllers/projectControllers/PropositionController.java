@@ -54,10 +54,10 @@ public class PropositionController implements PropositionControllerObservable {
 
     public void removeProposition(Proposition proposition) {
         if (project.getListProposition().removeProposition(proposition)) {
-            removedProposition = proposition; // przechowuj usuniętą propozycję
+            removedProposition = proposition;
             updatePropositionTable();
             updateComboBoxes();
-            notifyPropositionContrObservers(); // Notyfikuj obserwatorów o usunięciu propozycji
+            notifyPropositionContrObservers();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -73,13 +73,13 @@ public class PropositionController implements PropositionControllerObservable {
     }
 
     public void handleAddProposition() {
-        String propositionName = propositionNameTextField.getText().trim(); // pobierz nazwę Propositiona z pola tekstowego
+        String propositionName = propositionNameTextField.getText().trim();
 
         if (!propositionName.isEmpty()) {
-            Proposition newProposition = new Proposition(propositionName); // utwórz nową instancję Proposition
-            addProposition(newProposition); // dodaj nowego Propositiona do projektu
-            propositionNameTextField.clear(); // wyczyść pole tekstowe
-            updatePropositionTable(); // zaktualizuj tabelę po dodaniu Proposition
+            Proposition newProposition = new Proposition(propositionName);
+            addProposition(newProposition);
+            propositionNameTextField.clear();
+            updatePropositionTable();
         }
     }
 

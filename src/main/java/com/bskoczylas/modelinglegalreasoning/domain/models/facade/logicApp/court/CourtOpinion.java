@@ -18,6 +18,7 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
     private List<Consortium> pluralityOpinions = new ArrayList<>();
     private List<Consortium> concurringOpinions = new ArrayList<>();
     private List<Consortium> dissentingOpinions = new ArrayList<>();
+    private List<Consortium> undecidedAgents = new ArrayList<>();
     private ListConsortium listConsortium;
     private final List<CourtOpinionObserver> observers = new ArrayList<>();
 
@@ -49,7 +50,6 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
             }
         }
 
-        // Finally, we frame the court's decision based on the largest majority or plurality opinion
         Consortium largestMajorityOpinion = findLargestOpinion(majorityOpinions);
         Consortium largestPluralityOpinion = findLargestOpinion(pluralityOpinions);
 
@@ -114,18 +114,5 @@ public class CourtOpinion implements ConsortiumObserver, CourtOpinionObservable 
         for(CourtOpinionObserver observer : observers) {
             observer.updateCourtOpinion(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "CourtOpinion{" +
-                "decision=" + decision +
-                ", majorityOpinions=" + majorityOpinions +
-                ", pluralityOpinions=" + pluralityOpinions +
-                ", concurringOpinions=" + concurringOpinions +
-                ", dissentingOpinions=" + dissentingOpinions +
-                ", listConsortium=" + listConsortium +
-                ", observers=" + observers +
-                '}';
     }
 }

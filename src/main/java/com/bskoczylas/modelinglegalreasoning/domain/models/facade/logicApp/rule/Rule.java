@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 
 public class Rule {
     private static int nextId = 1;
-    private int id = 0;
+    private int id = 1;
+    private static int counter = 1;
     private Set<Proposition> premises;
     private Proposition conclusion;
     private LocalDateTime created;
@@ -18,6 +19,7 @@ public class Rule {
         this.id = nextId++;
         this.premises = premises;
         this.conclusion = conclusion;
+        this.id = counter++;
         this.created = LocalDateTime.now();
     }
     public Set<Proposition> getPremises() {
@@ -34,6 +36,10 @@ public class Rule {
 
     public Proposition getConclusion() {
         return conclusion;
+    }
+
+    public static void decrementID() {
+        if(counter > 0) counter--;
     }
 
     public int getId() {

@@ -63,13 +63,12 @@ public class AgentController implements AgContrObservable {
     }
 
     public void handleAddAgent() {
-        String agentName = agentNameTextField.getText().trim(); // pobierz nazwę agenta z pola tekstowego
-
+        String agentName = agentNameTextField.getText().trim();
         if (!agentName.isEmpty()) {
-            Agent newAgent = new Agent(agentName); // utwórz nową instancję agenta
-            addAgent(newAgent); // dodaj nowego agenta do projektu
-            agentNameTextField.clear(); // wyczyść pole tekstowe
-            updateAgentTable(); // zaktualizuj tabelę po dodaniu agenta
+            Agent newAgent = new Agent(agentName);
+            addAgent(newAgent);
+            agentNameTextField.clear();
+            updateAgentTable();
         }
     }
     @FXML
@@ -78,7 +77,7 @@ public class AgentController implements AgContrObservable {
         if (selectedAgent != null) {
             removeAgent(selectedAgent);
             notifyAgentContrObservers();
-            updateAgentTable(); // zaktualizuj tabelę po usunięciu agenta
+            updateAgentTable();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

@@ -43,7 +43,7 @@ public class Consortium {
 
     @Override
     public String toString() {
-        return "Consortium{" +
+        return "{" +
                 "ReasoningChain=" + reasoningChain.toString() +
                 ", Agents=" + agents.stream()
                 .map(Agent::getName)

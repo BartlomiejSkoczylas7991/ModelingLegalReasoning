@@ -20,13 +20,11 @@ public class HelpController {
         Text contentIntroduction = new Text("Welcome to the Legal Reasoning Modeling program! This tool is based on the scientific work of two researchers: Wyner and Żurek. With it, you can analyze complex legal reasoning processes in a clear and efficient way.\n");
         contentIntroduction.getStyleClass().add("normal");
 
-        // Program Structure Section
         Text titleProgramStructure = new Text("Program Structure\n");
         titleProgramStructure.getStyleClass().add("title");
         Text contentProgramStructure = new Text("Project\nAgents: Enter the agent's name.\nProposals: Enter the name and decide if it is the final decision.\n..."); // kontynuuj tekst sekcji
         contentProgramStructure.getStyleClass().add("normal");
 
-        // How does it work? Section
         Text titleHowDoesItWork = new Text("How does it work?\n");
         titleHowDoesItWork.getStyleClass().add("title");
         Text contentHowDoesItWork = new Text("Defining PropBaseClean: Based on the entered weights, we create a PropBaseClean set for each agent.\n" +
@@ -36,7 +34,6 @@ public class HelpController {
                 "Creating Consortiums: Consortia of agents are created based on voting results.\n"); // kontynuuj tekst sekcji
         contentHowDoesItWork.getStyleClass().add("normal");
 
-        // Requirements and Rules Section
         Text titleRequirements = new Text("Requirements and Rules\n");
         titleRequirements.getStyleClass().add("title");
         Text contentRequirements = new Text("You can only generate a report when the following requirements are met:\n" +
@@ -49,16 +46,14 @@ public class HelpController {
                 "\nAdditional Rules:\n" +
                 "1. When setting weights for AgentValuePropWeight, remember that one weight greater than the corresponding value in AgentValueToWeight is enough for a proposal to pass through the filter.\n" +
                 "2. Proposals decided as 'final decisions' cannot be used with premises in rules.\n" +
-                "7. Proposals not used in setting rules (being in premises) will not be considered in values.\n" +
-                "8. Avoid creating overly complicated reasoning chains that can make analysis unreadable and difficult to understand.\n" +
-                "9. Regularly saving progress is key to avoiding potential data loss issues.\n" +
+                "3. Proposals not used in setting rules (being in premises) will not be considered in values.\n" +
+                "4. Avoid creating overly complicated reasoning chains that can make analysis unreadable and difficult to understand.\n" +
                 "\n" +
                 "Assign unique names to agents, values, and proposals.\n" +
                 "You cannot add conflicting rules.\n" +
                 "And many other rules described in the upper part of this text (from points 4 to 9).\n"); // kontynuuj tekst sekcji
         contentRequirements.getStyleClass().add("normal");
 
-        // Tips and Tricks Section
         Text titleTips = new Text("Tips and Tricks\n");
         titleTips.getStyleClass().add("title");
         Text contentTips = new Text("Use the 'Help' feature at any time if you have questions or doubts.\n" +

@@ -89,22 +89,41 @@ public class RuleController implements RuleControllerObservable {
     @FXML
     public void handleAddRuleButtonAction(ActionEvent actionEvent) {
         RadioButton selectedDecisionButton = (RadioButton) group.getSelectedToggle();
-        Proposition selectedDecision = selectedDecisionButton == decisionRadioButton1 ? decision1 : decision2;
 
-        if (selectedDecision == null || premises.isEmpty()) {
+        if (selectedDecisionButton == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("You must select a conclusion and at least one premise to create a rule!");
+            alert.setContentText("You must select a conclusion!");
 
             alert.showAndWait();
             return;
         }
 
-        Rule newRule = new Rule(premises, selectedDecision);
+        Proposition selectedDecision = selectedDecisionButton == decisionRadioButton1 ? decision1 : decision2;
 
-        if (!listRules.containsSamePremises(newRule)) {
-            listRules.addRule(newRule.getPremises(), newRule.getConclusion());
+        if (premises.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("You must select at least one premise to create a rule!");
+
+            alert.showAndWait();
+            return;
+        }
+
+        boolean ruleExists = false;
+
+        for (Rule existingRule : listRules.getListRules()) {
+            if (existingRule.getPremises().equals(premises)) {
+                ruleExists = true;
+                break;
+            }
+        }
+
+        if (!ruleExists) {
+            Rule newRule = new Rule(premises, selectedDecision);
+            listRules.addRule(newRule);
 
             Toggle selectedToggle = group.getSelectedToggle();
             if (selectedToggle != null) {
@@ -112,16 +131,15 @@ public class RuleController implements RuleControllerObservable {
             }
 
             notifyRuleContrObservers();
-
             ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("The rule with the same premises already exists!");
-
             alert.showAndWait();
         }
+
     }
 
     @FXML
@@ -130,16 +148,14 @@ public class RuleController implements RuleControllerObservable {
 
         if (selectedPremise != null && premises.contains(selectedPremise)) {
             premises.remove(selectedPremise);
-            selectedPropositionsObservableList.remove(selectedPremise); // Usuń z tabeli
-            availablePropositions.add(selectedPremise); // Dodaj z powrotem do availablePropositions
+            selectedPropositionsObservableList.remove(selectedPremise);
+            availablePropositions.add(selectedPremise);
         }
     }
 
     @FXML
     public void handleAddPremiseButtonAction(ActionEvent event) {
-        // Pobierz wybraną propozycję
         Proposition selectedPremise = (Proposition) premisesComboBox.getSelectionModel().getSelectedItem();
-        // Sprawdź, czy wybrana propozycja jest niekompatybilna z jakąkolwiek propozycją już na liście
         boolean isCompatible = true;
         for (IncompProp incompProp : projectController.getProject().getListIncompProp().getIncompatiblePropositions()) {
             Pair<Proposition, Proposition> pair = incompProp.getPropositionsPair();
@@ -158,12 +174,11 @@ public class RuleController implements RuleControllerObservable {
 
             alert.showAndWait();
         } else {
-            // Dodaj propozycję do listy przesłanek tylko jeżeli jej tam jeszcze nie ma
             if (selectedPremise != null && availablePropositions.contains(selectedPremise)) {
                 premises.add(selectedPremise);
-                selectedPropositionsObservableList.add(selectedPremise); // Dodaj do tabeli
-                availablePropositions.remove(selectedPremise); // Usuń z availablePropositions
-                premisesTable.refresh(); // Odśwież tabelę
+                selectedPropositionsObservableList.add(selectedPremise);
+                availablePropositions.remove(selectedPremise);
+                premisesTable.refresh();
             }
         }
     }

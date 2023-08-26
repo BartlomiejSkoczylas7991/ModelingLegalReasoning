@@ -30,17 +30,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//Generowanie ostatecznego raportu, w którym wyświetlamy dane.
-// To tutaj widzimy wynik wnioskowania i tu kończy się logika biznesowa.
-//Generating the final report in which we display the data.
-// //This is where we see the inference result and where the business logic ends.
-// Propositions
-// we need: IncompProp/decisions
-// PropBaseClean for each Jugde
-// Rules
-// Subjective reasoning chains of all judges
-// Observations
-// The Court's ruling
 public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver, ValueObserver, PBCObserver, IncompPropObserver {
     private ListAgent listAgent = new ListAgent();
     private ListValue listValue = new ListValue();
@@ -82,17 +71,15 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
 
     private String generateObservations() {
         StringBuilder observations = new StringBuilder();
-        int consortiumCount = 1; // used for syndication naming
+        int consortiumCount = 1;
 
         for (Map.Entry<Consortium, ConsortiumType> entry : this.listConsortium.getConsortiumMap().entrySet()) {
             Consortium consortium = entry.getKey();
             ReasoningChain rc = consortium.getReasoningChain();
             Set<Agent> agents = consortium.getAgents();
 
-            // Generate consortium name from counter
             String consortiumName = "Consortium" + consortiumCount;
 
-            // Add consortium information
             if (agents.size() > 1) {
                 observations.append("Chains of ");
                 observations.append(agents.stream().map(Agent::getName).collect(Collectors.joining(", ")));
@@ -109,16 +96,17 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
             observations.append(decision == null ? "not decided" : decision.toString());
             observations.append(" , where ");
             observations.append(consortiumName);
-            observations.append(" =< ");
+            observations.append(" =< {");
             observations.append(rc.getKnowledgeBase().getPi().stream().map(Proposition::toString).collect(Collectors.joining(", ")));
-            observations.append(">, ");
+            observations.append(decision == null ? "not decided" : decision.toString());
+            observations.append("}, ");
             for (Proposition p : rc.getKnowledgeBase().getPi()) {
                 observations.append(p.toString());
                 observations.append(" → ");
                 observations.append(rc.getDecision().toString());
                 observations.append(", ");
             }
-            observations.append(".\n");
+            observations.append(">.\n");
 
             consortiumCount++; // increment the counter for the next consortium
         }
@@ -158,7 +146,6 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
 
     private String generateCourtRuling() {
         StringBuilder courtRuling = new StringBuilder();
-        courtRuling.append("The Court's ruling:\n");
         courtRuling.append("Decision = ");
         if (courtOpinion.getDecision() == null) {
             courtRuling.append("draw");
@@ -188,10 +175,10 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
 
-            float yPosition = page.getMediaBox().getHeight() - 50;  // Start near the top of the page
-            float titleIndent = 50;
-            float contentIndent = 100;
-            float bottomMargin = 50;  // Bottom margin of the page
+            float yPosition = page.getMediaBox().getHeight() - 50;
+            float titleIndent = 70;
+            float contentIndent = 150;
+            float bottomMargin = 50;
 
             for (ReportSection section : reportSections) {
                 PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
@@ -211,13 +198,13 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
                 for (String line : lines) {
                     int index = 0;
                     while (index < line.length()) {
-                        if (yPosition < bottomMargin) {  // If near the bottom of the page
+                        if (yPosition < bottomMargin) {
                             if (contentStream != null) {
                                 contentStream.close();
                             }
-                            page = new PDPage(PDRectangle.A4);  // Create new page
+                            page = new PDPage(PDRectangle.A4);
                             document.addPage(page);
-                            yPosition = page.getMediaBox().getHeight() - 50;  // Reset yPosition
+                            yPosition = page.getMediaBox().getHeight() - 50;
                             contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
                             contentStream.setFont(font, 12);
                         }
@@ -239,9 +226,9 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
                         contentStream.setFont(font, 14);
                         contentStream.showText(subLine);
                         contentStream.endText();
-                        yPosition -= 16;  // Move down for next line
+                        yPosition -= 16;
                     }
-                    yPosition -= 30;  // Move down for next section
+                    yPosition -= 30;
                 }
 
                 if (contentStream != null) {
@@ -249,7 +236,6 @@ public class Report implements CourtOpinionObserver, AgentObserver, RuleObserver
                 }
             }
 
-            // Save the document after processing all report sections
             document.save(destinationPath);
         } catch (IOException e) {
             throw new RuntimeException(e);

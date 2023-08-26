@@ -69,6 +69,16 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         }
     }
 
+    public boolean addRule(Rule newRule) {
+        if (!isRuleAlreadyPresent(newRule)) {
+            listRules.add(newRule);
+            notifyObservers();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean isRuleAlreadyPresent(Rule newRule) {
         for (Rule existingRule : listRules) {
             if (existingRule.getPremises().equals(newRule.getPremises())

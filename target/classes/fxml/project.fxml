@@ -21,6 +21,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Region?>
 <BorderPane fx:id="rootPane" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
    <top>
       <ToolBar BorderPane.alignment="CENTER">
@@ -207,7 +208,7 @@
                                       <TableColumn fx:id="incompProp2NameColumn" prefWidth="${incompPropTable.width * 0.225}" text="Name" />
                                   </columns>
                               </TableView>
-                              
+
                               <HBox alignment="CENTER">
                                   <Label text="Add or remove pairs of incompatible propositions">
                                       <font>
@@ -216,15 +217,23 @@
                                   </Label>
                               </HBox>
 
-                              <HBox alignment="CENTER" spacing="20">
-                                  <ComboBox fx:id="prop1comboBoxIncompProp" prefWidth="150.0" promptText="Prop1" />
-                                  <ComboBox fx:id="prop2comboBoxIncompProp" prefWidth="150.0" promptText="Prop2" />
-                                  <RadioButton fx:id="isDecisionRadioButton" mnemonicParsing="false" text="Is decision">
-                                      <font>
-                                          <Font size="15.0" />
-                                      </font>
-                                  </RadioButton>
-                              </HBox>
+                              <VBox alignment="CENTER" spacing="10">
+                                  <HBox alignment="CENTER" spacing="20">
+                                      <Label fx:id="proAppellantLabel" text="Pro appellant" visible="false" />
+                                      <Region minWidth="50.0"/> <!-- ten region działa jako puste miejsce między etykietami -->
+                                      <Label fx:id="proAppelleeLabel" text="Pro appellee" visible="false" />
+                                      <Region minWidth="50.0"/> <!-- puste miejsce między etykietą a przyciskiem radio -->
+                                  </HBox>
+                                  <HBox alignment="CENTER" spacing="20">
+                                      <ComboBox fx:id="prop1comboBoxIncompProp" prefWidth="150.0" promptText="Prop1" />
+                                      <ComboBox fx:id="prop2comboBoxIncompProp" prefWidth="150.0" promptText="Prop2" />
+                                      <RadioButton fx:id="isDecisionRadioButton" mnemonicParsing="false" text="Is decision">
+                                          <font>
+                                              <Font size="15.0" />
+                                          </font>
+                                      </RadioButton>
+                                  </HBox>
+                              </VBox>
 
                               <HBox alignment="CENTER" spacing="20">
                                   <Button AnchorPane.leftAnchor="110.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />

@@ -14,7 +14,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
-import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decision.Decision;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decision.DecisionVoting;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
@@ -37,7 +37,7 @@ public class Project implements ProjectObservable {
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
     private ListKnowledgeBase listKnowledgeBase = new ListKnowledgeBase();
     private ListReasoningChain listReasoningChain = new ListReasoningChain();
-    private Decision decision = new Decision();
+    private DecisionVoting decision = new DecisionVoting();
     private ListConsortium listConsortium = new ListConsortium();
     private CourtOpinion courtOpinion = new CourtOpinion();
     private Report report = new Report();
@@ -247,11 +247,11 @@ public class Project implements ProjectObservable {
         this.listPropBaseClean = listPropBaseClean;
     }
 
-    public Decision getDecision() {
+    public DecisionVoting getDecision() {
         return decision;
     }
 
-    public void setDecision(Decision decision) {
+    public void setDecision(DecisionVoting decision) {
         this.decision = decision;
     }
 

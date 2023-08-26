@@ -77,6 +77,7 @@ public class AgentController implements AgContrObservable {
         Agent selectedAgent = agentTable.getSelectionModel().getSelectedItem();
         if (selectedAgent != null) {
             removeAgent(selectedAgent);
+            notifyAgentContrObservers();
             updateAgentTable(); // zaktualizuj tabelę po usunięciu agenta
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

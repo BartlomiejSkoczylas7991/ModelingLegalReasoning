@@ -50,16 +50,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-// celem klasy jest edytowanie currentProject, zapisywanie currentProject do bazy
-// (nadpisywania już istniejącego). Każda klasa pełni wzorzec - implementujemy metody modyfikujące
-// dane pole, po czym utwardzamy tą zmianę ze wszystkimi tego konsekwencjami.
-//
-// 1 defitions
-// 2 Constructor
-// 3 getters and setters
-// 4 initializer
-// 5 handlers
-// 6 observers
+
 public class ProjectController implements Initializable, ProjectObserver, AVObserverController, AVPObserverController, AgContrObserver, PropositionControllerObserver, ValueControllerObserver, IncompControllerObserver, RuleControllerObserver {
         private Project project;
 
@@ -424,8 +415,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         }
                 });
                 avpController.updateWeightsComboBox();
-                // rules
-
 
                 // Ustawienie kolumn w tabeli
                 rulesIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -449,11 +438,9 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 rulesTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Na początku przycisk "Generate" jest nieaktywny
                 generateButton.setDisable(true);
                 generatePDFButton.setDisable(true);
 
-                // Nasłuchiwanie zmian w projekcie
                 project.addProjectObserver(new ProjectObserver() {
                         @Override
                         public void updateProject(Project project) {
@@ -464,26 +451,21 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 });
         }
 
-        //DODAWANIE PRZYCISKÓW GÓRNYCH ("GENERATE PDF", "NEW", "HELP", "EXIT")
         @FXML
         private void handleGenerate() {
-                // Generowanie raportu
                 List<Report.ReportSection> reportSections = project.getReport().generateReport();
                 String formattedReport = report.formatForJavaFX(reportSections);
 
-                // Wyświetlanie raportu w obszarze tekstowym
                 reportTextArea.setText(formattedReport);
         }
 
         private void updateGenerateButtonState() {
-                // Sprawdź, czy wprowadzono wystarczająco dużo danych, aby można było wygenerować raport
                 boolean canGenerate = project.hasEnoughData();
                 generateButton.setDisable(!canGenerate);
                 generatePDFButton.setDisable(!canGenerate);
         }
 
 
-        //DODAWANIE AGENTÓW POPRZEZ AgentController
         @FXML
         public void handleAddAgent(ActionEvent event) {
                 this.agentController.handleAddAgent();
@@ -494,22 +476,17 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         @FXML
         public void handleRemoveAgent(ActionEvent event) {
-                // Pobieramy zaznaczony agent z tabeli
                 Agent selectedAgent = this.agentTable.getSelectionModel().getSelectedItem();
                 if (selectedAgent != null) {
-                        // Wywołujemy metodę usuwania agenta z AgentController
                         this.agentController.handleRemoveAgent();
-                        // Aktualizujemy tabelę agentów
                         agentController.updateAgentTable();
-                        // Teraz musimy zaktualizować AVController o usunięciu agenta
-                        // Przyjmujemy, że mamy listę usuniętych agentów (w tym przypadku tylko jeden)
                         List<Agent> removedAgents = new ArrayList<>();
                         removedAgents.add(selectedAgent);
                         avController.removeDeletedAgentEntriesFromTable(removedAgents);
+                        avpController.removeDeletedAgentEntriesFromTable(removedAgents);
                 }
         }
 
-        //DODAWANIE PROPOZYCJI POPRZEZ PropositionController
         @FXML
         public void handleAddProposition(ActionEvent event) {
                 this.propositionController.handleAddProposition();
@@ -522,7 +499,8 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 Proposition selectedProposition = propositionTable.getSelectionModel().getSelectedItem();
                 if (selectedProposition != null) {
                         propositionController.removeProposition(selectedProposition);
-                        propositionController.updatePropositionTable(); // zaktualizuj tabelę po usunięciu Proposition
+                        propositionController.updatePropositionTable();
+                        avpController.removeDeletedPropositionEntryFromTable(selectedProposition);
                         incompPropController.removeIncompPropsIncludingProposition(propositionController.getRemovedProposition());
                 } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -534,7 +512,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 }
         }
 
-        //DODAWANIE WARTOŚCI POPRZEZ ValueController
         @FXML
         public void handleAddValue(ActionEvent event) {
                 this.valueController.handleAddValue();
@@ -548,19 +525,15 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void handleRemoveValue(ActionEvent event) {
                 Value selectedValue = this.valueTable.getSelectionModel().getSelectedItem();
                 if (selectedValue != null) {
-                        // Wywołujemy metodę usuwania wartości z ValueController
                         this.valueController.handleRemoveValue();
-                        // Aktualizujemy tabelę agentów
                         valueController.updateValueTable();
-                        // Teraz musimy zaktualizować AVController o usunięciu wartosci
-                        // Przyjmujemy, że mamy listę usuniętych wartości (w tym przypadku tylko jeden)
                         List<Value> removedValues = new ArrayList<>();
                         removedValues.add(selectedValue);
                         avController.removeDeletedValueEntriesFromTable(removedValues);
+                        avpController.removeDeletedValueEntriesFromTable(removedValues);
                 }
         }
 
-        //DODAWANIA WAG AGENT-VALUE WEIGHTS (I SKALI) POPRZEZ AVController
         @FXML
         public void handleAVAddScaleButton() {
                 avController.changeScale();
@@ -583,21 +556,18 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.avWeights = avController.getAvWeights();
                 this.project.getAgentValueToWeight().setAgentValueWeights(this.avWeights.getAgentValueWeights());
                 Scale newScale = avController.getAvWeights().getScale();
-                if (!this.avWeights.getScale().equals(newScale)) {  // Use negation here
+                if (!this.avWeights.getScale().equals(newScale)) {
                         this.project.getAgentValuePropWeight().setScale(this.avWeights.getScale());
                 }
-                // Update the ObservableList
                 avPairs.clear();
                 avPairs.addAll(avWeights.getAgentValueWeights().entrySet().stream()
                         .map(entry -> new AVPair(entry.getKey(), entry.getValue()))
                         .collect(Collectors.toList()));
                 this.avController.setAvWeights(this.avWeights);
-                avTable.setItems(avPairs);  // Bind the ObservableList to the TableView
-                // Here is the added call to update the table
+                avTable.setItems(avPairs);
                 this.avController.updateAVTable();
         }
 
-        //DODAWANIE WAG AGENT-VALUE-PROPOSITION WEIGHTS (I SKALI) POPRZEZ AVPController
         @FXML
         public void handleAVPScaleButton() {
                 avpController.changeScale();
@@ -622,21 +592,18 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.project.getAgentValuePropWeight().setAgentValuePropWeights(this.avpWeights.getAgentValuePropWeights());
 
                 Scale newScale = avpController.getAvpWeights().getScale();
-                if (!this.avpWeights.getScale().equals(newScale)) {  // Use negation here and the correct scale
+                if (!this.avpWeights.getScale().equals(newScale)) {
                         this.project.getAgentValueToWeight().setScale(this.avpWeights.getScale());
                 }
-                // Update the ObservableList
                 avpPairs.clear();
                 avpPairs.addAll(avpWeights.getAgentValuePropWeights().entrySet().stream()
                         .map(entry -> new AVPPair(entry.getKey(), entry.getValue()))
                         .collect(Collectors.toList()));
                 this.avpController.setAvpWeights(this.avpWeights);
-                avpTable.setItems(avpPairs);  // Bind the ObservableList to the TableView
-                // Here is the added call to update the table
+                avpTable.setItems(avpPairs);
                 this.avpController.updateAVPTable();
         }
 
-        //DODAWANIE INCOMPPROP i 2 decyzji w IncompPropController
         @FXML
         public void handleAddIncompButtonAction(ActionEvent actionEvent) {
                 incompPropController.handleAddButtonAction(actionEvent);
@@ -647,7 +614,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 incompPropController.handleRemoveButtonAction(actionEvent);
         }
 
-        //DODAWANIE Zasad w RuleController, gdzie także dodajemy kolejne okienko do dodawania zasad.
         @FXML
         public void handleAddRuleButton(ActionEvent actionEvent) {
                 if(!(project.getListIncompProp().getDecisions() == null)) {
@@ -655,26 +621,21 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         Proposition decision2 = project.getListIncompProp().getDecisions().getSecond();
 
                         try {
-                                // Jeśli ruleStage nie jest null i jest pokazywane, zwróć (nie otwieraj nowego okna)
                                 if (ruleStage != null && ruleStage.isShowing()) {
                                         return;
                                 }
 
-                                // Używamy FXMLLoader do załadowania pliku fxml
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
 
-                                // Tworzymy nową instancję RuleController i dostarczamy jej zależności
                                 ruleController = new RuleController(this);
                                 ruleController.addRuleContrObserver(this);
 
                                 loader.setController(ruleController);
 
-                                Parent root = loader.load();  // Ładujemy plik fxml
+                                Parent root = loader.load();
 
-                                // Teraz, gdy plik FXML został załadowany, możemy bezpiecznie wywołać metodę setDecisions
                                 ruleController.setDecisions(decision1, decision2);
 
-                                // Tworzymy nowe okno i wyświetlamy załadowany interfejs użytkownika
                                 ruleStage = new Stage();
                                 ruleStage.setScene(new Scene(root));
                                 ruleStage.show();
@@ -683,7 +644,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                 e.printStackTrace();
                         }
 
-                        // Aktualizujemy tabelę po dodaniu zasady
                         updateRulesTable();
                 } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -715,7 +675,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void updateRuleController(RuleController ruleController) {
                 project.getListRules().setListRules(ruleController.getListRules().getListRules());
 
-                // Aktualizujemy tabelę po dodaniu zasady
                 updateRulesTable();
                 updateGenerateButtonState();
         }
@@ -735,16 +694,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         @FXML
         public void handleGeneratePDFButton(ActionEvent actionEvent) {
-                // Generowanie raportu
                 List<Report.ReportSection> reportSections = project.getReport().generateReport();
 
-                // Ustawienie ścieżki docelowej dokumentu PDF
                 String destinationPath = "src/main/resources/pdf/project.pdf";
 
-                // Wywołanie metody generującej PDF
                 report.generateReportPDF(reportSections, destinationPath);
 
-                // Otwarcie pliku PDF
                 try {
                         File pdfFile = new File(destinationPath);
                         if (pdfFile.exists()) {
@@ -780,7 +735,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @FXML
         public void handleHelpButton(ActionEvent actionEvent) {
                 try {
-                        // Jeśli helpStage nie jest null i jest pokazywany, zwróć (nie otwieraj nowego okna)
                         if (helpStage != null && helpStage.isShowing()) {
                                 return;
                         }
@@ -791,7 +745,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         Scene scene = new Scene(root);
                         scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
 
-                        helpStage = new Stage();  // przypisz nowe okno do zmiennej referencyjnej
+                        helpStage = new Stage();
                         helpStage.setScene(scene);
                         helpStage.setTitle("Help");
                         helpStage.setResizable(false);
@@ -816,15 +770,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 List<Value> newList = valueController.getProject().getListValue().getValues();
 
                 if (newList.size() > oldList.size()) {
-                        // Dodano nowego agenta
                         for (Value newValue : newList) {
                                 if (!oldList.contains(newValue)) {
-                                        // Znaleźliśmy dodanego agenta
                                         project.getListValue().addValue(newValue);
                                 }
                         }
                 } else if (newList.size() < oldList.size()) {
-                        // Remove Agent
                         List<Value> toRemove = new ArrayList<>();
 
                         for (Value oldValue : oldList) {
@@ -847,15 +798,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 List<Agent> newList = agentController.getProject().getListAgent().getAgents();
 
                 if (newList.size() > oldList.size()) {
-                        // Dodano nowego agenta
                         for (Agent newAgent : newList) {
                                 if (!oldList.contains(newAgent)) {
-                                        // Znaleźliśmy dodanego agenta
                                         project.getListAgent().addAgent(newAgent);
                                 }
                         }
                 } else if (newList.size() < oldList.size()) {
-                        // Usunięto agenta
                         List<Agent> toRemove = new ArrayList<>();
 
                         for (Agent oldAgent : oldList) {
@@ -878,10 +826,8 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 List<Proposition> newList = propositionController.getProject().getListProposition().getListProposition();
 
                 if (newList.size() > oldList.size()) {
-                        // Dodano nowego agenta
                         for (Proposition newProposition : newList) {
                                 if (!oldList.contains(newProposition)) {
-                                        // Znaleźliśmy dodanego agenta
                                         project.getListProposition().addProposition(newProposition);
                                 }
                         }
@@ -890,11 +836,10 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         while (iterator.hasNext()) {
                                 Proposition oldProposition = iterator.next();
                                 if (!newList.contains(oldProposition)) {
-                                        // Znaleźliśmy usuniętą propozycję
                                         project.getListProposition().removeProposition(oldProposition);
                                         incompPropController.removeIncompPropsIncludingProposition(oldProposition);
                                         avpController.removeDeletedPropositionEntryFromTable(oldProposition);
-                                        iterator.remove(); // to jest bezpieczne usuwanie elementu podczas iteracji
+                                        iterator.remove();
                                 }
                         }
                 }

@@ -67,68 +67,50 @@ public class AVPController implements AVPObservableController {
     }
 
     public void addWeight() {
-        // Retrieve selected AgentValue from the table view
         AVPPair selectedAVP = avpTable.getSelectionModel().getSelectedItem();
-        // Retrieve selected Weight from the combo box
         Weight selectedWeight = weightsComboBox.getValue();
-        // If no item is selected in the table view or in the combo box, do nothing
         if (selectedAVP == null || selectedWeight == null) {
             showAlert();
             return;
         }
-        // Check the type of weight value
         Object weightValue = selectedWeight.getWeight();
         if (weightValue instanceof Integer) {
             avpWeights.editWeight(selectedAVP.getAgentValueProposition(), (Integer) weightValue);
         } else if (weightValue instanceof String && weightValue.equals("?")) {
             avpWeights.editWeight(selectedAVP.getAgentValueProposition(), null);
         }
-        // Notify the project about the change
         notifyAVPObservers();
 
-        // Force the table to refresh
         avpTable.refresh();
     }
 
     public void removeDeletedAgentEntriesFromTable(List<Agent> removedAgents) {
-        // Pobierz aktualne wpisy w tabeli
         List<AVPPair> currentTableEntries = avpTable.getItems();
 
-        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
         currentTableEntries.removeIf(avPPair -> removedAgents.contains(avPPair.getAgentValueProposition().getAgent()));
 
-        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
         avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
 
-        // Aktualizuj tabelę
         updateAVPTable();
     }
 
     public void removeDeletedValueEntriesFromTable(List<Value> removedValues) {
-        // Pobierz aktualne wpisy w tabeli
         List<AVPPair> currentTableEntries = avpTable.getItems();
 
-        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
         currentTableEntries.removeIf(avPPair -> removedValues.contains(avPPair.getAgentValueProposition().getValue()));
 
-        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
         avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
 
-        // Aktualizuj tabelę
         updateAVPTable();
     }
 
     public void removeDeletedPropositionEntryFromTable(Proposition removedProposition) {
-        // Pobierz aktualne wpisy w tabeli
         List<AVPPair> currentTableEntries = new ArrayList<>(avpTable.getItems());
 
-        // Usuń wpisy z tabeli, które są związane z usuniętą propozycją
         currentTableEntries.removeIf(avPPair -> avPPair.getAgentValueProposition().getProposition().equals(removedProposition));
 
-        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
         avpTable.setItems(FXCollections.observableArrayList(currentTableEntries));
 
-        // Aktualizuj tabelę
         updateAVPTable();
     }
 
@@ -155,7 +137,6 @@ public class AVPController implements AVPObservableController {
     }
 
     public void randomizeWeights() {
-        // Randomize weights in the model
         Random random = new Random();
         for (AgentValueProposition avp : avpWeights.keySet()) {
             int min = avpWeights.getScale().getMin();
@@ -163,29 +144,21 @@ public class AVPController implements AVPObservableController {
             Integer newWeight = min + random.nextInt(max - min + 1);
             this.avpWeights.editWeight(avp, newWeight);
         }
-        // Force the table to refresh
         avpTable.refresh();
-        // Notify the project about the change
         notifyAVPObservers();
     }
 
     public void changeScale() {
-        // Get values from the sliders
         int min = (int) minSlider.getValue();
         int max = (int) maxSlider.getValue();
-        // Create new scale
         Scale newScale = new Scale(min, max);
-        // Update the scale in the model
         avpWeights.setScale(newScale);
 
-        // Create new weights with the new scale
         updateWeightsComboBox();
 
-        // Update the table view after all other tasks have completed
         Platform.runLater(() -> {
             updateAVPTable();
         });
-        // Update the table view
         avpTable.refresh();
         notifyAVPObservers();
     }
@@ -195,7 +168,6 @@ public class AVPController implements AVPObservableController {
     }
 
     public void updateAVPTable() {
-        // Update the table view
         Map.Entry<AgentValueProposition, Weight>[] entries = avpWeights.getAgentValuePropWeights().entrySet().toArray(new Map.Entry[0]);
         List<AVPPair> pairs = IntStream.range(0, entries.length)
                 .mapToObj(i -> {

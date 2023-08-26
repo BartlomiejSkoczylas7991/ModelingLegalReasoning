@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/DTO/ProjectData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/HelpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/HelpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/help.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/help.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AgentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/project.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/project.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2$1.class" afterDir="false" />
@@ -21,6 +19,9 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/project.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/project.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +267,7 @@
       <workItem from="1692769900882" duration="1683000" />
       <workItem from="1692899713749" duration="600000" />
       <workItem from="1692946255207" duration="26147000" />
-      <workItem from="1693026666166" duration="12523000" />
+      <workItem from="1693026666166" duration="23326000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>

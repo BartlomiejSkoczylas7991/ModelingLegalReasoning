@@ -68,53 +68,39 @@ public class AVController implements AVObservableController {
     }
 
     public void addWeight() {
-        // Retrieve selected AgentValue from the table view
         AVPair selectedAV = avTable.getSelectionModel().getSelectedItem();
-        // Retrieve selected Weight from the combo box
         Weight selectedWeight = weightsComboBox.getValue();
-        // If no item is selected in the table view or in the combo box, show a dialog
         if (selectedAV == null || selectedWeight == null) {
             showAlert();
             return;
         }
-        // Check the type of weight value
         if (selectedWeight.isIndeterminate()) {
             avWeights.editWeight(selectedAV.getAgentValue(), null);
         } else {
             avWeights.editWeight(selectedAV.getAgentValue(), selectedWeight.getNumberValue());
         }
 
-        // Notify the project about the change (TO MOŻE BYĆ ŹLE - może być notify() zwykłe jednak
         notifyAVObservers();
-        // Force the table to refresh
         avTable.refresh();
     }
 
     public void removeDeletedAgentEntriesFromTable(List<Agent> removedAgents) {
-        // Pobierz aktualne wpisy w tabeli
         List<AVPair> currentTableEntries = avTable.getItems();
 
-        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
         currentTableEntries.removeIf(avPair -> removedAgents.contains(avPair.getAgentValue().getAgent()));
 
-        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
         avTable.setItems(FXCollections.observableArrayList(currentTableEntries));
 
-        // Aktualizuj tabelę
         updateAVTable();
     }
 
     public void removeDeletedValueEntriesFromTable(List<Value> removedValues) {
-        // Pobierz aktualne wpisy w tabeli
         List<AVPair> currentTableEntries = avTable.getItems();
 
-        // Usuń wpisy z tabeli, które są związane z usuniętymi agentami
         currentTableEntries.removeIf(avPair -> removedValues.contains(avPair.getAgentValue().getValue()));
 
-        // Ustaw zaktualizowaną listę jako nowe elementy tabeli
         avTable.setItems(FXCollections.observableArrayList(currentTableEntries));
 
-        // Aktualizuj tabelę
         updateAVTable();
     }
 
@@ -141,7 +127,6 @@ public class AVController implements AVObservableController {
     }
 
     public void randomizeWeights() {
-        // Randomize weights in the model
         Random random = new Random();
         for (AgentValue av : avWeights.keySet()) {
             int min = avWeights.getScale().getMin();
@@ -149,32 +134,23 @@ public class AVController implements AVObservableController {
             Integer newWeight = min + random.nextInt(max - min + 1);
             avWeights.editWeight(av, newWeight);
         }
-        // Force the table to refresh
         avTable.refresh();
-        // Notify the project about the change
         notifyAVObservers();
     }
 
     public void changeScale() {
-        // Get values from the sliders
         int min = (int) minSlider.getValue();
         int max = (int) maxSlider.getValue();
-        // Create new scale
         Scale newScale = new Scale(min, max);
-        // Update the scale in the model
         avWeights.updateScale(newScale);
 
-        // Create new weights with the new scale
         updateWeightsComboBox();
 
-        // Notify the project about the change
         projectController.getProject().notifyProjectObservers(projectController.getProject());
 
-        // Update the table view after all other tasks have completed
         Platform.runLater(() -> {
             updateAVTable();
         });
-        // Update the table view
         avTable.refresh();
         notifyAVObservers();
     }
@@ -184,7 +160,6 @@ public class AVController implements AVObservableController {
     }
 
     public void updateAVTable() {
-        // Update the table view
         Map.Entry<AgentValue, Weight>[] entries = avWeights.getAgentValueWeights().entrySet().toArray(new Map.Entry[0]);
         List<AVPair> pairs = IntStream.range(0, entries.length)
                 .mapToObj(i -> {

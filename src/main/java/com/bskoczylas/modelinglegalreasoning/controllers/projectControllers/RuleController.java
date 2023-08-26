@@ -71,14 +71,11 @@ public class RuleController implements RuleControllerObservable {
 
     @FXML
     public void initialize() {
-        // Wszystkie dostępne propozycje
         allPropositionsObservableList.addAll(availablePropositions);
 
-        // Inicjalizacja tabeli
         premisesColumn.setCellValueFactory(new PropertyValueFactory<>("statement"));
         premisesTable.setItems(selectedPropositionsObservableList);
 
-        // Inicjalizacja ComboBoxa
         premisesComboBox.setItems(allPropositionsObservableList);
 
         group = new ToggleGroup();
@@ -86,17 +83,14 @@ public class RuleController implements RuleControllerObservable {
         decisionRadioButton2.setToggleGroup(group);
         this.group = group;
 
-        // Inicjalizacja ComboBoxa
         projectController.getProject().getListIncompProp().getIncompatiblePropositions();
     }
 
     @FXML
     public void handleAddRuleButtonAction(ActionEvent actionEvent) {
-        // Pobierz wybraną decyzję
         RadioButton selectedDecisionButton = (RadioButton) group.getSelectedToggle();
         Proposition selectedDecision = selectedDecisionButton == decisionRadioButton1 ? decision1 : decision2;
 
-        // Sprawdź, czy została wybrana decyzja i czy są jakiekolwiek przesłanki
         if (selectedDecision == null || premises.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -107,20 +101,16 @@ public class RuleController implements RuleControllerObservable {
             return;
         }
 
-        // Utwórz nową zasadę
         Rule newRule = new Rule(premises, selectedDecision);
 
-        // Dodaj zasadę do listy zasad tylko jeżeli jej tam jeszcze nie ma
         if (!listRules.containsSamePremises(newRule)) {
             listRules.addRule(newRule.getPremises(), newRule.getConclusion());
-            // Czyść listę przesłanek
 
             Toggle selectedToggle = group.getSelectedToggle();
             if (selectedToggle != null) {
                 selectedToggle.setSelected(false);
             }
 
-            // Powiadom obserwatorów
             notifyRuleContrObservers();
 
             ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
@@ -136,10 +126,8 @@ public class RuleController implements RuleControllerObservable {
 
     @FXML
     public void handleRemovePremiseButtonAction(ActionEvent event) {
-        // Pobierz wybraną propozycję
         Proposition selectedPremise = premisesTable.getSelectionModel().getSelectedItem();
 
-        // Usuń propozycję z listy przesłanek tylko jeżeli jest tam zawarta
         if (selectedPremise != null && premises.contains(selectedPremise)) {
             premises.remove(selectedPremise);
             selectedPropositionsObservableList.remove(selectedPremise); // Usuń z tabeli

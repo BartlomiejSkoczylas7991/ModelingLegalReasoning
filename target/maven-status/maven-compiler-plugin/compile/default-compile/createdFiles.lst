@@ -1,5 +1,6 @@
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/IncompControllerObservable.class
 com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$3.class
+com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/HelpController.class
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/IncompPropController.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/decision/Decision.class
@@ -33,9 +34,11 @@ com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/ob
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/PBCObservable.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.class
+com/bskoczylas/modelinglegalreasoning/domain/models/DTO/ProjectData.class
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/AVObserverController.class
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/RuleControllerObserver.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/OneDecisionStrategy.class
+module-info.class
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/AgContrObservable.class
 com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.class
 com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/Proposition.class

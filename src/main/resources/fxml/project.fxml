@@ -19,6 +19,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <BorderPane fx:id="rootPane" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
    <top>
       <ToolBar BorderPane.alignment="CENTER">
@@ -41,8 +43,10 @@
               <tabs>
                   <Tab text="Agent List">
                       <content>
-                          <VBox alignment="TOP_CENTER" spacing="10"> <!-- Zmiana na VBox -->
-                              <!-- Tytuł "Agents" -->
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
                               <HBox alignment="CENTER">
                                   <Label text="Agents">
                                       <font>
@@ -51,7 +55,17 @@
                                   </Label>
                               </HBox>
 
-                              <!-- Informacja "Add or remove possible agent" -->
+                              <TableView fx:id="agentTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
+                                  <columns>
+                                      <TableColumn fx:id="agentIdColumn" prefWidth="${agentTable.width * 0.10}" text="id" />
+                                      <TableColumn fx:id="agentCreatedColumn" minWidth="0.0" prefWidth="${agentTable.width * 0.45}" text="Created" />
+                                      <TableColumn fx:id="agentNameColumn" prefWidth="${agentTable.width * 0.45}" text="Name" />
+                                  </columns>
+                              </TableView>
+
                               <HBox alignment="CENTER">
                                   <Label text="Add or remove possible agent">
                                       <font>
@@ -59,92 +73,132 @@
                                       </font>
                                   </Label>
                               </HBox>
-                              <TableView fx:id="agentTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
-                                  <columns>
-                                      <TableColumn fx:id="agentIdColumn" prefWidth="${agentTable.width * 0.10}" text="id" />
-                                      <TableColumn fx:id="agentCreatedColumn" minWidth="0.0" prefWidth="${agentTable.width * 0.45}" text="Created" />
-                                      <TableColumn fx:id="agentNameColumn" prefWidth="${agentTable.width * 0.45}" text="Name" />
-                                  </columns>
-                              </TableView>
-                              <Label AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0" text="Add or remove possible agent" textAlignment="CENTER">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
+
                               <TextField fx:id="agentNameTextField"  AnchorPane.leftAnchor="162.0" AnchorPane.topAnchor="430.0" text="Agent Name">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <font>
-                                      <Font size="15.0" /> <!-- Tutaj również zmieniamy rozmiar czcionki -->
+                                      <Font size="15.0" />
                                   </font>
                               </TextField>
+
                               <Button AnchorPane.leftAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAddAgent" prefHeight="39.0" prefWidth="85.0" text="Add" />
                               <Button AnchorPane.rightAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleRemoveAgent" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                          </AnchorPane>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="Proposition List">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
+                              <HBox alignment="CENTER">
+                                  <Label text="Propositions">
+                                      <font>
+                                          <Font size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TableView fx:id="propositionTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="propositionIdColumn" prefWidth="${propositionTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="propositionCreatedColumn" prefWidth="${propositionTable.width * 0.45}" text="Created" />
                                       <TableColumn fx:id="propositionNameColumn" prefWidth="${propositionTable.width * 0.45}" text="Name" />
                                   </columns>
                               </TableView>
-                              <Label text="Add or remove possible Proposition">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" /> <!-- Zmieniamy rozmiar czcionki -->
-                                  </font>
-                              </Label>
+
+                              <HBox alignment="CENTER">
+                                  <Label text="Add or remove possible Proposition">
+                                      <font>
+                                          <Font name="Khmer OS System" size="15.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TextField fx:id="propositionNameTextField" AnchorPane.leftAnchor="162.0" AnchorPane.topAnchor="430.0" text="Proposition Name">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <font>
-                                      <Font size="15.0" /> <!-- Zmieniamy rozmiar czcionki -->
+                                      <Font size="15.0" />
                                   </font>
                               </TextField>
+
                               <Button AnchorPane.leftAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAddProposition" prefHeight="39.0" prefWidth="85.0" text="Add" />
                               <Button AnchorPane.rightAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleRemoveProposition" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                              <Label AnchorPane.topAnchor="24.0" AnchorPane.leftAnchor="227.0" text="Propositions">
-                                  <font>
-                                      <Font size="27.0" /> <!-- Zmniejszamy rozmiar czcionki -->
-                                  </font>
-                              </Label>
-                          </AnchorPane>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="Value List">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
+                              <HBox alignment="CENTER">
+                                  <Label text="Values">
+                                      <font>
+                                          <Font size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TableView fx:id="valueTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="valueIdColumn" prefWidth="${valueTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="valueCreatedColumn" minWidth="0.0" prefWidth="${valueTable.width * 0.45}" text="Created" />
                                       <TableColumn fx:id="valueNameColumn" prefWidth="${valueTable.width * 0.45}" text="Name" />
                                   </columns>
                               </TableView>
-                              <Label text="Add or remove possible values" contentDisplay="CENTER" textOverrun="CENTER_ELLIPSIS">
+
+                              <Label AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0" text="Add or remove possible values" textAlignment="CENTER">
                                   <font>
-                                      <Font name="Khmer OS System" size="15.0" /> <!-- Zmieniamy rozmiar czcionki -->
+                                      <Font name="Khmer OS System" size="15.0" />
                                   </font>
                               </Label>
+
                               <TextField fx:id="valueNameTextField" AnchorPane.leftAnchor="162.0" AnchorPane.topAnchor="430.0" text="Value Name">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <font>
-                                      <Font size="15.0" /> <!-- Zmieniamy rozmiar czcionki -->
+                                      <Font size="15.0" />
                                   </font>
                               </TextField>
+
                               <Button AnchorPane.leftAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAddValue" prefHeight="39.0" prefWidth="85.0" text="Add" />
                               <Button AnchorPane.rightAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleRemoveValue" prefHeight="39.0" prefWidth="85.0" text="Remove" />
-                              <Label AnchorPane.topAnchor="24.0" AnchorPane.leftAnchor="242.0" text="Values">
-                                  <font>
-                                      <Font size="27.0" /> <!-- Zmniejszamy rozmiar czcionki -->
-                                  </font>
-                              </Label>
-                          </AnchorPane>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="IncompProp decisions">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                              <TableView fx:id="incompPropTable" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
+
+                              <HBox alignment="CENTER">
+                                  <Label text="Incompatible Propositions and decisions">
+                                      <font>
+                                          <Font size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
+                              <TableView fx:id="incompPropTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="incompIdColumn" prefWidth="${incompPropTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="incompCreatedColumn" prefWidth="${incompPropTable.width * 0.25}" text="Created" />
@@ -153,32 +207,58 @@
                                       <TableColumn fx:id="incompProp2NameColumn" prefWidth="${incompPropTable.width * 0.225}" text="Name" />
                                   </columns>
                               </TableView>
-                              <Label text="Add or remove pairs of incompatible propositions" AnchorPane.leftAnchor="89.0" AnchorPane.topAnchor="389.0">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-                              <Button AnchorPane.leftAnchor="110.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
-                              <Button AnchorPane.rightAnchor="303.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleRemoveIncompButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
-                              <ComboBox fx:id="prop1comboBoxIncompProp" AnchorPane.leftAnchor="63.0" AnchorPane.topAnchor="450.0" prefWidth="150.0" promptText="Prop1" />
-                              <ComboBox fx:id="prop2comboBoxIncompProp" AnchorPane.rightAnchor="303.0" AnchorPane.topAnchor="450.0" prefWidth="150.0" promptText="Prop2" />
-                              <Label AnchorPane.topAnchor="14.0" AnchorPane.leftAnchor="48.0" text="Incompatible Propositions and decisions">
-                                  <font>
-                                      <Font size="23.0" />
-                                  </font>
-                              </Label>
-                              <RadioButton fx:id="isDecisionRadioButton" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="445.0" mnemonicParsing="false" text="Is decision">
-                                  <font>
-                                      <Font size="15.0" />
-                                  </font>
-                              </RadioButton>
-                          </AnchorPane>
+
+                              <HBox alignment="CENTER">
+                                  <Label text="Add or remove pairs of incompatible propositions">
+                                      <font>
+                                          <Font name="Khmer OS System" size="15.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
+                              <HBox alignment="CENTER" spacing="20">
+                                  <ComboBox fx:id="prop1comboBoxIncompProp" prefWidth="150.0" promptText="Prop1" />
+                                  <ComboBox fx:id="prop2comboBoxIncompProp" prefWidth="150.0" promptText="Prop2" />
+                                  <RadioButton fx:id="isDecisionRadioButton" mnemonicParsing="false" text="Is decision">
+                                      <font>
+                                          <Font size="15.0" />
+                                      </font>
+                                  </RadioButton>
+                              </HBox>
+
+                              <HBox alignment="CENTER" spacing="20">
+                                  <Button AnchorPane.leftAnchor="110.0" mnemonicParsing="false" onAction="#handleAddIncompButtonAction" prefHeight="39.0" prefWidth="133.0" text="Add" />
+                                  <Button AnchorPane.rightAnchor="303.0" mnemonicParsing="false" onAction="#handleRemoveIncompButtonAction" prefHeight="39.0" prefWidth="134.0" text="Remove" />
+                              </HBox>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="A-V Weights List">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
+                              <HBox alignment="CENTER">
+                                  <Label text="A-V Weights">
+                                      <font>
+                                          <Font size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
+                              <HBox alignment="CENTER">
+                                  <Label text="Agent-worth weight (how important is a given value for a given agent)">
+                                      <font>
+                                          <Font name="Khmer OS System" size="15.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TableView fx:id="avTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="65.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="avIdColumn" prefWidth="${avTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="avAgentsColumn" prefWidth="${avTable.width * 0.35}" text="Agents" />
@@ -186,44 +266,75 @@
                                       <TableColumn fx:id="avWeightsColumn" prefWidth="${avTable.width * 0.20}" text="Weights" />
                                   </columns>
                               </TableView>
-                              <Label AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="380.0" text="Weight:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="25.0" />
-                                  </font>
-                              </Label>
-                              <Button AnchorPane.leftAnchor="57.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                              <Button AnchorPane.leftAnchor="211.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
-                              <Slider fx:id="avMinScale" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="425.0" max="15.0" />
-                              <Slider fx:id="avMaxScale" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="471.0" max="15.0" />
-                              <Button AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
-                              <Label AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="369.0" text="Scale:">
+
+                              <HBox alignment="CENTER" spacing="10">
+                                  <Label text="Weight:" AnchorPane.leftAnchor="55.0">
+                                      <font>
+                                          <Font name="Khmer OS System" size="25.0" />
+                                      </font>
+                                  </Label>
+                                  <ComboBox fx:id="avWeightsComboBox" prefHeight="36.0" prefWidth="173.0" />
+                              </HBox>
+
+                              <HBox alignment="CENTER" spacing="10">
+                                  <Button mnemonicParsing="false" onAction="#handleAVAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                                  <Button mnemonicParsing="false" onAction="#handleAVRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
+                              </HBox>
+
+                              <Label text="Scale:" AnchorPane.rightAnchor="90.0">
                                   <font>
                                       <Font name="Khmer OS System" size="19.0" />
                                   </font>
                               </Label>
-                              <Label AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="14.0" text="Agent-worth weight (how important is a given value for a given agent)">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-                              <Label AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="410.0" text="Min:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="17.0" />
-                                  </font>
-                              </Label>
-                              <Label AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="458.0" text="Max:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="17.0" />
-                                  </font>
-                              </Label>
-                              <ComboBox fx:id="avWeightsComboBox" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="433.0" prefHeight="36.0" prefWidth="173.0" />
-                          </AnchorPane>
+
+                              <HBox alignment="CENTER" spacing="10">
+                                  <VBox>
+                                      <Label text="Min:" AnchorPane.rightAnchor="280.0">
+                                          <font>
+                                              <Font name="Khmer OS System" size="17.0" />
+                                          </font>
+                                      </Label>
+                                      <Slider fx:id="avMinScale" max="15.0" />
+                                  </VBox>
+                                  <VBox>
+                                      <Label text="Max:" AnchorPane.rightAnchor="280.0">
+                                          <font>
+                                              <Font name="Khmer OS System" size="17.0" />
+                                          </font>
+                                      </Label>
+                                      <Slider fx:id="avMaxScale" max="15.0" />
+                                  </VBox>
+                                  <Button mnemonicParsing="false" onAction="#handleAVAddScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                              </HBox>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="A-V-P Weights List">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <padding>
+                                  <Insets top="20.0" right="0.0" bottom="20.0" left="0.0" />
+                              </padding>
+                              <HBox alignment="CENTER">
+                                  <Label text="A-V-P Weights">
+                                      <font>
+                                          <Font size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
+                              <HBox alignment="CENTER">
+                                  <Label text="Agent-worth weight (how important is a given proposition compared to a given value for a given agent)">
+                                      <font>
+                                          <Font name="Khmer OS System" size="15.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TableView fx:id="avpTable" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="avpIdColumn" prefWidth="${avpTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="avpAgentsColumn" prefWidth="${avpTable.width * 0.25}" text="Agents" />
@@ -233,52 +344,63 @@
                                   </columns>
                               </TableView>
 
-                              <Label AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="405.0" text="Weight:">
+                              <HBox alignment="CENTER" spacing="10">
+                                  <Label text="Weight:" AnchorPane.leftAnchor="55.0">
+                                      <font>
+                                          <Font name="Khmer OS System" size="25.0" />
+                                      </font>
+                                  </Label>
+                                  <ComboBox fx:id="avpWeightsComboBox" prefHeight="36.0" prefWidth="173.0" />
+                              </HBox>
+
+                              <HBox alignment="CENTER" spacing="10">
+                                  <Button mnemonicParsing="false" onAction="#handleAVPAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
+                                  <Button mnemonicParsing="false" onAction="#handleAVPRandomButton" prefHeight="39.0" prefWidth="108.0" text="Random" />
+                              </HBox>
+
+                              <Label text="Scale:" AnchorPane.rightAnchor="90.0">
                                   <font>
-                                      <Font name="Khmer OS System" size="15.0" />
+                                      <Font name="Khmer OS System" size="19.0" />
                                   </font>
                               </Label>
 
-                              <Button AnchorPane.leftAnchor="55.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVPAddButton" prefHeight="39.0" prefWidth="85.0" text="Add" />
-                              <Button AnchorPane.leftAnchor="140.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVPRandomButton" prefHeight="39.0" prefWidth="85.0" text="Random" />
-
-                              <Slider fx:id="avpMinScale" AnchorPane.rightAnchor="210.0" AnchorPane.bottomAnchor="95.0" max="15.0" />
-                              <Slider fx:id="avpMaxScale" AnchorPane.rightAnchor="210.0" AnchorPane.bottomAnchor="50.0" max="15.0" />
-
-                              <Button AnchorPane.rightAnchor="85.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAVPScaleButton" prefHeight="39.0" prefWidth="85.0" text="Change Scale" />
-
-                              <Label AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="405.0" text="Scale:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-
-                              <Label AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="24.0" text="Agent-worth weight (how important is a given proposition compared to a given value for a given agent)" wrapText="true">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-
-                              <Label AnchorPane.rightAnchor="280.0" AnchorPane.bottomAnchor="95.0" text="Min:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-
-                              <Label AnchorPane.rightAnchor="280.0" AnchorPane.bottomAnchor="50.0" text="Max:">
-                                  <font>
-                                      <Font name="Khmer OS System" size="15.0" />
-                                  </font>
-                              </Label>
-
-                              <ComboBox fx:id="avpWeightsComboBox" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="430.0" prefHeight="36.0" prefWidth="173.0" />
-                          </AnchorPane>
+                              <HBox alignment="CENTER" spacing="10">
+                                  <VBox>
+                                      <Label text="Min:" AnchorPane.rightAnchor="280.0">
+                                          <font>
+                                              <Font name="Khmer OS System" size="17.0" />
+                                          </font>
+                                      </Label>
+                                      <Slider fx:id="avpMinScale" max="15.0" />
+                                  </VBox>
+                                  <VBox>
+                                      <Label text="Max:" AnchorPane.rightAnchor="280.0">
+                                          <font>
+                                              <Font name="Khmer OS System" size="17.0" />
+                                          </font>
+                                      </Label>
+                                      <Slider fx:id="avpMaxScale" max="15.0" />
+                                  </VBox>
+                                  <Button mnemonicParsing="false" onAction="#handleAVPScaleButton" prefHeight="39.0" prefWidth="125.0" text="Change Scale" />
+                              </HBox>
+                          </VBox>
                       </content>
                   </Tab>
                   <Tab text="Rules List">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <VBox alignment="TOP_CENTER" spacing="10">
+                              <HBox alignment="CENTER">
+                                  <Label text="Rules">
+                                      <font>
+                                          <Font name="Khmer OS System" size="27.0" />
+                                      </font>
+                                  </Label>
+                              </HBox>
+
                               <TableView fx:id="rulesTable" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="75.0">
+                                  <VBox.margin>
+                                      <Insets top="0.0" right="20.0" bottom="0.0" left="20.0" />
+                                  </VBox.margin>
                                   <columns>
                                       <TableColumn fx:id="rulesIdColumn" prefWidth="${rulesTable.width * 0.10}" text="id" />
                                       <TableColumn fx:id="rulesCreatedColumn" prefWidth="${rulesTable.width * 0.25}" text="Created" />
@@ -286,19 +408,18 @@
                                       <TableColumn fx:id="rulesConclusionsColumn" prefWidth="${rulesTable.width * 0.30}" text="Conclusions" />
                                   </columns>
                               </TableView>
-                              <Label AnchorPane.topAnchor="427.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0" alignment="CENTER" prefHeight="46.0" text="Add, Edit or Remove Rules">
+
+                              <Label AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="40.0" text="Add, Edit or Remove Rules" textAlignment="CENTER">
                                   <font>
                                       <Font name="Khmer OS System" size="15.0" />
                                   </font>
                               </Label>
-                              <Button AnchorPane.leftAnchor="175.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleAddRuleButton" prefHeight="39.0" prefWidth="114.0" text="Add" />
-                              <Button AnchorPane.rightAnchor="175.0" AnchorPane.bottomAnchor="50.0" mnemonicParsing="false" onAction="#handleRemoveRuleButton" prefHeight="39.0" prefWidth="125.0" text="Remove" />
-                              <Label AnchorPane.topAnchor="24.0" AnchorPane.leftAnchor="227.0" prefHeight="39.0" prefWidth="98.0" text="Rules">
-                                  <font>
-                                      <Font name="Khmer OS System" size="27.0" />
-                                  </font>
-                              </Label>
-                          </AnchorPane>
+
+                              <HBox spacing="20" alignment="CENTER">
+                                  <Button AnchorPane.leftAnchor="175.0" mnemonicParsing="false" onAction="#handleAddRuleButton" prefHeight="39.0" prefWidth="114.0" text="Add" />
+                                  <Button AnchorPane.rightAnchor="175.0" mnemonicParsing="false" onAction="#handleRemoveRuleButton" prefHeight="39.0" prefWidth="125.0" text="Remove" />
+                              </HBox>
+                          </VBox>
                       </content>
                   </Tab>
               </tabs>

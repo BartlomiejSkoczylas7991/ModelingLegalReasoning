@@ -61,7 +61,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         private Stage helpStage;
         private Stage ruleStage;
 
-        // for agent
         @FXML
         private TableView<Agent> agentTable;
 
@@ -79,7 +78,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         private AgentController agentController;
 
-        // for values
         @FXML
         private TableView<Value> valueTable;
         @FXML
@@ -93,7 +91,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         private ValueController valueController;
 
-        // for propositions
         @FXML
         private TableView<Proposition> propositionTable;
         private PropositionController propositionController;
@@ -211,19 +208,16 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @Override
         public void initialize(URL url, ResourceBundle rb) {
                 splitPane.lookupAll(".split-pane-divider").forEach(div ->  div.setMouseTransparent(true));
-                // Inicjalizacja kontrolerów
-                // Agent section
+
                 this.agentController = new AgentController(this);
                 this.agentController.addAgentContrObserver(this);
 
-                // Ustawienie kolumn w tabeli
                 agentIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
                 agentCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
                 agentNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
                 agentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Value section
                 this.valueController = new ValueController(this);
                 this.valueController.addValueContrObserver(this);
 
@@ -234,7 +228,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 valueTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Proposition section
                 this.propositionController = new PropositionController(this);
                 this.propositionController.addPropositionContrObserver(this);
 
@@ -244,12 +237,10 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // IncompProp section
                 this.incompPropController = new IncompPropController(incompPropTable, this, project, prop1comboBoxIncompProp,
                         prop2comboBoxIncompProp, isDecisionRadioButton);
                 this.incompPropController.addIncompContrObserver(this);
 
-                // Set up the columns in the IncompProp table
                 incompIdColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Integer>("id"));
                 incompCreatedColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("formattedCreated"));
                 incompIsDecisionColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, Boolean>("decision"));
@@ -258,7 +249,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 incompPropTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // AgentValue Weights section
                 this.avWeights = this.project.getAgentValueToWeight();
 
                 this.avController = new AVController(
@@ -275,7 +265,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 );
                 this.avController.addAVObserver(this);
 
-                // Bind the table view to the data
                 Map.Entry<AgentValue, Weight>[] entries = avWeights.getAgentValueWeights().entrySet().stream()
                         .toArray(Map.Entry[]::new);
 
@@ -287,7 +276,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         })
                         .collect(Collectors.toList());
 
-                // Inicjalizacja cell factory dla ComboBoxa.
                 avWeightsComboBox.setCellFactory(new Callback<ListView<Weight>, ListCell<Weight>>() {
                         @Override
                         public ListCell<Weight> call(ListView<Weight> param) {
@@ -307,7 +295,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 avTable.setItems(FXCollections.observableArrayList(avPairs));
 
-                // Initialize the table columns
                 avIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
                 avAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getAgent().getName()));
                 avValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValue().getValue().getName()));
@@ -322,7 +309,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 avTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Initialize the sliders
                 avMinScale.valueProperty().addListener((obs, oldVal, newVal) -> {
                         if (newVal.intValue() > avMaxScale.getValue() - 2) {
                                 Platform.runLater(() -> avMinScale.setValue(oldVal.intValue()));
@@ -336,7 +322,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 });
                 avController.updateWeightsComboBox();
 
-                // AgentValueProposition Weights section
                 this.avpWeights = this.project.getAgentValuePropWeight();
 
                 this.avpController = new AVPController(
@@ -354,7 +339,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 );
                 this.avpController.addObserver(this);
 
-                // Bind the table view to the data
                 Map.Entry<AgentValueProposition, Weight>[] entriesAVP = avpWeights.getAgentValuePropWeights().entrySet().stream()
                         .toArray(Map.Entry[]::new);
 
@@ -367,7 +351,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         .collect(Collectors.toList());
 
 
-                // Inicjalizacja cell factory dla ComboBoxa.
                 avpWeightsComboBox.setCellFactory(new Callback<ListView<Weight>, ListCell<Weight>>() {
                         @Override
                         public ListCell<Weight> call(ListView<Weight> param) {
@@ -386,7 +369,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 });
                 avpTable.setItems(FXCollections.observableArrayList(avpPairs));
 
-                // Initialize the table columns
                 avpIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
                 avpAgentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getAgent().getName()));
                 avpValuesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAgentValueProposition().getValue().getName()));
@@ -402,7 +384,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 avpTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                // Initialize the sliders
                 avpMinScale.valueProperty().addListener((obs, oldVal, newVal) -> {
                         if (newVal.intValue() > avpMaxScale.getValue() - 2) {
                                 Platform.runLater(() -> avMinScale.setValue(oldVal.intValue()));
@@ -416,7 +397,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 });
                 avpController.updateWeightsComboBox();
 
-                // Ustawienie kolumn w tabeli
                 rulesIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
                 rulesCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("created"));
                 rulesPremisesColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Rule, String>, ObservableValue<String>>() {
@@ -861,36 +841,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 return agentNameTextField;
         }
 
-        public TableColumn<Agent, Integer> getAgentIdColumn() {
-                return agentIdColumn;
-        }
-
-        public TableColumn<Agent, String> getAgentCreatedColumn() {
-                return agentCreatedColumn;
-        }
-
-        public TableColumn<Agent, String> getAgentNameColumn() {
-                return agentNameColumn;
-        }
-
         public TableView<Value> getValueTable() {
                 return valueTable;
         }
 
         public TextField getValueNameTextField() {
                 return valueNameTextField;
-        }
-
-        public TableColumn<Value, Integer> getValueIdColumn() {
-                return valueIdColumn;
-        }
-
-        public TableColumn<Value, String> getValueCreatedColumn() {
-                return valueCreatedColumn;
-        }
-
-        public TableColumn<Value, String> getValueNameColumn() {
-                return valueNameColumn;
         }
 
         public TableView<Proposition> getPropositionTable() {
@@ -901,156 +857,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 return propositionNameTextField;
         }
 
-        public TableColumn<Proposition, Integer> getPropositionIdColumn() {
-                return propositionIdColumn;
-        }
-
-        public TableColumn<Proposition, String> getPropositionCreatedColumn() {
-                return propositionCreatedColumn;
-        }
-
-        public TableColumn<Proposition, String> getPropositionNameColumn() {
-                return propositionNameColumn;
-        }
-
-        public AgentValueToWeight getAvWeights() {
-                return avWeights;
-        }
-
-        public ObservableList<AVPair> getAvPairs() {
-                return avPairs;
-        }
-
-        public TableView<AVPair> getAvTable() {
-                return avTable;
-        }
-
-        public TableColumn<AVPair, Integer> getAvIdColumn() {
-                return avIdColumn;
-        }
-
-        public TableColumn<AVPair, String> getAvAgentsColumn() {
-                return avAgentsColumn;
-        }
-
-        public TableColumn<AVPair, String> getAvValuesColumn() {
-                return avValuesColumn;
-        }
-
-        public TableColumn<AVPair, String> getAvWeightsColumn() {
-                return avWeightsColumn;
-        }
-
-        public Slider getAvMinScale() {
-                return avMinScale;
-        }
-
-        public Slider getAvMaxScale() {
-                return avMaxScale;
-        }
-
-        public ComboBox<Weight> getAvWeightsComboBox() {
-                return avWeightsComboBox;
-        }
-
-        public AgentValuePropWeight getAvpWeights() {
-                return avpWeights;
-        }
-
-        public ObservableList<AVPPair> getAvpPairs() {
-                return avpPairs;
-        }
-
-        public TableView<AVPPair> getAvpTable() {
-                return avpTable;
-        }
-
-        public TableColumn<AVPPair, Integer> getAvpIdColumn() {
-                return avpIdColumn;
-        }
-
-        public TableColumn<AVPPair, String> getAvpAgentsColumn() {
-                return avpAgentsColumn;
-        }
-
-        public TableColumn<AVPPair, String> getAvpValuesColumn() {
-                return avpValuesColumn;
-        }
-
-        public TableColumn<AVPPair, String> getAvpPropositionsColumn() {
-                return avpPropositionsColumn;
-        }
-
-        public TableColumn<AVPPair, String> getAvpWeightsColumn() {
-                return avpWeightsColumn;
-        }
-
-        public Slider getAvpMinScale() {
-                return avpMinScale;
-        }
-
-        public Slider getAvpMaxScale() {
-                return avpMaxScale;
-        }
-
-        public ComboBox<Weight> getAvpWeightsComboBox() {
-                return avpWeightsComboBox;
-        }
-
-        public TableView<IncompProp> getIncompPropTable() {
-                return incompPropTable;
-        }
-
-        public TableColumn<IncompProp, Integer> getIncompIdColumn() {
-                return incompIdColumn;
-        }
-
-        public TableColumn<IncompProp, String> getIncompCreatedColumn() {
-                return incompCreatedColumn;
-        }
-
-        public TableColumn<IncompProp, Boolean> getIncompIsDecisionColumn() {
-                return incompIsDecisionColumn;
-        }
-
-        public TableColumn<IncompProp, String> getIncompProp1NameColumn() {
-                return incompProp1NameColumn;
-        }
-
-        public TableColumn<IncompProp, String> getIncompProp2NameColumn() {
-                return incompProp2NameColumn;
-        }
-
         public ComboBox<Proposition> getProp1comboBoxIncompProp() {
                 return prop1comboBoxIncompProp;
         }
 
         public ComboBox<Proposition> getProp2comboBoxIncompProp() {
                 return prop2comboBoxIncompProp;
-        }
-
-        public RadioButton getIsDecisionRadioButton() {
-                return isDecisionRadioButton;
-        }
-
-        public TableView<Rule> getRulesTable() {
-                return rulesTable;
-        }
-
-        public TableColumn<Rule, String> getRulesIdColumn() {
-                return rulesIdColumn;
-        }
-
-        public TableColumn<Rule, String> getRulesCreatedColumn() {
-                return rulesCreatedColumn;
-        }
-
-        public TableColumn<Rule, String> getRulesPremisesColumn() {
-                return rulesPremisesColumn;
-        }
-
-        public TableColumn<Rule, String> getRulesConclusionsColumn() {
-                return rulesConclusionsColumn;
         }
 
         public void setApp(App app) {

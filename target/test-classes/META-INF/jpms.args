@@ -1,0 +1,4 @@
+--patch-module
+com.bskoczylas.modelinglegalreasoning=_
+--add-reads
+com.bskoczylas.modelinglegalreasoning=ALL-UNNAMED

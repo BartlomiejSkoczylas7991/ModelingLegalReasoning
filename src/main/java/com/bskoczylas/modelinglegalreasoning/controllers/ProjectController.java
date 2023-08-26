@@ -67,6 +67,8 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         private SplitPane splitPane;
 
         private App app;
+        private Stage helpStage;
+        private Stage ruleStage;
 
         // for agent
         @FXML
@@ -653,6 +655,11 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         Proposition decision2 = project.getListIncompProp().getDecisions().getSecond();
 
                         try {
+                                // Jeśli ruleStage nie jest null i jest pokazywane, zwróć (nie otwieraj nowego okna)
+                                if (ruleStage != null && ruleStage.isShowing()) {
+                                        return;
+                                }
+
                                 // Używamy FXMLLoader do załadowania pliku fxml
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createRule.fxml"));
 
@@ -662,15 +669,15 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                                 loader.setController(ruleController);
 
-                                Parent root = loader.load();  // Ładujemy plik fxml, błąd
+                                Parent root = loader.load();  // Ładujemy plik fxml
 
                                 // Teraz, gdy plik FXML został załadowany, możemy bezpiecznie wywołać metodę setDecisions
                                 ruleController.setDecisions(decision1, decision2);
 
                                 // Tworzymy nowe okno i wyświetlamy załadowany interfejs użytkownika
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(root));
-                                stage.show();
+                                ruleStage = new Stage();
+                                ruleStage.setScene(new Scene(root));
+                                ruleStage.show();
 
                         } catch (IOException e) {
                                 e.printStackTrace();
@@ -773,13 +780,21 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @FXML
         public void handleHelpButton(ActionEvent actionEvent) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+                        // Jeśli helpStage nie jest null i jest pokazywany, zwróć (nie otwieraj nowego okna)
+                        if (helpStage != null && helpStage.isShowing()) {
+                                return;
+                        }
+
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/help.fxml"));
                         Parent root = loader.load();
 
                         Scene scene = new Scene(root);
-                        Stage helpStage = new Stage();
+                        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+                        helpStage = new Stage();  // przypisz nowe okno do zmiennej referencyjnej
                         helpStage.setScene(scene);
                         helpStage.setTitle("Help");
+                        helpStage.setResizable(false);
                         helpStage.show();
                 } catch (IOException ex) {
                         ex.printStackTrace();

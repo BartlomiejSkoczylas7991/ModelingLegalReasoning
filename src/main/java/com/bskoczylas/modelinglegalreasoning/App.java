@@ -18,6 +18,7 @@ public class App extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Modeling Legal Reasoning");
         this.primaryStage.setResizable(false);
+
         showProjectWindow();
     }
 
@@ -29,7 +30,11 @@ public class App extends Application {
             ProjectController controller = loader.getController();
             controller.setApp(this);
 
-            primaryStage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            // Dodajemy arkusz stylów CSS do sceny
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+            primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

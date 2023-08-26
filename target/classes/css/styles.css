@@ -1,0 +1,9 @@
+/* styles.css */
+.title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.normal {
+    -fx-font-size: 12px;
+}

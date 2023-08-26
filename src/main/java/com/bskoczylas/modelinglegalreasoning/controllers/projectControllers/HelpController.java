@@ -1,53 +1,86 @@
 package com.bskoczylas.modelinglegalreasoning.controllers.projectControllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class HelpController {
     @FXML
     private TextArea helpTextArea;
+    @FXML
+    private TextFlow helpTextFlow;
 
     public void initialize() {
-        String helpText = "Wprowadzenie\n" +
-                "Witaj w programie do modelowania wnioskowania prawniczego! Jest to narzędzie stworzone na podstawie pracy naukowej autorstwa dwóch naukowców: Wynera i Żurka. Dzięki niemu będziesz mógł analizować skomplikowane procesy wnioskowania prawniczego w przejrzysty i efektywny sposób.\n" +
-                "\n" +
-                "Struktura Programu\n" +
-                "Projekt\n" +
-                "Agenci: Wprowadź nazwę agenta.\n" +
-                "Propozycje: Wprowadź nazwę oraz zdecyduj, czy jest to decyzja ostateczna.\n" +
-                "Wartości: Wprowadź nazwę wartości.\n" +
-                "Wagi: Zdefiniuj wagi dla różnych kombinacji Agent-Wartość i Agent-Wartość-Propozycja.\n" +
-                "Zasady: Utwórz zasady bazujące na zestawach propozycji (premises) oraz wybranych propozycjach (decisions).\n" +
-                "Niepasujące pary propozycji: Zdefiniuj niekompatybilne ze sobą pary propozycji.\n" +
-                "Jak to działa?\n" +
-                "Definiowanie PropBaseClean: Na podstawie wprowadzonych wag, tworzymy zestaw PropBaseClean dla każdego agenta.\n" +
-                "Tworzenie Bazy Wiedzy: Na podstawie PropBaseClean oraz stworzonych zasad tworzymy bazy wiedzy dla agentów.\n" +
-                "Łańcuch Rozumowania: Dla każdego agenta tworzymy łańcuch rozumowania, korzystając z nowo utworzonej bazy wiedzy.\n" +
-                "Głosowanie: Po analizie decyzji każdego agenta, przeprowadzane jest głosowanie wśród wszystkich agentów.\n" +
-                "Tworzenie Konsorcjów: Na podstawie wyników głosowania, tworzone są różne konsorcja agentów.\n" +
-                "Wymagania i Zasady\n" +
-                "Możesz wygenerować raport tylko wtedy, gdy spełnione są następujące wymagania:\n" +
-                "\n" +
-                "1. Minimum 2 agenci.\n" +
-                "2. Minimum 2 wartości.\n" +
-                "3. Minimum 4 propozycje.\n" +
-                "4. Minimum 2 zasady.\n" +
-                "5. Dwie propozycje będące decyzjami zdefiniowane w okienku IncompProp.\n" +
-                "\nDodatkowe Zasady:\n" +
-                "1. Ustalając wagi dla AgentValuePropWeight pamiętaj, że wystarczy jedna waga większa do odpowiadającej wartości w AgentValueToWeight by dana propozycaj przeszła przez filter.\n" +
-                "2. Propozycje zdecydowane jako 'decyzje ostateczne' nie mogą być używane przy premises w zasadach.\n" +
-                "7. Propozycje, które nie są używane przy ustalaniu zasad (będąc w premises) nie będą brane pod uwagę w wartościach.\n" +
-                "8. Unikaj tworzenia zbyt skomplikowanych łańcuchów rozumowania, które mogą sprawić, że analiza stanie się nieczytelna i trudna do zrozumienia.\n" +
-                "9. Regularne zapisywanie postępów jest kluczem do uniknięcia potencjalnych problemów z utratą danych." +
-                "\n" +
-                "Nadawaj unikalne nazwy dla agentów, wartości i propozycji.\n" +
-                "Nie możesz dodawać sprzecznych zasad.\n" +
-                "I wiele innych zasad, które zostały opisane w wyższej części tego tekstu (od punktu 4 do 9).\n" +
-                "Wskazówki i Porady\n" +
-                "Użyj funkcji 'Help' w dowolnym momencie, jeśli masz pytania lub wątpliwości.\n" +
-                "Zacznij od zdefiniowania podstawowych elementów, takich jak agenci, propozycje i wartości, zanim przejdziesz do bardziej skomplikowanych zadań, takich jak tworzenie zasad czy ustalanie wag.\n";
 
-        helpTextArea.setText(helpText);
+        Text titleIntroduction = new Text("Introduction\n");
+        titleIntroduction.getStyleClass().add("title");
+        Text contentIntroduction = new Text("Welcome to the Legal Reasoning Modeling program! This tool is based on the scientific work of two researchers: Wyner and Żurek. With it, you can analyze complex legal reasoning processes in a clear and efficient way.\n");
+        contentIntroduction.getStyleClass().add("normal");
+
+        // Program Structure Section
+        Text titleProgramStructure = new Text("Program Structure\n");
+        titleProgramStructure.getStyleClass().add("title");
+        Text contentProgramStructure = new Text("Project\nAgents: Enter the agent's name.\nProposals: Enter the name and decide if it is the final decision.\n..."); // kontynuuj tekst sekcji
+        contentProgramStructure.getStyleClass().add("normal");
+
+        // How does it work? Section
+        Text titleHowDoesItWork = new Text("How does it work?\n");
+        titleHowDoesItWork.getStyleClass().add("title");
+        Text contentHowDoesItWork = new Text("Defining PropBaseClean: Based on the entered weights, we create a PropBaseClean set for each agent.\n" +
+        "Creating a Knowledge Base: Based on PropBaseClean and the created rules, we create knowledge bases for agents.\n" +
+                "Reasoning Chain: For each agent, we create a reasoning chain using the newly created knowledge base.\n" +
+                "Voting: After analyzing each agent's decisions, voting is conducted among all agents.\n" +
+                "Creating Consortiums: Consortia of agents are created based on voting results.\n"); // kontynuuj tekst sekcji
+        contentHowDoesItWork.getStyleClass().add("normal");
+
+        // Requirements and Rules Section
+        Text titleRequirements = new Text("Requirements and Rules\n");
+        titleRequirements.getStyleClass().add("title");
+        Text contentRequirements = new Text("You can only generate a report when the following requirements are met:\n" +
+                "\n" +
+                "1. Minimum of 2 agents.\n" +
+                "2. Minimum of 2 values.\n" +
+                "3. Minimum of 4 proposals.\n" +
+                "4. Minimum of 2 rules.\n" +
+                "5. Two proposals being decisions defined in the IncompProp window.\n" +
+                "\nAdditional Rules:\n" +
+                "1. When setting weights for AgentValuePropWeight, remember that one weight greater than the corresponding value in AgentValueToWeight is enough for a proposal to pass through the filter.\n" +
+                "2. Proposals decided as 'final decisions' cannot be used with premises in rules.\n" +
+                "7. Proposals not used in setting rules (being in premises) will not be considered in values.\n" +
+                "8. Avoid creating overly complicated reasoning chains that can make analysis unreadable and difficult to understand.\n" +
+                "9. Regularly saving progress is key to avoiding potential data loss issues.\n" +
+                "\n" +
+                "Assign unique names to agents, values, and proposals.\n" +
+                "You cannot add conflicting rules.\n" +
+                "And many other rules described in the upper part of this text (from points 4 to 9).\n"); // kontynuuj tekst sekcji
+        contentRequirements.getStyleClass().add("normal");
+
+        // Tips and Tricks Section
+        Text titleTips = new Text("Tips and Tricks\n");
+        titleTips.getStyleClass().add("title");
+        Text contentTips = new Text("Use the 'Help' feature at any time if you have questions or doubts.\n" +
+                "Start by defining basic elements such as agents, proposals, and values before moving on to more complicated tasks like creating rules or setting weights.\n");
+        contentTips.getStyleClass().add("normal");
+
+        helpTextFlow.getChildren().addAll(
+                titleIntroduction, contentIntroduction,
+                titleProgramStructure, contentProgramStructure,
+                titleHowDoesItWork, contentHowDoesItWork,
+                titleRequirements, contentRequirements,
+                titleTips, contentTips
+        );
+        StringBuilder combinedText = new StringBuilder();
+
+        for (Node node : helpTextFlow.getChildren()) {
+            if (node instanceof Text) {
+                combinedText.append(((Text) node).getText());
+            }
+        }
+
+        helpTextArea.setText(combinedText.toString());
+        helpTextFlow.getChildren().clear();
     }
 }

@@ -22,18 +22,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.Pane?>
 <BorderPane fx:id="rootPane" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
    <top>
       <ToolBar BorderPane.alignment="CENTER">
         <items>
-            <ButtonBar>
-              <buttons>
-                  <Button fx:id="generatePDFButton" mnemonicParsing="false" onAction="#handleGeneratePDFButton" maxWidth="509.0" text="Generate PDF" />
-                  <Button mnemonicParsing="false" onAction="#handleNewButton" text="Reset" />
-                  <Button mnemonicParsing="false" onAction="#handleHelpButton" text="Help" />
-                  <Button mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
-              </buttons>
-            </ButtonBar>
+            <HBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+                <Pane HBox.hgrow="ALWAYS"/>
+                <ButtonBar>
+                    <buttons>
+                        <Button fx:id="generatePDFButton" mnemonicParsing="false" onAction="#handleGeneratePDFButton" maxWidth="509.0" text="Generate PDF" />
+                        <Button mnemonicParsing="false" onAction="#handleNewButton" text="Reset" />
+                        <Button mnemonicParsing="false" onAction="#handleHelpButton" text="Help" />
+                        <Button mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
+                    </buttons>
+                </ButtonBar>
+                <Pane HBox.hgrow="ALWAYS"/>
+            </HBox>
         </items>
       </ToolBar>
    </top>

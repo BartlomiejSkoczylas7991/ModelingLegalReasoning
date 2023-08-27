@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortiumTest
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s - in com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortiumTest

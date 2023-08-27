@@ -25,13 +25,14 @@ public class App extends Application {
     public void showProjectWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
+            ProjectController controller = new ProjectController(primaryStage);
+            loader.setController(controller);
             Parent root = loader.load();
 
-            ProjectController controller = loader.getController();
             controller.setApp(this);
+            controller.setStage(primaryStage);
 
             Scene scene = new Scene(root);
-            // Dodajemy arkusz stylów CSS do sceny
             scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
 
             primaryStage.setScene(scene);

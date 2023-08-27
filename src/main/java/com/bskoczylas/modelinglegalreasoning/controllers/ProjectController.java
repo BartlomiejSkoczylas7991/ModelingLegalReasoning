@@ -63,6 +63,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         private Stage primaryStage;
 
         private App app;
+        private Stage stage;
         private Stage helpStage;
         private Stage ruleStage;
 
@@ -204,11 +205,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @FXML
         private Button generatePDFButton;
 
-        public ProjectController() {
+        public ProjectController(Stage primaryStage) {
                 this.project = new Project();
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
                 this.project.addProjectObserver(this);
+                this.primaryStage = primaryStage;
         }
 
         public ProjectController(Stage primaryStage, ProjectData projectData) {
@@ -777,11 +779,8 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 if (file != null) {
                         ProjectData loadedData = project.load(file.getAbsolutePath());
                         if (loadedData != null) {
-                                showProjectWindow(loadedData);
-
-                                Node source = (Node) actionEvent.getSource();
-                                Stage currentStage = (Stage) source.getScene().getWindow();
-                                currentStage.close();
+                                this.primaryStage.close(); // null tu jest
+                                this.showProjectWindow(loadedData);
                         }
                 }
         }
@@ -800,10 +799,13 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                         primaryStage.setScene(scene);
                         primaryStage.show();
+
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
         }
+
+
 
         @FXML
         public void handleNewButton(ActionEvent actionEvent) {
@@ -901,6 +903,10 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 project.getListIncompProp().setIncompPropList(incompPropController.getProject()
                         .getListIncompProp().getIncompatiblePropositions());
                 updateGenerateButtonState();
+        }
+
+        public void setStage(Stage stage) {
+                this.stage = stage;
         }
 
         public TableView<Agent> getAgentTable() {

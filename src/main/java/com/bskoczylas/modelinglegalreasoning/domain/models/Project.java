@@ -143,25 +143,21 @@ public class Project implements ProjectObservable {
     }
 
     public void setData(ProjectData projectData) {
-        // Dla agentów
         List<Agent> copiedAgents = projectData.getAgents().stream()
                 .map(Agent::new)
                 .collect(Collectors.toList());
         this.listAgent.setListAgent(copiedAgents);
 
-        // Dla wartości
         List<Value> copiedValues = projectData.getValues().stream()
                 .map(Value::new)
                 .collect(Collectors.toList());
         this.listValue.setListValue(copiedValues);
 
-        // Dla propozycji
         List<Proposition> copiedPropositions = projectData.getPropositions().stream()
                 .map(Proposition::new)
                 .collect(Collectors.toList());
         this.listProposition.setListProposition(copiedPropositions);
 
-        // Dla wagi agenta i wartości
         Map<AgentValue, Weight> copiedAgentValueToWeight = projectData.getAgentValueToWeight().entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new AgentValue(entry.getKey()),
@@ -169,7 +165,6 @@ public class Project implements ProjectObservable {
                 ));
         this.agentValueToWeight.setAgentValueWeights(copiedAgentValueToWeight);
 
-        // Dla wagi agenta, wartości i propozycji
         Map<AgentValueProposition, Weight> copiedAgentValuePropWeight = projectData.getAgentValuePropWeight().entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> new AgentValueProposition(entry.getKey()),
@@ -177,16 +172,13 @@ public class Project implements ProjectObservable {
                 ));
         this.agentValuePropWeight.setAgentValuePropWeights(copiedAgentValuePropWeight);
 
-        // Zakładając, że metoda getScale zwraca kopię obiektu, inaczej możemy potrzebować głębokiej kopii
         this.scale.setScale(projectData.getScale().getMin(), projectData.getScale().getMax());
 
-        // Dla niekompatybilnych propozycji
         List<IncompProp> copiedIncompProps = projectData.getIncompPropList().stream()
                 .map(IncompProp::new)
                 .collect(Collectors.toList());
         this.listIncompProp.setIncompPropList(copiedIncompProps);
 
-        // Zakładam, że obiekt Rule ma konstruktor tworzący głęboką kopię
         List<Rule> copiedRules = projectData.getListRule().stream()
                 .map(Rule::new)
                 .collect(Collectors.toList());

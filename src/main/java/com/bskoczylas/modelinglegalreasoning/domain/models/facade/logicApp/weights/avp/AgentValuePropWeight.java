@@ -200,7 +200,7 @@ public class AgentValuePropWeight implements Serializable, AgentObserver, ValueO
 
     @Override
     public void updateValue(ListValue ListValue) {
-        List<Value> updatedValues = ListValue.getValues();
+        List<Value> updatedValues = ListValue.getListValue();
 
         // Find the values that have been removed
         List<Value> removedValues = new ArrayList<>(this.values);

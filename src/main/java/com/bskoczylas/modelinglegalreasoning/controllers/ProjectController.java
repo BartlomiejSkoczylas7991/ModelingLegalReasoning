@@ -219,7 +219,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.project.setData(projectData);
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
-                this.project.addProjectObserver(this);
         }
 
         @Override
@@ -233,6 +232,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 agentCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
                 agentNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
+                agentTable.setItems(FXCollections.observableArrayList(project.getListAgent().getAgents()));
                 agentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 this.valueController = new ValueController(this);
@@ -242,7 +242,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 valueCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
                 valueNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-
+                this.valueTable.setItems(FXCollections.observableArrayList(project.getListValue().getListValue()));
                 valueTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 this.propositionController = new PropositionController(this);
@@ -252,6 +252,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 propositionCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("formattedCreated"));
                 propositionNameColumn.setCellValueFactory(new PropertyValueFactory<>("statement"));
 
+                propositionTable.setItems(FXCollections.observableArrayList(project.getListProposition().getListProposition()));
                 propositionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 this.incompPropController = new IncompPropController(incompPropTable, this, project, prop1comboBoxIncompProp,
@@ -264,6 +265,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 incompProp1NameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("prop1Name"));
                 incompProp2NameColumn.setCellValueFactory(new PropertyValueFactory<IncompProp, String>("prop2Name"));
 
+                incompPropTable.setItems(FXCollections.observableArrayList(project.getListIncompProp().getIncompatiblePropositions()));
                 incompPropTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 this.avWeights = this.project.getAgentValueToWeight();
@@ -362,7 +364,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 List<AVPPair> avpPairs = IntStream.range(0, entriesAVP.length)
                         .mapToObj(i -> {
                                 AVPPair pair = new AVPPair(entriesAVP[i].getKey(), entriesAVP[i].getValue());
-                                pair.setId(i+1); // Assume that setId exists in AVPair.
+                                pair.setId(i+1);
                                 return pair;
                         })
                         .collect(Collectors.toList());
@@ -431,7 +433,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         }
                 });
 
-
+                rulesTable.setItems(FXCollections.observableArrayList(project.getListRules().getListRules()));
                 rulesTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 generateButton.setDisable(true);
@@ -781,6 +783,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         if (loadedData != null) {
                                 this.primaryStage.close(); // null tu jest
                                 this.showProjectWindow(loadedData);
+
                         }
                 }
         }
@@ -805,8 +808,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 }
         }
 
-
-
         @FXML
         public void handleNewButton(ActionEvent actionEvent) {
                 app.showProjectWindow();
@@ -814,12 +815,15 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         @FXML
         public void handleExitButton(ActionEvent actionEvent) {
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.close();
+                Platform.exit();
         }
 
         @Override
         public void updateValueController(ValueController valueController) {
-                List<Value> oldList = project.getListValue().getValues();
-                List<Value> newList = valueController.getProject().getListValue().getValues();
+                List<Value> oldList = project.getListValue().getListValue();
+                List<Value> newList = valueController.getProject().getListValue().getListValue();
 
                 if (newList.size() > oldList.size()) {
                         for (Value newValue : newList) {

@@ -75,67 +75,59 @@ public class AgentValueToWeight implements Serializable, AgentObserver, ValueObs
     @Override
     public void updateAgent(ListAgent listAgent) {
         List<Agent> updatedAgents = listAgent.getAgents();
-        boolean changed = false; // Flaga do śledzenia, czy coś się zmieniło
+        boolean changed = false;
 
-        // Znajdź agentów, które zostały usunięte
         List<Agent> removedAgents = new ArrayList<>(this.agents);
         removedAgents.removeAll(updatedAgents);
         if (!removedAgents.isEmpty()) {
             changed = true;
-            // Usuń związane z nimi AgentValues
             for (Agent agent : removedAgents) {
                 this.agents.remove(agent);
                 this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getAgent().equals(agent));
             }
         }
 
-        // Znajdź nowo dodane agentów
         List<Agent> addedAgents = new ArrayList<>(updatedAgents);
         addedAgents.removeAll(this.agents);
         if (!addedAgents.isEmpty()) {
             changed = true;
-            // Dodaj związane z nimi AgentValues
             for (Agent agent : addedAgents) {
                 this.agents.add(agent);
                 addAgentValuesForAgent(agent);
             }
         }
 
-        if (changed && !this.agentValueWeights.isEmpty()) { // Powiadamiaj tylko wtedy, gdy coś się zmieniło i agentValueWeights nie jest pusty
+        if (changed && !this.agentValueWeights.isEmpty()) {
             notifyAVObservers();
         }
     }
 
     @Override
     public void updateValue(ListValue listValue) {
-        List<Value> updatedValues = listValue.getValues();
-        boolean changed = false; // Flaga do śledzenia, czy coś się zmieniło
+        List<Value> updatedValues = listValue.getListValue();
+        boolean changed = false;
 
-        // Znajdź wartosci, które zostały usunięte
         List<Value> removedValues = new ArrayList<>(this.values);
         removedValues.removeAll(updatedValues);
         if (!removedValues.isEmpty()) {
             changed = true;
-            // Usuń związane z nimi AgentValues
             for (Value value : removedValues) {
                 this.values.remove(value);
                 this.agentValueWeights.entrySet().removeIf(entry -> entry.getKey().getValue().equals(value));
             }
         }
 
-        // Znajdź nowo dodane wartości
         List<Value> addedValues = new ArrayList<>(updatedValues);
         addedValues.removeAll(this.values);
         if (!addedValues.isEmpty()) {
             changed = true;
-            // Dodaj związane z nimi AgentValues
             for (Value value : addedValues) {
                 this.values.add(value);
                 addAgentValuesForValue(value);
             }
         }
 
-        if (changed && !this.agentValueWeights.isEmpty()) { // Powiadamiaj tylko wtedy, gdy coś się zmieniło i agentValueWeights nie jest pusty
+        if (changed && !this.agentValueWeights.isEmpty()) {
             notifyAVObservers();
         }
     }

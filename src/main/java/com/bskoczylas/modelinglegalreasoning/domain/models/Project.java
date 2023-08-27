@@ -127,7 +127,7 @@ public class Project implements ProjectObservable {
     // For ProjectController
     public boolean hasEnoughData() {
         boolean hasEnoughAgents = this.getListAgent().getAgents().size() >= 2;
-        boolean hasEnoughValues = this.getListValue().getValues().size() >= 2;
+        boolean hasEnoughValues = this.getListValue().getListValue().size() >= 2;
         boolean hasEnoughPropositions = this.getListProposition().getListProposition().size() >= 4;
         boolean hasEnoughDecisions = this.getListIncompProp().decisionsExist();
         boolean hasEnoughRules = this.getListRules().getListRules().size() >= 2;
@@ -194,7 +194,7 @@ public class Project implements ProjectObservable {
                 .collect(Collectors.toList());
         projectData.setAgents(copiedAgents);
 
-        List<Value> copiedValues = listValue.getValues().stream()
+        List<Value> copiedValues = listValue.getListValue().stream()
                 .map(Value::new)
                 .collect(Collectors.toList());
         projectData.setValues(copiedValues);

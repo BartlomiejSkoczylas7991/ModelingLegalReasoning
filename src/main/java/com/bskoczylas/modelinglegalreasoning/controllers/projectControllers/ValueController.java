@@ -30,7 +30,7 @@ public class ValueController implements ValueControllerObservable {
     }
 
     public void addValue(Value value) {
-        if (!project.getListValue().getValues().stream().anyMatch(existingValue -> existingValue.getName().equals(value.getName()))) {
+        if (!project.getListValue().getListValue().stream().anyMatch(existingValue -> existingValue.getName().equals(value.getName()))) {
             project.getListValue().addValue(value);
             updateValueTable();
             notifyValueContrObservers();
@@ -85,7 +85,7 @@ public class ValueController implements ValueControllerObservable {
     }
 
     public void updateValueTable() {
-        valueTable.setItems(FXCollections.observableArrayList(project.getListValue().getValues()));
+        valueTable.setItems(FXCollections.observableArrayList(project.getListValue().getListValue()));
     }
 
 

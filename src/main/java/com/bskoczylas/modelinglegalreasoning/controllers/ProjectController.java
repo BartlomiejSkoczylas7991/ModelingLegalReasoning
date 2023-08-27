@@ -4,6 +4,7 @@ import com.bskoczylas.modelinglegalreasoning.App;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.*;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPair;
+import com.bskoczylas.modelinglegalreasoning.domain.models.DTO.ProjectData;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.Project;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.Report;
@@ -30,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -39,6 +41,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.dataStructures.AVPPair;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -57,6 +60,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         @FXML
         private SplitPane splitPane;
+        private Stage primaryStage;
 
         private App app;
         private Stage helpStage;
@@ -202,6 +206,15 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
         public ProjectController() {
                 this.project = new Project();
+                this.avPairs = FXCollections.observableArrayList();
+                this.avpPairs = FXCollections.observableArrayList();
+                this.project.addProjectObserver(this);
+        }
+
+        public ProjectController(Stage primaryStage, ProjectData projectData) {
+                this.primaryStage = primaryStage;
+                this.project = new Project();
+                this.project.setData(projectData);
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
                 this.project.addProjectObserver(this);
@@ -537,8 +550,9 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.avWeights = avController.getAvWeights();
                 this.project.getAgentValueToWeight().setAgentValueWeights(this.avWeights.getAgentValueWeights());
                 Scale newScale = avController.getAvWeights().getScale();
-                if (!this.avWeights.getScale().equals(newScale)) {
+                if (!this.avpWeights.getScale().equals(newScale)) {
                         this.project.getAgentValuePropWeight().setScale(this.avWeights.getScale());
+                        this.avpController.changeScaleFromAV(newScale);
                 }
                 avPairs.clear();
                 avPairs.addAll(avWeights.getAgentValueWeights().entrySet().stream()
@@ -573,8 +587,9 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.project.getAgentValuePropWeight().setAgentValuePropWeights(this.avpWeights.getAgentValuePropWeights());
 
                 Scale newScale = avpController.getAvpWeights().getScale();
-                if (!this.avpWeights.getScale().equals(newScale)) {
+                if (!this.avWeights.getScale().equals(newScale)) {
                         this.project.getAgentValueToWeight().setScale(this.avpWeights.getScale());
+                        this.avController.changeScaleFromAVP(newScale);
                 }
                 avpPairs.clear();
                 avpPairs.addAll(avpWeights.getAgentValuePropWeights().entrySet().stream()
@@ -733,6 +748,60 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         helpStage.show();
                 } catch (IOException ex) {
                         ex.printStackTrace();
+                }
+        }
+
+        @FXML
+        public void handleSaveButton(ActionEvent actionEvent) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save project data");
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("ProjectFile", "*.mlrp")
+                );
+                File file = fileChooser.showSaveDialog(null);
+
+                if (file != null) {
+                        project.save(file.getAbsolutePath());
+                }
+        }
+
+        @FXML
+        public void handleLoadButton(ActionEvent actionEvent) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Load project data");
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("ProjectFile", "*.mlrp")
+                );
+                File file = fileChooser.showOpenDialog(null);
+
+                if (file != null) {
+                        ProjectData loadedData = project.load(file.getAbsolutePath());
+                        if (loadedData != null) {
+                                showProjectWindow(loadedData);
+
+                                Node source = (Node) actionEvent.getSource();
+                                Stage currentStage = (Stage) source.getScene().getWindow();
+                                currentStage.close();
+                        }
+                }
+        }
+
+        public void showProjectWindow(ProjectData projectData) {
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project.fxml"));
+
+                        ProjectController controller = new ProjectController(primaryStage, projectData);
+                        loader.setController(controller);
+
+                        Parent root = loader.load();
+
+                        Scene scene = new Scene(root);
+                        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                } catch (Exception e) {
+                        e.printStackTrace();
                 }
         }
 

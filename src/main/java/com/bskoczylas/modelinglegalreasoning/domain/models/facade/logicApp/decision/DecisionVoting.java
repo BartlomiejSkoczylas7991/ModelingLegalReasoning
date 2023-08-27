@@ -91,7 +91,8 @@ public class DecisionVoting implements DecisionObservable, RCObserver, IncompPro
     @Override
     public void updateIncomp(ListIncompProp listIncompProp) {
         this.decisions = listIncompProp.getDecisions();
-        if(this.listReasoningChain != null){
+        if (this.listReasoningChain != null && this.decisions != null &&
+                this.decisions.getFirst() != null && this.decisions.getSecond() != null) {
             pp = new HashMap<>();
             pp.put(listIncompProp.getDecisions().getFirst(), new HashSet<>());
             pd = new HashMap<>();

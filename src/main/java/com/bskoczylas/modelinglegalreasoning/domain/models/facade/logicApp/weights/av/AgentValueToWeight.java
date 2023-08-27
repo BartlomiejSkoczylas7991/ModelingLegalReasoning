@@ -14,9 +14,10 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observable.AVObservableController;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class AgentValueToWeight implements AgentObserver, ValueObserver, AVObservable, ScaleObserver {
+public class AgentValueToWeight implements Serializable, AgentObserver, ValueObserver, AVObservable, ScaleObserver {
     private Map<AgentValue, Weight> agentValueWeights;
     private List<Agent> agents;
     private List<Value> values;

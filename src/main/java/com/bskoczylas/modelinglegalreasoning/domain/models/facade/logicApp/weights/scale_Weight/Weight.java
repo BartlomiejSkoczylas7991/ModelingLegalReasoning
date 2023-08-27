@@ -1,8 +1,10 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Weight implements Comparable<Weight> {
+public class Weight implements Comparable<Weight>, Serializable {
+    private static final long serialVersionUID = 1L;
     public enum ValueType {
         NUMBER, INDETERMINATE
     }
@@ -13,6 +15,11 @@ public class Weight implements Comparable<Weight> {
     private Weight(ValueType type, Integer numberValue) {
         this.type = type;
         this.numberValue = numberValue;
+    }
+
+    public Weight(Weight other) {
+        this.type = other.type;
+        this.numberValue = other.numberValue;
     }
 
     public static Weight of(Integer value) {

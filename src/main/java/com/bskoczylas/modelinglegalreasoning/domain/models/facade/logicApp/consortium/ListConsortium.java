@@ -17,12 +17,14 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
     Map<Consortium, ConsortiumType> consortiumMap;
     private DecisionVoting decisionVoting;
     private List<Agent> agents;
+    private List<Agent> undecidedAgents;
     private List<ConsortiumObserver> observers;
 
     public ListConsortium() {
         this.observers = new ArrayList<ConsortiumObserver>();
         this.consortiumMap = new HashMap<>();
         this.listConsortium = new ArrayList<>();
+        this.undecidedAgents = new ArrayList<>();
     }
 
     void updateConsortium(ListReasoningChain listReasoningChain) {
@@ -36,16 +38,21 @@ public class ListConsortium implements ConsortiumObservable, DecisionObserver {
 
             Proposition decisionOfAgent = rc.getDecision();
             boolean filter = false;
-            for (Consortium consortium : this.listConsortium) {
-                if (consortium.getReasoningChain().equals(rc) && decisionOfAgent.equals(consortium.getReasoningChain().getDecision())){
-                    filter = true;
+            if(decisionOfAgent != null) {
+                for (Consortium consortium : this.listConsortium) {
+                    if (consortium.getReasoningChain().equals(rc) && decisionOfAgent.equals(consortium.getReasoningChain().getDecision())) {
+                        filter = true;
+                        consortium.addAgent(agent);
+                    }
+                }
+                if (!filter) {
+                    Consortium consortium = new Consortium(rc);
                     consortium.addAgent(agent);
+                    this.listConsortium.add(consortium);
                 }
             }
-            if (!filter) {
-                Consortium consortium = new Consortium(rc);
-                consortium.addAgent(agent);
-                this.listConsortium.add(consortium);
+            else {
+                undecidedAgents.add(agent);
             }
         }
 

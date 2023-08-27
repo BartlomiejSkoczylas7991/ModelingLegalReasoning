@@ -1,25 +1,37 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.DTO.ProjectData;
+import com.bskoczylas.modelinglegalreasoning.domain.models.DTO.ProjectRepository;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortium;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.CourtOpinion;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.court.Report;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowledgeBase.ListKnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseClean;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reasoningChain.ListReasoningChain;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.ListValue;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValueToWeight;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValueProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Scale;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.decision.DecisionVoting;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.scale_Weight.Weight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class Project implements ProjectObservable {
@@ -32,7 +44,7 @@ public class Project implements ProjectObservable {
     private ListIncompProp listIncompProp = new ListIncompProp();
     private AgentValueToWeight agentValueToWeight = new AgentValueToWeight();
     private AgentValuePropWeight agentValuePropWeight = new AgentValuePropWeight();
-    private Scale scale = new Scale(0,15);
+    private Scale scale = new Scale(0, 15);
     private ListRules listRules = new ListRules();
     private ListPropBaseClean listPropBaseClean = new ListPropBaseClean();
     private ListKnowledgeBase listKnowledgeBase = new ListKnowledgeBase();
@@ -52,7 +64,7 @@ public class Project implements ProjectObservable {
         configureObservers();
     }
 
-    public Project(String name){
+    public Project(String name) {
         if (name == null || name.trim().isEmpty()) {
             name = "Project" + nextId;
         }
@@ -117,8 +129,8 @@ public class Project implements ProjectObservable {
         boolean hasEnoughAgents = this.getListAgent().getAgents().size() >= 2;
         boolean hasEnoughValues = this.getListValue().getValues().size() >= 2;
         boolean hasEnoughPropositions = this.getListProposition().getListProposition().size() >= 4;
-        boolean hasEnoughDecisions = this.getListIncompProp().decisionsExist(); // Zmienić zgodnie z rzeczywistą implementacją
-        boolean hasEnoughRules = this.getListRules().getListRules().size() >= 2; // Zmienić zgodnie z rzeczywistą implementacją
+        boolean hasEnoughDecisions = this.getListIncompProp().decisionsExist();
+        boolean hasEnoughRules = this.getListRules().getListRules().size() >= 2;
 
         return hasEnoughAgents && hasEnoughValues && hasEnoughPropositions && hasEnoughDecisions && hasEnoughRules;
     }
@@ -128,6 +140,116 @@ public class Project implements ProjectObservable {
             throw new IllegalStateException("Not enough data to generate report");
         }
         return this.report.generateReport();
+    }
+
+    public void setData(ProjectData projectData) {
+        // Dla agentów
+        List<Agent> copiedAgents = projectData.getAgents().stream()
+                .map(Agent::new)
+                .collect(Collectors.toList());
+        this.listAgent.setListAgent(copiedAgents);
+
+        // Dla wartości
+        List<Value> copiedValues = projectData.getValues().stream()
+                .map(Value::new)
+                .collect(Collectors.toList());
+        this.listValue.setListValue(copiedValues);
+
+        // Dla propozycji
+        List<Proposition> copiedPropositions = projectData.getPropositions().stream()
+                .map(Proposition::new)
+                .collect(Collectors.toList());
+        this.listProposition.setListProposition(copiedPropositions);
+
+        // Dla wagi agenta i wartości
+        Map<AgentValue, Weight> copiedAgentValueToWeight = projectData.getAgentValueToWeight().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> new AgentValue(entry.getKey()),
+                        entry -> new Weight(entry.getValue())
+                ));
+        this.agentValueToWeight.setAgentValueWeights(copiedAgentValueToWeight);
+
+        // Dla wagi agenta, wartości i propozycji
+        Map<AgentValueProposition, Weight> copiedAgentValuePropWeight = projectData.getAgentValuePropWeight().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> new AgentValueProposition(entry.getKey()),
+                        entry -> new Weight(entry.getValue())
+                ));
+        this.agentValuePropWeight.setAgentValuePropWeights(copiedAgentValuePropWeight);
+
+        // Zakładając, że metoda getScale zwraca kopię obiektu, inaczej możemy potrzebować głębokiej kopii
+        this.scale.setScale(projectData.getScale().getMin(), projectData.getScale().getMax());
+
+        // Dla niekompatybilnych propozycji
+        List<IncompProp> copiedIncompProps = projectData.getIncompPropList().stream()
+                .map(IncompProp::new)
+                .collect(Collectors.toList());
+        this.listIncompProp.setIncompPropList(copiedIncompProps);
+
+        // Zakładam, że obiekt Rule ma konstruktor tworzący głęboką kopię
+        List<Rule> copiedRules = projectData.getListRule().stream()
+                .map(Rule::new)
+                .collect(Collectors.toList());
+        this.listRules.setListRules(copiedRules);
+    }
+
+
+    public ProjectData getData() {
+        ProjectData projectData = new ProjectData();
+
+        List<Agent> copiedAgents = listAgent.getAgents().stream()
+                .map(Agent::new)
+                .collect(Collectors.toList());
+        projectData.setAgents(copiedAgents);
+
+        List<Value> copiedValues = listValue.getValues().stream()
+                .map(Value::new)
+                .collect(Collectors.toList());
+        projectData.setValues(copiedValues);
+
+        List<Proposition> copiedPropositions = listProposition.getListProposition().stream()
+                .map(Proposition::new)
+                .collect(Collectors.toList());
+        projectData.setPropositions(copiedPropositions);
+
+        Map<AgentValue, Weight> copiedAgentValueToWeight = agentValueToWeight.getAgentValueWeights().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> new AgentValue(entry.getKey()),
+                        entry -> new Weight(entry.getValue())
+                ));
+        projectData.setAgentValueToWeight(copiedAgentValueToWeight);
+
+        Map<AgentValueProposition, Weight> copiedAgentValuePropWeight = agentValuePropWeight.getSerializableCopyOfMap().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> new AgentValueProposition(entry.getKey()),
+                        entry -> new Weight(entry.getValue())
+                ));
+        projectData.setAgentValuePropWeight(copiedAgentValuePropWeight);
+
+        projectData.setScale(agentValueToWeight.getScale());
+
+        List<IncompProp> copiedIncompProps = listIncompProp.getIncompatiblePropositions().stream()
+                .map(IncompProp::new)
+                .collect(Collectors.toList());
+        projectData.setIncompPropList(copiedIncompProps);
+
+        List<Rule> copiedRules = listRules.getListRules().stream()
+                .map(Rule::new)
+                .collect(Collectors.toList());
+        projectData.setListRule(copiedRules);
+        projectData.setListRule(listRules.getListRules());
+
+        return projectData;
+    }
+
+    public void save(String path) {
+        ProjectRepository repository = new ProjectRepository();
+        repository.save(getData(), path);
+    }
+
+    public ProjectData load(String path) {
+        ProjectRepository repository = new ProjectRepository();
+        return repository.load(path);
     }
 
     public String getId() {

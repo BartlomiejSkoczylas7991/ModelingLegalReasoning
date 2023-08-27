@@ -163,6 +163,14 @@ public class AVPController implements AVPObservableController {
         notifyAVPObservers();
     }
 
+    public void changeScaleFromAV(Scale newScale) {
+        this.avpWeights.setScale(newScale);
+        setScaleSlider(newScale);
+        updateWeightsComboBox();
+        updateAVPTable();
+        notifyAVPObservers();
+    }
+
     public void setAvpWeights(AgentValuePropWeight avpWeights) {
         this.avpWeights = avpWeights;
     }
@@ -184,6 +192,11 @@ public class AVPController implements AVPObservableController {
         updateWeightsComboBox();
         updateAVPTable();
         notifyAVPObservers();
+    }
+
+    public void setScaleSlider(Scale scale) {
+        this.minSlider.setValue(scale.getMin());
+        this.maxSlider.setValue(scale.getMax());
     }
 
     @Override

@@ -33,6 +33,8 @@
                     <buttons>
                         <Button fx:id="generatePDFButton" mnemonicParsing="false" onAction="#handleGeneratePDFButton" maxWidth="509.0" text="Generate PDF" />
                         <Button mnemonicParsing="false" onAction="#handleNewButton" text="Reset" />
+                        <Button mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#handleLoadButton" text="Load" />
                         <Button mnemonicParsing="false" onAction="#handleHelpButton" text="Help" />
                         <Button mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
                     </buttons>

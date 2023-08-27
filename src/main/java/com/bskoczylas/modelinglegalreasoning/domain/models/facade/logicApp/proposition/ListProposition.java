@@ -77,7 +77,6 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
     public void updateIncomp(ListIncompProp listIncompProp) {
         Pair<Proposition, Proposition> decisions = listIncompProp.getDecisions();
 
-        // if a pair of decisions has been added, then we change the given pair of proposals to "true" in the proposal pool
         if (decisions != null) {
             for (Proposition prop : listProposition) {
                 if (prop.equals(decisions.getFirst()) || prop.equals(decisions.getSecond())) {
@@ -85,7 +84,7 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
                 }
             }
             notifyObservers(this);
-        } else {  // if the decisions are removed, we unset the decisions in the proposal pool
+        } else {
             for (Proposition prop : listProposition) {
                 if (prop.isDecision()) {
                     prop.setDecision(false);

@@ -16,15 +16,10 @@ import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Obse
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.*;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 
+import java.io.Serializable;
 import java.util.*;
-// zadanie
-// konstruktor
-// gety
-// sety - by powiadamiały gdy się ustawia...
-// dodawanie
-// update
-//obserwatorzy
-public class AgentValuePropWeight implements AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
+
+public class AgentValuePropWeight implements Serializable, AgentObserver, ValueObserver, PropositionObserver, ScaleObserver, IncompPropObserver, AVPObservable {
     private Map<AgentValueProposition, Weight> agentValuePropWeights;
     private List<Agent> agents;
     private List<Value> values;
@@ -38,6 +33,10 @@ public class AgentValuePropWeight implements AgentObserver, ValueObserver, Propo
         this.values = new LinkedList<Value>();
         this.propositions = new LinkedList<Proposition>();
         this.scale = new Scale();
+    }
+
+    public Map<AgentValueProposition, Weight> getSerializableCopyOfMap() {
+        return new HashMap<>(agentValuePropWeights);
     }
 
     public Set<AgentValueProposition> keySet() {

@@ -115,9 +115,11 @@ public class RuleController implements RuleControllerObservable {
         boolean ruleExists = false;
 
         for (Rule existingRule : listRules.getListRules()) {
-            if (existingRule.getPremises().equals(premises)) {
-                ruleExists = true;
-                break;
+            for (Proposition premise : premises) {
+                if (existingRule.getPremises().contains(premise)) {
+                    ruleExists = true;
+                    break;
+                }
             }
         }
 

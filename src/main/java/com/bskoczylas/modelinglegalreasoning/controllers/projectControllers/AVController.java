@@ -171,13 +171,18 @@ public class AVController implements AVObservableController {
         avTable.setItems(FXCollections.observableList(pairs));
     }
 
-    public void changeScale(Scale newScale) {
+    public void changeScaleFromAVP(Scale newScale) {
         this.avWeights.setScale(newScale);
+        setScaleSlider(newScale);
         updateWeightsComboBox();
         updateAVTable();
         notifyAVObservers();
     }
 
+    public void setScaleSlider(Scale scale) {
+        this.minSlider.setValue(scale.getMin());
+        this.maxSlider.setValue(scale.getMax());
+    }
 
     @Override
     public void addAVObserver(AVObserverController observer) {

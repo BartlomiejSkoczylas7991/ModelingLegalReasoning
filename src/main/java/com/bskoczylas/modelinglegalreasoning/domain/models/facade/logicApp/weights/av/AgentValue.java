@@ -3,15 +3,22 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weig
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AgentValue {
+public class AgentValue implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Agent agent;
     private Value value;
 
     public AgentValue(Agent agent, Value value) {
         this.agent = agent;
         this.value = value;
+    }
+
+    public AgentValue(AgentValue other) {
+        this.agent = new Agent(other.agent);
+        this.value = new Value(other.value);
     }
 
     public Agent getAgent() { return agent; }

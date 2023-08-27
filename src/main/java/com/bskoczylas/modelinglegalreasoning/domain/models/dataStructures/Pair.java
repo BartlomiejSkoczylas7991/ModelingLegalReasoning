@@ -1,8 +1,9 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Pair<F, S> {
+public class Pair<F, S> implements Serializable {
     private F first;
     private S second;
 
@@ -49,5 +50,4 @@ public class Pair<F, S> {
     public S getValue() {
         return this.second;
     }
-
 }

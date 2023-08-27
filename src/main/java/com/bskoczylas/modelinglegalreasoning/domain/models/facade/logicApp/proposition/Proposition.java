@@ -1,10 +1,14 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value.Value;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Proposition {
+public class Proposition implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static int next_id = 1;
     private int id;
     private String statement;
@@ -12,6 +16,9 @@ public class Proposition {
     private LocalDateTime created;
 
     public Proposition(String statement) {
+        if (statement == null) {
+            throw new IllegalArgumentException("Statement cannot be null or empty");
+        }
         this.id = Proposition.next_id++;
         this.statement = statement;
         this.created = LocalDateTime.now();
@@ -25,6 +32,16 @@ public class Proposition {
         if (id >= next_id) {
             next_id = id + 1;
         }
+    }
+
+    public Proposition(Proposition other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Other Proposition cannot be null");
+        }
+        this.id = other.id;
+        this.statement = other.statement;
+        this.isDecision = other.isDecision;
+        this.created = other.created != null ? LocalDateTime.from(other.created) : null;
     }
 
     public Proposition( int id, String statement, boolean isDecision, LocalDateTime created) {

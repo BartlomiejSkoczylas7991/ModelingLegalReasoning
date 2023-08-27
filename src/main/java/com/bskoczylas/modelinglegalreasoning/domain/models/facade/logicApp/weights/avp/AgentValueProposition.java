@@ -5,9 +5,11 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.value
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.av.AgentValue;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AgentValueProposition {
+public class AgentValueProposition implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Agent agent;
     private Value value;
     private Proposition proposition;
@@ -16,6 +18,12 @@ public class AgentValueProposition {
         this.agent = agent;
         this.value = value;
         this.proposition = proposition;
+    }
+
+    public AgentValueProposition(AgentValueProposition other) {
+        this.agent = new Agent(other.agent);
+        this.value = new Value(other.value);
+        this.proposition = new Proposition(other.proposition);
     }
 
     public Agent getAgent() {

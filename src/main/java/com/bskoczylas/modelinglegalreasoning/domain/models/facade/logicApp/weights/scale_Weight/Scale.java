@@ -3,16 +3,23 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.dataStructures.Pair;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.ScaleObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.ScaleObserver;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Scale implements ScaleObservable {
+public class Scale implements ScaleObservable, Serializable {
+    private static final long serialVersionUID = 1L;
     private Pair<Integer, Integer> elements;
-    private List<ScaleObserver> observers = new ArrayList<>();
+    private transient List<ScaleObserver> observers = new ArrayList<>();
 
     public Scale(int min_value, int max_value) {
         setScale(min_value, max_value);
+    }
+
+    public Scale(Scale other) {
+        this.elements = new Pair<>(other.getMin(), other.getMax());
+        this.observers = new ArrayList<>(other.getObservers());
     }
 
     public Scale(){setScale(0, 10);}
@@ -25,6 +32,8 @@ public class Scale implements ScaleObservable {
         elements = new Pair<>(min_value, max_value);
         notifyObservers();
     }
+
+
 
     public List<ScaleObserver> getObservers() {
         return observers;

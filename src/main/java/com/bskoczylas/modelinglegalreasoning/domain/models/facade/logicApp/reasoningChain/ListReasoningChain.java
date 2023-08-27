@@ -42,6 +42,11 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
             }
         }
 
+        // It doesn't matter because it won't happen when the correct data is entered
+        if(subjectiveKB.getRj().isEmpty()){
+            return new ReasoningChain(subjectiveKB, null);
+        }
+
         ReasoningChainStrategy strategy = factory.createStrategy(subjectiveKB.getPi());
         return strategy.calculate(subjectiveKB);
     }

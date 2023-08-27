@@ -114,17 +114,16 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
     }
 
     public void removeIncompPropByProposition(Proposition prop) {
-        // If prop is part of any incompatible pair, remove it
         incompPropList.removeIf(incompProp -> incompProp.getPropositionsPair().getFirst().equals(prop)
                 || incompProp.getPropositionsPair().getSecond().equals(prop));
         notifyObservers();
     }
 
     public void removeIncompProp(IncompProp incompProp) {
-        incompPropList.remove(incompProp);
         if (incompProp.isDecision()) {
             incompProp.setDecision(false);
         }
+        incompPropList.remove(incompProp);
         notifyObservers();
     }
 

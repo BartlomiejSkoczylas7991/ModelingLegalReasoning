@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.074" tests="14" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.064" tests="14" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PL"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-18-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /media/bartlomiejskoczylas/ksztalcenie/magisterka/Modelowanie_Wnioskowania_prawniczego/ModelingLegalReasoning/target/surefire 2023-08-27T01-01-46_383-jvmRun1 surefire-20230827010146587_1tmp surefire_0-20230827010146587_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /media/bartlomiejskoczylas/ksztalcenie/magisterka/Modelowanie_Wnioskowania_prawniczego/ModelingLegalReasoning/target/surefire 2023-08-28T00-04-59_925-jvmRun1 surefire-20230828000500139_1tmp surefire_0-20230828000500139_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/media/bartlomiejskoczylas/ksztalcenie/magisterka/Modelowanie_Wnioskowania_prawniczego/ModelingLegalReasoning/target/test-classes:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-controls/18.0.2/javafx-controls-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-graphics/18.0.2/javafx-graphics-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-base/18.0.2/javafx-base-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-fxml/18.0.2/javafx-fxml-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-web/18.0.2/javafx-web-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/eu/hansolo/medusa/16.0.1/medusa-16.0.1.jar:/home/bartlomiejskoczylas/.m2/repository/org/apache/pdfbox/fontbox/2.0.24/fontbox-2.0.24.jar:/home/bartlomiejskoczylas/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/openjfx/javafx-media/18.0.2/javafx-media-18.0.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/mockito/mockito-core/5.4.0/mockito-core-5.4.0.jar:/home/bartlomiejskoczylas/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar:/home/bartlomiejskoczylas/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.5/byte-buddy-agent-1.14.5.jar:/home/bartlomiejskoczylas/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/bartlomiejskoczylas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/home/bartlomiejskoczylas/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/bartlomiejskoczylas/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -54,20 +54,20 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="testObserversNotified" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.035"/>
-  <testcase name="testFilterPropositionsBasedOnWeightsAndValues" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.011"/>
+  <testcase name="testObserversNotified" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.033"/>
+  <testcase name="testFilterPropositionsBasedOnWeightsAndValues" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.005"/>
   <testcase name="testFilterWhenPropositionWeightIsGreaterThanValueWeight" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
   <testcase name="testGetSetStatementProp" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
-  <testcase name="testCalculateAgentPropositionsWithSpecificWeightsAndValues" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
-  <testcase name="testCalculatePropBaseCleanWithEmptyPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
-  <testcase name="testFilterPropositionsWhenWeightIsEqualToValue" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
+  <testcase name="testCalculateAgentPropositionsWithSpecificWeightsAndValues" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
+  <testcase name="testCalculatePropBaseCleanWithEmptyPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
+  <testcase name="testFilterPropositionsWhenWeightIsEqualToValue" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.005"/>
   <testcase name="testFilterWhenPropositionWeightIsLessThanValueWeight" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
   <testcase name="testNoPropositionsForAgent" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
-  <testcase name="testFilterWhenPropositionWeightIsEqualToValueWeight" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
-  <testcase name="testCalculatePropBaseCleanWithEmptyAgentsAndPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
+  <testcase name="testFilterWhenPropositionWeightIsEqualToValueWeight" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
+  <testcase name="testCalculatePropBaseCleanWithEmptyAgentsAndPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
   <testcase name="testFilterPropositionsWhenWeightIsGreaterThanValue" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
-  <testcase name="testCalculatePropBaseCleanWithEmptyAgents" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0"/>
-  <testcase name="testCalculateAgentPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.015">
+  <testcase name="testCalculatePropBaseCleanWithEmptyAgents" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.001"/>
+  <testcase name="testCalculateAgentPropositions" classname="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest" time="0.011">
     <system-out><![CDATA[{(Agent1, Truth)=2}
 {(Agent1, Truth, Guilty)=3}
 ]]></system-out>

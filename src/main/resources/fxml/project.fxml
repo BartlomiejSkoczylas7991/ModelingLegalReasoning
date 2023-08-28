@@ -23,7 +23,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.Pane?>
-<BorderPane fx:id="rootPane" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.ProjectController">
+<BorderPane fx:id="rootPane" prefHeight="758.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <ToolBar BorderPane.alignment="CENTER">
         <items>

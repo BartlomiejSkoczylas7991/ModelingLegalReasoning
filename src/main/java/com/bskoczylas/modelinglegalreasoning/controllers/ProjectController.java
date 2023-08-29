@@ -211,20 +211,27 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.avpPairs = FXCollections.observableArrayList();
                 this.project.addProjectObserver(this);
                 this.primaryStage = primaryStage;
+                this.primaryStage.setResizable(true);
+                this.primaryStage.setMinWidth(800);
+                this.primaryStage.setMinHeight(600);
         }
 
         public ProjectController(Stage primaryStage, ProjectData projectData) {
-                this.primaryStage = primaryStage;
                 this.project = new Project();
                 this.project.setData(projectData);
                 this.avPairs = FXCollections.observableArrayList();
                 this.avpPairs = FXCollections.observableArrayList();
+
+                this.primaryStage = primaryStage;
+                this.primaryStage.setResizable(true);
+                this.primaryStage.setMinWidth(800);
+                this.primaryStage.setMinHeight(600);
         }
 
         @Override
         public void initialize(URL url, ResourceBundle rb) {
                 splitPane.lookupAll(".split-pane-divider").forEach(div ->  div.setMouseTransparent(true));
-
+                splitPane.getStylesheets().add(getClass().getResource("path/to/styles.css").toExternalForm());
                 this.agentController = new AgentController(this);
                 this.agentController.addAgentContrObserver(this);
 

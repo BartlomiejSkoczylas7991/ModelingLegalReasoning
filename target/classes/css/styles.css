@@ -1,9 +1,125 @@
-/* styles.css */
+.root {
+    -fx-font-family: 'Arial';
+    -fx-base: #f2f2f2;
+    -fx-background-color: #ECEFF1;
+}
+
 .title {
-    -fx-font-size: 16px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-text-fill: #263238;
+    -fx-background-color: #B0BEC5;
 }
 
 .normal {
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #37474F;
+}
+
+.button {
+    -fx-padding: 8px 15px;
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #1565C0;
+}
+
+.tab-pane {
+    -fx-background-color: #CFD8DC;
+}
+
+.table-view {
+    -fx-table-cell-border-color: #B0BEC5;
+    -fx-background-color: #FAFAFA;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ECEFF1;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAFAFA;
+}
+
+.tool-bar {
+    -fx-background-color: #B0BEC5;
+}
+
+.project-pane {
+    -fx-background-color: #ECEFF1;
+    -fx-padding: 10px;
+}
+
+.project-label {
+    -fx-font-size: 17px;
+    -fx-text-fill: #263238;
+}
+
+.button-bar {
+    -fx-background-color: #B0BEC5;
+    -fx-spacing: 10px;
+}
+
+.button-bar > .button {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+}
+
+.hbox {
+    -fx-background-color: #ECEFF1;
+    -fx-spacing: 10px;
+}
+
+.text-field {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #B0BEC5;
+    -fx-padding: 5px;
+}
+
+.text-field:focused {
+    -fx-border-color: #1976D2;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header .label {
+    -fx-background-color: #B0BEC5;
+    -fx-text-fill: #263238;
+}
+
+.rule-pane {
+    -fx-background-color: #C1CFD6;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-background-color: #B0BEC5;
+    -fx-border-color: transparent;
+}
+
+.text-area {
+    -fx-border-color: #B0BEC5;
+    -fx-border-radius: 5px;
+    -fx-background-color: #FAFAFA;
+}
+
+.text-area:focused {
+    -fx-border-color: #1976D2;
+}
+
+#rightPane {
+    -fx-background-color: #CFD8DC;
+    -fx-padding: 10px;
+}
+.right-pane-class {
+    -fx-background-color: #CFD8DC;
+}
+
+#rightPane > #reportTextArea {
+    -fx-border-color: #CFD8DC;
+    -fx-background-color: #FAFAFA;
 }

@@ -231,7 +231,10 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         @Override
         public void initialize(URL url, ResourceBundle rb) {
                 splitPane.lookupAll(".split-pane-divider").forEach(div ->  div.setMouseTransparent(true));
-                splitPane.getStylesheets().add(getClass().getResource("path/to/styles.css").toExternalForm());
+                String cssPath = "/css/styles.css";
+                splitPane.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+                reportTextArea.setEditable(false);
+
                 this.agentController = new AgentController(this);
                 this.agentController.addAgentContrObserver(this);
 
@@ -643,8 +646,15 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                                 ruleController.setDecisions(decision1, decision2);
 
-                                ruleStage = new Stage();
-                                ruleStage.setScene(new Scene(root));
+                                Scene scene = new Scene(root);
+                                scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+                                // Inicjalizacja ruleStage przed ustawieniem na nim sceny
+                                if (ruleStage == null) {
+                                        ruleStage = new Stage();
+                                }
+
+                                ruleStage.setScene(scene);
                                 ruleStage.show();
 
                         } catch (IOException e) {

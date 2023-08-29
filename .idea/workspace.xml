@@ -7,6 +7,19 @@
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/createRule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/createRule.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/help.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/help.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/project.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/project.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/project.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/project.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,7 +260,7 @@
       <workItem from="1693026666166" duration="45899000" />
       <workItem from="1693120353671" duration="31495000" />
       <workItem from="1693241176240" duration="2043000" />
-      <workItem from="1693345165327" duration="443000" />
+      <workItem from="1693345165327" duration="4726000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>

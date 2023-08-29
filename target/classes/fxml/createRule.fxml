@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="551.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="551.0" prefWidth="457.0" styleClass="rule-pane" xmlns="http://javafx.com/javafx/18.0.2" xmlns:fx="http://javafx.com/fxml/1">
 
-    <Label layoutX="237.0" layoutY="306.0" text="Premises:">
+    <Label layoutX="237.0" layoutY="306.0" text="Premises:" styleClass="rule-pane-label" >
       <font>
          <Font size="17.0" />
       </font></Label>
@@ -23,14 +23,14 @@
         </columns>
     </TableView>
     
-    <Label layoutX="237.0" layoutY="206.0" prefHeight="24.0" prefWidth="101.0" text="Conclusions:">
+    <Label layoutX="237.0" layoutY="206.0" prefHeight="24.0" prefWidth="101.0" text="Conclusions:" styleClass="rule-pane-label" >
       <font>
          <Font size="16.0" />
       </font></Label>
-    <RadioButton fx:id="decisionRadioButton1" layoutX="237.0" layoutY="240.0" prefHeight="18.0" prefWidth="158.0" text="Decision 1" />
-    <RadioButton fx:id="decisionRadioButton2" layoutX="237.0" layoutY="276.0" prefHeight="18.0" prefWidth="171.0" text="Decision 2" />
+    <RadioButton fx:id="decisionRadioButton1" layoutX="237.0" layoutY="240.0" prefHeight="18.0" prefWidth="158.0" styleClass="rule-radio-button" text="Decision 1" />
+    <RadioButton fx:id="decisionRadioButton2" layoutX="237.0" layoutY="276.0" prefHeight="18.0" prefWidth="171.0" styleClass="rule-radio-button" text="Decision 2" />
 
-    <Button layoutX="273.0" layoutY="461.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
+    <Button fx:id="addRuleButton" layoutX="273.0" layoutY="461.0" onAction="#handleAddRuleButtonAction" prefHeight="59.0" prefWidth="130.0" text="Add Rule">
       <font>
          <Font size="22.0" />
       </font></Button>

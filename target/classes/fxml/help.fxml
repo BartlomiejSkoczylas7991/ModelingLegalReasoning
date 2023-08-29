@@ -5,7 +5,6 @@
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/18.0.2"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.HelpController">

@@ -98,14 +98,12 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
     }
 
     private void updateRules(Proposition removedProposition) {
-        // Removing the policy that contains the removed proposal
         listRules.removeIf(rule -> rule.getPremises().contains(removedProposition) || rule.getConclusion().equals(removedProposition));
         notifyObservers();
     }
 
     @Override
     public void updateProposition(ListProposition listProposition) {
-        // Create a copy of the local propositions list to avoid ConcurrentModificationException
         List<Proposition> localPropositionsCopy = new ArrayList<>(this.propositions);
 
         for (Proposition prop : listProposition.getListProposition()) {

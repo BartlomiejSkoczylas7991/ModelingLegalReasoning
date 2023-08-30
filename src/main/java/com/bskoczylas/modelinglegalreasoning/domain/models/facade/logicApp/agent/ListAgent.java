@@ -78,7 +78,7 @@ public class ListAgent implements AgentObservable {
         for(int i=0; i<listAgent.size(); i++){
             sb.append(listAgent.get(i).getName());
 
-            if(i < listAgent.size() - 1) { // do not add comma after last element
+            if(i < listAgent.size() - 1) {
                 sb.append(", ");
             }
         }

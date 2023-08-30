@@ -36,7 +36,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
             }
         }
 
-        // Set the new decision
         incompProp.setDecision(true);
         notifyObservers();
     }
@@ -95,7 +94,6 @@ public class ListIncompProp implements PropositionObserver, IncompPropObservable
 
     @Override
     public void updateProposition(ListProposition listProposition) {
-        // Create a copy of the local propositions list to avoid ConcurrentModificationException
         List<Proposition> localPropositionsCopy = new ArrayList<>(this.propositions);
 
         for (Proposition prop : listProposition.getListProposition()) {

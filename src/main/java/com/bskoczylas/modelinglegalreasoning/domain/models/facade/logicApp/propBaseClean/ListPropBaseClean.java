@@ -22,7 +22,7 @@ public class ListPropBaseClean implements Serializable, AVPObserver, AVObserver,
     private List<Proposition> propositions;
     private AgentValueToWeight aVWeight;
     private AgentValuePropWeight aVPWeight;
-    private HashMap<Agent, Set<Proposition>> listPropBaseClean;
+    private Map<Agent, Set<Proposition>> listPropBaseClean;
     private transient List<PBCObserver> observers;
 
     public ListPropBaseClean(){

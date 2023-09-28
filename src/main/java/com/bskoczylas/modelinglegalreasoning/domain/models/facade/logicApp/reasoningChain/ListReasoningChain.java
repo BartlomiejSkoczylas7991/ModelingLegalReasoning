@@ -46,8 +46,12 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         Set<Proposition> currentPropositions = listKnowledgeBase.getKnowledgeBase(agent).getPi();
         List<Rule> currentRules = listKnowledgeBase.getKnowledgeBase(agent).getRj();
 
-        // 1. Tworzenie zbioru propozycji, które są true lub już zostały wnioskowane
+        // 0. Jeśli już jest w reasoningChain
+        if (listReasoningChain.get(agent).getKnowledgeBase().getRj().contains(rule)){
+            return false;
+        }
 
+        // 1. Tworzenie zbioru propozycji, które są true lub już zostały wnioskowane
         Set<Proposition> confirmedPropositions = currentPropositions.stream()
                 .filter(Proposition::isTrue)
                 .collect(Collectors.toSet());
@@ -123,6 +127,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         if (conclusionsInRC.contains(rule.getConclusion())) {
             return false;
         }
+        System.out.println("Przechodzi");
         return true;
     }
 
@@ -133,23 +138,34 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
     private void calculateAllowedRulesForAgent(Agent agent) {
         Set<Rule> agentAllowedRules = new HashSet<>();
         List<Rule> rulesForAgent = new ArrayList<>(listReasoningChain.get(agent).getKnowledgeBase().getRj());
+        boolean isLast = false;
         if (!rulesForAgent.isEmpty()) {
             Rule lastRule = rulesForAgent.get(rulesForAgent.size() - 1);
-
+            System.out.println("1");
             if (lastRule.getConclusion().isDecision()) {
+                isLast = true;
+                System.out.println("2");
                 listReasoningChain.get(agent).setDecision(lastRule.getConclusion());
+                listReasoningChain.get(agent).pruneRules(lastRule);
+                allowedRules.put(agent, new HashSet<>());
                 return;
             } else {
+                System.out.println("3");
                 listReasoningChain.get(agent).setDecision(null);
             }
         }
-
-        for (Rule rule : listKnowledgeBase.getKnowledgeBase(agent).getRj()) {
-            if (isValidRuleForAgent(agent, rule)) {
-                agentAllowedRules.add(rule);
+        if (!isLast) {
+            System.out.println("4");
+            for (Rule rule : listKnowledgeBase.getKnowledgeBase(agent).getRj()) {
+                System.out.println("5");
+                if (isValidRuleForAgent(agent, rule)) {
+                    System.out.println("6");
+                    agentAllowedRules.add(rule);
+                }
             }
+
+            allowedRules.put(agent, agentAllowedRules);
         }
-        allowedRules.put(agent, agentAllowedRules);
     }
 
     /**

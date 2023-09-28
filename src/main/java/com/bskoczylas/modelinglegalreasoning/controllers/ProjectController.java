@@ -458,6 +458,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                 reasoningChainButton.setDisable(true);
                 updateReasoningButtonState();
+
                 project.addProjectObserver(new ProjectObserver() {
                         @Override
                         public void updateProject(Project project) {
@@ -467,6 +468,9 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         }
                 });
         }
+
+
+
 
         @FXML
         private void handleReasoningChain() {

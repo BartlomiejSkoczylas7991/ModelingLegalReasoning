@@ -4,9 +4,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propo
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowledgeBase.KnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class ReasoningChain {
     private KnowledgeBase knowledgeBase;
@@ -54,6 +52,35 @@ public class ReasoningChain {
         }
         knowledgeBase.setPi(updatedPi);
     }
+
+    // Metoda do usuwania zbędnych zasad
+    public void pruneRules(Rule lastRule) {
+        Set<Rule> reachableRules = new HashSet<>();
+        findReachableRules(lastRule, reachableRules);
+
+        // Usuń reguły, które nie są osiągalne
+        this.knowledgeBase.getRj().retainAll(reachableRules);
+        updatePi();
+    }
+
+    private void findReachableRules(Rule startingRule, Set<Rule> reachableRules) {
+        Queue<Rule> toProcess = new LinkedList<>();
+        toProcess.add(startingRule);
+
+        while (!toProcess.isEmpty()) {
+            Rule currentRule = toProcess.poll();
+            reachableRules.add(currentRule);
+            System.out.println(reachableRules);
+            for (Rule rule : this.knowledgeBase.getRj()) {
+                if (!reachableRules.contains(rule) && currentRule.getPremises().stream().anyMatch(p -> p.equals(rule.getConclusion()))) {
+                    toProcess.add(rule);
+                }
+            }
+
+        }
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

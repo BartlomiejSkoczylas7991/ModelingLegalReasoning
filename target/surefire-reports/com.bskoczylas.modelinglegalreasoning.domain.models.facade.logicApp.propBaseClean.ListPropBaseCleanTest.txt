@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest
 -------------------------------------------------------------------------------
-Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.839 sec
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.643 sec

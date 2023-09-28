@@ -91,7 +91,9 @@ public class Project implements ProjectObservable {
         this.agentValueToWeight.setScale(this.scale);
         this.agentValuePropWeight.setScale(this.scale);
         this.listPropBaseClean.addObserver(this.listKnowledgeBase);
+        this.listProposition.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.report);
+        this.listAgent.addAgentObserver(this.listKnowledgeBase);
         this.listRules.addObserver(this.listKnowledgeBase);
         this.listKnowledgeBase.addObserver(this.listReasoningChain);
         this.listIncompProp.addObserver(this.listReasoningChain);
@@ -244,6 +246,8 @@ public class Project implements ProjectObservable {
         return repository.load(path);
     }
 
+
+
     public String getId() {
         return id;
     }
@@ -330,6 +334,10 @@ public class Project implements ProjectObservable {
 
     public void setAgentValuePropWeight(AgentValuePropWeight agentValuePropWeight) {
         this.agentValuePropWeight = agentValuePropWeight;
+    }
+
+    public ListReasoningChain getListReasoningChain() {
+        return listReasoningChain;
     }
 
     public Scale getScale() {

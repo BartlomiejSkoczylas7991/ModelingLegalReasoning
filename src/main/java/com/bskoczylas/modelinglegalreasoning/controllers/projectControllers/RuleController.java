@@ -47,9 +47,7 @@ public class RuleController implements RuleControllerObservable {
     @FXML
     private Button addRuleButton;
     @FXML
-    private RadioButton decisionRadioButton1;
-    @FXML
-    private RadioButton decisionRadioButton2;
+    private ComboBox conclusionComboBox;
     @FXML
     private ComboBox premisesComboBox;
 
@@ -75,12 +73,27 @@ public class RuleController implements RuleControllerObservable {
 
         premisesColumn.setCellValueFactory(new PropertyValueFactory<>("statement"));
         premisesTable.setItems(selectedPropositionsObservableList);
+        conclusionComboBox.setItems(FXCollections.observableArrayList(projectController.getProject().getListProposition().getListProposition()));
+        conclusionComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Proposition selectedConclusion = (Proposition) newValue;
+            if (selectedConclusion != null) {
+                if (premises.contains(selectedConclusion)) {
+                    premises.remove(selectedConclusion);
+                    selectedPropositionsObservableList.remove(selectedConclusion);
+                    availablePropositions.add(selectedConclusion);
+                }
+                availablePropositions.remove(selectedConclusion);
+                allPropositionsObservableList.setAll(availablePropositions);
+            } else if (oldValue != null) {
+                availablePropositions.add((Proposition) oldValue);
+                allPropositionsObservableList.setAll(availablePropositions);
+            }
+        });
+
 
         premisesComboBox.setItems(allPropositionsObservableList);
 
         group = new ToggleGroup();
-        decisionRadioButton1.setToggleGroup(group);
-        decisionRadioButton2.setToggleGroup(group);
         this.group = group;
 
         projectController.getProject().getListIncompProp().getIncompatiblePropositions();
@@ -88,9 +101,9 @@ public class RuleController implements RuleControllerObservable {
 
     @FXML
     public void handleAddRuleButtonAction(ActionEvent actionEvent) {
-        RadioButton selectedDecisionButton = (RadioButton) group.getSelectedToggle();
+        Proposition selectedDecision = (Proposition) conclusionComboBox.getSelectionModel().getSelectedItem();
 
-        if (selectedDecisionButton == null) {
+        if (selectedDecision == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -99,8 +112,6 @@ public class RuleController implements RuleControllerObservable {
             alert.showAndWait();
             return;
         }
-
-        Proposition selectedDecision = selectedDecisionButton == decisionRadioButton1 ? decision1 : decision2;
 
         if (premises.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -158,6 +169,18 @@ public class RuleController implements RuleControllerObservable {
     @FXML
     public void handleAddPremiseButtonAction(ActionEvent event) {
         Proposition selectedPremise = (Proposition) premisesComboBox.getSelectionModel().getSelectedItem();
+
+        Proposition currentConclusion = (Proposition) conclusionComboBox.getSelectionModel().getSelectedItem();
+
+        if (selectedPremise.equals(currentConclusion)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("You cannot add a premise that's already selected as the conclusion!");
+
+            alert.showAndWait();
+            return;
+        }
         boolean isCompatible = true;
         for (IncompProp incompProp : projectController.getProject().getListIncompProp().getIncompatiblePropositions()) {
             Pair<Proposition, Proposition> pair = incompProp.getPropositionsPair();
@@ -183,14 +206,6 @@ public class RuleController implements RuleControllerObservable {
                 premisesTable.refresh();
             }
         }
-    }
-
-    public void setDecisions(Proposition decision1, Proposition decision2) {
-        this.decision1 = decision1;
-        this.decision2 = decision2;
-
-        decisionRadioButton1.setText(decision1.getStatement());
-        decisionRadioButton2.setText(decision2.getStatement());
     }
 
     @Override

@@ -73,4 +73,14 @@ public class Rule implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return created.format(formatter);
     }
+
+    public String getPremisesAsString() {
+        return this.premises.stream()
+                .map(Proposition::getStatement)
+                .collect(Collectors.joining(", "));
+    }
+
+    public String getConclusionAsString() {
+        return this.conclusion.getStatement();
+    }
 }

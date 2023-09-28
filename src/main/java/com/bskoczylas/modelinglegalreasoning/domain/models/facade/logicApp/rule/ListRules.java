@@ -57,18 +57,6 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         this.listIncompProp = listIncompProp;
     }
 
-    public boolean addRule(Set<Proposition> premises, Proposition conclusion) {
-        // We add a new rule only if no exception occurred
-        Rule newRule = new Rule(premises, conclusion);
-        if (!isRuleAlreadyPresent(newRule)) {
-            listRules.add(newRule);
-            notifyObservers();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public boolean addRule(Rule newRule) {
         if (!isRuleAlreadyPresent(newRule)) {
             listRules.add(newRule);
@@ -97,14 +85,14 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         this.listRules.remove(rule);
     }
 
-    private void updateRules(Proposition removedProposition) {
+    private void removeRulesByProp(Proposition removedProposition) {
         listRules.removeIf(rule -> rule.getPremises().contains(removedProposition) || rule.getConclusion().equals(removedProposition));
         notifyObservers();
     }
 
     @Override
     public void updateProposition(ListProposition listProposition) {
-        List<Proposition> localPropositionsCopy = new ArrayList<>(this.propositions);
+        List<Proposition> localPropositionsCopy = this.propositions;
 
         for (Proposition prop : listProposition.getListProposition()) {
             if (!this.propositions.contains(prop)) {
@@ -115,7 +103,7 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
         for (Proposition prop : localPropositionsCopy) {
             if (!listProposition.getListProposition().contains(prop)) {
                 this.propositions.remove(prop);
-                updateRules(prop);
+                removeRulesByProp(prop);
             }
         }
     }

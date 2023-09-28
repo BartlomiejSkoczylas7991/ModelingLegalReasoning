@@ -52,6 +52,15 @@ public class ListProposition implements PropositionObservable, IncompPropObserve
         notifyObservers(this);
     }
 
+    public void switchPropositionTrue(Proposition proposition){
+        if(proposition.isTrue()) {
+            proposition.setTrue(false);
+        } else{
+            proposition.setTrue(true);
+        }
+        notifyObservers(this);
+    }
+
     public List<PropositionObserver> getObservers() {
         return observers;
     }

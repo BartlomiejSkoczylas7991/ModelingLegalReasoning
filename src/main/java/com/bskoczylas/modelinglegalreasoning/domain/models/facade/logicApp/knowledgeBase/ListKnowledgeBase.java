@@ -1,5 +1,7 @@
 package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowledgeBase;
 
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.ListAgent;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.AgentObserver;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseClean;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.ListRules;
@@ -12,7 +14,7 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.obser
 
 import java.util.*;
 
-public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables {
+public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservables, AgentObserver {
     private List<Agent> agents = new ArrayList<>();
     private ListPropBaseClean propBaseClean = new ListPropBaseClean();
     private ListRules rules = new ListRules();
@@ -29,9 +31,9 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
 
     private KnowledgeBase calculate(Agent agent) {
         Set<Proposition> pi = propBaseClean.getAgentPropBaseClean(agent);
-        Set<Rule> rj = new HashSet<>();
+        List<Rule> rj = new ArrayList<>();
         for (Rule rule : rules.getListRules()) {
-            if (pi != null && pi.containsAll(rule.getPremises())) {
+            if (pi != null && pi.containsAll(rule.getPremises()) && pi.contains(rule.getConclusion())) {
                 rj.add(rule);
             }
         }
@@ -45,13 +47,13 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         notifyObservers();
     }
 
-    // it works
     @Override
     public void updatePBC(ListPropBaseClean propBaseClean) {
-        this.setAgents(propBaseClean.getAgents());
         this.propBaseClean.setListPropBaseClean(propBaseClean.getListPropBaseClean());
         calculateKnowledgeBase();
     }
+
+
 
     @Override
     public void updateRule(ListRules newRules) {
@@ -113,5 +115,11 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
                 ", rules=" + rules +
                 ", listKnowledgeBase=" + listKnowledgeBase +
                 '}';
+    }
+
+    @Override
+    public void updateAgent(ListAgent listAgent) {
+        this.agents = listAgent.getAgents();
+        notifyObservers();
     }
 }

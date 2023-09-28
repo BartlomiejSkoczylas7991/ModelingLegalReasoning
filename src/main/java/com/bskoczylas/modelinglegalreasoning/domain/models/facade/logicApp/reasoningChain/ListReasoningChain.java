@@ -2,6 +2,8 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reas
 
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.ListIncompProp;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.IncompPropObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PropositionObserver;
+import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.ListProposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.RCObservable;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.KBObserver;
@@ -12,60 +14,170 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowl
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.knowledgeBase.ListKnowledgeBase;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp.IncompProp;
+import com.bskoczylas.modelinglegalreasoning.domain.models.projectObserver.ProjectObserver;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ListReasoningChain implements KBObserver, RCObservable, IncompPropObserver {
+public class ListReasoningChain implements KBObserver, RCObservable, IncompPropObserver, PropositionObserver {
     private List<Agent> agents;
     private HashMap<Agent, ReasoningChain> listReasoningChain;
     private ListKnowledgeBase listKnowledgeBase;
-    private final ReasoningChainStrategyFactory factory = new ReasoningChainStrategyFactory();
     private List<Pair<Proposition, Proposition>> incompProp; // two inconsistent propositions;
     private IncompProp decisions;
     private List<RCObserver> observers = new ArrayList<>();
+    private Map<Agent, Set<Rule>> allowedRules = new HashMap<>();
+    private List<Proposition> propositions;
+
 
     public ListReasoningChain() {
+        this.agents = new ArrayList<>();
         this.listReasoningChain = new HashMap<>();
         this.incompProp = new ArrayList<>();
-    }
-
-    private ReasoningChain calculateWithVoting(Agent agent) {
-        // Get the subjective knowledge base for a given agent
-        KnowledgeBase subjectiveKB = listKnowledgeBase.getKnowledgeBase(agent);
-        Set<Rule> setRules = subjectiveKB.getRj();
-
-        int howManyDecisionsPBCContains = 0;
-        for (Proposition prop : subjectiveKB.getPi()) {
-            if (prop.isDecision()) {
-                howManyDecisionsPBCContains++;
-            }
-        }
-
-        // It doesn't matter because it won't happen when the correct data is entered
-        if(subjectiveKB.getRj().isEmpty()){
-            return new ReasoningChain(subjectiveKB, null);
-        }
-
-        ReasoningChainStrategy strategy = factory.createStrategy(subjectiveKB.getPi());
-        return strategy.calculate(subjectiveKB);
     }
 
     public HashMap<Agent, ReasoningChain> getListReasoningChain() {
         return listReasoningChain;
     }
 
-    private void calculateReasoningChain() {
-        if(!agents.isEmpty()) {
-            for (Agent agent : agents) {
-                listReasoningChain.put(agent, calculateWithVoting(agent));
+    // Check if the rule is valid for the given agent's reasoning chain.
+    private boolean isValidRuleForAgent(Agent agent, Rule rule) {
+        ReasoningChain rc = listReasoningChain.get(agent);
+        Set<Proposition> currentPropositions = listKnowledgeBase.getKnowledgeBase(agent).getPi();
+        List<Rule> currentRules = listKnowledgeBase.getKnowledgeBase(agent).getRj();
+
+        // 1. Tworzenie zbioru propozycji, które są true lub już zostały wnioskowane
+
+        Set<Proposition> confirmedPropositions = currentPropositions.stream()
+                .filter(Proposition::isTrue)
+                .collect(Collectors.toSet());
+        confirmedPropositions.addAll(listReasoningChain.get(agent).getKnowledgeBase().getRj().stream()
+                .map(Rule::getConclusion)
+                .collect(Collectors.toSet()));
+
+        if (!confirmedPropositions.containsAll(rule.getPremises())) {
+            return false;
+        }
+
+        // 2. Reguła nie może powodować konfliktu z IncompProp
+        for (Pair<Proposition, Proposition> incomp : incompProp) {
+
+            // Sprawdź, czy jakakolwiek z zasad w currentRules zawiera incomp.getKey() jako przesłankę
+            boolean currentRulesContainKey = listReasoningChain.get(agent).getKnowledgeBase().getRj().stream()
+                    .anyMatch(r -> r.getPremises().contains(incomp.getKey()));
+
+            if (rule.getPremises().contains(incomp.getKey()) && currentRulesContainKey) {
+                return false;
             }
+
+            // Sprawdź, czy jakakolwiek z zasad w currentRules zawiera incomp.getValue() jako przesłankę
+            boolean currentRulesContainValue = listReasoningChain.get(agent).getKnowledgeBase().getRj().stream()
+                    .anyMatch(r -> r.getPremises().contains(incomp.getValue()));
+
+            if (rule.getConclusion().equals(incomp.getValue()) && currentRulesContainKey) {
+                return false;
+            }
+
+            if (rule.getConclusion().equals(incomp.getKey()) && currentRulesContainValue) {
+                return false;
+            }
+        }
+
+        // 3. Konkluzja reguły nie może już istnieć w obecnym ReasoningChain
+        for (Rule ruleVar : this.listReasoningChain.get(agent).getKnowledgeBase().getRj()) {
+            if(ruleVar.getPremises().contains(rule.getConclusion()) || ruleVar.getConclusion().equals(rule.getConclusion()) ) {
+                return false;
+            }
+        }
+
+        // 4. Konkluzja reguły nie może być sprzeczna z obecnym ReasoningChain
+        for (Pair<Proposition, Proposition> incomp : incompProp) {
+            for (Rule existingRule : listReasoningChain.get(agent).getKnowledgeBase().getRj()) {
+                // Sprawdzanie w stosunku do konkluzji reguł
+                if (rule.getConclusion().equals(incomp.getKey()) && existingRule.getConclusion().equals(incomp.getValue())) {
+                    return false;
+                }
+                if (rule.getConclusion().equals(incomp.getValue()) && existingRule.getConclusion().equals(incomp.getKey())) {
+                    return false;
+                }
+
+                // Sprawdzanie w stosunku do przesłanek obecnych reguł
+                for (Proposition premise : existingRule.getPremises()) {
+                    if (rule.getConclusion().equals(incomp.getKey()) && premise.equals(incomp.getValue())) {
+                        return false;
+                    }
+                    if (rule.getConclusion().equals(incomp.getValue()) && premise.equals(incomp.getKey())) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // 5. Reguły, które mają za przesłanki konkluzje innych reguł w ReasoningChain
+        Set<Proposition> conclusionsInRC = listReasoningChain.get(agent).getKnowledgeBase().getRj().stream()
+                .map(Rule::getConclusion)
+                .collect(Collectors.toSet());
+        conclusionsInRC.addAll(listReasoningChain.get(agent).getKnowledgeBase().getRj().stream()
+                .flatMap(ruleAdd -> ruleAdd.getPremises().stream())
+                .collect(Collectors.toSet()));
+        if (conclusionsInRC.contains(rule.getConclusion())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Re-calculates the set of allowed rules for a given agent.
+     * This method should be called after every change that might affect the allowed rules.
+     */
+    private void calculateAllowedRulesForAgent(Agent agent) {
+        Set<Rule> agentAllowedRules = new HashSet<>();
+        List<Rule> rulesForAgent = new ArrayList<>(listReasoningChain.get(agent).getKnowledgeBase().getRj());
+        if (!rulesForAgent.isEmpty()) {
+            Rule lastRule = rulesForAgent.get(rulesForAgent.size() - 1);
+
+            if (lastRule.getConclusion().isDecision()) {
+                listReasoningChain.get(agent).setDecision(lastRule.getConclusion());
+                return;
+            } else {
+                listReasoningChain.get(agent).setDecision(null);
+            }
+        }
+
+        for (Rule rule : listKnowledgeBase.getKnowledgeBase(agent).getRj()) {
+            if (isValidRuleForAgent(agent, rule)) {
+                agentAllowedRules.add(rule);
+            }
+        }
+        allowedRules.put(agent, agentAllowedRules);
+    }
+
+    /**
+     * Re-calculates the set of allowed rules for all agents.
+     */
+    public void actualizeAllowedRules() {
+        for (Agent agent : agents) {
+            calculateAllowedRulesForAgent(agent);
+        }
+    }
+
+    public void addRuleToReasoningChain(Agent agent, Rule rule) {
+        if (allowedRules.get(agent).contains(rule)) {
+            ReasoningChain rc = listReasoningChain.get(agent);
+            rc.addRule(rule);
+            calculateAllowedRulesForAgent(agent);
             notifyObservers();
         }
     }
 
+    public void removeRuleFromReasoningChain(Agent agent, Rule rule) {
+        listReasoningChain.get(agent).removeRuleAndAllAfter(rule);
+        calculateAllowedRulesForAgent(agent);
+        notifyObservers();
+    }
+
     public List<Agent> getAgents() {
-        return agents;
+        return this.agents;
     }
 
     public void setAgents(List<Agent> agents) {
@@ -99,9 +211,43 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
     @Override
     public void updateKB(ListKnowledgeBase knowledgeBase) {
         this.listKnowledgeBase = knowledgeBase;
-        this.agents = knowledgeBase.getAgents();
-        if (this.decisions != null) {
-            calculateReasoningChain();
+        List<Agent> newAgents = knowledgeBase.getAgents();
+
+        Iterator<Map.Entry<Agent, ReasoningChain>> it = listReasoningChain.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Agent, ReasoningChain> entry = it.next();
+            if (!newAgents.contains(entry.getKey())) {
+                it.remove();
+            }
+        }
+
+        for (Agent agent : newAgents) {
+            if (!listReasoningChain.containsKey(agent)) {
+                listReasoningChain.put(agent, new ReasoningChain());
+            }
+        }
+        this.agents = newAgents;
+
+        actualizeAllowedRules();
+    }
+
+    public void setListReasoningChain(HashMap<Agent, ReasoningChain> listReasoningChain) {
+        this.listReasoningChain = listReasoningChain;
+    }
+
+    public Map<Agent, Set<Rule>> getAllowedRules() {
+        return allowedRules;
+    }
+
+    public void setAllowedRules(Map<Agent, Set<Rule>> allowedRules) {
+        this.allowedRules = allowedRules;
+    }
+
+    @Override
+    public void updateProposition(ListProposition listProposition) {
+        this.propositions = listProposition.getListProposition();
+        if(this.agents != null) {
+            actualizeAllowedRules();
         }
     }
 
@@ -111,9 +257,6 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
             this.decisions = new IncompProp(listIncompProp.getDecisions(), true);
         }
         this.incompProp = listIncompProp.getIncompatiblePropositions_asPair();
-        if (this.decisions != null && this.listKnowledgeBase != null && this.agents != null) {
-            calculateReasoningChain();
-        }
     }
 
     @Override

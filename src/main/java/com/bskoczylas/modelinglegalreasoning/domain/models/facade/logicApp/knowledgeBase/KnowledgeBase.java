@@ -3,30 +3,28 @@ package com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.know
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.proposition.Proposition;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.rule.Rule;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class KnowledgeBase {
     private Set<Proposition> pi;
-    private Set<Rule> rj;
+    private List<Rule> rj;;
 
-    public KnowledgeBase(Set<Proposition> pi, Set<Rule> rj) {
+    public KnowledgeBase(Set<Proposition> pi, List<Rule> rj) {
         this.pi = pi;
         this.rj = rj;
     }
 
     public KnowledgeBase(){
         this.pi = new HashSet<Proposition>();
-        this.rj = new HashSet<Rule>();
+        this.rj = new ArrayList<>();
     }
 
     public Set<Proposition> getPi() {
         return pi;
     }
 
-    public Set<Rule> getRj() {
+    public List<Rule> getRj() {
         return rj;
     }
 

@@ -58,8 +58,6 @@ import java.util.stream.IntStream;
 public class ProjectController implements Initializable, ProjectObserver, AVObserverController, AVPObserverController, AgContrObserver, PropositionControllerObserver, ValueControllerObserver, IncompControllerObserver, RuleControllerObserver {
         private Project project;
 
-        @FXML
-        private SplitPane splitPane;
         private Stage primaryStage;
 
         private App app;
@@ -200,10 +198,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         private TextArea reportTextArea;
 
         @FXML
-        private Button generateButton;
-
-        @FXML
-        private Button generatePDFButton;
+        private Button reasoningChainButton;
 
         public ProjectController(Stage primaryStage) {
                 this.project = new Project();
@@ -226,14 +221,29 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 this.primaryStage.setResizable(true);
                 this.primaryStage.setMinWidth(800);
                 this.primaryStage.setMinHeight(600);
+
         }
+
+        public ProjectController(Project project) {
+                this.project = project;
+                this.avPairs = FXCollections.observableArrayList();
+                this.avpPairs = FXCollections.observableArrayList();
+        }
+
+
+        public void setPrimaryStage(Stage primaryStage) {
+                this.primaryStage = primaryStage;
+                if (this.primaryStage != null) {
+                        this.primaryStage.setResizable(true);
+                        this.primaryStage.setMinWidth(800);
+                        this.primaryStage.setMinHeight(600);
+                }
+        }
+
 
         @Override
         public void initialize(URL url, ResourceBundle rb) {
-                splitPane.lookupAll(".split-pane-divider").forEach(div ->  div.setMouseTransparent(true));
                 String cssPath = "/css/styles.css";
-                splitPane.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-                reportTextArea.setEditable(false);
 
                 this.agentController = new AgentController(this);
                 this.agentController.addAgentContrObserver(this);
@@ -446,13 +456,12 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 rulesTable.setItems(FXCollections.observableArrayList(project.getListRules().getListRules()));
                 rulesTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                generateButton.setDisable(true);
-                generatePDFButton.setDisable(true);
-
+                reasoningChainButton.setDisable(true);
+                updateReasoningButtonState();
                 project.addProjectObserver(new ProjectObserver() {
                         @Override
                         public void updateProject(Project project) {
-                                updateGenerateButtonState();
+                                updateReasoningButtonState();
                                 avController.updateAVTable();
                                 avpController.updateAVPTable();
                         }
@@ -460,17 +469,23 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         }
 
         @FXML
-        private void handleGenerate() {
-                List<Report.ReportSection> reportSections = project.getReport().generateReport();
-                String formattedReport = report.formatForJavaFX(reportSections);
+        private void handleReasoningChain() {
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/reasoningPage.fxml"));
+                        ReasoningChainController reasoningController = new ReasoningChainController(this.project);
 
-                reportTextArea.setText(formattedReport);
+                        loader.setController(reasoningController);
+                        Parent reasoningChainRoot = loader.load();
+                        reasoningChainButton.getScene().setRoot(reasoningChainRoot);
+
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
         }
 
-        private void updateGenerateButtonState() {
+        private void updateReasoningButtonState() {
                 boolean canGenerate = project.hasEnoughData();
-                generateButton.setDisable(!canGenerate);
-                generatePDFButton.setDisable(!canGenerate);
+                reasoningChainButton.setDisable(!canGenerate);
         }
 
 
@@ -510,6 +525,16 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                         propositionController.updatePropositionTable();
                         avpController.removeDeletedPropositionEntryFromTable(selectedProposition);
                         incompPropController.removeIncompPropsIncludingProposition(propositionController.getRemovedProposition());
+
+                        List<Rule> toRemove = new ArrayList<>();
+                        for (Rule rule : project.getListRules().getListRules()) {
+                                if (rule.getPremises().contains(selectedProposition) || rule.getConclusion().equals(selectedProposition)) {
+                                        toRemove.add(rule);
+                                }
+                        }
+                        project.getListRules().getListRules().removeAll(toRemove);
+
+                        updateRulesTable();
                 } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");
@@ -644,8 +669,6 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
 
                                 Parent root = loader.load();
 
-                                ruleController.setDecisions(decision1, decision2);
-
                                 Scene scene = new Scene(root);
                                 scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
 
@@ -693,7 +716,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                 project.getListRules().setListRules(ruleController.getListRules().getListRules());
 
                 updateRulesTable();
-                updateGenerateButtonState();
+                updateReasoningButtonState();
         }
 
         public ListRules getListRules() {
@@ -704,6 +727,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
         public void updateProject(Project project) {
                 this.project = project;
         }
+
 
         public Project getProject() {
                 return this.project;
@@ -862,7 +886,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                 project.getListValue().removeValue(value);
                         }
                 }
-                updateGenerateButtonState();
+                updateReasoningButtonState();
         }
 
         @Override
@@ -890,7 +914,7 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                 project.getListAgent().removeAgent(agent);
                         }
                 }
-                updateGenerateButtonState();
+                updateReasoningButtonState();
         }
 
         @Override
@@ -916,14 +940,14 @@ public class ProjectController implements Initializable, ProjectObserver, AVObse
                                 }
                         }
                 }
-                updateGenerateButtonState();
+                updateReasoningButtonState();
         }
 
         @Override
         public void updateIncompController(IncompPropController incompPropController) {
                 project.getListIncompProp().setIncompPropList(incompPropController.getProject()
                         .getListIncompProp().getIncompatiblePropositions());
-                updateGenerateButtonState();
+                updateReasoningButtonState();
         }
 
         public void setStage(Stage stage) {

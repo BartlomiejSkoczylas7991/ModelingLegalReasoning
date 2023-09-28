@@ -10,8 +10,6 @@ import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weigh
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.weights.avp.AgentValuePropWeight;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.agent.Agent;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observables.PBCObservable;
-import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVPObserverController;
-import com.bskoczylas.modelinglegalreasoning.controllers.projectControllers.Observer.observer.AVObserverController;
 import com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.observers.PBCObserver;
 
 import java.io.Serializable;
@@ -121,11 +119,11 @@ public class ListPropBaseClean implements Serializable, AVPObserver, AVObserver,
         this.propositions = propositions;
     }
 
-    public HashMap<Agent, Set<Proposition>> getListPropBaseClean() {
+    public Map<Agent, Set<Proposition>> getListPropBaseClean() {
         return listPropBaseClean;
     }
 
-    public void setListPropBaseClean(HashMap<Agent, Set<Proposition>> listPropBaseClean) {
+    public void setListPropBaseClean(Map<Agent, Set<Proposition>> listPropBaseClean) {
         this.listPropBaseClean = listPropBaseClean;
     }
 

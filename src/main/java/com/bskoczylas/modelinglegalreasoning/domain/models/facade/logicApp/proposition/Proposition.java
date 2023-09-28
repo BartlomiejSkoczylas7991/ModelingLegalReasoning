@@ -13,6 +13,7 @@ public class Proposition implements Serializable {
     private int id;
     private String statement;
     private boolean isDecision;
+    private boolean isTrue;
     private LocalDateTime created;
 
     public Proposition(String statement) {
@@ -52,6 +53,14 @@ public class Proposition implements Serializable {
         if (id >= next_id) {
             next_id = id + 1;
         }
+    }
+
+    public boolean isTrue() {
+        return isTrue;
+    }
+
+    public void setTrue(boolean aTrue) {
+        isTrue = aTrue;
     }
 
     public String getStatement() {

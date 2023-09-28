@@ -6,12 +6,183 @@
   <component name="ChangeListManager">
     <list default="true" id="1acb8df8-4559-4e38-b3bb-acf5a7195c35" name="Changes" comment="Moving the project to JavaFX">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ModelingLegalReasoning-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/App_1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/ProjectController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AVPController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AgentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/AgentTableEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/HelpController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/IncompPropController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/AVObservableController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/AVPObservableController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/AgContrObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/IncompControllerObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/PropositionControllerObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/RuleControllerObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observable/ValueControllerObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/AVObserverController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/AVPObserverController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/AgContrObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/IncompControllerObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/PropositionControllerObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/RuleControllerObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/Observer/observer/ValueControllerObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/PropositionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/ReasoningChainController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/RuleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/ValueController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/dataStructures/AVPPair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/controllers/projectControllers/dataStructures/AVPair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/DTO/AESEncryption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/DTO/ProjectData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/DTO/ProjectRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/Project.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/dataStructures/Pair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/Agent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/ListAgent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/Consortium.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ConsortiumType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortium.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/court/CourtOpinion$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/court/CourtOpinion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/court/Report$ReportSection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/court/Report.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/decision/DecisionVoting.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/IncompProp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/ListIncompProp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/KnowledgeBase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/ListKnowledgeBase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/AVObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/AVPObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/AgentObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/ConsortiumObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/CourtOpinionObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/DecisionObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/IncompPropObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/KBObservables.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/PBCObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/PropositionObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/RCObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/RuleObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/ScaleObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observables/ValueObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/AVObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/AVPObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/AgentObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/ConsortiumObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/CourtOpinionObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/DecisionObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/IncompPropObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/KBObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/PBCObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/PropositionObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/RCObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/RuleObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/ScaleObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/observers/ValueObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/ListProposition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/Proposition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ReasoningChain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/ListRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/rule/Rule.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/value/ListValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/value/Value.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeight.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeight.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValueProposition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Scale.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight$ValueType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/Weight.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/projectObserver/ProjectObservable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/bskoczylas/modelinglegalreasoning/domain/models/projectObserver/ProjectObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/createRule.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/help.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/project.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/reasoningPage.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/AUTHORS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/BUGS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/NEWS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/20-unhint-small-dejavu-sans-mono.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/20-unhint-small-dejavu-sans.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/20-unhint-small-dejavu-serif.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/57-dejavu-sans-mono.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/57-dejavu-sans.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/fontconfig/57-dejavu-serif.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/langcover.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/status.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuMathTeXGyre.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-BoldOblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-ExtraLight.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Oblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansCondensed-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansCondensed-BoldOblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansCondensed-Oblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansCondensed.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-BoldOblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Oblique.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerif-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerif-BoldItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerif-Italic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerif.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerifCondensed-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerifCondensed-BoldItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerifCondensed-Italic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/ttf/DejaVuSerifCondensed.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/dejavu-fonts-ttf-2.37/unicover.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pdf/project.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-ModelingLegalReasoning-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortiumTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reasoningChain.ListReasoningChainTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.consortium.ListConsortiumTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.propBaseClean.ListPropBaseCleanTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.reasoningChain.ListReasoningChainTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/META-INF/jpms.args" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/ProjectTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/AgentTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/agent/ListAgentTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/consortium/ListConsortiumTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/IncompPropTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/incompProp/ListIncompPropTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/knowledgeBase/KnowledgeBaseTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/propBaseClean/ListPropBaseCleanTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/ListPropositionTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/proposition/PropositionTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/reasoningChain/ListReasoningChainTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/value/ValueTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/av/AgentValueToWeightTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropWeightTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/avp/AgentValuePropositionTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/ScaleTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/bskoczylas/modelinglegalreasoning/domain/models/facade/logicApp/weights/scale_Weight/WeightTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +252,7 @@
       <recent name="com.bskoczylas.modelinglegalreasoning.domain.models.facade.logicApp.incompProp" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.App_1">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.bskoczylas.modelinglegalreasoning.App" />
       <module name="ModelingLegalReasoning" />
@@ -256,7 +427,7 @@
       <workItem from="1695747921977" duration="593000" />
       <workItem from="1695759145166" duration="25331000" />
       <workItem from="1695844650584" duration="25185000" />
-      <workItem from="1695928378922" duration="625000" />
+      <workItem from="1695928378922" duration="1872000" />
     </task>
     <task id="LOCAL-00001" summary="Moving the project to JavaFX">
       <created>1685648652870</created>

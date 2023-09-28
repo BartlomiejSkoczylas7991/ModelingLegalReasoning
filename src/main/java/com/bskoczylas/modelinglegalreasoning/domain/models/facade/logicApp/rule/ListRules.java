@@ -83,6 +83,7 @@ public class ListRules implements PropositionObserver, RuleObservable, IncompPro
 
     public void removeRule(Rule rule) {
         this.listRules.remove(rule);
+        notifyObservers();
     }
 
     private void removeRulesByProp(Proposition removedProposition) {

@@ -34,6 +34,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         this.agents = new ArrayList<>();
         this.listReasoningChain = new HashMap<>();
         this.incompProp = new ArrayList<>();
+        this.propositions = new ArrayList<>();
     }
 
     public HashMap<Agent, ReasoningChain> getListReasoningChain() {
@@ -196,6 +197,66 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         return this.agents;
     }
 
+    public void actualizeReasoningChain() {
+        // Pobierz listę wszystkich zasad z ListKnowledgeBase
+        List<Rule> allRules = listKnowledgeBase.getRules().getListRules();
+
+        for (Map.Entry<Agent, ReasoningChain> entry : listReasoningChain.entrySet()) {
+            ReasoningChain agentChain = entry.getValue();
+
+            // Stwórz listę zasad do usunięcia
+            List<Rule> toRemove = new ArrayList<>();
+
+            for (Rule ruleInChain : agentChain.getKnowledgeBase().getRj()) {
+                if (!allRules.contains(ruleInChain)) {
+                    toRemove.add(ruleInChain);
+                }
+            }
+
+            // Usuń zasady z listy toRemove (i wszystkie późniejsze zasady) z ReasoningChain danego agenta
+            for (Rule rule : toRemove) {
+                agentChain.removeRuleAndAllAfter(rule);
+            }
+        }
+    }
+
+    public void actualizeReasoningChainForPropositions() {
+        for (Map.Entry<Agent, ReasoningChain> entry : listReasoningChain.entrySet()) {
+            ReasoningChain agentChain = entry.getValue();
+
+            // Stwórz listę zasad do usunięcia
+            List<Rule> toRemove = new ArrayList<>();
+
+            // 1. Zgromadź potwierdzone propozycje
+            Set<Proposition> confirmedPropositions = new HashSet<>(listKnowledgeBase.getKnowledgeBase(entry.getKey()).getPi());
+            if (propositions != null) {
+                confirmedPropositions.addAll(agentChain.getKnowledgeBase().getRj().stream()
+                        .map(Rule::getConclusion)
+                        .collect(Collectors.toSet()));
+            } else {
+                confirmedPropositions = new HashSet<>();
+            }
+            confirmedPropositions.addAll(agentChain.getKnowledgeBase().getRj().stream()
+                    .map(Rule::getConclusion)
+                    .collect(Collectors.toSet()));
+
+            // 2. Sprawdź każdą zasadę w łańcuchu
+            for (Rule ruleInChain : agentChain.getKnowledgeBase().getRj()) {
+                // Jeśli którakolwiek propozycja w premises nie jest potwierdzona, dodaj tę zasadę do listy do usunięcia
+                if (!ruleInChain.getPremises().stream().allMatch(confirmedPropositions::contains)) {
+                    toRemove.add(ruleInChain);
+                }
+            }
+
+            // 3. Usuń zasady z listy toRemove (i wszystkie późniejsze zasady) z ReasoningChain danego agenta
+            for (Rule rule : toRemove) {
+                agentChain.removeRuleAndAllAfter(rule);
+            }
+            listReasoningChain.put(entry.getKey() ,agentChain);
+        }
+    }
+
+
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
     }
@@ -244,6 +305,7 @@ public class ListReasoningChain implements KBObserver, RCObservable, IncompPropO
         }
         this.agents = newAgents;
 
+        actualizeReasoningChainForPropositions();
         actualizeAllowedRules();
     }
 

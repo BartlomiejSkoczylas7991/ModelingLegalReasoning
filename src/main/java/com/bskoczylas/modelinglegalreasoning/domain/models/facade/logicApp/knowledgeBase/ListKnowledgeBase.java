@@ -53,8 +53,6 @@ public class ListKnowledgeBase implements PBCObserver, RuleObserver, KBObservabl
         calculateKnowledgeBase();
     }
 
-
-
     @Override
     public void updateRule(ListRules newRules) {
         for (Rule rule : newRules.getListRules()) {
